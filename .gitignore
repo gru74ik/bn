@@ -1,5 +1,2 @@
-bin/
-obj/
-*.depend
-*layout
-!cppl2.workspace.layout
+/build*/**
+/*/*.pro.user
