@@ -1,6 +1,19 @@
 #include "BigFloat.h"
 
-BigFloat::BigFloat()
+bool is_correct( const std::string& number )
+{
+    bool result = true;
+    if ( number[0] != '+' && number[0] != '-' )
+        result = false;
+    // TODO:
+    // организовать парсинг строки и проверку её корректности
+    // для использования её (строки) в качестве основы
+    // для конструирования объекта BigFloat
+
+    return result;
+}
+
+ParsedBigFloat::ParsedBigFloat()
     :
         mantissa_sign_( "+" ),
         integer_part_( "0" ),
@@ -9,7 +22,12 @@ BigFloat::BigFloat()
         exponent_( "0" )
 {}
 
-BigFloat::BigFloat( const std::string& number )
+ParsedBigFloat::ParsedBigFloat( const BigInt& bigInteger )
+{
+    // TODO
+}
+
+ParsedBigFloat::ParsedBigFloat( const std::string& number )
 {
     if ( number.empty() || !is_correct( number ) )
     {
@@ -25,17 +43,19 @@ BigFloat::BigFloat( const std::string& number )
 
 }
 
-bool BigFloat::is_correct( const std::string& number )
+BigFloat()
 {
-    bool result = true;
-    if ( number[0] != '+' && number[0] != '-' )
-        result = false;
-    // TODO:
-    // организовать парсинг строки и проверку её корректности
-    // для использования её (строки) в качестве основы
-    // для конструирования объекта BigFloat
+    // TODO
+}
 
-    return result;
+explicit BigFloat( const std::string& number )
+{
+    // TODO
+}
+
+BigFloat( const ParsedBigFloat& pbf )
+{
+    // TODO
 }
 
 BigFloat BigFloat::operator/( const BigFloat& divider )
@@ -61,6 +81,7 @@ BigFloat BigFloat::operator/( const BigFloat& divider )
 1 / 2000 == 0.0005
 123456789123456789123456789 / 9 == 13717421013717421013717421
 */
+    ParsedBigFloat parsed_divivder = parse( divider );
     divider;
     return result;
 }

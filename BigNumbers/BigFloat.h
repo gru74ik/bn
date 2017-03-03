@@ -10,7 +10,7 @@
 #include <string>
 #include "BigInt.h"
 
-class BigFloat
+class ParsedBigFloat
 {
     std::string mantissa_sign_;
     std::string integer_part_;
@@ -18,12 +18,33 @@ class BigFloat
     std::string exponent_sign_;
     std::string exponent_;
 
-    bool is_correct( const std::string& number );
+    std::string decimal_form_;
+
+public:
+    ParsedBigFloat::BigFloat();
+    ParsedBigFloat( const BigInt& bigInteger );
+    ParsedBigFloat::BigFloat( const std::string& number );
+
+    void to_decimal_form()
+    {
+        // TODO
+    }
+    std::string get_decimal_form()
+    {
+        // TODO
+    }
+};
+
+class BigFloat
+{
+    std::string number_;
 
 public:
     BigFloat();
 
     explicit BigFloat( const std::string& number );
+
+    BigFloat( const ParsedBigFloat& pbf);
 
     BigFloat operator/( const BigFloat& divider );
 
