@@ -21,7 +21,8 @@ BigInt::BigInt( const BigInt& bi )
 bool BigInt::is_correct( const BigInt& bi )
 {
     bool result = true;
-    if( bi.number_.empty() )
+
+    if( bi.number_.size() == 0 ) // if( bi.number_.empty() )
     {
         result = false;
     }
@@ -29,7 +30,7 @@ bool BigInt::is_correct( const BigInt& bi )
     {
         if ( is_one_char( bi.number_ ) )
         {
-            if ( !is_digit( bi.number_[0] ) )
+            if ( !is_digit( bi.number_[0] ) ) // bi.number_.at(0)
             {
                 result = false;
             }
@@ -67,7 +68,7 @@ BigInt BigInt::operator=( const BigInt& bi )
 
 BigInt BigInt::operator=( const std::string& obj )
 {
-    if ( this->number_ != &obj.front() )
+    if ( this->number_ != &obj[0] ) // &obj.front()
     {
         number_ = obj;
     }

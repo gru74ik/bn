@@ -21,7 +21,8 @@ private:
 
     bool is_correct( BigFloat& bf );
     size_t find_dot_position();
-
+    size_t digits_after_dot();
+    size_t digits_before_dot();
 
 public:
     BigFloat();
@@ -33,9 +34,6 @@ public:
     void convert_to( MODE mode );
 
     void set_number( const std::string & message );
-
-    size_t digits_after_dot();
-    size_t digits_before_dot();
 
     std::string number();
     MODE mode();

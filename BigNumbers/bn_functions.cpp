@@ -33,9 +33,9 @@ bool is_dot( const char ch )
 bool contains_one_dot_only( const std::string& number )
 {
     int counter = 0;
-    for ( const auto & elem : number )
+    for ( size_t i = 0; i < number.size(); ++i )
     {
-        if ( is_dot( elem ) )
+        if ( is_dot( number[i] ) )
             ++counter;
         if ( counter > 1)
             break;

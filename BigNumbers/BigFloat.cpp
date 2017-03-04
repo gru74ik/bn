@@ -20,29 +20,26 @@ void BigFloat::convert_to( MODE mode )
 {
     switch ( mode )
     {
-    case DECIMAL:
-        /*
-        // TODO: convert to decimal
-        // example 1:
-        // +123451234512345123451234512345 E-5 to
-        // 1234512345123451234512345.12345
-        // example 2:
-        // +12345123451234512345.1234512345 E+5 to
-        // 1234512345123451234512345.12345
-        */
+    case SCIENTIFIC:
+
+        if ( number_[0] == '+' || is_digit( number_[0] ) )
+        {
+            number_ = "+" + number_ + " E+0";
+        }
+        else if ( number_[0] == '-' )
+        {
+            number_ = "-" + number_ + " E+0";
+        }
+        else
+        {
+            number_ = "0";
+            std::cout << "Incorrect number notation. The number equated to 0.";
+        }
 
         break;
 
-    case SCIENTIFIC:
-        /*
-        // TODO: convert to scientific
-        // example 1:
-        // 1234512345123451234512345.12345 to
-        // +123451234512345123451234512345 E-5
-        // example 2:
-        // 1234512345123451234512345.12345 to
-        // +12345123451234512345.1234512345 E+5
-        */
+    case DECIMAL:
+        // TODO: convert to decimal notation
 
         break;
 
@@ -162,7 +159,6 @@ bool BigFloat::is_correct( BigFloat& bf )
         }
         else
         {
-            bf.convert_to( BigFloat::DECIMAL );
             if ( contains_one_dot_only( bf.number() ) )
             {
                 // TODO: проверить, что число записано
@@ -187,7 +183,6 @@ size_t BigFloat::find_dot_position()
         if ( number_[i] == '.' )
         {
             dot_position = i;
-            std::cout << "dot_position: " << dot_position << "\n";
             break;
         }
     }
