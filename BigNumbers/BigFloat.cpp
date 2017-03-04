@@ -1,11 +1,8 @@
 #include "BigFloat.h"
 #include "bn_functions.h"
 
-BigFloat::BigFloat()
-{
-    number_ = "0";
-    mode_ = DECIMAL;
-}
+BigFloat::BigFloat() : number_( "0" ), mode_( DECIMAL )
+{}
 
 BigFloat::BigFloat(const std::string& number )
 {
@@ -24,11 +21,29 @@ void BigFloat::convert_to( MODE mode )
     switch ( mode )
     {
     case DECIMAL:
+        /*
         // TODO: convert to decimal
+        // example 1:
+        // +123451234512345123451234512345 E-5 to
+        // 1234512345123451234512345.12345
+        // example 2:
+        // +12345123451234512345.1234512345 E+5 to
+        // 1234512345123451234512345.12345
+        */
+
         break;
 
     case SCIENTIFIC:
+        /*
         // TODO: convert to scientific
+        // example 1:
+        // 1234512345123451234512345.12345 to
+        // +123451234512345123451234512345 E-5
+        // example 2:
+        // 1234512345123451234512345.12345 to
+        // +12345123451234512345.1234512345 E+5
+        */
+
         break;
 
     default:
@@ -40,7 +55,11 @@ void BigFloat::convert_to( MODE mode )
 void BigFloat::set_number( const std::string & message )
 {
     std::cout << message;
-    std::cin >> number_;
+    std::getline( std::cin, number_ );
+    if ( !is_correct( *this ) )
+    {
+        number_ = "0";
+    }
 }
 
 BigFloat::MODE BigFloat::mode()
@@ -48,15 +67,58 @@ BigFloat::MODE BigFloat::mode()
     return mode_;
 }
 
+bool BigFloat::operator<( BigFloat& b )
+{
+    BigFloat & a = *this;
+
+    if ( a.mode() == SCIENTIFIC )
+    {
+        a.convert_to( DECIMAL );
+    }
+
+    if ( b.mode() == SCIENTIFIC )
+    {
+        b.convert_to( DECIMAL );
+    }
+    return a.number_ < b.number_;
+}
+
 std::string BigFloat::number()
 {
     return number_;
 }
 
-BigFloat BigFloat::operator/( BigFloat& divider )
-{
+BigFloat BigFloat::operator/( BigFloat& divisor )
+{  
     BigFloat result;
-    divider.convert_to( BigFloat::DECIMAL );
+    BigFloat & dividend = *this;
+
+    if ( dividend.mode() == SCIENTIFIC )
+    {
+        dividend.convert_to( DECIMAL );
+    }
+
+    if ( divisor.mode() == SCIENTIFIC )
+    {
+        divisor.convert_to( DECIMAL );
+    }
+
+    if ( dividend.number_ == "0" )
+    {
+        result.number_ = "0";
+    }
+    else if ( divisor.number_ == "0" )
+    {
+        result.number_ = "1";
+        std::cout <<
+            "\nYou can not divide by zero! The result is "
+            "equated to 1, but it is a wrong result.\n";
+    }
+    else
+    {
+        // TODO
+    }
+
     // TODO:
     // реализовать деление одного числа типа BigFloat
     // на другое число типа BigFloat
@@ -64,18 +126,19 @@ BigFloat BigFloat::operator/( BigFloat& divider )
 Цикл Х:
 1)  Проверить, действительно ли делимое больше, чем делитель.
 2)  Если да, начинаем делить.
-3)  Если нет, добавляем разряд (или ноль, если разрядов в числе больше нет) к делимому и ноль с точкой в ответ.
+3)  Если нет, добавляем разряд (или ноль, если разрядов в числе больше нет)
+    к делимому и ноль с точкой в ответ.
 4)  Проверить, действительно ли делимое больше, чем делитель.
 5)	Если да, начинаем делить.
-6)  Если нет, добавляем разряд (или ноль, если разрядов в числе больше нет) к делимому и ноль после точки в ответ.
-7)  Выполнять цикл X, пока делимое не станет больше, чем делитель или пока количество разрядов в ответе не превысит 30.
-8)  Делим делимое на делитель, частное записываем в ответ, остаток записываем в остаток (сносим вниз).
+6)  Если нет, добавляем разряд (или ноль, если разрядов в числе больше нет)
+    к делимому и ноль после точки в ответ.
+7)  Выполнять цикл X, пока делимое не станет больше, чем делитель или пока
+    количество разрядов в ответе не превысит 30.
+8)  Делим делимое на делитель, частное записываем в ответ, остаток записываем
+    в остаток (сносим вниз).
 9)  Теперь остаток – это делимое.
-10)	Выполнять цикл X, пока делимое не станет больше, чем делитель или пока количество разрядов в ответе не превысит 30.
-
-Три теста:
-1 / 2000 == 0.0005
-123456789.123456789123456789 / 9 == 13717421013717421013717421
+10)	Выполнять цикл X, пока делимое не станет больше, чем делитель или пока
+    количество разрядов в ответе не превысит 30.
 */
 
     return result;
@@ -113,6 +176,37 @@ bool BigFloat::is_correct( BigFloat& bf )
         }
     }
 
+    return result;
+}
+
+size_t BigFloat::find_dot_position()
+{
+    size_t dot_position = 0;
+    for ( size_t i = 0; i < number_.size(); ++i )
+    {
+        if ( number_[i] == '.' )
+        {
+            dot_position = i;
+            std::cout << "dot_position: " << dot_position << "\n";
+            break;
+        }
+    }
+
+    return dot_position;
+}
+
+size_t BigFloat::digits_after_dot()
+{
+    return number_.size() - find_dot_position() - 1;
+}
+
+size_t BigFloat::digits_before_dot()
+{
+    size_t result = 0;
+    if ( is_digit( number_[0] ) )
+        result = find_dot_position();
+    else if ( is_sign( number_[0] ) )
+        result = find_dot_position() - 1;
     return result;
 }
 

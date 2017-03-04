@@ -20,6 +20,8 @@ private:
     MODE mode_;
 
     bool is_correct( BigFloat& bf );
+    size_t find_dot_position();
+
 
 public:
     BigFloat();
@@ -32,10 +34,14 @@ public:
 
     void set_number( const std::string & message );
 
+    size_t digits_after_dot();
+    size_t digits_before_dot();
+
     std::string number();
     MODE mode();
 
-    BigFloat operator/( BigFloat& divider );
+    bool operator<( BigFloat& b );
+    BigFloat operator/( BigFloat& divisor );
 
     friend std::ostream& operator<<
         (

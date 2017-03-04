@@ -1,8 +1,7 @@
 #include "BigInt.h"
 #include "bn_functions.h"
 
-BigInt::BigInt()
-    : number_( "0" )
+BigInt::BigInt() : number_( "0" )
 {}
 
 BigInt::BigInt( const std::string& number )
@@ -78,7 +77,7 @@ BigInt BigInt::operator=( const std::string& obj )
 void BigInt::set_number( const std::string & message )
 {
     std::cout << message;
-    std::cin >> number_;
+    std::getline( std::cin, number_ );
     if ( !is_correct( *this ) )
     {
         number_ = "0";

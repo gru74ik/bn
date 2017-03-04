@@ -24,13 +24,26 @@ N mzn 10 *. 0) ( . Например, число 2.5 можно записать 
 
 int main()
 {
+    /*
     BigInt a;
-    a.set_number( "Enter an integer: " );
+    a.set_number( "Enter an integer a: " );
 
     BigFloat b;
-    b.set_number( "Enter a float: " );
+    b.set_number( "Enter a float b: " );
 
-    std::cout << a << "\n" << b;
+    std::cout << a << "\n" << b << "\n";
+    */
+    BigFloat c( "1234.1234" );
+
+    BigFloat d( "1.2341234" );
+
+    std::cout
+        << "c: " << c
+        << "\nc.digits_after_dot: " << c.digits_after_dot()
+        << "\nc.digits_before_dot: " << c.digits_before_dot()
+        << "\nd: " << d
+        << "\nd.digits_after_dot: " << d.digits_after_dot()
+        << "\nd.digits_before_dot: " << d.digits_before_dot();
 
     //std::cout << "a divided by b: " << a / b;
 }
