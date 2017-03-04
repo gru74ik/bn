@@ -24,13 +24,13 @@ private:
 public:
     BigFloat();
 
-    BigFloat( const std::string& number_in_scientific_notation );
+    BigFloat( const std::string& number );
 
     BigFloat( BigInt &bigInteger );
 
     void convert_to( MODE mode );
 
-    void set_number_by_user( const std::string & message );
+    void set_number( const std::string & message );
 
     std::string number();
     MODE mode();

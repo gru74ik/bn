@@ -17,7 +17,7 @@ BigInt::BigInt( const std::string& number )
     }
 }
 
-BigInt::BigInt(const BigInt& bi )
+BigInt::BigInt( const BigInt& bi )
 {
     number_ = bi.number_;
 }
@@ -25,7 +25,28 @@ BigInt::BigInt(const BigInt& bi )
 bool BigInt::is_correct( const BigInt& bi )
 {
     bool result = true;
-    // TODO
+    if( bi.number_.empty() )
+    {
+        result = false;
+    }
+    else
+    {
+        if ( is_one_char( bi.number() ) )
+        {
+            if ( !is_digit( bi.number_[0] ) )
+            {
+                result = false;
+            }
+        }
+        else
+        {
+            // TODO: проверить, что число записано
+            // в правильной десятичной форме и содержит
+            // в качестве первого символа знак или цифру
+            // а все остальные - цифры
+        }
+    }
+
     return result;
 }
 
@@ -47,7 +68,7 @@ BigInt BigInt::operator=( const std::string& obj )
     return *this;
 }
 
-void BigInt::set_number_by_user( const std::string & message )
+void BigInt::set_number( const std::string & message )
 {
     std::cout << message;
     std::cin >> number_;

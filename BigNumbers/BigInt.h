@@ -9,7 +9,7 @@ class BigInt
 private:
     std::string number_;
 
-    bool is_correct( const BigInt& bi );
+    bool is_correct(const BigInt& bi );
 
 public:
     BigInt();
@@ -19,7 +19,7 @@ public:
     BigInt operator=( const BigInt& bi );
     BigInt operator=( const std::string& obj );
 
-    void set_number_by_user( const std::string & message );
+    void set_number( const std::string & message );
     std::string number();
 
     friend std::ostream& operator<<

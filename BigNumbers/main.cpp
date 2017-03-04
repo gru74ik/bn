@@ -25,10 +25,10 @@ N mzn 10 *. 0) ( . Например, число 2.5 можно записать 
 int main()
 {
     BigInt a;
-    a.set_number_by_user( "Enter an integer: " );
+    a.set_number( "Enter an integer: " );
 
     BigFloat b;
-    b.set_number_by_user( "Enter a float: " );
+    b.set_number( "Enter a float: " );
 
     std::cout << a << "\n" << b;
 

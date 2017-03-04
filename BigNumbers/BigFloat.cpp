@@ -7,9 +7,9 @@ BigFloat::BigFloat()
     mode_ = DECIMAL;
 }
 
-BigFloat::BigFloat( const std::string& number_in_scientific_notation )
+BigFloat::BigFloat(const std::string& number )
 {
-    number_ = number_in_scientific_notation;
+    number_ = number;
     convert_to( DECIMAL );
 }
 
@@ -37,7 +37,7 @@ void BigFloat::convert_to( MODE mode )
 
 }
 
-void BigFloat::set_number_by_user( const std::string & message )
+void BigFloat::set_number( const std::string & message )
 {
     std::cout << message;
     std::cin >> number_;
