@@ -20,17 +20,23 @@ bool is_digit( const char ch )
         ch == '9';
 }
 
-bool is_one_digit( const std::string& number )
+bool is_one_char( const std::string& number )
 {
-    return number.size() == 1 && is_digit( number.at(0) );
+    return number.size() == 1;
 }
 
-bool is_correct( const BigInt& bi )
+bool is_dot( const char ch )
 {
-    // TODO
+    return ch == '.' || ch == ',';
 }
 
-bool is_correct( const BigFloat& bf )
+bool contains_one_dot_only( const std::string& number )
 {
-    // TODO
+    int counter = 0;
+    for ( const auto & elem : number )
+    {
+        if ( is_dot( elem ) )
+            counter++;
+    }
+    return counter == 1;
 }

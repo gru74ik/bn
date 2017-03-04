@@ -12,27 +12,35 @@
 
 class BigFloat
 {
+public:
+    enum MODE { DECIMAL, SCIENTIFIC };
+
+private:
     std::string number_;
     MODE mode_;
 
+    bool is_correct( BigFloat& bf );
+
 public:
-
-    enum MODE { DECIMAL, SCIENTIFIC };
-
     BigFloat();
 
-    BigFloat(const std::string& number_in_scientific_notation );
+    BigFloat( const std::string& number_in_scientific_notation );
 
-    BigFloat( const BigInt& bigInteger );
+    BigFloat( BigInt &bigInteger );
 
     void convert_to( MODE mode );
 
-    BigFloat operator/( const BigFloat& divider );
+    void set_number_by_user( const std::string & message );
+
+    std::string number();
+    MODE mode();
+
+    BigFloat operator/( BigFloat& divider );
 
     friend std::ostream& operator<<
         (
             std::ostream& os,
-            const BigFloat& bf
+            BigFloat& bf
         );
 
     friend std::istream& operator>>

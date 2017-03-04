@@ -3,7 +3,7 @@
 
 BigFloat::BigFloat()
 {
-    number_in_decimal_notation_ = "0";
+    number_ = "0";
     mode_ = DECIMAL;
 }
 
@@ -13,12 +13,13 @@ BigFloat::BigFloat( const std::string& number_in_scientific_notation )
     convert_to( DECIMAL );
 }
 
-BigFloat::BigFloat( const BigInt& bigInteger )
+BigFloat::BigFloat( BigInt& bigInteger )
 {
-    // TODO
+    convert_to( DECIMAL );
+    number_ = bigInteger.number() + ".0";
 }
 
-BigFloat::convert_to( MODE mode )
+void BigFloat::convert_to( MODE mode )
 {
     switch ( mode )
     {
@@ -36,7 +37,23 @@ BigFloat::convert_to( MODE mode )
 
 }
 
-BigFloat BigFloat::operator/( const BigFloat& divider )
+void BigFloat::set_number_by_user( const std::string & message )
+{
+    std::cout << message;
+    std::cin >> number_;
+}
+
+BigFloat::MODE BigFloat::mode()
+{
+    return mode_;
+}
+
+std::string BigFloat::number()
+{
+    return number_;
+}
+
+BigFloat BigFloat::operator/( BigFloat& divider )
 {
     BigFloat result;
     divider.convert_to( BigFloat::DECIMAL );
@@ -64,7 +81,42 @@ BigFloat BigFloat::operator/( const BigFloat& divider )
     return result;
 }
 
-std::ostream& operator<<( std::ostream& os, const BigFloat& bf )
+bool BigFloat::is_correct( BigFloat& bf )
+{
+    bool result = true;
+    if( bf.number_.empty() )
+    {
+        result = false;
+    }
+    else
+    {
+        if ( is_one_char( bf.number() ) )
+        {
+            if ( !is_digit( bf.number_[0] ) )
+            {
+                result = false;
+            }
+        }
+        else
+        {
+            bf.convert_to( BigFloat::DECIMAL );
+            if ( contains_one_dot_only( bf.number() ) )
+            {
+                // TODO: проверить, что число записано
+                // в правильной экспоненциальной или
+                // десятичной форме
+            }
+            else
+            {
+                result = false;
+            }
+        }
+    }
+
+    return result;
+}
+
+std::ostream& operator<<( std::ostream& os, BigFloat& bf )
 {
     bf.convert_to( BigFloat::SCIENTIFIC );
     os << bf.number_;

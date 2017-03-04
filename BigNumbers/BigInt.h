@@ -3,30 +3,34 @@
 
 #include <iostream>
 #include <string>
-#include "BigFloat.h"
 
 class BigInt
 {
+private:
     std::string number_;
+
+    bool is_correct( const BigInt& bi );
 
 public:
     BigInt();
+    BigInt( const std::string& number );
+    BigInt( const BigInt& bi );
 
-    explicit BigInt( const std::string& number );
-
-    BigInt( const BigInt& obj );
-
-    BigInt operator=( const BigInt& obj );
+    BigInt operator=( const BigInt& bi );
     BigInt operator=( const std::string& obj );
-/*
-    BigInt operator/( const BigInt& number ) const;
 
-    BigInt operator/( const BigFloat& number ) const;
-*/
+    void set_number_by_user( const std::string & message );
+    std::string number();
+
     friend std::ostream& operator<<
         (
             std::ostream& os,
-            const BigInt& number
+            const BigInt& bi
+        );
+    friend std::istream& operator>>
+        (
+            std::istream& is,
+            BigInt& bi
         );
 };
 
