@@ -27,7 +27,7 @@ bool is_one_char( const std::string& number )
 
 bool is_dot( const char ch )
 {
-    return ch == '.' || ch == ',';
+    return ch == '.';
 }
 
 bool contains_one_dot_only( const std::string& number )
@@ -36,7 +36,9 @@ bool contains_one_dot_only( const std::string& number )
     for ( const auto & elem : number )
     {
         if ( is_dot( elem ) )
-            counter++;
+            ++counter;
+        if ( counter > 1)
+            break;
     }
     return counter == 1;
 }

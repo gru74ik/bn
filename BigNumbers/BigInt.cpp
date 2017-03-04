@@ -7,13 +7,10 @@ BigInt::BigInt()
 
 BigInt::BigInt( const std::string& number )
 {
-    if ( !is_correct( number ) )
+    number_ = number;
+    if ( !is_correct( *this ) )
     {
         number_ = "0";
-    }
-    else
-    {
-        number_ = number;
     }
 }
 
@@ -31,7 +28,7 @@ bool BigInt::is_correct( const BigInt& bi )
     }
     else
     {
-        if ( is_one_char( bi.number() ) )
+        if ( is_one_char( bi.number_ ) )
         {
             if ( !is_digit( bi.number_[0] ) )
             {
@@ -40,10 +37,20 @@ bool BigInt::is_correct( const BigInt& bi )
         }
         else
         {
-            // TODO: проверить, что число записано
-            // в правильной десятичной форме и содержит
-            // в качестве первого символа знак или цифру
-            // а все остальные - цифры
+            if ( !is_sign( bi.number_[0] ) && !is_digit( bi.number_[0] ) )
+            {
+                result = false;
+            }
+
+            for ( size_t i = 1; i < bi.number_.size(); ++i )
+            {
+                if ( !is_digit( bi.number_[i] ) )
+                {
+                    result = false;
+                    break;
+                }
+            }
+
         }
     }
 
@@ -72,6 +79,10 @@ void BigInt::set_number( const std::string & message )
 {
     std::cout << message;
     std::cin >> number_;
+    if ( !is_correct( *this ) )
+    {
+        number_ = "0";
+    }
 }
 
 std::string BigInt::number()
