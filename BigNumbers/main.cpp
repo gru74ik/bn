@@ -22,16 +22,25 @@ N mzn 10 *. 0) ( . Например, число 2.5 можно записать 
 #include "BigInt.h"
 #include "BigFloat.h"
 
+BigInt get_number( const std::string & message )
+{
+    std::cout << message;
+    BigInt number;
+    std::cin >> number;
+    return number;
+}
+
+BigFloat get_number( const std::string & message )
+{
+    std::cout << message;
+    BigFloat number;
+    std::cin >> number;
+    return number;
+}
+
 int main()
 {
-    BigInt a;
-    std::cout << "Big integer: " << a;
-
-    BigInt b( "-1234567890123456789012345678901234567890" );
-    std::cout << "\nBig integer: " << b;
-
-    a = b;
-    std::cout << "\nBig integer: " << b;
-
-    return 0;
+    BigInt x = get_number( "Enter an integer: " );
+    BigFloat y = get_number( "Enter a float: " );
+    std::cout << "Result of division of x and y: " << x / y;
 }
