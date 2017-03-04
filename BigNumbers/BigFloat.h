@@ -12,9 +12,8 @@
 
 class BigFloat
 {
-    std::string number_in_decimal_notation_;
-    std::string number_in_scientific_notation_;
-    MODE mode;
+    std::string number_;
+    MODE mode_;
 
 public:
 
@@ -26,14 +25,20 @@ public:
 
     BigFloat( const BigInt& bigInteger );
 
-    BigFloat operator/( const BigFloat& divider );
+    void convert_to( MODE mode );
 
-    void convert_to( MODE m );
+    BigFloat operator/( const BigFloat& divider );
 
     friend std::ostream& operator<<
         (
             std::ostream& os,
-            const BigFloat& number
+            const BigFloat& bf
+        );
+
+    friend std::istream& operator>>
+        (
+            std::istream& is,
+            BigFloat& bf
         );
 };
 
