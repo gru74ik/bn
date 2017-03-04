@@ -1,66 +1,45 @@
 #include "BigFloat.h"
+#include "bn_functions.h"
 
-bool is_correct( const std::string& number )
+BigFloat::BigFloat()
 {
-    bool result = true;
-    if ( number[0] != '+' && number[0] != '-' )
-        result = false;
-    // TODO:
-    // организовать парсинг строки и проверку её корректности
-    // для использования её (строки) в качестве основы
-    // для конструирования объекта BigFloat
-
-    return result;
+    number_in_decimal_notation_ = "0";
+    mode_ = DECIMAL;
 }
 
-ParsedBigFloat::ParsedBigFloat()
-    :
-        mantissa_sign_( "+" ),
-        integer_part_( "0" ),
-        fractional_part_( "0" ),
-        exponent_sign_( "+" ),
-        exponent_( "0" )
-{}
+BigFloat::BigFloat( const std::string& number_in_scientific_notation )
+{
+    number_ = number_in_scientific_notation;
+    convert_to( DECIMAL );
+}
 
-ParsedBigFloat::ParsedBigFloat( const BigInt& bigInteger )
+BigFloat::BigFloat( const BigInt& bigInteger )
 {
     // TODO
 }
 
-ParsedBigFloat::ParsedBigFloat( const std::string& number )
+BigFloat::convert_to( MODE mode )
 {
-    if ( number.empty() || !is_correct( number ) )
+    switch ( mode )
     {
-        mantissa_sign_ = "+";
-        integer_part_ = "0";
-        fractional_part_ = "0";
-        exponent_sign_ = "+";
-        exponent_ = "0";
+    case DECIMAL:
+        // TODO: convert to decimal
+        break;
+
+    case SCIENTIFIC:
+        // TODO: convert to scientific
+        break;
+
+    default:
+        std::cout << "Error: incorrect function argument.";
     }
 
-    // TODO:
-    // организовать парсинг строки и разбивку на части
-
-}
-
-BigFloat()
-{
-    // TODO
-}
-
-explicit BigFloat( const std::string& number )
-{
-    // TODO
-}
-
-BigFloat( const ParsedBigFloat& pbf )
-{
-    // TODO
 }
 
 BigFloat BigFloat::operator/( const BigFloat& divider )
 {
     BigFloat result;
+    divider.convert_to( BigFloat::DECIMAL );
     // TODO:
     // реализовать деление одного числа типа BigFloat
     // на другое число типа BigFloat
@@ -79,22 +58,22 @@ BigFloat BigFloat::operator/( const BigFloat& divider )
 
 Три теста:
 1 / 2000 == 0.0005
-123456789123456789123456789 / 9 == 13717421013717421013717421
+123456789.123456789123456789 / 9 == 13717421013717421013717421
 */
-    ParsedBigFloat parsed_divivder = parse( divider );
-    divider;
+
     return result;
 }
 
-std::ostream& operator<<( std::ostream& os, const BigFloat& num )
+std::ostream& operator<<( std::ostream& os, const BigFloat& bf )
 {
-    os
-        << num.mantissa_sign_
-        << num.integer_part_
-        << '.'
-        << num.fractional_part_
-        << " E"
-        << num.exponent_sign_
-        << num.exponent_;
+    bf.convert_to( BigFloat::SCIENTIFIC );
+    os << bf.number_;
     return os;
+}
+
+std::istream& operator>>( std::istream& is, BigFloat& bf )
+{
+    is >> bf.number_;
+    bf.convert_to( BigFloat::DECIMAL );
+    return is;
 }
