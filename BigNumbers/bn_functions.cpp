@@ -83,8 +83,9 @@ bool contains_one_dot_only( const std::string& number )
     }
     return counter == 1;
 }
-
+/*
 void insert_to( std::string& str, const std::string& ins, size_t before_pos )
 {
     // TODO
 }
+*/

@@ -7,12 +7,12 @@ BigFloat::BigFloat() : number_( "0" ), mode_( DECIMAL )
 BigFloat::BigFloat(const std::string& number )
 {
     number_ = number;
-    convert_to( DECIMAL );
+    if ( is_scientific() )
+        convert_to( DECIMAL );
 }
 
 BigFloat::BigFloat( BigInt& bigInteger )
 {
-    convert_to( DECIMAL );
     number_ = bigInteger.number() + ".0";
 }
 
@@ -35,20 +35,20 @@ void BigFloat::convert_to( MODE mode )
             number_ = "0";
             std::cout << "Incorrect number notation. The number equated to 0.";
         }
-
+        mode_ = SCIENTIFIC;
         break;
 
-    case DECIMAL:
-        // TODO: convert to decimal notation
+    case DECIMAL:        
+    {
         char sign_of_exp = number_[number_.size()-3];
         char value_of_exp = number_[number_.size()-2];
         if ( sign_of_exp == '+' )
             move_floating_point( RIGHT, char_to_digit( value_of_exp ) );
         else if ( sign_of_exp == '-' )
             move_floating_point( LEFT, char_to_digit( value_of_exp ) );
-
+        mode_ = DECIMAL;
         break;
-
+    }
     default:
         std::cout << "Error: incorrect function argument.";
         break;
@@ -60,7 +60,7 @@ void BigFloat::set_number( const std::string & message )
 {
     std::cout << message;
     std::getline( std::cin, number_ );
-    if ( !is_correct( *this ) )
+    if ( !is_correct() )
     {
         number_ = "0";
     }
@@ -148,25 +148,25 @@ BigFloat BigFloat::operator/( BigFloat& divisor )
     return result;
 }
 
-bool BigFloat::is_correct( BigFloat& bf )
+bool BigFloat::is_correct()
 {
     bool result = true;
-    if( bf.number_.empty() )
+    if( number_.empty() )
     {
         result = false;
     }
     else
     {
-        if ( is_one_char( bf.number() ) )
+        if ( is_one_char( number() ) )
         {
-            if ( !is_digit( bf.number_[0] ) )
+            if ( !is_digit( number_[0] ) )
             {
                 result = false;
             }
         }
         else
         {
-            if ( contains_one_dot_only( bf.number() ) )
+            if ( contains_one_dot_only( number_ ) )
             {
                 // TODO: проверить, что число записано
                 // в правильной экспоненциальной или
@@ -219,16 +219,52 @@ void BigFloat::move_floating_point( DIRECTION dir, size_t shiftSize )
     switch ( dir )
     {
     case RIGHT:
-        for ( size_t i = 0; i < temp.digits_before_dot(); ++i )
+        if ( temp.digits_after_dot() == 0 )
         {
-            result = result + temp.number_[i];
+            result = temp.number_;
+            result = result + '0';
+        }
+        else
+        {
+            for ( size_t i = 0; i < temp.digits_before_dot(); ++i )
+            {
+                result = result + temp.number_[i];
+            }
+
+            if ( temp.digits_after_dot() > shiftSize )
+            {
+                size_t i = temp.find_dot_position() + 1;
+                for ( ; i < temp.find_dot_position() + shiftSize; ++i )
+                    result = result + temp.number_[i];
+                result = result + '.';
+                for ( ; i < temp.number_.size(); ++i )
+                    result = result + temp.number_[i];
+            }
+            else if ( temp.digits_after_dot() == shiftSize )
+            {
+                for ( size_t i = temp.find_dot_position() + 1;
+                      i < temp.find_dot_position() + shiftSize;
+                      ++i
+                    )
+                {
+                    result = result + temp.number_[i];
+                }
+                result = result + ".0";
+            }
+            else
+            {
+                size_t i = temp.find_dot_position() + 1;
+                for ( ; i < temp.number_.size(); ++i )
+                    result = result + temp.number_[i];
+
+                for ( size_t i = 0; i < shiftSize - temp.digits_after_dot(); ++i )
+                {
+                    result = result + '0';
+                }
+                result = result + ".0";
+            }
         }
 
-        if ( temp.digits_after_dot() > shiftSize )
-        {
-            for ( size_t i = temp.find_dot_position() + 1; i < temp.number_.size(); ++i )
-                result = result + temp.number_[i];
-        }
 
         break;
 
@@ -249,9 +285,29 @@ std::string BigFloat::get_mantissa()
     return mantissa;
 }
 
+bool BigFloat::is_scientific()
+{
+    bool result = false;
+    for ( size_t i = 0; i < number_.size(); ++i )
+    {
+        if ( number_[i] == 'E' )
+        {
+            result = true;
+            break;
+        }
+    }
+    return result;
+}
+
+bool BigFloat::is_decimal()
+{
+    return !is_scientific();
+}
+
 std::ostream& operator<<( std::ostream& os, BigFloat& bf )
 {
-    bf.convert_to( BigFloat::SCIENTIFIC );
+    if ( bf.is_decimal() )
+        bf.convert_to( BigFloat::SCIENTIFIC );
     os << bf.number_;
     return os;
 }
@@ -259,6 +315,7 @@ std::ostream& operator<<( std::ostream& os, BigFloat& bf )
 std::istream& operator>>( std::istream& is, BigFloat& bf )
 {
     is >> bf.number_;
-    bf.convert_to( BigFloat::DECIMAL );
+    if ( bf.is_scientific() )
+        bf.convert_to( BigFloat::DECIMAL );
     return is;
 }
