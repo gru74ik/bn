@@ -120,9 +120,13 @@ BigFloat BigFloat::operator/( const BigFloat& divider ) const
     }
     else
     {
-        // TODO:
-        // реализовать деление одного числа типа BigFloat
-        // на другое число типа BigFloat
+        while ( divisor.digits_after_dot() > 0)
+        {
+            divisor.move_floating_point( RIGHT, 1 );
+            dividend.move_floating_point( RIGHT, 1 );
+        }
+
+        // TODO: закончить
     }
 
 

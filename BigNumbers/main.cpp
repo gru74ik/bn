@@ -27,7 +27,6 @@ N mzn 10 *. 0) ( . Например, число 2.5 можно записать 
 
 int main()
 {
-    /*
     BigInt a;
     a.set_number( "Enter an integer a: " );
 
@@ -38,12 +37,6 @@ int main()
     b.set_number( "Enter a float b: " );
 
     std::cout << a << "\n" << b << "\n" << c << "\n";
-    */
-
-    std::string a = "I hate these f***ing troubles.";
-    erase_part_of( a, 13, 20);
-    std::cout << a;
-
 
     //std::cout << "a divided by b: " << a / b;
 }
