@@ -33,6 +33,7 @@ public:
     BigFloat();
     BigFloat( const std::string& number );
     BigFloat( BigInt &bigInteger );
+    BigFloat( const BigFloat& bf );
 
     void convert_to( MODE mode );
     void set_number( const std::string & message );
@@ -40,6 +41,11 @@ public:
     MODE mode();
 
     bool operator<( BigFloat& b );
+    BigFloat operator=( const BigFloat& bf );
+    BigFloat operator=( const std::string& obj );
+    BigFloat operator+( const BigFloat& addendum ) const;
+    BigFloat operator-( const BigFloat& subtrahend ) const;
+    BigFloat operator*( const BigFloat& multiplier ) const;
     BigFloat operator/( const BigFloat& divider ) const;
 
     friend std::ostream& operator<<( std::ostream& os, BigFloat& bf );

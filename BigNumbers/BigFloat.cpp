@@ -13,7 +13,13 @@ BigFloat::BigFloat(const std::string& number )
 
 BigFloat::BigFloat( BigInt& bigInteger )
 {
-    number_ = bigInteger.number() + ".0";
+    number_ = bigInteger.number() + ".";
+}
+
+BigFloat::BigFloat( const BigFloat& bf )
+{
+    number_ = bf.number_;
+    mode_ = bf.mode_;
 }
 
 void BigFloat::convert_to( MODE mode )
@@ -87,14 +93,57 @@ bool BigFloat::operator<( BigFloat& b )
     return a.number_ < b.number_;
 }
 
+BigFloat BigFloat::operator=( const BigFloat& bf )
+{
+    if ( this != &bf )
+    {
+        number_ = bf.number_;
+        mode_ = bf.mode_;
+    }
+    return *this;
+}
+
+BigFloat BigFloat::operator=( const std::string& obj )
+{
+    if ( this->number_ != &obj[0] ) // &obj.front()
+    {
+        number_ = obj;
+        if ( is_scientific() )
+            convert_to( DECIMAL );
+        mode_ = DECIMAL;
+    }
+    return *this;
+}
+
 std::string BigFloat::number()
 {
     return number_;
 }
 
+BigFloat BigFloat::operator+( const BigFloat& addendum ) const
+{
+    BigFloat sum( "0" );
+    // TODO
+    return sum;
+}
+
+BigFloat BigFloat::operator-( const BigFloat& subtrahend ) const
+{
+    BigFloat diff( "0" );
+    // TODO
+    return diff;
+}
+
+BigFloat BigFloat::operator*( const BigFloat& multiplier ) const
+{
+    BigFloat product( "0" );
+    // TODO
+    return product;
+}
+
 BigFloat BigFloat::operator/( const BigFloat& divider ) const
 {  
-    BigFloat result;
+    BigFloat result( "0" );
     BigFloat dividend ( *this );
     BigFloat divisor ( divider );
     if ( dividend.mode() == SCIENTIFIC )
@@ -120,7 +169,8 @@ BigFloat BigFloat::operator/( const BigFloat& divider ) const
     }
     else
     {
-        while ( divisor.digits_after_dot() > 0)
+        size_t digitsAfterDot = divisor.digits_after_dot();
+        for ( size_t  i = digitsAfterDot; i > 0; --i )
         {
             divisor.move_floating_point( RIGHT, 1 );
             dividend.move_floating_point( RIGHT, 1 );
@@ -226,7 +276,7 @@ void BigFloat::move_floating_point( DIRECTION dir, size_t shiftSize )
         if ( temp.digits_after_dot() == 0 )
         {
             result = temp.number_;
-            result = result + "0.0";
+            result = result + "0.";
         }
         else
         {
@@ -253,7 +303,7 @@ void BigFloat::move_floating_point( DIRECTION dir, size_t shiftSize )
                 {
                     result = result + temp.number_[i];
                 }
-                result = result + ".0";
+                result = result + ".";
             }
             else
             {
@@ -265,7 +315,7 @@ void BigFloat::move_floating_point( DIRECTION dir, size_t shiftSize )
                 {
                     result = result + '0';
                 }
-                result = result + ".0";
+                result = result + ".";
             }
         }
 
