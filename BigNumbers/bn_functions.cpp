@@ -94,7 +94,7 @@ void insert_to( std::string& str, const std::string& ins, const size_t pos )
     std::string part_after = "";
     std::string result;
 
-    if ( before_pos < str.size() )
+    if ( pos < str.size() )
     {
         for ( size_t i = pos; i < str.size(); ++i )
             part_after = part_after + str[i];

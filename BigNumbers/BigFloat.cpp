@@ -92,7 +92,7 @@ std::string BigFloat::number()
     return number_;
 }
 
-BigFloat BigFloat::operator/( BigFloat& divider )
+BigFloat BigFloat::operator/( const BigFloat& divider ) const
 {  
     BigFloat result;
     BigFloat dividend ( *this );

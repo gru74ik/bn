@@ -22,8 +22,12 @@ N mzn 10 *. 0) ( . Например, число 2.5 можно записать 
 #include "BigInt.h"
 #include "BigFloat.h"
 
+#include "bn_functions.h"
+#include <string>
+
 int main()
 {
+    /*
     BigInt a;
     a.set_number( "Enter an integer a: " );
 
@@ -34,6 +38,16 @@ int main()
     b.set_number( "Enter a float b: " );
 
     std::cout << a << "\n" << b << "\n" << c << "\n";
+    */
+    std::string a = "To be question.";
+    std::string b = "or not to be? That's the ";
+    insert_to( a, b, 6 );
+    std::cout << a << "\n\n";
+
+    std::string c = "Don't worry. ";
+    std::string d = "Be happy.";
+    insert_to( c, d, c.size() );
+    std::cout << c;
 
     //std::cout << "a divided by b: " << a / b;
 }
