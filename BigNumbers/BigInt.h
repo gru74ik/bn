@@ -16,22 +16,15 @@ public:
     BigInt( const std::string& number );
     BigInt( const BigInt& bi );
 
+    bool operator<( BigInt& bi );
     BigInt operator=( const BigInt& bi );
     BigInt operator=( const std::string& obj );
 
     void set_number( const std::string & message );
     std::string number();
 
-    friend std::ostream& operator<<
-        (
-            std::ostream& os,
-            const BigInt& bi
-        );
-    friend std::istream& operator>>
-        (
-            std::istream& is,
-            BigInt& bi
-        );
+    friend std::ostream& operator<<( std::ostream& os, const BigInt& bi );
+    friend std::istream& operator>>( std::istream& is, BigInt& bi );
 };
 
 #endif // BIGINT_H

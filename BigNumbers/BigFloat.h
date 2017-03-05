@@ -40,7 +40,7 @@ public:
     MODE mode();
 
     bool operator<( BigFloat& b );
-    BigFloat operator/( BigFloat& divisor );
+    BigFloat operator/( const BigFloat& divider ) const;
 
     friend std::ostream& operator<<( std::ostream& os, BigFloat& bf );
     friend std::istream& operator>>( std::istream& is, BigFloat& bf );

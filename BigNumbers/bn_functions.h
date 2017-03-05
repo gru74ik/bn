@@ -16,6 +16,7 @@ bool is_one_char( const std::string& number );
 
 bool contains_one_dot_only( const std::string& number );
 
-//void insert_to( std::string& str, const std::string& ins, size_t before_pos );
+// string ins will be inserted before position pos:
+void insert_to( std::string& str, const std::string& ins, const size_t pos );
 
 #endif // BN_FUNCTIONS_H

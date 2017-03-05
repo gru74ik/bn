@@ -83,9 +83,29 @@ bool contains_one_dot_only( const std::string& number )
     }
     return counter == 1;
 }
-/*
-void insert_to( std::string& str, const std::string& ins, size_t before_pos )
+
+// string ins will be inserted before position pos:
+void insert_to( std::string& str, const std::string& ins, const size_t pos )
 {
-    // TODO
+    std::string part_before = "";
+    for ( size_t i = 0; i < pos; ++i )
+        part_before = part_before + str[i];
+
+    std::string part_after = "";
+    std::string result;
+
+    if ( before_pos < str.size() )
+    {
+        for ( size_t i = pos; i < str.size(); ++i )
+            part_after = part_after + str[i];
+
+        result = part_before + ins + part_after;
+    }
+    else
+    {
+        result = part_before + ins;
+    }
+
+    str = result;
 }
-*/
+
