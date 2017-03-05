@@ -182,33 +182,33 @@ bool BigFloat::is_correct()
     return result;
 }
 
-size_t BigFloat::find_dot_position()
+size_t BigFloat::dot_position()
 {
-    size_t dot_position = 0;
+    size_t dot_pos = 0;
     for ( size_t i = 0; i < number_.size(); ++i )
     {
         if ( number_[i] == '.' )
         {
-            dot_position = i;
+            dot_pos = i;
             break;
         }
     }
 
-    return dot_position;
+    return dot_pos;
 }
 
 size_t BigFloat::digits_after_dot()
 {
-    return number_.size() - find_dot_position() - 1;
+    return number_.size() - dot_position() - 1;
 }
 
 size_t BigFloat::digits_before_dot()
 {
     size_t result = 0;
     if ( is_digit( number_[0] ) )
-        result = find_dot_position();
+        result = dot_position();
     else if ( is_sign( number_[0] ) )
-        result = find_dot_position() - 1;
+        result = dot_position() - 1;
     return result;
 }
 
@@ -222,7 +222,7 @@ void BigFloat::move_floating_point( DIRECTION dir, size_t shiftSize )
         if ( temp.digits_after_dot() == 0 )
         {
             result = temp.number_;
-            result = result + '0';
+            result = result + "0.0";
         }
         else
         {
@@ -233,8 +233,8 @@ void BigFloat::move_floating_point( DIRECTION dir, size_t shiftSize )
 
             if ( temp.digits_after_dot() > shiftSize )
             {
-                size_t i = temp.find_dot_position() + 1;
-                for ( ; i < temp.find_dot_position() + shiftSize; ++i )
+                size_t i = temp.dot_position() + 1;
+                for ( ; i < temp.dot_position() + shiftSize; ++i )
                     result = result + temp.number_[i];
                 result = result + '.';
                 for ( ; i < temp.number_.size(); ++i )
@@ -242,8 +242,8 @@ void BigFloat::move_floating_point( DIRECTION dir, size_t shiftSize )
             }
             else if ( temp.digits_after_dot() == shiftSize )
             {
-                for ( size_t i = temp.find_dot_position() + 1;
-                      i < temp.find_dot_position() + shiftSize;
+                for ( size_t i = temp.dot_position() + 1;
+                      i < temp.dot_position() + shiftSize;
                       ++i
                     )
                 {
@@ -253,7 +253,7 @@ void BigFloat::move_floating_point( DIRECTION dir, size_t shiftSize )
             }
             else
             {
-                size_t i = temp.find_dot_position() + 1;
+                size_t i = temp.dot_position() + 1;
                 for ( ; i < temp.number_.size(); ++i )
                     result = result + temp.number_[i];
 

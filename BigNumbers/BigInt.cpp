@@ -20,11 +20,11 @@ BigInt::BigInt( const BigInt& bi )
 
 bool BigInt::is_correct( const BigInt& bi )
 {
-    bool result = true;
+    bool correct = true;
 
     if( bi.number_.size() == 0 ) // if( bi.number_.empty() )
     {
-        result = false;
+        correct = false;
     }
     else
     {
@@ -32,21 +32,21 @@ bool BigInt::is_correct( const BigInt& bi )
         {
             if ( !is_digit( bi.number_[0] ) ) // bi.number_.at(0)
             {
-                result = false;
+                correct = false;
             }
         }
         else
         {
             if ( !is_sign( bi.number_[0] ) && !is_digit( bi.number_[0] ) )
             {
-                result = false;
+                correct = false;
             }
 
             for ( size_t i = 1; i < bi.number_.size(); ++i )
             {
                 if ( !is_digit( bi.number_[i] ) )
                 {
-                    result = false;
+                    correct = false;
                     break;
                 }
             }
@@ -54,7 +54,7 @@ bool BigInt::is_correct( const BigInt& bi )
         }
     }
 
-    return result;
+    return correct;
 }
 
 BigInt BigInt::operator=( const BigInt& bi )

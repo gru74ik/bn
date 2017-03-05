@@ -21,13 +21,13 @@ private:
     MODE mode_;
 
     bool is_correct();
-    size_t find_dot_position();
+    bool is_scientific();
+    bool is_decimal();
+    size_t dot_position();
     size_t digits_after_dot();
     size_t digits_before_dot();
     void move_floating_point( DIRECTION dir, size_t shiftSize );
     std::string get_mantissa();
-    bool is_scientific();
-    bool is_decimal();
 
 public:
     BigFloat();

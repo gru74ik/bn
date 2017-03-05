@@ -39,15 +39,11 @@ int main()
 
     std::cout << a << "\n" << b << "\n" << c << "\n";
     */
-    std::string a = "To be question.";
-    std::string b = "or not to be? That's the ";
-    insert_to( a, b, 6 );
-    std::cout << a << "\n\n";
 
-    std::string c = "Don't worry. ";
-    std::string d = "Be happy.";
-    insert_to( c, d, c.size() );
-    std::cout << c;
+    std::string a = "I hate these f***ing troubles.";
+    erase_part_of( a, 13, 20);
+    std::cout << a;
+
 
     //std::cout << "a divided by b: " << a / b;
 }
