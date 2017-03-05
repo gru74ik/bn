@@ -33,9 +33,7 @@ int main()
     BigFloat b;
     b.set_number( "Enter a float b: " );
 
-    std::cout << a << "\n" << b << "\n" << c;
-
-
+    std::cout << a << "\n" << b << "\n" << c << "\n";
 
     //std::cout << "a divided by b: " << a / b;
 }

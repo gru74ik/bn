@@ -40,11 +40,18 @@ void BigFloat::convert_to( MODE mode )
 
     case DECIMAL:
         // TODO: convert to decimal notation
+        char sign_of_exp = number_[number_.size()-3];
+        char value_of_exp = number_[number_.size()-2];
+        if ( sign_of_exp == '+' )
+            move_floating_point( RIGHT, char_to_digit( value_of_exp ) );
+        else if ( sign_of_exp == '-' )
+            move_floating_point( LEFT, char_to_digit( value_of_exp ) );
 
         break;
 
     default:
         std::cout << "Error: incorrect function argument.";
+        break;
     }
 
 }
@@ -203,6 +210,43 @@ size_t BigFloat::digits_before_dot()
     else if ( is_sign( number_[0] ) )
         result = find_dot_position() - 1;
     return result;
+}
+
+void BigFloat::move_floating_point( DIRECTION dir, size_t shiftSize )
+{
+    BigFloat temp( get_mantissa() );
+    std::string result;
+    switch ( dir )
+    {
+    case RIGHT:
+        for ( size_t i = 0; i < temp.digits_before_dot(); ++i )
+        {
+            result = result + temp.number_[i];
+        }
+
+        if ( temp.digits_after_dot() > shiftSize )
+        {
+            for ( size_t i = temp.find_dot_position() + 1; i < temp.number_.size(); ++i )
+                result = result + temp.number_[i];
+        }
+
+        break;
+
+    case LEFT:
+        //TODO
+        break;
+
+    default:
+        break;
+    }
+}
+
+std::string BigFloat::get_mantissa()
+{
+    std::string mantissa;
+    for ( size_t i = 1; number_[i] != ' ' || i < number_.size(); ++i )
+        mantissa = mantissa + number_[i];
+    return mantissa;
 }
 
 std::ostream& operator<<( std::ostream& os, BigFloat& bf )

@@ -16,6 +16,7 @@ public:
     enum MODE { DECIMAL, SCIENTIFIC };
 
 private:
+    enum DIRECTION { LEFT, RIGHT };
     std::string number_;
     MODE mode_;
 
@@ -23,35 +24,24 @@ private:
     size_t find_dot_position();
     size_t digits_after_dot();
     size_t digits_before_dot();
+    void move_floating_point( DIRECTION dir, size_t shiftSize );
+    std::string get_mantissa();
 
 public:
     BigFloat();
-
     BigFloat( const std::string& number );
-
     BigFloat( BigInt &bigInteger );
 
     void convert_to( MODE mode );
-
     void set_number( const std::string & message );
-
     std::string number();
     MODE mode();
 
     bool operator<( BigFloat& b );
     BigFloat operator/( BigFloat& divisor );
 
-    friend std::ostream& operator<<
-        (
-            std::ostream& os,
-            BigFloat& bf
-        );
-
-    friend std::istream& operator>>
-        (
-            std::istream& is,
-            BigFloat& bf
-        );
+    friend std::ostream& operator<<( std::ostream& os, BigFloat& bf );
+    friend std::istream& operator>>( std::istream& is, BigFloat& bf );
 };
 
 #endif // BIGFLOAT_H
