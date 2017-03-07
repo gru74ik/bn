@@ -28,13 +28,17 @@ void BigFloat::convert_to( MODE mode )
     {
     case SCIENTIFIC:
 
-        if ( number_[0] == '+' || is_digit( number_[0] ) )
+        if ( is_digit( number_[0] ) )
         {
             number_ = "+" + number_ + " E+0";
         }
+        else if ( number_[0] == '+' )
+        {
+            number_ = number_ + " E+0";
+        }
         else if ( number_[0] == '-' )
         {
-            number_ = "-" + number_ + " E+0";
+            number_ = number_ + " E+0";
         }
         else
         {
@@ -46,8 +50,8 @@ void BigFloat::convert_to( MODE mode )
 
     case DECIMAL:        
     {
-        char sign_of_exp = number_[number_.size()-3];
-        char value_of_exp = number_[number_.size()-2];
+        char sign_of_exp = number_[number_.size()-3];   // TODO: function set_sign_of_exp()
+        char value_of_exp = number_[number_.size()-2];  // TODO: function set_value_of_exp()
         if ( sign_of_exp == '+' )
             move_floating_point( RIGHT, char_to_digit( value_of_exp ) );
         else if ( sign_of_exp == '-' )
@@ -334,7 +338,10 @@ void BigFloat::move_floating_point( DIRECTION dir, size_t shiftSize )
 std::string BigFloat::get_mantissa()
 {
     std::string mantissa;
-    for ( size_t i = 1; number_[i] != ' ' || i < number_.size(); ++i )
+    size_t i = 0;
+    if ( is_sign( number_[0] ) )
+        i = 1;
+    for ( ; number_[i] != ' ' || i < number_.size(); ++i )
         mantissa = mantissa + number_[i];
     return mantissa;
 }

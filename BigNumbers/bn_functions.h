@@ -12,7 +12,7 @@ bool is_dot( const char ch );
 
 size_t char_to_digit( const char ch );
 
-char digit_to_char( const size_t );
+char digit_to_char(const size_t num);
 
 bool is_one_char( const std::string& number );
 
