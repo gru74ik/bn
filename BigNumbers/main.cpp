@@ -24,6 +24,6 @@ N mzn 10 *. 0) ( . Например, число 2.5 можно записать 
 
 int main()
 {
-    BigFloat x ( "+1.234567 e+9" );
+    BigFloat x ( "+1.234567 E-1" );
     std::cout << "\nThe number x: " << x;
 }
