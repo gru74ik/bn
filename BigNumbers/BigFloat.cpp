@@ -158,7 +158,7 @@ std::string BigFloat::e_value_as_string()
     return e_val;
 }
 
-size_t BigFloat::count_lead_zeroes()
+size_t BigFloat::lead_zeroes()
 {
     size_t result = 0;
     {
@@ -306,8 +306,16 @@ void BigFloat::convert_to( MODE mode )
         }
         else
         {
-            // TODO: проверить на лидирующие нули
-            number_ = number_ + " E+0";
+            if ( lead_zeroes() )
+            {
+                move_floating_point( RIGHT, lead_zeroes() );
+                number_ = number_ + " E-" + number_to_string( lead_zeroes() );
+                erase_part_of( number_, 0, lead_zeroes() - 1 );
+            }
+            else
+            {
+                number_ = number_ + " E+0";
+            }
         }
         mode_ = SCIENTIFIC;
         break;

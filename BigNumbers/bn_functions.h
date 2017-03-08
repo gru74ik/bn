@@ -16,10 +16,14 @@ char digit_to_char(const size_t num);
 size_t string_to_number( const std::string& str );
 std::string number_to_string( size_t number );
 
-// string ins will be inserted before position pos:
+// Returns position of character if it has been found in string str
+// or size of string otherwise:
+size_t find_char(std::string& str, const char ch );
+
+// String ins will be inserted before position pos:
 void insert_to( std::string& str, const std::string& ins, const size_t pos );
 
-// part of string str will be erased from
+// Part of string str will be erased from
 // position first to position last inclusive:
 void erase_part_of( std::string& str, const size_t first, const size_t last );
 

@@ -40,7 +40,7 @@ public: // getters:
     size_t digits_after_e();            // private
     size_t e_value_as_number();         // private
     std::string e_value_as_string();    // private
-    size_t count_lead_zeroes();          // private
+    size_t lead_zeroes();               // private
 
 private:
     char get_sign();

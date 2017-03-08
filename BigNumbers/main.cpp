@@ -40,13 +40,12 @@ int main()
     std::cout << "a divided by b: " << result << "\n\n";
 */
 
-
-    BigFloat d ( "-0.00123456789" );
+    BigFloat d ( "-0.00123" );
     std::cout << "The number: " << d ;
     std::cout << "\nLetter E position: " << d.e_position();
     std::cout << "\nDigits after letter E: " << d.digits_after_e();
     std::cout << "\nExponent value: " << d.e_value_as_number();
-    std::cout << "\nLead zeroes: " << d.count_lead_zeroes();
+    std::cout << "\nLead zeroes: " << d.lead_zeroes();
 
 /*
     for ( size_t shiftSize = 0; shiftSize < 7; ++shiftSize )

@@ -15,6 +15,24 @@ bool is_dot( const char ch )
     return ch == '.';
 }
 
+bool is_one_char( const std::string& number )
+{
+    return number.size() == 1;
+}
+
+bool contains_one_dot_only( const std::string& number )
+{
+    int counter = 0;
+    for ( size_t i = 0; i < number.size(); ++i )
+    {
+        if ( is_dot( number[i] ) )
+            ++counter;
+        if ( counter > 1)
+            break;
+    }
+    return counter == 1;
+}
+
 size_t char_to_digit( const char ch )
 {
     return ch - '0';
@@ -49,22 +67,18 @@ std::string number_to_string( size_t number )
     return result;
 }
 
-bool is_one_char( const std::string& number )
+size_t find_char( std::string& str, const char ch )
 {
-    return number.size() == 1;
-}
-
-bool contains_one_dot_only( const std::string& number )
-{
-    int counter = 0;
-    for ( size_t i = 0; i < number.size(); ++i )
+    size_t result = str.size();
+    for ( size_t i = 0; i < str.size(); ++i )
     {
-        if ( is_dot( number[i] ) )
-            ++counter;
-        if ( counter > 1)
+        if ( str[i] == ch )
+        {
+            result = i;
             break;
+        }
     }
-    return counter == 1;
+    return result;
 }
 
 // string ins will be inserted before position pos:
