@@ -187,10 +187,10 @@ void BigFloat::set_number( const std::string & message )
     std::cout << message;
     std::string temp = number_;
     std::getline( std::cin, number_ );
-    if ( !is_correct() )    // TODO: лишнее копирование. Сделать
-    {                       // функцию is_correct() глобальной
-        number_ = temp;
-        sign_ = get_sign();
+    if ( !is_correct() )
+    {
+        number_ = temp;         // Лишнее копирование.
+        sign_ = get_sign();     // Сделать функцию is_correct() глобальной?
         if ( is_scientific() )
         {
             convert_to( DECIMAL );
