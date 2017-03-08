@@ -21,50 +21,9 @@ N mzn 10 *. 0) ( . Например, число 2.5 можно записать 
 #include <iostream>
 #include "BigInt.h"
 #include "BigFloat.h"
-#include "bn_functions.h"
 
 int main()
 {
-/*
-    BigInt a;
-    a.set_number( "Enter an integer a: " );
-
-    BigFloat b;
-    b.set_number( "Enter a float b: " );
-
-    BigFloat c(a);
-    std::cout << a << "\n" << b << "\n" << c << "\n";
-
-    BigFloat result = c / b;
-
-    std::cout << "a divided by b: " << result << "\n\n";
-*/
-
-    BigFloat d ( "-0.012345678 E-21" );
-    std::cout << "The number: " << d ;
-
-/*
-    std::cout << "\nLetter E position: " << d.e_position();
-    std::cout << "\nDigits after letter E: " << d.digits_after_e();
-    std::cout << "\nExponent value: " << d.e_value_as_number();
-    std::cout << "\nLead zeroes: " << d.lead_zeroes();
-
-
-    for ( size_t shiftSize = 0; shiftSize < 7; ++shiftSize )
-    {
-        d = "-1234.5678 E-5";
-        std::cout << "\n=======================\n" << d << "\n";
-        d.move_floating_point( BigFloat::LEFT, shiftSize );
-        std::cout << "shiftSize: " << shiftSize << "\n" << d ;
-    }
-
-    for ( size_t shiftSize = 0; shiftSize < 7; ++shiftSize )
-    {
-        d = "-1234.5678 E-5";
-        std::cout << "\n-----------------------\n" << d << "\n";
-        d.move_floating_point( BigFloat::RIGHT, shiftSize );
-        std::cout << "shiftSize: " << shiftSize << "\n" << d ;
-    }
-*/
-    return 0;
+    BigFloat x ( "-1.234567 E-5" );
+    std::cout << "\nThe number x: " << x;
 }

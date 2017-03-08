@@ -6,12 +6,12 @@
 BigFloat::BigFloat() : sign_( '+' ), number_( "0.0" ), notation_( DECIMAL )
 {}
 
-BigFloat::BigFloat(const std::string& number )
+BigFloat::BigFloat( const std::string& number )
 {
     number_ = number;
     sign_ = get_sign();
     discard_sign();
-    std::cout << number_ << "\n";
+    std::cout << "In constructor before converting: " << sign_ << number_ << "\n";
     if ( is_correct( DECIMAL ) )
     {
         // do nothing
@@ -23,7 +23,7 @@ BigFloat::BigFloat(const std::string& number )
     else if ( is_correct( SCIENTIFIC ) )
     {
         convert_to( DECIMAL );
-        notation_ = DECIMAL;
+        std::cout << "\nIn constructor after converting: " << sign_ << number_ << "\n";
         std::cout
             << "\nConstructor will try create object from string"
             << "\nthat represent number in scientific notation.\n";
@@ -84,6 +84,7 @@ bool BigFloat::is_decimal()
 bool BigFloat::is_correct( NOTATION notation )
 {
     bool result = true;
+
     if( number_.size() < 3 )    // every decimal number must have integer part,
     {                           // dot and fractional part ( for example: 1.5)
         result = false;         // and this is 3 characters at least
@@ -97,6 +98,7 @@ bool BigFloat::is_correct( NOTATION notation )
         {
         case SCIENTIFIC:
         {
+            std::cout << "\nThe scientific number notation assertion.\n";
             size_t space_pos = find_char( number_, ' ' );
             size_t e_pos = e_position();
             size_t e_sign_pos = e_sign_position();
@@ -123,7 +125,7 @@ bool BigFloat::is_correct( NOTATION notation )
                 result = false;
                 std::cout <<
                     "\nThe scientific number notation is incorrect, because"
-                    "\nthe number have to contain 1 dot (no more and no less).";
+                    "\nthe number have to contain 1 dot (no more and no less).\n";
             }
             else
             {
@@ -135,7 +137,7 @@ bool BigFloat::is_correct( NOTATION notation )
                         result = false;
                         std::cout <<
                             "\nThe scientific number notation is incorrect, because"
-                            "\nthe number contains forbidden characters before space.";
+                            "\nthe number contains forbidden characters before space.\n";
                         break;
                     }
                 }
@@ -144,16 +146,16 @@ bool BigFloat::is_correct( NOTATION notation )
                 {
                     result = false;
                     std::cout <<
-                        "\nThe scientific number notation is incorrect, because letter was"
-                        "\nnot found after space or sign was not found after letter.";
+                        "\nThe scientific number notation is incorrect,"
+                        "\nbecause letter was not found after space.\n";
                 }
                 // проверяем что за буквой 'e' или 'E' следует знак плюс или минус:
                 else if ( !is_sign( number_[e_sign_pos] ) )
                 {
                     result = false;
                     std::cout <<
-                        "\nThe scientific number notation is incorrect, because letter was"
-                        "\nnot found after space or sign was not found after letter.";
+                        "\nThe scientific number notation is incorrect,"
+                        "\nbecause sign was not found after letter.\n";
                 }
                 else
                 {
@@ -164,15 +166,23 @@ bool BigFloat::is_correct( NOTATION notation )
                         {
                             result = false;
                             std::cout <<
-                                "\nThe scientific number notation is incorrect, because"
-                                "\nwas found forbidden characters after sign.";
+                                "\nThe scientific number notation is incorrect,"
+                                "\nbecause was found forbidden characters after sign.\n";
                             break;
                         }
                     }
                 }
             }
+            std::cout
+                    << "\nis_correct( SCIENTIFIC ): "
+                    << std::boolalpha
+                    << result
+                    << std::noboolalpha
+                    << "\n";
+            break;
         }
         case DECIMAL:
+            std::cout << "\nThe decimal number notation assertion.\n";
             // проверяем, что строка содержит точку и точка только одна:
             if ( contains_one_dot_only( number_ ) )
             {
@@ -184,7 +194,7 @@ bool BigFloat::is_correct( NOTATION notation )
                         result = false;
                         std::cout <<
                             "\nThe decimal notation of this number is incorrect,"
-                            "\nbecause it contains forbidden characters.";
+                            "\nbecause it contains forbidden characters.\n";
                         break;
                     }
                 }
@@ -196,6 +206,13 @@ bool BigFloat::is_correct( NOTATION notation )
                     "\nThe decimal notation of this number is incorrect,"
                     "\nbecause it contains more than 1 dot.";
             }
+            std::cout
+                    << "\nis_correct( DECIMAL ): "
+                    << std::boolalpha
+                    << result
+                    << std::noboolalpha
+                    << "\n";
+            break;
 
         } // endof switch ( notation )
     }
@@ -454,20 +471,22 @@ void BigFloat::convert_to( NOTATION notation )
         if ( e_sign() == '+' )
         {
             move_floating_point( RIGHT, string_to_number( e_value_as_string() ) );
+            erase_part_of( number_, e_position() - 1, number_.size() );
         }
         else if ( e_sign() == '-' )
         {
             move_floating_point( LEFT, string_to_number( e_value_as_string() ) );
+            erase_part_of( number_, e_position() - 1, number_.size() );
         }
         else
         {
-
+            std::cout << "\nError: incorrect character instead the sign.\n";
         }
         notation_ = DECIMAL;
         break;
     }
     default:
-        std::cout << "Error: incorrect function argument.";
+        std::cout << "\nError: incorrect function argument.\n";
         break;
     }
 
