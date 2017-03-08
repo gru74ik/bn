@@ -4,6 +4,7 @@
 #include "BigInt.h"
 #include "BigFloat.h"
 
+// Or use standard functions from cctype header.
 bool is_sign( const char ch );
 bool is_digit( const char ch );
 bool is_dot( const char ch );
@@ -22,6 +23,7 @@ void insert_to( std::string& str, const std::string& ins, const size_t pos );
 // position first to position last inclusive:
 void erase_part_of( std::string& str, const size_t first, const size_t last );
 
+// Because we can't use STL. Otherwise we can use std::pow() from cmath header.
 size_t pow( size_t base, size_t exp );
 
 #endif // BN_FUNCTIONS_H

@@ -1,6 +1,6 @@
 #include "BigFloat.h"
 #include "bn_functions.h"
-#include <cmath>
+// #include <cmath> // можно использовать std::pow()
 
 // constructors
 BigFloat::BigFloat() : sign_( '+' ), number_( "0.0" ), mode_( DECIMAL )
