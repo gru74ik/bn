@@ -43,11 +43,12 @@ public: // getters:
     size_t lead_zeroes();               // private
     size_t e_sign_position();           // private
     char e_sign();                      // private
-
+    size_t last_digit_position();       // private
 
 private:
     char get_sign();
     std::string get_mantissa();
+
 
 public:
     std::string number();

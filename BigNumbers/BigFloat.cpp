@@ -238,7 +238,7 @@ size_t BigFloat::dot_position()
 
 size_t BigFloat::digits_after_dot()
 {
-    return number_.size() - dot_position() - 1;
+    return last_digit_position() - 1;
 }
 
 size_t BigFloat::digits_before_dot()
@@ -318,6 +318,24 @@ char BigFloat::e_sign()
     return number_[ e_sign_position() ];
 }
 
+size_t BigFloat::last_digit_position()
+{
+    size_t last_digit_pos = number_.size();
+    for ( size_t i = 0; i < number_.size(); ++i )
+    {
+        if ( is_digit( number_[i] ) || is_dot( number_[i] ) )
+        {
+            last_digit_pos = i;
+        }
+        else
+        {
+            break;
+        }
+    }
+
+    return last_digit_pos;
+}
+
 char BigFloat::get_sign()
 {
     return number_[0] == '-' ? '-' : '+';
@@ -366,7 +384,10 @@ void BigFloat::set_number( const std::string & message )
     if ( is_correct( SCIENTIFIC ) )
     {
         convert_to( DECIMAL );
-        notation_ = DECIMAL;
+    }
+    else if ( is_correct( DECIMAL ) )
+    {
+        // do nothing
     }
     else
     {
@@ -387,29 +408,48 @@ void BigFloat::move_floating_point( DIRECTION dir, size_t shiftSize )
 {
     // we work with numbers in decimal notation!
     size_t dot_pos = dot_position();
+
     switch ( dir )
     {
     case RIGHT:
+    {
+        std::cout << "\nBigFloat::move_floating_point( RIGHT ) works.\n";
         if ( digits_after_dot() > shiftSize )
         {
+            std::cout
+                << "\ndigits_after_dot() > shiftSize"
+                << "\ndigits_after_dot(): " << digits_after_dot()
+                << "\nshiftSize: " << shiftSize << "\n";
             insert_to( number_ , ".", dot_pos + shiftSize + 1 );
         }
         else if ( digits_after_dot() == shiftSize )
         {
-            insert_to( number_ , ".0", dot_pos + shiftSize + 1 );
+            std::cout
+                << "\ndigits_after_dot() == shiftSize\n"
+                << "\ndigits_after_dot(): " << digits_after_dot()
+                << "shiftSize: " << shiftSize << "\n";
+            insert_to( number_ , ".0", last_digit_position() + 1 );
         }
         else
         {
+            std::cout
+                << "\ndigits_after_dot() < shiftSize\n"
+                << "\ndigits_after_dot(): " << digits_after_dot()
+                << "\nshiftSize: " << shiftSize << "\n";
             size_t additional_zeroes = shiftSize - digits_after_dot();
             for ( size_t i = 0; i < additional_zeroes; ++i )
-                number_ = number_ + "0";
-            number_ = number_ + ".0";
+            {
+                std::cout
+                    << "\nI insert zeroes, man!\n";
+                insert_to( number_ , "0", last_digit_position() + 1 );
+            }
+            insert_to( number_ , ".0", last_digit_position() + 1 );
         }
 
         erase_part_of( number_, dot_pos, dot_pos );
 
         break;
-
+    }
     case LEFT:
     {
         size_t digits_before = digits_before_dot();
@@ -470,13 +510,35 @@ void BigFloat::convert_to( NOTATION notation )
     {
         if ( e_sign() == '+' )
         {
-            move_floating_point( RIGHT, string_to_number( e_value_as_string() ) );
-            erase_part_of( number_, e_position() - 1, number_.size() );
+            move_floating_point( RIGHT, e_value_as_number() );
+
+            std::cout
+                << "\nconvert_to(DECIMAL) works (floating point moved right): "
+                << number_
+                << "\n";
+
+            erase_part_of( number_, e_position() - 1, number_.size() - 1 );
+
+            std::cout
+                << "\nconvert_to(DECIMAL) works (after tail erasure): "
+                << number_
+                << "\n";
         }
         else if ( e_sign() == '-' )
         {
-            move_floating_point( LEFT, string_to_number( e_value_as_string() ) );
-            erase_part_of( number_, e_position() - 1, number_.size() );
+            move_floating_point( LEFT, e_value_as_number() );
+
+            std::cout
+                << "\nconvert_to(DECIMAL) works (floating point moved left): "
+                << number_
+                << "\n";
+
+            erase_part_of( number_, e_position() - 1, number_.size() - 1 );
+
+            std::cout
+                << "\nconvert_to(DECIMAL) works (after tail erasure): "
+                << number_
+                << "\n";
         }
         else
         {
