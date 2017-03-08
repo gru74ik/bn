@@ -5,18 +5,15 @@
 #include "BigFloat.h"
 
 bool is_sign( const char ch );
-
 bool is_digit( const char ch );
-
 bool is_dot( const char ch );
+bool is_one_char( const std::string& number );
+bool contains_one_dot_only( const std::string& number );
 
 size_t char_to_digit( const char ch );
-
 char digit_to_char(const size_t num);
 
-bool is_one_char( const std::string& number );
 
-bool contains_one_dot_only( const std::string& number );
 
 // string ins will be inserted before position pos:
 void insert_to( std::string& str, const std::string& ins, const size_t pos );

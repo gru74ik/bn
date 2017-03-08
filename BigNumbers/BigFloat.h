@@ -14,20 +14,12 @@ class BigFloat
 {
 public:
     enum MODE { DECIMAL, SCIENTIFIC };
+    enum DIRECTION { LEFT, RIGHT }; //private
 
 private:
-    enum DIRECTION { LEFT, RIGHT };
+    char sign_;
     std::string number_;
     MODE mode_;
-
-    bool is_correct();
-    bool is_scientific();
-    bool is_decimal();
-    size_t dot_position();
-    size_t digits_after_dot();
-    size_t digits_before_dot();
-    void move_floating_point( DIRECTION dir, size_t shiftSize );
-    std::string get_mantissa();
 
 public:
     BigFloat();
@@ -35,11 +27,35 @@ public:
     BigFloat( BigInt &bigInteger );
     BigFloat( const BigFloat& bf );
 
-    void convert_to( MODE mode );
-    void set_number( const std::string & message );
+private: // checkers:
+    bool is_scientific();
+    bool is_decimal();
+    bool is_correct();
+
+public:
+    size_t dot_position();      // private (remove to private section after tests)
+    size_t digits_after_dot();  // private
+    size_t digits_before_dot(); // private
+    size_t e_position();        // private
+
+private: // getters:
+    char get_sign();
+    std::string get_mantissa();
+
+public:
     std::string number();
     MODE mode();
 
+    // setter:
+    void set_number( const std::string & message );
+
+    // changers:
+    void discard_sign(); // private
+    void move_floating_point( DIRECTION dir, size_t shiftSize ); // private
+    void convert_to( MODE mode );
+
+
+    // operators:
     bool operator<( BigFloat& b );
     BigFloat operator=( const BigFloat& bf );
     BigFloat operator=( const std::string& obj );
@@ -48,8 +64,10 @@ public:
     BigFloat operator*( const BigFloat& multiplier ) const;
     BigFloat operator/( const BigFloat& divider ) const;
 
-    friend std::ostream& operator<<( std::ostream& os, BigFloat& bf );
+    // input-output operators:
     friend std::istream& operator>>( std::istream& is, BigFloat& bf );
+    friend std::ostream& operator<<( std::ostream& os, BigFloat& bf );
+
 };
 
 #endif // BIGFLOAT_H

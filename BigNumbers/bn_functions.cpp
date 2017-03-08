@@ -72,7 +72,7 @@ void insert_to( std::string& str, const std::string& ins, const size_t pos )
 // position first to position last inclusive:
 void erase_part_of( std::string& str, const size_t first, const size_t last )
 {
-    if ( first < last )
+    if ( first <= last )
     {
         std::string part_before = "";
         for ( size_t i = 0; i < first; ++i )

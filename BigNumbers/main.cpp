@@ -24,6 +24,7 @@ N mzn 10 *. 0) ( . Например, число 2.5 можно записать 
 
 int main()
 {
+/*
     BigInt a;
     a.set_number( "Enter an integer a: " );
 
@@ -35,7 +36,25 @@ int main()
 
     BigFloat result = c / b;
 
-    std::cout << "a divided by b: " << result;
+    std::cout << "a divided by b: " << result << "\n\n";
+*/
+    BigFloat d ( "-1234.5678" );
+
+    for ( size_t shiftSize = 0; shiftSize < 7; ++shiftSize )
+    {
+        d = "-1234.5678";
+        std::cout << "\n=======================\n" << d << "\n";
+        d.move_floating_point( BigFloat::LEFT, shiftSize );
+        std::cout << "shiftSize: " << shiftSize << "\n" << d ;
+    }
+
+    for ( size_t shiftSize = 0; shiftSize < 7; ++shiftSize )
+    {
+        d = "-1234.5678";
+        std::cout << "\n-----------------------\n" << d << "\n";
+        d.move_floating_point( BigFloat::RIGHT, shiftSize );
+        std::cout << "shiftSize: " << shiftSize << "\n" << d ;
+    }
 
     return 0;
 }
