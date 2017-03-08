@@ -40,8 +40,9 @@ int main()
     std::cout << "a divided by b: " << result << "\n\n";
 */
 
-    BigFloat d ( "-0.012345678" );
+    BigFloat d ( "-0.012345678 E-21" );
     std::cout << "The number: " << d ;
+
 /*
     std::cout << "\nLetter E position: " << d.e_position();
     std::cout << "\nDigits after letter E: " << d.digits_after_e();

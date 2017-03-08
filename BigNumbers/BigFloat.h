@@ -41,6 +41,9 @@ public: // getters:
     size_t e_value_as_number();         // private
     std::string e_value_as_string();    // private
     size_t lead_zeroes();               // private
+    size_t e_sign_position();           // private
+    char e_sign();                      // private
+
 
 private:
     char get_sign();

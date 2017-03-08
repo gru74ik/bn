@@ -11,15 +11,22 @@ BigFloat::BigFloat(const std::string& number )
     number_ = number;
     sign_ = get_sign();
     discard_sign();
+    std::cout << number_ << "\n";
+    if ( is_correct( DECIMAL ) )
+    {
+        // do nothing
 
-    if ( is_correct( SCIENTIFIC ) )
+        std::cout
+            << "\nConstructor will try create object from string"
+            << "\nthat represent number in decimal notation.\n";
+    }
+    else if ( is_correct( SCIENTIFIC ) )
     {
         convert_to( DECIMAL );
         notation_ = DECIMAL;
-    }
-    else if ( is_correct( DECIMAL ) )
-    {
-        // do nothing
+        std::cout
+            << "\nConstructor will try create object from string"
+            << "\nthat represent number in scientific notation.\n";
     }
     else
     {
@@ -90,20 +97,33 @@ bool BigFloat::is_correct( NOTATION notation )
         {
         case SCIENTIFIC:
         {
-            // проверяем, что строка содержит пробел,
-            // букву 'e' или 'E' и только одну точку:
             size_t space_pos = find_char( number_, ' ' );
             size_t e_pos = e_position();
+            size_t e_sign_pos = e_sign_position();
 
-            if ( space_pos == number_.size() ||
-                 e_pos == number_.size() ||
-                 !contains_one_dot_only( number_ )
-               )
+            // проверяем, что строка содержит пробел:
+            if ( space_pos == number_.size() )
             {
                 result = false;
                 std::cout <<
-                    "\nThe number notation is incorrect, because"
-                    "\nit have to contain 1 space, 1 dot and 1 letter.\n";
+                    "\nThe scientific number notation is incorrect, because"
+                    "\nthe number have to contain 1 space at least.\n";
+            }
+            // проверяем, что строка содержит букву 'e' или 'E':
+            else if ( e_pos == number_.size() )
+            {
+                result = false;
+                std::cout <<
+                    "\nThe scientific number notation is incorrect, because"
+                    "\nthe number have to contain 1 letter 'e' or 'E'.\n";
+            }
+            // проверяем, что строка содержит точку и точка только одна:
+            else if ( !contains_one_dot_only( number_ ) )
+            {
+                result = false;
+                std::cout <<
+                    "\nThe scientific number notation is incorrect, because"
+                    "\nthe number have to contain 1 dot (no more and no less).";
             }
             else
             {
@@ -114,32 +134,37 @@ bool BigFloat::is_correct( NOTATION notation )
                     {
                         result = false;
                         std::cout <<
-                            "\nThe number notation is incorrect, because"
-                            "\nit contains forbidden characters before space.";
+                            "\nThe scientific number notation is incorrect, because"
+                            "\nthe number contains forbidden characters before space.";
                         break;
                     }
                 }
-                // проверяем, что буква 'e' или 'E' следует сразу за пробелом,
-                // за буквой 'e' или 'E' следует знак плюс или минус:
-                if ( e_position() != space_pos + 1 ||
-                     !is_sign( e_position() + 1 )
-                   )
+                // проверяем, что буква 'e' или 'E' следует сразу за пробелом:
+                if ( e_pos != space_pos + 1 )
                 {
                     result = false;
                     std::cout <<
-                        "\nThe number notation is incorrect, because letter was not "
-                        "\nfound after space or sign was not found after letter.";
+                        "\nThe scientific number notation is incorrect, because letter was"
+                        "\nnot found after space or sign was not found after letter.";
+                }
+                // проверяем что за буквой 'e' или 'E' следует знак плюс или минус:
+                else if ( !is_sign( number_[e_sign_pos] ) )
+                {
+                    result = false;
+                    std::cout <<
+                        "\nThe scientific number notation is incorrect, because letter was"
+                        "\nnot found after space or sign was not found after letter.";
                 }
                 else
                 {
-                    // проверяем, что после 'e' или 'E' и знака следуют только числа:
-                    for ( size_t i = e_position() + 1; i < number_.size(); ++i )
+                    // проверяем, что после знака следуют только числа:
+                    for ( size_t i = e_sign_pos + 1; i < number_.size(); ++i )
                     {
                         if ( !is_digit( number_[i] ) )
                         {
                             result = false;
                             std::cout <<
-                                "\nThe number notation is incorrect, because"
+                                "\nThe scientific number notation is incorrect, because"
                                 "\nwas found forbidden characters after sign.";
                             break;
                         }
@@ -148,7 +173,7 @@ bool BigFloat::is_correct( NOTATION notation )
             }
         }
         case DECIMAL:
-            // проверяем, что строка сожержит только одну точку:
+            // проверяем, что строка содержит точку и точка только одна:
             if ( contains_one_dot_only( number_ ) )
             {
                 // проверяем, что все элементы строки - числа или точка:
@@ -181,7 +206,7 @@ bool BigFloat::is_correct( NOTATION notation )
 // getters
 size_t BigFloat::dot_position()
 {
-    size_t dot_pos = 0;
+    size_t dot_pos = number_.size();
     for ( size_t i = 0; i < number_.size(); ++i )
     {
         if ( number_[i] == '.' )
@@ -254,6 +279,26 @@ size_t BigFloat::lead_zeroes()
         }
     }
     return result;
+}
+
+size_t BigFloat::e_sign_position()
+{
+    size_t e_sign_pos = number_.size();
+    for ( size_t i = e_position(); i < number_.size(); ++i )
+    {
+        if ( is_sign ( number_[i] ) )
+        {
+            e_sign_pos = i;
+            break;
+        }
+    }
+
+    return e_sign_pos;
+}
+
+char BigFloat::e_sign()
+{
+    return number_[ e_sign_position() ];
 }
 
 char BigFloat::get_sign()
@@ -406,12 +451,18 @@ void BigFloat::convert_to( NOTATION notation )
 
     case DECIMAL:        
     {
-        char sign_of_exp = number_[number_.size()-3];
-
-        if ( sign_of_exp == '+' )
+        if ( e_sign() == '+' )
+        {
             move_floating_point( RIGHT, string_to_number( e_value_as_string() ) );
-        else if ( sign_of_exp == '-' )
+        }
+        else if ( e_sign() == '-' )
+        {
             move_floating_point( LEFT, string_to_number( e_value_as_string() ) );
+        }
+        else
+        {
+
+        }
         notation_ = DECIMAL;
         break;
     }
