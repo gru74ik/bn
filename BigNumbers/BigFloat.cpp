@@ -9,10 +9,11 @@ BigFloat::BigFloat() : sign_( '+' ), number_( "0.0" ), mode_( DECIMAL )
 BigFloat::BigFloat(const std::string& number )
 {
     number_ = number;
+    sign_ = get_sign();
+    discard_sign();
+
     if ( is_correct() )
     {
-        sign_ = get_sign();
-        discard_sign();
         if ( is_scientific() )
             convert_to( DECIMAL );
         mode_ = DECIMAL;
@@ -20,8 +21,8 @@ BigFloat::BigFloat(const std::string& number )
     else
     {
         std::cout
-            << "\nConstructor tried create object from string but failed, "
-            << "because string is incorrect.\n";
+            << "\nConstructor tried create object from string\n"
+            << "but failed, because string is incorrect.\n";
         number_ = "0.0";
         sign_ = '+';
         mode_ = DECIMAL;
@@ -76,16 +77,66 @@ bool BigFloat::is_correct()
     else
     {
         if ( is_scientific() )
-        {
-            // TODO:
-            // проверить, что строка содержит пробел
-            // проверить, что до пробела все элементы строки - числа
-            // проверить, что после пробела стоит буква 'e' или 'E'
-            // проверить, что после буквы 'e' или 'E' стоят только числа
+        {   // проверяем, что строка содержит пробел, букву 'e' или 'E'
+            // и только одну точку:
+            size_t space_pos = find_char( number_, ' ' );
+            size_t e_pos = e_position();
+
+            if ( space_pos == number_.size() ||
+                 e_pos == number_.size() ||
+                 !contains_one_dot_only( number_ )
+               )
+            {
+                result = false;
+            }
+            else
+            {
+                // проверяем, что до пробела все элементы строки - числа или точка:
+                for ( size_t i = 0; i < space_pos; ++i )
+                {
+                    if ( !is_digit( number_[i] ) && !is_dot( number_[i] ) )
+                    {
+                        result = false;
+                        break;
+                    }
+                }
+                // проверяем, что буква 'e' или 'E' следует сразу за пробелом,
+                // за буквой 'e' или 'E' следует знак плюс или минус:
+                if ( e_position() != space_pos + 1 ||
+                     !is_sign( e_position() + 1 )
+                   )
+                {
+                    result = false;
+                }
+                else
+                {
+                    // проверяем, что после 'e' или 'E' и знака следуют только числа:
+                    for ( size_t i = e_position() + 1; i < number_.size(); ++i )
+                    {
+                        if ( !is_digit( number_[i] ) )
+                        {
+                            result = false;
+                            break;
+                        }
+                    }
+                }
+            }
         }
         else if ( is_decimal() )
         {
-            // TODO
+            // проверяем, что строка сожержит только одну точку:
+            if ( contains_one_dot_only( number_ ) )
+            {
+                // проверяем, что все элементы строки - числа или точка:
+                for ( size_t i =0; i < number_.size(); ++i )
+                {
+                    if ( !is_digit( number_[i] ) && !is_dot( number_[i] ) )
+                    {
+                        result = false;
+                        break;
+                    }
+                }
+            }
         }
     }
 
