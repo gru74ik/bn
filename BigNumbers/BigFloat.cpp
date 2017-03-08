@@ -3,7 +3,7 @@
 // #include <cmath> // можно использовать std::pow()
 
 // constructors
-BigFloat::BigFloat() : sign_( '+' ), number_( "0.0" ), mode_( DECIMAL )
+BigFloat::BigFloat() : sign_( '+' ), number_( "0.0" ), notation_( DECIMAL )
 {}
 
 BigFloat::BigFloat(const std::string& number )
@@ -12,11 +12,14 @@ BigFloat::BigFloat(const std::string& number )
     sign_ = get_sign();
     discard_sign();
 
-    if ( is_correct() )
+    if ( is_correct( SCIENTIFIC ) )
     {
-        if ( is_scientific() )
-            convert_to( DECIMAL );
-        mode_ = DECIMAL;
+        convert_to( DECIMAL );
+        notation_ = DECIMAL;
+    }
+    else if ( is_correct( DECIMAL ) )
+    {
+        // do nothing
     }
     else
     {
@@ -25,29 +28,33 @@ BigFloat::BigFloat(const std::string& number )
             << "but failed, because string is incorrect.\n";
         number_ = "0.0";
         sign_ = '+';
-        mode_ = DECIMAL;
+        notation_ = DECIMAL;
     }
 }
 
 BigFloat::BigFloat( BigInt& bigInteger )
 {
     number_ = bigInteger.number() + ".0";
-    if ( is_correct() )
+    sign_ = get_sign();
+    discard_sign();
+
+    if ( is_correct( SCIENTIFIC ) )
     {
-        sign_ = get_sign();
-        discard_sign();
-        if ( is_scientific() )
-            convert_to( DECIMAL );
-        mode_ = DECIMAL;
+        convert_to( DECIMAL );
+        notation_ = DECIMAL;
+    }
+    else if ( is_correct( DECIMAL ) )
+    {
+        // do nothing
     }
     else
     {
         std::cout
-            << "\nConstructor tried create object from string but failed, "
-            << "because string is incorrect.\n";
+            << "\nConstructor tried create object from BigInt type,\n"
+            << "but failed, because source is incorrect.\n";
         number_ = "0.0";
         sign_ = '+';
-        mode_ = DECIMAL;
+        notation_ = DECIMAL;
     }
 }
 
@@ -67,18 +74,24 @@ bool BigFloat::is_decimal()
     return e_position() == number_.size();
 }
 
-bool BigFloat::is_correct()
+bool BigFloat::is_correct( NOTATION notation )
 {
     bool result = true;
-    if( number_.size() < 3 )    // every decimal number must have
-    {                           // integer part, dot and fractional part
-        result = false;         // for example: 1.5
-    }                           // and this is 3 characters at least
+    if( number_.size() < 3 )    // every decimal number must have integer part,
+    {                           // dot and fractional part ( for example: 1.5)
+        result = false;         // and this is 3 characters at least
+        std::cout <<
+            "\nThe number notation is incorrect, because"
+            "\nit have to be 3 characters at least.\n";
+    }
     else
     {
-        if ( is_scientific() )
-        {   // проверяем, что строка содержит пробел, букву 'e' или 'E'
-            // и только одну точку:
+        switch ( notation )
+        {
+        case SCIENTIFIC:
+        {
+            // проверяем, что строка содержит пробел,
+            // букву 'e' или 'E' и только одну точку:
             size_t space_pos = find_char( number_, ' ' );
             size_t e_pos = e_position();
 
@@ -88,6 +101,9 @@ bool BigFloat::is_correct()
                )
             {
                 result = false;
+                std::cout <<
+                    "\nThe number notation is incorrect, because"
+                    "\nit have to contain 1 space, 1 dot and 1 letter.\n";
             }
             else
             {
@@ -97,6 +113,9 @@ bool BigFloat::is_correct()
                     if ( !is_digit( number_[i] ) && !is_dot( number_[i] ) )
                     {
                         result = false;
+                        std::cout <<
+                            "\nThe number notation is incorrect, because"
+                            "\nit contains forbidden characters before space.";
                         break;
                     }
                 }
@@ -107,6 +126,9 @@ bool BigFloat::is_correct()
                    )
                 {
                     result = false;
+                    std::cout <<
+                        "\nThe number notation is incorrect, because letter was not "
+                        "\nfound after space or sign was not found after letter.";
                 }
                 else
                 {
@@ -116,14 +138,16 @@ bool BigFloat::is_correct()
                         if ( !is_digit( number_[i] ) )
                         {
                             result = false;
+                            std::cout <<
+                                "\nThe number notation is incorrect, because"
+                                "\nwas found forbidden characters after sign.";
                             break;
                         }
                     }
                 }
             }
         }
-        else if ( is_decimal() )
-        {
+        case DECIMAL:
             // проверяем, что строка сожержит только одну точку:
             if ( contains_one_dot_only( number_ ) )
             {
@@ -133,11 +157,22 @@ bool BigFloat::is_correct()
                     if ( !is_digit( number_[i] ) && !is_dot( number_[i] ) )
                     {
                         result = false;
+                        std::cout <<
+                            "\nThe decimal notation of this number is incorrect,"
+                            "\nbecause it contains forbidden characters.";
                         break;
                     }
                 }
             }
-        }
+            else
+            {
+                result = false;
+                std::cout <<
+                    "\nThe decimal notation of this number is incorrect,"
+                    "\nbecause it contains more than 1 dot.";
+            }
+
+        } // endof switch ( notation )
     }
 
     return result;
@@ -166,12 +201,7 @@ size_t BigFloat::digits_after_dot()
 
 size_t BigFloat::digits_before_dot()
 {
-    size_t result = 0;
-    if ( is_digit( number_[0] ) )
-        result = dot_position();
-    else if ( is_sign( number_[0] ) )
-        result = dot_position() - 1;
-    return result;
+    return dot_position();
 }
 
 size_t BigFloat::e_position()
@@ -256,26 +286,29 @@ std::string BigFloat::number()
     return number_;
 }
 
-BigFloat::MODE BigFloat::mode()
+BigFloat::NOTATION BigFloat::notation()
 {
-    return mode_;
+    return notation_;
 }
 
 // setters
 void BigFloat::set_number( const std::string & message )
 {
     std::cout << message;
-    std::string temp = number_;
+    BigFloat temp = *this; // Лишнее копирование (вынужденное).
     std::getline( std::cin, number_ );
-    if ( !is_correct() )
+    sign_ = get_sign();
+    discard_sign();
+
+    // Сделать функцию is_correct() глобальной?
+    if ( is_correct( SCIENTIFIC ) )
     {
-        number_ = temp;         // Лишнее копирование.
-        sign_ = get_sign();     // Сделать функцию is_correct() глобальной?
-        if ( is_scientific() )
-        {
-            convert_to( DECIMAL );
-        mode_ = DECIMAL;
-        }
+        convert_to( DECIMAL );
+        notation_ = DECIMAL;
+    }
+    else
+    {
+        *this = temp; // Лишнее копирование (вынужденное).
     }
 }
 
@@ -343,9 +376,9 @@ void BigFloat::move_floating_point( DIRECTION dir, size_t shiftSize )
     }
 }
 
-void BigFloat::convert_to( MODE mode )
+void BigFloat::convert_to( NOTATION notation )
 {
-    switch ( mode )
+    switch ( notation )
     {
     case SCIENTIFIC:
 
@@ -368,7 +401,7 @@ void BigFloat::convert_to( MODE mode )
                 number_ = number_ + " E+0";
             }
         }
-        mode_ = SCIENTIFIC;
+        notation_ = SCIENTIFIC;
         break;
 
     case DECIMAL:        
@@ -379,7 +412,7 @@ void BigFloat::convert_to( MODE mode )
             move_floating_point( RIGHT, string_to_number( e_value_as_string() ) );
         else if ( sign_of_exp == '-' )
             move_floating_point( LEFT, string_to_number( e_value_as_string() ) );
-        mode_ = DECIMAL;
+        notation_ = DECIMAL;
         break;
     }
     default:
@@ -394,12 +427,12 @@ bool BigFloat::operator<( BigFloat& b )
 {
     BigFloat & a = *this;
 
-    if ( a.mode() == SCIENTIFIC )
+    if ( a.notation() == SCIENTIFIC )
     {
         a.convert_to( DECIMAL );
     }
 
-    if ( b.mode() == SCIENTIFIC )
+    if ( b.notation() == SCIENTIFIC )
     {
         b.convert_to( DECIMAL );
     }
@@ -411,7 +444,8 @@ BigFloat BigFloat::operator=( const BigFloat& bf )
     if ( this != &bf )
     {
         number_ = bf.number_;
-        mode_ = bf.mode_;
+        sign_ = bf.sign_;
+        notation_ = bf.notation_;
     }
     return *this;
 }
@@ -420,19 +454,23 @@ BigFloat BigFloat::operator=( const std::string& obj )
 {
     if ( this->number_ != &obj[0] ) // &obj.front()
     {
-        std::string temp = number_;
+        BigFloat temp = *this;
         number_ = obj;
-        if ( is_correct() )
+        sign_ = get_sign();
+        discard_sign();
+
+        if ( is_correct( SCIENTIFIC ) )
         {
-            sign_ = get_sign();
-            discard_sign();
-            if ( is_scientific() )
-                convert_to( DECIMAL );
-            mode_ = DECIMAL;
+            convert_to( DECIMAL );
+            notation_ = DECIMAL;
+        }
+        else if ( is_correct( DECIMAL ) )
+        {
+            // do nothing
         }
         else
         {
-            number_ = temp;
+            *this = temp;
         }
     }
     return *this;
@@ -466,12 +504,12 @@ BigFloat BigFloat::operator/( const BigFloat& divider ) const
     BigFloat result( "0" );
     BigFloat dividend ( *this );
     BigFloat divisor ( divider );
-    if ( dividend.mode() == SCIENTIFIC )
+    if ( dividend.notation() == SCIENTIFIC )
     {
         dividend.convert_to( DECIMAL );
     }
 
-    if ( divisor.mode() == SCIENTIFIC )
+    if ( divisor.notation() == SCIENTIFIC )
     {
         divisor.convert_to( DECIMAL );
     }

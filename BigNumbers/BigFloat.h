@@ -13,13 +13,13 @@
 class BigFloat
 {
 public:
-    enum MODE { DECIMAL, SCIENTIFIC };
+    enum NOTATION { DECIMAL, SCIENTIFIC };
     enum DIRECTION { LEFT, RIGHT }; //private
 
 private:
     char sign_;
     std::string number_;
-    MODE mode_;
+    NOTATION notation_;
 
 public:
     BigFloat();
@@ -30,7 +30,7 @@ public:
 private: // checkers:
     bool is_scientific();
     bool is_decimal();
-    bool is_correct();
+    bool is_correct( NOTATION notation );
 
 public: // getters:
     size_t dot_position(); // private (remove to private section after tests)
@@ -48,7 +48,7 @@ private:
 
 public:
     std::string number();
-    MODE mode();
+    NOTATION notation();
 
     // setters:
     void set_number( const std::string & message );
@@ -56,7 +56,7 @@ public:
     // changers:
     void discard_sign(); // private
     void move_floating_point( DIRECTION dir, size_t shiftSize ); // private
-    void convert_to( MODE mode );
+    void convert_to( NOTATION notation );
 
 
     // operators:
