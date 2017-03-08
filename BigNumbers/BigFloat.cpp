@@ -1,5 +1,6 @@
 #include "BigFloat.h"
 #include "bn_functions.h"
+#include <cmath>
 
 // constructors
 BigFloat::BigFloat() : sign_( '+' ), number_( "0.0" ), mode_( DECIMAL )
@@ -138,18 +139,21 @@ size_t BigFloat::e_position()
 
 size_t BigFloat::digits_after_e()
 {
-    // TODO
+    return number_.size() - e_position() - 2;
 }
 
-size_t BigFloat::e_value()
+size_t BigFloat::e_value_as_number()
 {
-    size_t e_val = 0;
-    size_t e_pos = e_position();
-    for ( size_t i = 0; i < number_.size(); ++i )
-    {
-        // TODO
-    }
+    return string_to_number( e_value_as_string() );
+}
 
+std::string BigFloat::e_value_as_string()
+{
+    std::string e_val = "";
+    for ( size_t i = e_position() + 2; i < number_.size(); ++i )
+    {
+        e_val = e_val + number_[i];
+    }
     return e_val;
 }
 
@@ -276,7 +280,18 @@ void BigFloat::convert_to( MODE mode )
     switch ( mode )
     {
     case SCIENTIFIC:
-        number_ = number_ + " E+0";
+
+        if ( dot_position() != 1 )
+        {
+            size_t shift = dot_position() - 1;
+            move_floating_point( LEFT, shift );
+            number_ = number_ + " E+" + number_to_string( shift );
+        }
+        else
+        {
+            // TODO: проверить на лидирующие нули
+            number_ = number_ + " E+0";
+        }
         mode_ = SCIENTIFIC;
         break;
 
@@ -347,6 +362,7 @@ BigFloat BigFloat::operator=( const std::string& obj )
     return *this;
 }
 
+/*
 BigFloat BigFloat::operator+( const BigFloat& addendum ) const
 {
     BigFloat sum( "0" );
@@ -367,6 +383,7 @@ BigFloat BigFloat::operator*( const BigFloat& multiplier ) const
     // TODO
     return product;
 }
+*/
 
 BigFloat BigFloat::operator/( const BigFloat& divider ) const
 {  
@@ -429,7 +446,7 @@ BigFloat BigFloat::operator/( const BigFloat& divider ) const
     return result;
 }
 
-// // input-output operators
+// input-output operators
 std::istream& operator>>( std::istream& is, BigFloat& bf )
 {
     is >> bf.number_;

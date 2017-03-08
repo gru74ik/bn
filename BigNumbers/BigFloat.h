@@ -32,15 +32,16 @@ private: // checkers:
     bool is_decimal();
     bool is_correct();
 
-public:
+public: // getters:
     size_t dot_position();      // private (remove to private section after tests)
     size_t digits_after_dot();  // private
     size_t digits_before_dot(); // private
     size_t e_position();        // private
     size_t digits_after_e();    // private
-    size_t e_value();           // private
+    size_t e_value_as_number(); // private
+    std::string e_value_as_string(); // private
 
-private: // getters:
+private:
     char get_sign();
     std::string get_mantissa();
 
@@ -61,9 +62,11 @@ public:
     bool operator<( BigFloat& b );
     BigFloat operator=( const BigFloat& bf );
     BigFloat operator=( const std::string& obj );
+    /*
     BigFloat operator+( const BigFloat& addendum ) const;
     BigFloat operator-( const BigFloat& subtrahend ) const;
     BigFloat operator*( const BigFloat& multiplier ) const;
+    */
     BigFloat operator/( const BigFloat& divider ) const;
 
     // input-output operators:

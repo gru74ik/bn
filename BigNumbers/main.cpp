@@ -21,6 +21,7 @@ N mzn 10 *. 0) ( . Например, число 2.5 можно записать 
 #include <iostream>
 #include "BigInt.h"
 #include "BigFloat.h"
+#include "bn_functions.h"
 
 int main()
 {
@@ -38,8 +39,16 @@ int main()
 
     std::cout << "a divided by b: " << result << "\n\n";
 */
-    BigFloat d;
 
+
+    BigFloat d ( "-12345678900.34" );
+    std::cout << "The number: " << d ;
+    std::cout << "\nLetter E position: " << d.e_position();
+    std::cout << "\nDigits after letter E: " << d.digits_after_e();
+    std::cout << "\nExponent value: " << d.e_value_as_number();
+
+
+/*
     for ( size_t shiftSize = 0; shiftSize < 7; ++shiftSize )
     {
         d = "-1234.5678 E-5";
@@ -55,6 +64,6 @@ int main()
         d.move_floating_point( BigFloat::RIGHT, shiftSize );
         std::cout << "shiftSize: " << shiftSize << "\n" << d ;
     }
-
+*/
     return 0;
 }

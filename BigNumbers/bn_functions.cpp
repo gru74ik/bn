@@ -25,6 +25,30 @@ char digit_to_char( const size_t num )
     return num + '0';
 }
 
+size_t string_to_number( const std::string& str )
+{
+    size_t result = 0;
+    size_t last_elem_index = str.size() - 1;
+    for ( size_t i = 0; i < str.size(); ++i )
+    {
+        result += char_to_digit( str[last_elem_index - i] ) * pow( 10, i );
+    }
+    return result;
+}
+
+std::string number_to_string( size_t number )
+{
+    size_t part_of_number;
+    std::string result = "";
+    while ( number )
+    {
+        part_of_number = number % 10;
+        result = digit_to_char( part_of_number ) + result;
+        number /= 10;
+    }
+    return result;
+}
+
 bool is_one_char( const std::string& number )
 {
     return number.size() == 1;
@@ -94,4 +118,14 @@ void erase_part_of( std::string& str, const size_t first, const size_t last )
             str = part_before;
         }
     }
+}
+
+size_t pow( size_t base, size_t exp )
+{
+    size_t result = 1;
+    for ( size_t i = 0; i < exp; ++i )
+    {
+        result *= base;
+    }
+    return result;
 }
