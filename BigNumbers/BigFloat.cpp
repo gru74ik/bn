@@ -92,6 +92,7 @@ bool BigFloat::is_correct()
     return result;
 }
 
+// getters
 size_t BigFloat::dot_position()
 {
     size_t dot_pos = 0;
@@ -157,7 +158,23 @@ std::string BigFloat::e_value_as_string()
     return e_val;
 }
 
-// getters
+size_t BigFloat::count_lead_zeroes()
+{
+    size_t result = 0;
+    {
+        for ( size_t i = 0; i < number_.size(); ++i )
+        {
+            if ( number_[i] == '0' )
+                ++result;
+            else if ( number_[i] == '.' )
+                continue;
+            else
+                break;
+        }
+    }
+    return result;
+}
+
 char BigFloat::get_sign()
 {
     return number_[0] == '-' ? '-' : '+';
@@ -297,12 +314,12 @@ void BigFloat::convert_to( MODE mode )
 
     case DECIMAL:        
     {
-        char sign_of_exp = number_[number_.size()-3];   // TODO: function set_sign_of_exp()
-        char value_of_exp = number_[number_.size()-2];  // TODO: function set_value_of_exp()
+        char sign_of_exp = number_[number_.size()-3];
+
         if ( sign_of_exp == '+' )
-            move_floating_point( RIGHT, char_to_digit( value_of_exp ) );
+            move_floating_point( RIGHT, string_to_number( e_value_as_string() ) );
         else if ( sign_of_exp == '-' )
-            move_floating_point( LEFT, char_to_digit( value_of_exp ) );
+            move_floating_point( LEFT, string_to_number( e_value_as_string() ) );
         mode_ = DECIMAL;
         break;
     }

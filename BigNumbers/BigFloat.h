@@ -33,13 +33,14 @@ private: // checkers:
     bool is_correct();
 
 public: // getters:
-    size_t dot_position();      // private (remove to private section after tests)
-    size_t digits_after_dot();  // private
-    size_t digits_before_dot(); // private
-    size_t e_position();        // private
-    size_t digits_after_e();    // private
-    size_t e_value_as_number(); // private
-    std::string e_value_as_string(); // private
+    size_t dot_position(); // private (remove to private section after tests)
+    size_t digits_after_dot();          // private
+    size_t digits_before_dot();         // private
+    size_t e_position();                // private
+    size_t digits_after_e();            // private
+    size_t e_value_as_number();         // private
+    std::string e_value_as_string();    // private
+    size_t count_lead_zeroes();          // private
 
 private:
     char get_sign();
@@ -49,7 +50,7 @@ public:
     std::string number();
     MODE mode();
 
-    // setter:
+    // setters:
     void set_number( const std::string & message );
 
     // changers:

@@ -41,12 +41,12 @@ int main()
 */
 
 
-    BigFloat d ( "-12345678900.34" );
+    BigFloat d ( "-0.00123456789" );
     std::cout << "The number: " << d ;
     std::cout << "\nLetter E position: " << d.e_position();
     std::cout << "\nDigits after letter E: " << d.digits_after_e();
     std::cout << "\nExponent value: " << d.e_value_as_number();
-
+    std::cout << "\nLead zeroes: " << d.count_lead_zeroes();
 
 /*
     for ( size_t shiftSize = 0; shiftSize < 7; ++shiftSize )
