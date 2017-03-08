@@ -57,21 +57,12 @@ BigFloat::BigFloat( const BigFloat& bf )
 //checkers
 bool BigFloat::is_scientific()
 {
-    bool result = false;
-    for ( size_t i = 0; i < number_.size(); ++i )
-    {
-        if ( number_[i] != 'E' || number_[i] != 'e' )
-        {
-            result = true;
-            break;
-        }
-    }
-    return result;
+    return e_position() != number_.size();
 }
 
 bool BigFloat::is_decimal()
 {
-    return !is_scientific();
+    return e_position() == number_.size();
 }
 
 bool BigFloat::is_correct()
@@ -143,6 +134,23 @@ size_t BigFloat::e_position()
     }
 
     return e_pos;
+}
+
+size_t BigFloat::digits_after_e()
+{
+    // TODO
+}
+
+size_t BigFloat::e_value()
+{
+    size_t e_val = 0;
+    size_t e_pos = e_position();
+    for ( size_t i = 0; i < number_.size(); ++i )
+    {
+        // TODO
+    }
+
+    return e_val;
 }
 
 // getters

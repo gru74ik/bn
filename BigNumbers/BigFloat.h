@@ -37,6 +37,8 @@ public:
     size_t digits_after_dot();  // private
     size_t digits_before_dot(); // private
     size_t e_position();        // private
+    size_t digits_after_e();    // private
+    size_t e_value();           // private
 
 private: // getters:
     char get_sign();

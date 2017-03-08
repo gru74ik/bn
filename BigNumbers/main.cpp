@@ -38,11 +38,11 @@ int main()
 
     std::cout << "a divided by b: " << result << "\n\n";
 */
-    BigFloat d ( "-1234.5678" );
+    BigFloat d;
 
     for ( size_t shiftSize = 0; shiftSize < 7; ++shiftSize )
     {
-        d = "-1234.5678";
+        d = "-1234.5678 E-5";
         std::cout << "\n=======================\n" << d << "\n";
         d.move_floating_point( BigFloat::LEFT, shiftSize );
         std::cout << "shiftSize: " << shiftSize << "\n" << d ;
@@ -50,7 +50,7 @@ int main()
 
     for ( size_t shiftSize = 0; shiftSize < 7; ++shiftSize )
     {
-        d = "-1234.5678";
+        d = "-1234.5678 E-5";
         std::cout << "\n-----------------------\n" << d << "\n";
         d.move_floating_point( BigFloat::RIGHT, shiftSize );
         std::cout << "shiftSize: " << shiftSize << "\n" << d ;
