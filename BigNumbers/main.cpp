@@ -25,6 +25,6 @@ N mzn 10 *. 0) ( . Например, число 2.5 можно записать 
 
 int main()
 {
-    std::string str = "Fuck you";
-    std::cout << char_position( str, ' ' );
+    BigFloat x;
+    std::cin >> x;
 }
