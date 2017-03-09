@@ -336,6 +336,28 @@ size_t BigFloat::last_digit_position()
     return last_digit_pos;
 }
 
+size_t BigFloat::position_after( size_t pos )
+{
+    size_t pos_after_pos = number_.size();
+    if ( pos + 1 >= 0 && pos + 1 < number_.size() )
+    {
+        pos_after_pos = pos + 1;
+    }
+
+    return pos_after_pos;
+}
+
+size_t BigFloat::position_before( size_t pos )
+{
+    size_t pos_before_pos = number_.size();
+    if ( pos - 1 >= 0 && pos - 1 < number_.size() )
+    {
+        pos_before_pos = pos - 1;
+    }
+
+    return pos_before_pos;
+}
+
 char BigFloat::get_sign()
 {
     return number_[0] == '-' ? '-' : '+';

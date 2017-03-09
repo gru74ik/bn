@@ -1,8 +1,3 @@
-// 6.022E23 or 6.022e23 is equivalent to 6.022 × 10^23,
-// 1.234 × 10^3 = 12.34 × 10^2 = 123.4 × 10^1 = 1234
-// 1.234E3 = 12.34E2 = 123.4E1 = 1234
-// 0 × 10^0 = +0 E+0 = 0 × 1 = 0
-
 #ifndef BIGFLOAT_H
 #define BIGFLOAT_H
 
@@ -34,16 +29,18 @@ private: // checkers:
 
 public: // getters:
     size_t dot_position(); // private (remove to private section after tests)
-    size_t digits_after_dot();          // private
-    size_t digits_before_dot();         // private
-    size_t e_position();                // private
-    size_t digits_after_e();            // private
-    size_t e_value_as_number();         // private
-    std::string e_value_as_string();    // private
-    size_t lead_zeroes();               // private
-    size_t e_sign_position();           // private
-    char e_sign();                      // private
-    size_t last_digit_position();       // private
+    size_t digits_after_dot();              // private
+    size_t digits_before_dot();             // private
+    size_t e_position();                    // private
+    size_t digits_after_e();                // private
+    size_t e_value_as_number();             // private
+    std::string e_value_as_string();        // private
+    size_t lead_zeroes();                   // private
+    size_t e_sign_position();               // private
+    char e_sign();                          // private
+    size_t last_digit_position();           // private
+    size_t position_after( size_t pos );    // private
+    size_t position_before( size_t pos );   // private
 
 private:
     char get_sign();
