@@ -41,6 +41,7 @@ public: // getters:
     size_t last_digit_position();           // private
     size_t position_after( size_t pos );    // private
     size_t position_before( size_t pos );   // private
+    size_t space_position();                // private
 
 private:
     char get_sign();
