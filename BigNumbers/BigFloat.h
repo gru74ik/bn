@@ -54,6 +54,7 @@ public:
 
     // setters:
     void set_number( const std::string & message );
+    void reset();
 
     // changers:
     void discard_sign(); // private

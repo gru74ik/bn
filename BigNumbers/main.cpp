@@ -21,9 +21,10 @@ N mzn 10 *. 0) ( . Например, число 2.5 можно записать 
 #include <iostream>
 #include "BigInt.h"
 #include "BigFloat.h"
+#include <bn_functions.h>
 
 int main()
 {
-    BigFloat x ( "+1.234567 E-1" );
-    std::cout << "\nThe number x: " << x;
+    std::string str = "Fuck you";
+    std::cout << char_position( str, ' ' );
 }

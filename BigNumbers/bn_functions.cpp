@@ -67,18 +67,18 @@ std::string number_to_string( size_t number )
     return result;
 }
 
-size_t find_char( std::string& str, const char ch )
+size_t char_position( std::string& str, const char ch )
 {
-    size_t result = str.size();
+    size_t char_pos = str.size();
     for ( size_t i = 0; i < str.size(); ++i )
     {
         if ( str[i] == ch )
         {
-            result = i;
+            char_pos = i;
             break;
         }
     }
-    return result;
+    return char_pos;
 }
 
 // string ins will be inserted before position pos:

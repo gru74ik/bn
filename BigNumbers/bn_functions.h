@@ -18,7 +18,7 @@ std::string number_to_string( size_t number );
 
 // Returns position of character if it has been found in string str
 // or size of string otherwise:
-size_t find_char(std::string& str, const char ch );
+size_t char_position(std::string& str, const char ch );
 
 // String ins will be inserted before position pos:
 void insert_to( std::string& str, const std::string& ins, const size_t pos );

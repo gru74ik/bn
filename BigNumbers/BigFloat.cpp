@@ -4,7 +4,9 @@
 
 // constructors
 BigFloat::BigFloat() : sign_( '+' ), number_( "0.0" ), notation_( DECIMAL )
-{}
+{
+    std::cout << "\nDefault constructor has been used.\n";
+}
 
 BigFloat::BigFloat( const std::string& number )
 {
@@ -33,9 +35,8 @@ BigFloat::BigFloat( const std::string& number )
         std::cout
             << "\nConstructor tried create object from string\n"
             << "but failed, because string is incorrect.\n";
-        number_ = "0.0";
-        sign_ = '+';
-        notation_ = DECIMAL;
+
+        reset();
     }
 }
 
@@ -48,7 +49,6 @@ BigFloat::BigFloat( BigInt& bigInteger )
     if ( is_correct( SCIENTIFIC ) )
     {
         convert_to( DECIMAL );
-        notation_ = DECIMAL;
     }
     else if ( is_correct( DECIMAL ) )
     {
@@ -59,9 +59,8 @@ BigFloat::BigFloat( BigInt& bigInteger )
         std::cout
             << "\nConstructor tried create object from BigInt type,\n"
             << "but failed, because source is incorrect.\n";
-        number_ = "0.0";
-        sign_ = '+';
-        notation_ = DECIMAL;
+
+        reset();
     }
 }
 
@@ -73,12 +72,12 @@ BigFloat::BigFloat( const BigFloat& bf )
 //checkers
 bool BigFloat::is_scientific()
 {
-    return e_position() != number_.size();
+    return is_correct( SCIENTIFIC );
 }
 
 bool BigFloat::is_decimal()
 {
-    return e_position() == number_.size();
+    return is_correct( DECIMAL );
 }
 
 bool BigFloat::is_correct( NOTATION notation )
@@ -223,21 +222,11 @@ bool BigFloat::is_correct( NOTATION notation )
 // getters
 size_t BigFloat::dot_position()
 {
-    size_t dot_pos = number_.size();
-    for ( size_t i = 0; i < number_.size(); ++i )
-    {
-        if ( number_[i] == '.' )
-        {
-            dot_pos = i;
-            break;
-        }
-    }
-
-    return dot_pos;
+    return char_position( number_, '.' );
 }
 
 size_t BigFloat::digits_after_dot()
-{
+{   // TODO: implement count() function?
     return last_digit_position() - 1;
 }
 
@@ -262,7 +251,7 @@ size_t BigFloat::e_position()
 }
 
 size_t BigFloat::digits_after_e()
-{
+{   // TODO: implement count() function?
     return number_.size() - position_before( space_position() );
 }
 
@@ -360,17 +349,7 @@ size_t BigFloat::position_before( size_t pos )
 
 size_t BigFloat::space_position()
 {
-    size_t space_pos = number_.size();
-    for ( size_t i = 0; i < number_.size(); ++i )
-    {
-        if ( number_[i] == ' ' )
-        {
-            space_pos = i;
-            break;
-        }
-    }
-
-    return space_pos;
+    return char_position( number_, ' ' );
 }
 
 char BigFloat::get_sign()
@@ -392,7 +371,7 @@ std::string BigFloat::get_mantissa()
         {
             erase_part_of( number_, space_pos, space_pos );
         }
-        erase_part_of( number_, e_position(), number_.size()-1 );
+        erase_part_of( number_, e_position(), number_.size() - 1 );
     }
 
     return mantissa;
@@ -430,6 +409,13 @@ void BigFloat::set_number( const std::string & message )
     {
         *this = temp; // Лишнее копирование (вынужденное).
     }
+}
+
+void BigFloat::reset()
+{
+    number_ = "0.0";
+    sign_ = '+';
+    notation_ = DECIMAL;
 }
 
 // changers
@@ -683,13 +669,13 @@ BigFloat BigFloat::operator/( const BigFloat& divider ) const
         divisor.convert_to( DECIMAL );
     }
 
-    if ( dividend.number_ == "0" )
+    if ( dividend.number_ == "0.0" )
     {
-        result.number_ = "0";
+        result.number_ = "0.0";
     }
-    else if ( divisor.number_ == "0" )
+    else if ( divisor.number_ == "0.0" )
     {
-        result.number_ = "1";
+        result.number_ = "1.0";
         std::cout <<
             "\nYou can not divide by zero! The result is "
             "equated to 1, but it is a wrong result.\n";
@@ -734,14 +720,37 @@ std::istream& operator>>( std::istream& is, BigFloat& bf )
 {
     is >> bf.number_;
     if ( bf.is_scientific() )
+    {
         bf.convert_to( BigFloat::DECIMAL );
+    }
+    else if ( bf.is_decimal() )
+    {
+        // do nothing
+    }
+    else
+    {
+        bf.reset();
+    }
+
     return is;
 }
 
 std::ostream& operator<<( std::ostream& os, BigFloat& bf )
 {
     if ( bf.is_decimal() )
+    {
         bf.convert_to( BigFloat::SCIENTIFIC );
+    }
+    else if ( bf.is_scientific() )
+    {
+        // do nothing
+    }
+    else
+    {
+        bf.reset();
+    }
+
     os << bf.sign_ << bf.number_;
+
     return os;
 }
