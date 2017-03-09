@@ -53,7 +53,7 @@ public:
     NOTATION notation();
 
     // setters:
-    void set_number( const std::string & message );
+    void set_number( const std::string& message );
     void reset();
 
     // changers:
