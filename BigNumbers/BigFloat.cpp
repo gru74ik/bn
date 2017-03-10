@@ -392,11 +392,10 @@ BigFloat::NOTATION BigFloat::notation()
 }
 
 // setters
-void BigFloat::set_number( const std::string& message )
+void BigFloat::set_number( const std::string& number )
 {
-    std::cout << message;
     BigFloat temp = *this; // Лишнее копирование (вынужденное).
-    std::getline( std::cin, number_ );
+    number_ = number;
     sign_ = get_sign();
     discard_sign();
 
@@ -722,7 +721,10 @@ BigFloat BigFloat::operator/( const BigFloat& divider ) const
 // input-output operators
 std::istream& operator>>( std::istream& is, BigFloat& bf )
 {
-    bf.set_number( "" );
+    std::string num;
+    std::cin.sync();
+    std::getline( std::cin, num );
+    bf.set_number( num );
 
     if ( bf.is_scientific() )
     {

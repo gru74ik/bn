@@ -25,7 +25,8 @@ public:
 private: // checkers:
     bool is_scientific();
     bool is_decimal();
-    bool is_correct( NOTATION notation );
+public:
+    bool is_correct( NOTATION notation ); //private
 
 public: // getters:
     size_t dot_position(); // private (remove to private section after tests)
@@ -53,7 +54,7 @@ public:
     NOTATION notation();
 
     // setters:
-    void set_number( const std::string& message );
+    void set_number( const std::string& number );
     void reset();
 
     // changers:

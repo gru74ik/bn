@@ -27,6 +27,7 @@ int main()
     test1_ctor_arg_exp_notation_str();
     test2_ctor_arg_exp_notation_str();
     test1_ctor_arg_dec_notation_str();
-*/
     test2_ctor_arg_dec_notation_str();
+*/
+    test1_input_operator();
 }

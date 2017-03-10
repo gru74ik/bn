@@ -157,3 +157,21 @@ void test2_ctor_arg_dec_notation_str()
         << "The number l: " << l << "\n"
            ;
 }
+
+void test1_input_operator()
+{
+    BigFloat number;
+
+    std::string choice = "y";
+    while( choice[0] == 'y' || choice[0] == 'Y' )
+    {
+        std::cout << "Enter a big float: ";
+        std::cin >> number;
+        std::cout
+            << "The number you have entered is "
+            << number
+            << "\nDo you want proceed? (y /n) ";
+        std::cin >> choice;
+        std::cout << "\n";
+    }
+}
