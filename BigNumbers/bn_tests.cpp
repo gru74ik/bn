@@ -170,6 +170,8 @@ void test1_input_operator()
         std::cout
             << "The number you have entered is "
             << number
+            //<< " and its notation is "
+            //<< number.notation()
             << "\nDo you want proceed? (y /n) ";
         std::cin >> choice;
         std::cout << "\n";

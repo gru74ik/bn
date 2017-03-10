@@ -8,12 +8,13 @@
 class BigFloat
 {
 public:
-    enum NOTATION { DECIMAL, SCIENTIFIC, DEFAULT };
+    enum NOTATION { DECIMAL, SCIENTIFIC, DEFAULT, WRONG };
     enum DIRECTION { LEFT, RIGHT }; //private
 
 private:
     char sign_;
     std::string number_;
+    std::string tail_;
     NOTATION notation_;
 
 public:
@@ -45,8 +46,8 @@ public: // getters:
     size_t space_position();                // private
 
 private:
-    char get_sign();
-    std::string get_mantissa();
+    char sign();
+    std::string mantissa();
 
 
 public:
@@ -55,6 +56,7 @@ public:
 
     // setters:
     void set_number( const std::string& number );
+    void mark_as_wrong();
     void reset();
 
     // changers:

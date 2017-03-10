@@ -4,7 +4,7 @@
 
 // constructors
 BigFloat::BigFloat()
-    : sign_( '+' ), number_( "0" ), notation_( DECIMAL )
+    : sign_( '+' ), number_( "0" ), tail_( "" ), notation_( DEFAULT )
 {
     //std::cout << "\nDefault constructor has been used.\n";
 }
@@ -12,8 +12,9 @@ BigFloat::BigFloat()
 BigFloat::BigFloat( const std::string& number )
 {
     number_ = number;
-    sign_ = get_sign();
+    sign_ = sign();
     discard_sign();
+    tail_ = "";
     //std::cout
         //<< "In constructor before converting: "
         //<< sign_ << number_ << "\n";
@@ -42,7 +43,7 @@ BigFloat::BigFloat( const std::string& number )
     }
     else
     {
-        reset();
+        mark_as_wrong();
         //std::cout
             //<< "\nConstructor tried create object from string\n"
             //<< "but failed, because string is incorrect.\n";
@@ -52,8 +53,9 @@ BigFloat::BigFloat( const std::string& number )
 BigFloat::BigFloat( BigInt& bigInteger )
 {
     number_ = bigInteger.number() + ".0";
-    sign_ = get_sign();
+    sign_ = sign();
     discard_sign();
+    tail_ = "";
 
     if ( is_correct( SCIENTIFIC ) )
     {
@@ -68,13 +70,17 @@ BigFloat::BigFloat( BigInt& bigInteger )
         //std::cout
             //<< "\nConstructor tried create object from BigInt type,\n"
             //<< "but failed, because source is incorrect.\n";
-        reset();
+        mark_as_wrong();
     }
 }
 
 BigFloat::BigFloat( const BigFloat& bf )
 {
+    sign_ = bf.sign_;
     number_ = bf.number_;
+    tail_ = bf.tail_;
+    notation_ = bf.notation_;
+
 }
 
 //checkers
@@ -92,150 +98,140 @@ bool BigFloat::is_correct( NOTATION notation )
 {
     bool result = true;
 
-    if( number_.size() < 3 )    // every decimal number must have integer part,
-    {                           // dot and fractional part ( for example: 1.5)
-        result = false;         // and this is 3 characters at least
-        //std::cout <<
-            //"\nThe number notation is incorrect, because"
-            //"\nit have to be 3 characters at least.\n";
-    }
-    else
+    switch ( notation )
     {
-        switch ( notation )
-        {
-        case SCIENTIFIC:
-        {
-            //std::cout << "\nThe scientific number notation assertion.\n";
-            size_t space_pos = space_position();
-            size_t e_pos = e_position();
-            size_t e_sign_pos = e_sign_position();
+    case SCIENTIFIC:
+    {
+        //std::cout << "\nThe scientific number notation assertion.\n";
+        size_t space_pos = space_position();
+        size_t e_pos = e_position();
+        size_t e_sign_pos = e_sign_position();
 
-            // проверяем, что строка содержит пробел:
-            if ( space_pos == number_.size() )
-            {
-                result = false;
-                //std::cout <<
-                    //"\nThe scientific number notation is incorrect, because"
-                    //"\nthe number have to contain 1 space at least.\n";
-            }
-            // проверяем, что строка содержит букву 'e' или 'E':
-            else if ( e_pos == number_.size() )
-            {
-                result = false;
-                //std::cout <<
-                    //"\nThe scientific number notation is incorrect, because"
-                    //"\nthe number have to contain 1 letter 'e' or 'E'.\n";
-            }
-            // проверяем, что строка содержит точку и точка только одна:
-            else if ( !contains_one_dot_only( number_ ) )
-            {
-                result = false;
-                //std::cout <<
-                    //"\nThe scientific number notation is incorrect, because"
-                    //"\nthe number have to contain 1 dot (no more and no less).\n";
-            }
-            else
-            {
-                // проверяем, что до пробела все элементы строки - числа или точка:
-                for ( size_t i = 0; i < space_pos; ++i )
-                {
-                    if ( !is_digit( number_[i] ) && !is_dot( number_[i] ) )
-                    {
-                        result = false;
-                        //std::cout <<
-                            //"\nThe scientific number notation is incorrect, because"
-                            //"\nthe number contains forbidden characters before space.\n";
-                        break;
-                    }
-                }
-                // проверяем, что буква 'e' или 'E' следует сразу за пробелом:
-                if ( e_pos != position_after( space_pos ) )
-                {
-                    result = false;
-                    //std::cout <<
-                        //"\nThe scientific number notation is incorrect,"
-                        //"\nbecause letter was not found after space.\n";
-                }
-                // проверяем что за буквой 'e' или 'E' следует знак плюс или минус:
-                else if ( !is_sign( number_[e_sign_pos] ) )
-                {
-                    result = false;
-                    //std::cout <<
-                        //"\nThe scientific number notation is incorrect,"
-                        //"\nbecause sign was not found after letter.\n";
-                }
-                else
-                {
-                    // проверяем, что после знака следуют только числа:
-                    for ( size_t i = position_after( e_sign_pos ); i < number_.size(); ++i )
-                    {
-                        if ( !is_digit( number_[i] ) )
-                        {
-                            result = false;
-                            //std::cout <<
-                                //"\nThe scientific number notation is incorrect,"
-                                //"\nbecause was found forbidden characters after sign.\n";
-                            break;
-                        }
-                    }
-                }
-            }
-            //std::cout
-                //<< "\nis_correct( SCIENTIFIC ): "
-                //<< std::boolalpha
-                //<< result
-                //<< std::noboolalpha
-                //<< "\n";
-            break;
+        // проверяем, что строка содержит пробел:
+        if ( space_pos == number_.size() )
+        {
+            result = false;
+            //std::cout <<
+                //"\nThe scientific number notation is incorrect, because"
+                //"\nthe number have to contain 1 space at least.\n";
         }
-
-        case DECIMAL:
-            //std::cout << "\nThe decimal number notation assertion.\n";
-            // проверяем, что строка содержит точку и точка только одна:
-            if ( contains_one_dot_only( number_ ) )
+        // проверяем, что строка содержит букву 'e' или 'E':
+        else if ( e_pos == number_.size() )
+        {
+            result = false;
+            //std::cout <<
+                //"\nThe scientific number notation is incorrect, because"
+                //"\nthe number have to contain 1 letter 'e' or 'E'.\n";
+        }
+        // проверяем, что строка содержит точку и точка только одна:
+        else if ( !contains_one_dot_only( number_ ) )
+        {
+            result = false;
+            //std::cout <<
+                //"\nThe scientific number notation is incorrect, because"
+                //"\nthe number have to contain 1 dot (no more and no less).\n";
+        }
+        else
+        {
+            // проверяем, что до пробела все элементы строки - числа или точка:
+            for ( size_t i = 0; i < space_pos; ++i )
             {
-                // проверяем, что все элементы строки - числа или точка:
-                for ( size_t i = 0; i < number_.size(); ++i )
+                if ( !is_digit( number_[i] ) && !is_dot( number_[i] ) )
                 {
-                    if ( !is_digit( number_[i] ) && !is_dot( number_[i] ) )
+                    result = false;
+                    //std::cout <<
+                        //"\nThe scientific number notation is incorrect, because"
+                        //"\nthe number contains forbidden characters before space.\n";
+                    break;
+                }
+            }
+            // проверяем, что буква 'e' или 'E' следует сразу за пробелом:
+            if ( e_pos != position_after( space_pos ) )
+            {
+                result = false;
+                //std::cout <<
+                    //"\nThe scientific number notation is incorrect,"
+                    //"\nbecause letter was not found after space.\n";
+            }
+            // проверяем что за буквой 'e' или 'E' следует знак плюс или минус:
+            else if ( !is_sign( number_[e_sign_pos] ) )
+            {
+                result = false;
+                //std::cout <<
+                    //"\nThe scientific number notation is incorrect,"
+                    //"\nbecause sign was not found after letter.\n";
+            }
+            else
+            {
+                // проверяем, что после знака следуют только числа:
+                for ( size_t i = position_after( e_sign_pos ); i < number_.size(); ++i )
+                {
+                    if ( !is_digit( number_[i] ) )
                     {
                         result = false;
                         //std::cout <<
-                            //"\nThe decimal notation of this number is incorrect,"
-                            //"\nbecause it contains forbidden characters.\n";
+                            //"\nThe scientific number notation is incorrect,"
+                            //"\nbecause was found forbidden characters after sign.\n";
                         break;
                     }
                 }
             }
-            else
-            {
-                result = false;
-                //std::cout <<
-                    //"\nThe decimal notation of this number is incorrect,"
-                    //"\nbecause it contains more than 1 dot.\n";
-            }
-            //std::cout
-                //<< "\nis_correct( DECIMAL ): "
-                //<< std::boolalpha
-                //<< result
-                //<< std::noboolalpha
-                //<< "\n";
-            break;
-
-        case DEFAULT:
-            if ( number_ != "0" )
-            {
-                result = false;
-                //std::cout << "\nThis number is not equal to zero.\n"
-            }
-            break;
-
-        default:
-            std::cout << "\nError: incorrect function argument\n";
-            break;
-
-        } // endof switch ( notation )
+        }
+        //std::cout
+            //<< "\nis_correct( SCIENTIFIC ): "
+            //<< std::boolalpha
+            //<< result
+            //<< std::noboolalpha
+            //<< "\n";
+        break;
     }
+
+    case DECIMAL:
+        //std::cout << "\nThe decimal number notation assertion.\n";
+        // проверяем, что строка содержит точку и точка только одна:
+        if ( contains_one_dot_only( number_ ) )
+        {
+            // проверяем, что все элементы строки - числа или точка:
+            for ( size_t i = 0; i < number_.size(); ++i )
+            {
+                if ( !is_digit( number_[i] ) && !is_dot( number_[i] ) )
+                {
+                    result = false;
+                    //std::cout <<
+                        //"\nThe decimal notation of this number is incorrect,"
+                        //"\nbecause it contains forbidden characters.\n";
+                    break;
+                }
+            }
+        }
+        else
+        {
+            result = false;
+            //std::cout <<
+                //"\nThe decimal notation of this number is incorrect,"
+                //"\nbecause it contains more than 1 dot.\n";
+        }
+        //std::cout
+            //<< "\nis_correct( DECIMAL ): "
+            //<< std::boolalpha
+            //<< result
+            //<< std::noboolalpha
+            //<< "\n";
+        break;
+
+    case DEFAULT:
+        if ( number_ != "0" )
+        {
+            result = false;
+            //std::cout << "\nThis number is not equal to zero.\n"
+        }
+        break;
+
+    default:
+        std::cout << "\nError: incorrect function argument\n";
+        break;
+
+    } // endof switch ( notation )
 
     return result;
 }
@@ -373,19 +369,19 @@ size_t BigFloat::space_position()
     return char_position( number_, ' ' );
 }
 
-char BigFloat::get_sign()
+char BigFloat::sign()
 {
     return number_[0] == '-' ? '-' : '+';
 }
 
-std::string BigFloat::get_mantissa()
+std::string BigFloat::mantissa()
 {
     std::string mantissa = "";
 
     if ( is_scientific() )
     {
         //std::cout <<
-            //"\nI AM INSIDE IN FUNCTION get_mantissa() and "
+            //"\nI AM INSIDE IN FUNCTION mantissa() and "
             //"is_scientific() is TRUE!\n";
         size_t space_pos = space_position();
         if ( number_[ space_pos ] == ' ' )
@@ -413,7 +409,7 @@ void BigFloat::set_number( const std::string& number )
 {
     BigFloat temp = *this; // Лишнее копирование (вынужденное).
     number_ = number;
-    sign_ = get_sign();
+    sign_ = sign();
     discard_sign();
 
     // Сделать функцию is_correct() глобальной?
@@ -433,6 +429,14 @@ void BigFloat::set_number( const std::string& number )
     {
         *this = temp; // Лишнее копирование (вынужденное).
     }
+}
+
+void BigFloat::mark_as_wrong()
+{
+    sign_ = '+';
+    number_ = "0";
+    tail_ = "\b\bincorrect number";
+    notation_ = WRONG;
 }
 
 void BigFloat::reset()
@@ -626,8 +630,9 @@ BigFloat BigFloat::operator=( const BigFloat& bf )
 {
     if ( this != &bf )
     {
-        number_ = bf.number_;
         sign_ = bf.sign_;
+        number_ = bf.number_;
+        tail_ = bf.tail_;
         notation_ = bf.notation_;
     }
     return *this;
@@ -639,7 +644,7 @@ BigFloat BigFloat::operator=( const std::string& obj )
     {
         BigFloat temp = *this;
         number_ = obj;
-        sign_ = get_sign();
+        sign_ = sign();
         discard_sign();
 
         if ( is_correct( SCIENTIFIC ) )
@@ -769,7 +774,7 @@ std::istream& operator>>( std::istream& is, BigFloat& bf )
     }
     else
     {
-        bf.reset();
+        bf.mark_as_wrong();
     }
 
     return is;
@@ -777,8 +782,6 @@ std::istream& operator>>( std::istream& is, BigFloat& bf )
 
 std::ostream& operator<<( std::ostream& os, BigFloat& bf )
 {
-    std::string tail = "";
-
     if ( bf.is_correct( BigFloat::DECIMAL ) )
     {
         bf.convert_to( BigFloat::SCIENTIFIC );
@@ -789,16 +792,14 @@ std::ostream& operator<<( std::ostream& os, BigFloat& bf )
     }
     else if ( bf.is_correct( BigFloat::DEFAULT ) )
     {
-        tail = ".0 E+0";
+        bf.tail_ = ".0 E+0";
     }
     else
     {
-        bf.sign_ = ' ';
-        bf.number_ = "\b";
-        tail = "incorrect number";
+        bf.mark_as_wrong();
     }
 
-    os << bf.sign_ << bf.number_ << tail;
+    os << bf.sign_ << bf.number_ << bf.tail_;
 
     return os;
 }
