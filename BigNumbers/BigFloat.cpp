@@ -3,7 +3,8 @@
 // #include <cmath> // можно использовать std::pow()
 
 // constructors
-BigFloat::BigFloat() : sign_( '+' ), number_( "0.0" ), notation_( DECIMAL )
+BigFloat::BigFloat()
+    : sign_( '+' ), number_( "0.0" ), notation_( DECIMAL )
 {
     //std::cout << "\nDefault constructor has been used.\n";
 }
@@ -13,7 +14,9 @@ BigFloat::BigFloat( const std::string& number )
     number_ = number;
     sign_ = get_sign();
     discard_sign();
-    //std::cout << "In constructor before converting: " << sign_ << number_ << "\n";
+    //std::cout
+        //<< "In constructor before converting: "
+        //<< sign_ << number_ << "\n";
     if ( is_correct( DECIMAL ) )
     {
         // do nothing
@@ -26,7 +29,9 @@ BigFloat::BigFloat( const std::string& number )
     else if ( is_correct( SCIENTIFIC ) )
     {
         convert_to( DECIMAL );
-        //std::cout << "\nIn constructor after converting: " << sign_ << number_ << "\n";
+        //std::cout
+            //<< "\nIn constructor after converting: "
+            //<< sign_ << number_ << "\n";
         //std::cout
             //<< "\nConstructor will try create object from string"
             //<< "\nthat represent number in scientific notation.\n";

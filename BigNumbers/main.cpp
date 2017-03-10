@@ -18,18 +18,15 @@ N mzn 10 *. 0) ( . Например, число 2.5 можно записать 
 4.  STL не пользоваться.
 */
 
-#include <iostream>
-#include "BigInt.h"
-#include "BigFloat.h"
+#include "bn_tests.h"
 
 int main()
 {
-    BigFloat x ( "+1.234 E-5" );
-    std::cout << "The number x: " << x << "\n";
-
-    BigFloat y ( "-5678.9" );
-    std::cout << "The number y: " << y << "\n";
-
-    x.set_number( "Enter a big float: ");
-    std::cout << "The number x: " << x << "\n";
+/*
+    test1_default_ctor();
+    test1_ctor_arg_exp_notation_str();
+    test2_ctor_arg_exp_notation_str();
+    test1_ctor_arg_dec_notation_str();
+*/
+    test2_ctor_arg_dec_notation_str();
 }

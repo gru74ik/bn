@@ -6,9 +6,11 @@ CONFIG -= qt
 SOURCES += main.cpp \
     BigInt.cpp \
     BigFloat.cpp \
-    bn_functions.cpp
+    bn_functions.cpp \
+    bn_tests.cpp
 
 HEADERS += \
     BigInt.h \
     BigFloat.h \
-    bn_functions.h
+    bn_functions.h \
+    bn_tests.h
