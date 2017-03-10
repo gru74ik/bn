@@ -8,7 +8,7 @@
 class BigFloat
 {
 public:
-    enum NOTATION { DECIMAL, SCIENTIFIC };
+    enum NOTATION { DECIMAL, SCIENTIFIC, DEFAULT };
     enum DIRECTION { LEFT, RIGHT }; //private
 
 private:

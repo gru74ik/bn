@@ -4,7 +4,7 @@
 
 // constructors
 BigFloat::BigFloat()
-    : sign_( '+' ), number_( "0.0" ), notation_( DECIMAL )
+    : sign_( '+' ), number_( "0" ), notation_( DECIMAL )
 {
     //std::cout << "\nDefault constructor has been used.\n";
 }
@@ -17,7 +17,7 @@ BigFloat::BigFloat( const std::string& number )
     //std::cout
         //<< "In constructor before converting: "
         //<< sign_ << number_ << "\n";
-    if ( is_correct( DECIMAL ) )
+    if ( is_correct( DECIMAL ) || is_correct( DEFAULT ) )
     {
         // do nothing
 
@@ -36,12 +36,16 @@ BigFloat::BigFloat( const std::string& number )
             //<< "\nConstructor will try create object from string"
             //<< "\nthat represent number in scientific notation.\n";
     }
+    else if ( is_correct( DEFAULT ) )
+    {
+        reset();
+    }
     else
     {
+        reset();
         //std::cout
             //<< "\nConstructor tried create object from string\n"
             //<< "but failed, because string is incorrect.\n";
-        reset();
     }
 }
 
@@ -55,7 +59,7 @@ BigFloat::BigFloat( BigInt& bigInteger )
     {
         convert_to( DECIMAL );
     }
-    else if ( is_correct( DECIMAL ) )
+    else if ( is_correct( DECIMAL ) || is_correct( DEFAULT ) )
     {
         // do nothing
     }
@@ -184,6 +188,7 @@ bool BigFloat::is_correct( NOTATION notation )
                 //<< "\n";
             break;
         }
+
         case DECIMAL:
             //std::cout << "\nThe decimal number notation assertion.\n";
             // проверяем, что строка содержит точку и точка только одна:
@@ -207,7 +212,7 @@ bool BigFloat::is_correct( NOTATION notation )
                 result = false;
                 //std::cout <<
                     //"\nThe decimal notation of this number is incorrect,"
-                    //"\nbecause it contains more than 1 dot.";
+                    //"\nbecause it contains more than 1 dot.\n";
             }
             //std::cout
                 //<< "\nis_correct( DECIMAL ): "
@@ -215,6 +220,18 @@ bool BigFloat::is_correct( NOTATION notation )
                 //<< result
                 //<< std::noboolalpha
                 //<< "\n";
+            break;
+
+        case DEFAULT:
+            if ( number_ != "0" )
+            {
+                result = false;
+                //std::cout << "\nThis number is not equal to zero.\n"
+            }
+            break;
+
+        default:
+            std::cout << "\nError: incorrect function argument\n";
             break;
 
         } // endof switch ( notation )
@@ -408,6 +425,10 @@ void BigFloat::set_number( const std::string& number )
     {
         // do nothing
     }
+    else if ( is_correct( DEFAULT ) )
+    {
+        reset();
+    }
     else
     {
         *this = temp; // Лишнее копирование (вынужденное).
@@ -416,9 +437,9 @@ void BigFloat::set_number( const std::string& number )
 
 void BigFloat::reset()
 {
-    number_ = "0.0";
+    number_ = "0";
     sign_ = '+';
-    notation_ = DECIMAL;
+    notation_ = DEFAULT;
 }
 
 // changers
@@ -573,6 +594,10 @@ void BigFloat::convert_to( NOTATION notation )
         notation_ = DECIMAL;
         break;
     }
+
+    case DEFAULT:
+        reset();
+
     default:
         std::cout << "\nError: incorrect function argument.\n";
         break;
@@ -626,6 +651,10 @@ BigFloat BigFloat::operator=( const std::string& obj )
         {
             // do nothing
         }
+        else if ( is_correct( DEFAULT ) )
+        {
+            reset();
+        }
         else
         {
             *this = temp;
@@ -672,11 +701,11 @@ BigFloat BigFloat::operator/( const BigFloat& divider ) const
         divisor.convert_to( DECIMAL );
     }
 
-    if ( dividend.number_ == "0.0" )
+    if ( dividend.is_correct( DEFAULT ) )
     {
-        result.number_ = "0.0";
+        // do nothing
     }
-    else if ( divisor.number_ == "0.0" )
+    else if ( divisor.is_correct( DEFAULT ) )
     {
         result.number_ = "1.0";
         std::cout <<
@@ -726,13 +755,17 @@ std::istream& operator>>( std::istream& is, BigFloat& bf )
     std::getline( std::cin, num );
     bf.set_number( num );
 
-    if ( bf.is_scientific() )
+    if ( bf.is_correct( BigFloat::SCIENTIFIC ) )
     {
         bf.convert_to( BigFloat::DECIMAL );
     }
-    else if ( bf.is_decimal() )
+    else if ( bf.is_correct( BigFloat::DECIMAL ) )
     {
         // do nothing
+    }
+    else if ( bf.is_correct( BigFloat::DEFAULT ) )
+    {
+        bf.reset();
     }
     else
     {
@@ -744,20 +777,28 @@ std::istream& operator>>( std::istream& is, BigFloat& bf )
 
 std::ostream& operator<<( std::ostream& os, BigFloat& bf )
 {
-    if ( bf.is_decimal() )
+    std::string tail = "";
+
+    if ( bf.is_correct( BigFloat::DECIMAL ) )
     {
         bf.convert_to( BigFloat::SCIENTIFIC );
     }
-    else if ( bf.is_scientific() )
+    else if ( bf.is_correct( BigFloat::SCIENTIFIC ) )
     {
         // do nothing
     }
+    else if ( bf.is_correct( BigFloat::DEFAULT ) )
+    {
+        tail = ".0 E+0";
+    }
     else
     {
-        bf.reset();
+        bf.sign_ = ' ';
+        bf.number_ = "\b";
+        tail = "incorrect number";
     }
 
-    os << bf.sign_ << bf.number_;
+    os << bf.sign_ << bf.number_ << tail;
 
     return os;
 }
