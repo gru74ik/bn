@@ -47,19 +47,24 @@ void set_test( std::string choice )
 {
     std::cout
         << "Choose the number of the test you want to run:\n"
-        << " 1 - to test default constructor;\n"
+        << " 1 - to test default constructor;\n\n"
+
         << " 2 - to test constructor with 1 parameter - string that represent number in exponent notation (test 1);\n"
         << " 3 - to test constructor with 1 parameter - string that represent number in exponent notation (test 2);\n"
         << " 4 - to test constructor with 1 parameter - string that represent number in decimal notation (test 1);\n"
-        << " 5 - to test constructor with 1 parameter - string that represent number in decimal notation (test 2);\n"
-        << " 6 - to test overloaded << operator (input number by user).\n"
+        << " 5 - to test constructor with 1 parameter - string that represent number in decimal notation (test 2);\n\n"
+
+        << " 6 - to test overloaded << operator (input number by user).\n\n"
+
         << " 7 - to test overloaded operator- (subtraction of two big integers).\n"
         << " 8 - to test overloaded operator- (subtraction of two big floats).\n"
         << " 9 - to test overloaded operator- (subtraction of big integer and big float).\n"
-        << "10 - to test overloaded operator- (subtraction of big float and big integer).\n"
+        << "10 - to test overloaded operator- (subtraction of big float and big integer).\n\n"
+
         << "11 - to test overloaded comparison operators ( BigInt::operator<, BigInt::operator>, BigInt::operator==).\n"
         << "12 - to test overloaded comparison operators ( BigInt::operator<=, BigInt::operator>).\n"
-        << "13 - to test overloaded comparison operators ( BigInt::operator>=, BigInt::operator<).\n"
+        << "13 - to test overloaded comparison operators ( BigInt::operator>=, BigInt::operator<).\n\n"
+
         << "14 - to test overloaded comparison operators ( BigFloat::operator<, BigFloat::operator>, BigFloat::operator==).\n"
         << "15 - to test overloaded comparison operators ( BigFloat::operator<=, BigFloat::operator>).\n"
         << "16 - to test overloaded comparison operators ( BigFloat::operator>=, BigFloat::operator<).\n"

@@ -245,7 +245,7 @@ bool BigFloat::is_less_than_zero() const
           i < position_after( last_digit_position() );
           ++i )
     {
-        if ( char_to_number( number_[i] ) > 0 )
+        if ( char_to_digit( number_[i] ) > 0 )
         {
             has_digits_greater_than_zero_after_dot = false;
             break;
@@ -261,7 +261,7 @@ bool BigFloat::is_less_than_zero() const
 
 bool BigFloat::is_greater_than_zero() const
 {
-    return char_to_digit( a.number_[0] ) >= 1;
+    return char_to_digit( number_[0] ) >= 1;
 }
 
 // getters
