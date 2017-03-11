@@ -588,19 +588,31 @@ void test3_comparison_operators( BigFloat & a, BigFloat & b )
 void test_checkers()
 {
     // TODO
+    std::cout <<
+        "\nThis test is temporarily unavailable. "
+        "Try again a little bit later.\n";
 }
 
 void test_changers()
 {
     // TODO
+    std::cout <<
+        "\nThis test is temporarily unavailable. "
+        "Try again a little bit later.\n";
 }
 
 void test_getters()
 {
     // TODO
+    std::cout <<
+        "\nThis test is temporarily unavailable. "
+        "Try again a little bit later.\n";
 }
 
 void test_setters()
 {
     // TODO
+    std::cout <<
+        "\nThis test is temporarily unavailable. "
+        "Try again a little bit later.\n";
 }
