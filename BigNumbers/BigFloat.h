@@ -36,6 +36,10 @@ private:
     void discard_sign();
     void move_floating_point( DIRECTION dir, size_t shiftSize );
     void convert_to( NOTATION notation );
+    void push_front_additional_zeroes( size_t numberOfZeroes );
+    void pop_front_additional_zeroes( size_t numberOfZeroes );
+    void push_back_additional_zeroes( size_t numberOfZeroes );
+    void pop_back_additional_zeroes( size_t numberOfZeroes );
 
     // getters:
     size_t dot_position() const;
@@ -80,12 +84,13 @@ public:
     BigFloat operator=( const BigFloat& bf );
     BigFloat operator=( const std::string& obj );
 
-    // arithmetic operators:
+    // arithmetic operators (both operand are same type):
     BigFloat operator+( const BigFloat& addendum ) const;
     BigFloat operator-( const BigFloat& subtrahend ) const;
     BigFloat operator*( const BigFloat& multiplier ) const;
     BigFloat operator/( const BigFloat& divider ) const;
 
+    // arithmetic operators (each operand are different type):
     BigFloat operator+( const BigInt& addendum ) const;
     BigFloat operator-( const BigInt& subtrahend ) const;
     BigFloat operator*( const BigInt& multiplier ) const;

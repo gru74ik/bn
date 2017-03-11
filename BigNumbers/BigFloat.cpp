@@ -236,6 +236,167 @@ bool BigFloat::is_correct( NOTATION notation ) const
     return result;
 }
 
+// changers
+void BigFloat::discard_sign()
+{
+    if ( is_sign( number_[0] ) )
+    {
+        erase_part_of( number_, 0, 0 );
+    }
+}
+
+void BigFloat::move_floating_point( DIRECTION dir, size_t shiftSize )
+{
+    size_t dot_pos = dot_position();
+
+    switch ( dir )
+    {
+    case RIGHT:
+    {
+        //std::cout << "\nBigFloat::move_floating_point( RIGHT ) works.\n";
+        if ( digits_after_dot() > shiftSize )
+        {
+            //std::cout
+                //<< "\ndigits_after_dot() > shiftSize"
+                //<< "\ndigits_after_dot(): " << digits_after_dot()
+                //<< "\nshiftSize: " << shiftSize << "\n";
+            insert_to( number_ , ".", position_after( dot_pos ) + shiftSize );
+        }
+        else if ( digits_after_dot() == shiftSize )
+        {
+            //std::cout
+                //<< "\ndigits_after_dot() == shiftSize\n"
+                //<< "\ndigits_after_dot(): " << digits_after_dot()
+                //<< "shiftSize: " << shiftSize << "\n";
+            insert_to( number_ , ".0", position_after( last_digit_position() ) );
+        }
+        else
+        {
+            //std::cout
+                //<< "\ndigits_after_dot() < shiftSize\n"
+                //<< "\ndigits_after_dot(): " << digits_after_dot()
+                //<< "\nshiftSize: " << shiftSize << "\n";
+            size_t additional_zeroes = shiftSize - digits_after_dot();
+            for ( size_t i = 0; i < additional_zeroes; ++i )
+            {
+                //std::cout
+                    //<< "\nI insert zeroes, man!\n";
+                insert_to( number_ , "0", position_after( last_digit_position() ) );
+            }
+            insert_to( number_ , ".0", position_after( last_digit_position() ) );
+        }
+
+        erase_part_of( number_, dot_pos, dot_pos );
+
+        break;
+    }
+    case LEFT:
+    {
+        size_t digits_before = digits_before_dot();
+        erase_part_of( number_, dot_pos, dot_pos );
+
+        if ( digits_before > shiftSize )
+        {
+            insert_to( number_ , ".", dot_pos - shiftSize );
+        }
+        else if ( digits_before == shiftSize )
+        {
+            insert_to( number_ , "0.", 0 );
+        }
+        else
+        {
+            size_t additional_zeroes = shiftSize - digits_before;
+            for ( size_t i = 0; i < additional_zeroes; ++i )
+                number_ = "0" + number_;
+            insert_to( number_ , "0.", 0 );
+        }
+
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+void BigFloat::convert_to( NOTATION notation )
+{
+    switch ( notation )
+    {
+    case SCIENTIFIC:
+
+        if ( dot_position() != 1 )
+        {
+            size_t shift = position_before( dot_position() );
+            move_floating_point( LEFT, shift );
+            number_ = number_ + " E+" + number_to_string( shift );
+        }
+        else
+        {
+            if ( lead_zeroes() )
+            {
+                move_floating_point( RIGHT, lead_zeroes() );
+                number_ = number_ + " E-" + number_to_string( lead_zeroes() );
+                erase_part_of( number_, 0, lead_zeroes() - 1 );
+            }
+            else
+            {
+                number_ = number_ + " E+0";
+            }
+        }
+        notation_ = SCIENTIFIC;
+        break;
+
+    case DECIMAL:
+    {
+        if ( e_sign() == '+' )
+        {
+            move_floating_point( RIGHT, e_value_as_number() );
+
+            //std::cout
+                //<< "\nconvert_to(DECIMAL) works (floating point moved right): "
+                //<< number_
+                //<< "\n";
+
+            erase_part_of( number_, position_before( e_position() ), number_.size() - 1 );
+
+            //std::cout
+                //<< "\nconvert_to(DECIMAL) works (after exponent tail erasure): "
+                //<< number_
+                //<< "\n";
+        }
+        else if ( e_sign() == '-' )
+        {
+            move_floating_point( LEFT, e_value_as_number() );
+
+            //std::cout
+                //<< "\nconvert_to(DECIMAL) works (floating point moved left): "
+                //<< number_
+                //<< "\n";
+
+            erase_part_of( number_, position_before( e_position() ), number_.size() - 1 );
+
+            //std::cout
+                //<< "\nconvert_to(DECIMAL) works (after exponent tail erasure): "
+                //<< number_
+                //<< "\n";
+        }
+        else
+        {
+            std::cout << "\nError: incorrect character instead the sign.\n";
+        }
+        notation_ = DECIMAL;
+        break;
+    }
+
+    case DEFAULT:
+        reset();
+
+    default:
+        std::cout << "\nError: incorrect function argument.\n";
+        break;
+    }
+
+}
 
 bool BigFloat::is_less_than_zero() const
 {
@@ -468,173 +629,11 @@ void BigFloat::mark_as_wrong()
 }
 
 void BigFloat::reset()
-{
-    number_ = "0";
+{    
     sign_ = '+';
+    number_ = "0";
     tail_ = ".0 E+0";
     notation_ = DEFAULT;
-}
-
-// changers
-void BigFloat::discard_sign()
-{
-    if ( is_sign( number_[0] ) )
-    {
-        erase_part_of( number_, 0, 0 );
-    }
-}
-
-void BigFloat::move_floating_point( DIRECTION dir, size_t shiftSize )
-{
-    size_t dot_pos = dot_position();
-
-    switch ( dir )
-    {
-    case RIGHT:
-    {
-        //std::cout << "\nBigFloat::move_floating_point( RIGHT ) works.\n";
-        if ( digits_after_dot() > shiftSize )
-        {
-            //std::cout
-                //<< "\ndigits_after_dot() > shiftSize"
-                //<< "\ndigits_after_dot(): " << digits_after_dot()
-                //<< "\nshiftSize: " << shiftSize << "\n";
-            insert_to( number_ , ".", position_after( dot_pos ) + shiftSize );
-        }
-        else if ( digits_after_dot() == shiftSize )
-        {
-            //std::cout
-                //<< "\ndigits_after_dot() == shiftSize\n"
-                //<< "\ndigits_after_dot(): " << digits_after_dot()
-                //<< "shiftSize: " << shiftSize << "\n";
-            insert_to( number_ , ".0", position_after( last_digit_position() ) );
-        }
-        else
-        {
-            //std::cout
-                //<< "\ndigits_after_dot() < shiftSize\n"
-                //<< "\ndigits_after_dot(): " << digits_after_dot()
-                //<< "\nshiftSize: " << shiftSize << "\n";
-            size_t additional_zeroes = shiftSize - digits_after_dot();
-            for ( size_t i = 0; i < additional_zeroes; ++i )
-            {
-                //std::cout
-                    //<< "\nI insert zeroes, man!\n";
-                insert_to( number_ , "0", position_after( last_digit_position() ) );
-            }
-            insert_to( number_ , ".0", position_after( last_digit_position() ) );
-        }
-
-        erase_part_of( number_, dot_pos, dot_pos );
-
-        break;
-    }
-    case LEFT:
-    {
-        size_t digits_before = digits_before_dot();
-        erase_part_of( number_, dot_pos, dot_pos );
-
-        if ( digits_before > shiftSize )
-        {
-            insert_to( number_ , ".", dot_pos - shiftSize );
-        }
-        else if ( digits_before == shiftSize )
-        {
-            insert_to( number_ , "0.", 0 );
-        }
-        else
-        {
-            size_t additional_zeroes = shiftSize - digits_before;
-            for ( size_t i = 0; i < additional_zeroes; ++i )
-                number_ = "0" + number_;
-            insert_to( number_ , "0.", 0 );
-        }
-
-        break;
-    }
-    default:
-        break;
-    }
-}
-
-void BigFloat::convert_to( NOTATION notation )
-{
-    switch ( notation )
-    {
-    case SCIENTIFIC:
-
-        if ( dot_position() != 1 )
-        {
-            size_t shift = position_before( dot_position() );
-            move_floating_point( LEFT, shift );
-            number_ = number_ + " E+" + number_to_string( shift );
-        }
-        else
-        {
-            if ( lead_zeroes() )
-            {
-                move_floating_point( RIGHT, lead_zeroes() );
-                number_ = number_ + " E-" + number_to_string( lead_zeroes() );
-                erase_part_of( number_, 0, lead_zeroes() - 1 );
-            }
-            else
-            {
-                number_ = number_ + " E+0";
-            }
-        }
-        notation_ = SCIENTIFIC;
-        break;
-
-    case DECIMAL:        
-    {
-        if ( e_sign() == '+' )
-        {
-            move_floating_point( RIGHT, e_value_as_number() );
-
-            //std::cout
-                //<< "\nconvert_to(DECIMAL) works (floating point moved right): "
-                //<< number_
-                //<< "\n";
-
-            erase_part_of( number_, position_before( e_position() ), number_.size() - 1 );
-
-            //std::cout
-                //<< "\nconvert_to(DECIMAL) works (after exponent tail erasure): "
-                //<< number_
-                //<< "\n";
-        }
-        else if ( e_sign() == '-' )
-        {
-            move_floating_point( LEFT, e_value_as_number() );
-
-            //std::cout
-                //<< "\nconvert_to(DECIMAL) works (floating point moved left): "
-                //<< number_
-                //<< "\n";
-
-            erase_part_of( number_, position_before( e_position() ), number_.size() - 1 );
-
-            //std::cout
-                //<< "\nconvert_to(DECIMAL) works (after exponent tail erasure): "
-                //<< number_
-                //<< "\n";
-        }
-        else
-        {
-            std::cout << "\nError: incorrect character instead the sign.\n";
-        }
-        notation_ = DECIMAL;
-        break;
-    }
-
-    case DEFAULT:
-        reset();
-
-    default:
-        std::cout << "\nError: incorrect function argument.\n";
-        break;
-    }
-
 }
 
 // comparison operators
@@ -740,6 +739,7 @@ bool BigFloat::operator==( const BigFloat& bf ) const
     return !(a < b) && !(a > b);
 }
 
+// assignment operators:
 BigFloat BigFloat::operator=( const BigFloat& bf )
 {
     if ( this != &bf )
@@ -782,7 +782,7 @@ BigFloat BigFloat::operator=( const std::string& obj )
     return *this;
 }
 
-
+// arithmetic operators (both operand are same type):
 BigFloat BigFloat::operator+( const BigFloat& addendum ) const
 {
     BigFloat sum( addendum ); // temporary solution to avoid compiler warning
@@ -803,7 +803,6 @@ BigFloat BigFloat::operator*( const BigFloat& multiplier ) const
     // TODO
     return product;
 }
-
 
 BigFloat BigFloat::operator/( const BigFloat& divider ) const
 {  
@@ -866,6 +865,7 @@ BigFloat BigFloat::operator/( const BigFloat& divider ) const
     return result;
 }
 
+// arithmetic operators (each operand are different type):
 BigFloat BigFloat::operator+( const BigInt& addendum ) const
 {
     BigFloat sum( addendum ); // temporary solution to avoid compiler warning
