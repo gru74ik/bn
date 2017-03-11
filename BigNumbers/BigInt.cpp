@@ -75,6 +75,62 @@ BigInt BigInt::operator=( const std::string& obj )
     return *this;
 }
 
+BigInt BigInt::operator+( const BigInt& addendum ) const
+{
+    BigInt sum( addendum ); // temporary solution to avoid compiler warning
+    // TODO
+    return sum;
+}
+
+BigInt BigInt::operator-( const BigInt& subtrahend ) const
+{
+    BigInt diff( subtrahend ); // temporary solution to avoid compiler warning
+    // TODO
+    return diff;
+}
+
+BigInt BigInt::operator*( const BigInt& multiplier ) const
+{
+    BigInt product( multiplier ); // temporary solution to avoid compiler warning
+    // TODO
+    return product;
+}
+
+BigInt BigInt::operator/( const BigInt& divider ) const
+{
+    BigInt result( divider ); // temporary solution to avoid compiler warning
+    // TODO
+    return result;
+}
+
+BigFloat BigInt::operator+( const BigFloat& addendum ) const
+{
+    BigFloat sum( addendum ); // temporary solution to avoid compiler warning
+    // TODO
+    return sum;
+}
+
+BigFloat BigInt::operator-( const BigFloat& subtrahend ) const
+{
+    BigFloat diff( subtrahend ); // temporary solution to avoid compiler warning
+    // TODO
+    return diff;
+}
+
+BigFloat BigInt::operator*( const BigFloat& multiplier ) const
+{
+    BigFloat product( multiplier ); // temporary solution to avoid compiler warning
+    // TODO
+    return product;
+}
+
+BigFloat BigInt::operator/( const BigFloat& divider ) const
+{
+    BigFloat result( divider ); // temporary solution to avoid compiler warning
+    // TODO
+    return result;
+}
+
 void BigInt::set_number( const std::string & message )
 {
     std::cout << message;
@@ -85,7 +141,7 @@ void BigInt::set_number( const std::string & message )
     }
 }
 
-std::string BigInt::number()
+std::string BigInt::number() const
 {
     return number_;
 }

@@ -2,25 +2,25 @@
 #define BN_TESTS_H
 
 #include <string>
-
-enum ChosenTest
-{
-    TEST_DEFAULT_CTOR = 1,
-    TEST_CTOR1_ARG_EXP_NOTATION_STR,
-    TEST_CTOR2_ARG_EXP_NOTATION_STR,
-    TEST_CTOR1_ARG_DEC_NOTATION_STR,
-    TEST_CTOR2_ARG_DEC_NOTATION_STR,
-    TEST_INPUT_ITERATOR
-};
+#include "BigInt.h"
+#include "BigFloat.h"
 
 void set_test( std::string choice );
 
-void test1_default_ctor();
+void test_default_ctor();
+
 void test1_ctor_arg_exp_notation_str();
 void test2_ctor_arg_exp_notation_str();
 void test1_ctor_arg_dec_notation_str();
 void test2_ctor_arg_dec_notation_str();
 
-void test1_input_operator();
+void test_input_operator();
+
+// Yes, templates help us to avoid duplicating
+// code, but we can't use templates, right?
+void test_subtraction_of_two_numbers( BigInt & a, BigInt & b );
+void test_subtraction_of_two_numbers( BigFloat & a, BigFloat & b );
+void test_subtraction_of_two_numbers( BigInt & a, BigFloat & b );
+void test_subtraction_of_two_numbers( BigFloat & a, BigInt & b );
 
 #endif // BN_TESTS_H

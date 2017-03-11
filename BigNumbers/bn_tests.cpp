@@ -3,23 +3,46 @@
 #include "BigInt.h"
 #include "BigFloat.h"
 
+enum ChosenTest
+{
+    TEST_DEFAULT_CTOR = 1,
+    TEST_CTOR1_ARG_EXP_NOTATION_STR,
+    TEST_CTOR2_ARG_EXP_NOTATION_STR,
+    TEST_CTOR1_ARG_DEC_NOTATION_STR,
+    TEST_CTOR2_ARG_DEC_NOTATION_STR,
+    TEST_INPUT_OPERATOR,
+    TEST_SUBTRACTION_OF_TWO_BIG_INTEGERS,
+    TEST_SUBTRACTION_OF_TWO_BIG_FLOATS,
+    TEST_SUBTRACTION_OF_BIG_INTEGER_AND_BIG_FLOAT,
+    TEST_SUBTRACTION_OF_BIG_FLOAT_AND_BIG_INTEGER
+};
+
 void set_test( std::string choice )
 {
     std::cout
         << "Choose the number of the test you want to run:\n"
-        << "1 - to test default constructor;\n"
-        << "2 - to test constructor with 1 parameter - string that represent number in exponent notation (test 1);\n"
-        << "3 - to test constructor with 1 parameter - string that represent number in exponent notation (test 2);\n"
-        << "4 - to test constructor with 1 parameter - string that represent number in decimal notation (test 1);\n"
-        << "5 - to test constructor with 1 parameter - string that represent number in decimal notation (test 2);\n"
-        << "6 - to test overloaded << operator.\n"
+        << " 1 - to test default constructor;\n"
+        << " 2 - to test constructor with 1 parameter - string that represent number in exponent notation (test 1);\n"
+        << " 3 - to test constructor with 1 parameter - string that represent number in exponent notation (test 2);\n"
+        << " 4 - to test constructor with 1 parameter - string that represent number in decimal notation (test 1);\n"
+        << " 5 - to test constructor with 1 parameter - string that represent number in decimal notation (test 2);\n"
+        << " 6 - to test overloaded << operator (input number by user).\n"
+        << " 7 - to test overloaded - operator (subtraction of two big integers).\n"
+        << " 8 - to test overloaded - operator (subtraction of two big floats).\n"
+        << " 9 - to test overloaded - operator (subtraction of big integer and big float).\n"
+        << "10 - to test overloaded - operator (subtraction of big float and big integer).\n"
            ;
+
+    BigInt bi1;
+    BigInt bi2;
+    BigFloat bf1;
+    BigFloat bf2;
 
     std::cin >> choice;
     switch ( string_to_number( choice ) )
     {
     case TEST_DEFAULT_CTOR:
-        test1_default_ctor();
+        test_default_ctor();
         break;
 
     case TEST_CTOR1_ARG_EXP_NOTATION_STR:
@@ -38,8 +61,25 @@ void set_test( std::string choice )
         test2_ctor_arg_dec_notation_str();
         break;
 
-    case TEST_INPUT_ITERATOR:
-        test1_input_operator();
+    case TEST_INPUT_OPERATOR:
+        test_input_operator();
+        break;
+
+    case TEST_SUBTRACTION_OF_TWO_BIG_INTEGERS:
+        test_subtraction_of_two_numbers( bi1, bi2 );
+        break;
+
+
+    case TEST_SUBTRACTION_OF_TWO_BIG_FLOATS:
+        test_subtraction_of_two_numbers( bf1, bf2 );
+        break;
+
+    case TEST_SUBTRACTION_OF_BIG_INTEGER_AND_BIG_FLOAT:
+        test_subtraction_of_two_numbers( bi1, bf1 );
+        break;
+
+    case TEST_SUBTRACTION_OF_BIG_FLOAT_AND_BIG_INTEGER:
+        test_subtraction_of_two_numbers( bf1, bi1 );
         break;
 
     default:
@@ -49,7 +89,7 @@ void set_test( std::string choice )
     } // endof switch
 }
 
-void test1_default_ctor()
+void test_default_ctor()
 {
     BigFloat x;
 
@@ -204,7 +244,7 @@ void test2_ctor_arg_dec_notation_str()
            ;
 }
 
-void test1_input_operator()
+void test_input_operator()
 {
     BigFloat number;
 
@@ -212,8 +252,79 @@ void test1_input_operator()
     while( choice[0] == 'y' || choice[0] == 'Y' )
     {
         std::cout << "Enter a big float: ";
+        number.reset();
         std::cin >> number;
         std::cout << "The number you have entered is " << number;
+        std::cout << "\nDo you want proceed this test? (y /n) ";
+        std::cin >> choice;
+        std::cout << "\n";
+    }
+}
+
+// Yes, templates help us to avoid duplicating
+// code, but we can't use templates, right?
+void test_subtraction_of_two_numbers( BigInt & a, BigInt & b )
+{
+    std::string choice = "y";
+    while( choice[0] == 'y' || choice[0] == 'Y' )
+    {
+        std::cout << "Enter a minuend: ";
+        std::cin >> a;
+        std::cout << "Enter a subtrahend: ";
+        std::cin >> b;
+        BigInt difference = a - b;
+        std::cout << "a - b = " << difference;
+        std::cout << "\nDo you want proceed this test? (y /n) ";
+        std::cin >> choice;
+        std::cout << "\n";
+    }
+}
+
+void test_subtraction_of_two_numbers( BigFloat & a, BigFloat & b )
+{
+    std::string choice = "y";
+    while( choice[0] == 'y' || choice[0] == 'Y' )
+    {
+        std::cout << "Enter a minuend: ";
+        std::cin >> a;
+        std::cout << "Enter a subtrahend: ";
+        std::cin >> b;
+        BigFloat difference = a - b;
+        std::cout << "a - b = " << difference;
+        std::cout << "\nDo you want proceed this test? (y /n) ";
+        std::cin >> choice;
+        std::cout << "\n";
+    }
+}
+
+void test_subtraction_of_two_numbers( BigInt & a, BigFloat & b )
+{
+    std::string choice = "y";
+    while( choice[0] == 'y' || choice[0] == 'Y' )
+    {
+        std::cout << "Enter a minuend: ";
+        std::cin >> a;
+        std::cout << "Enter a subtrahend: ";
+        std::cin >> b;
+        BigFloat difference = a - b;
+        std::cout << "a - b = " << difference;
+        std::cout << "\nDo you want proceed this test? (y /n) ";
+        std::cin >> choice;
+        std::cout << "\n";
+    }
+}
+
+void test_subtraction_of_two_numbers( BigFloat & a, BigInt & b )
+{
+    std::string choice = "y";
+    while( choice[0] == 'y' || choice[0] == 'Y' )
+    {
+        std::cout << "Enter a minuend: ";
+        std::cin >> a;
+        std::cout << "Enter a subtrahend: ";
+        std::cin >> b;
+        BigFloat difference = a - b;
+        std::cout << "a - b = " << difference;
         std::cout << "\nDo you want proceed this test? (y /n) ";
         std::cin >> choice;
         std::cout << "\n";

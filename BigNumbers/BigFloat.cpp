@@ -50,9 +50,10 @@ BigFloat::BigFloat( const std::string& number )
     }
 }
 
-BigFloat::BigFloat( BigInt& bigInteger )
+BigFloat::BigFloat( const BigInt& bigInteger )
 {
-    number_ = bigInteger.number() + ".0";
+    number_ = bigInteger.number();
+    number_ = number_ + ".0";
     sign_ = sign();
     discard_sign();
     tail_ = "";
@@ -84,17 +85,17 @@ BigFloat::BigFloat( const BigFloat& bf )
 }
 
 //checkers
-bool BigFloat::is_scientific()
+bool BigFloat::is_scientific() const
 {
     return is_correct( SCIENTIFIC );
 }
 
-bool BigFloat::is_decimal()
+bool BigFloat::is_decimal() const
 {
     return is_correct( DECIMAL );
 }
 
-bool BigFloat::is_correct( NOTATION notation )
+bool BigFloat::is_correct( NOTATION notation ) const
 {
     bool result = true;
 
@@ -237,22 +238,22 @@ bool BigFloat::is_correct( NOTATION notation )
 }
 
 // getters
-size_t BigFloat::dot_position()
+size_t BigFloat::dot_position() const
 {
     return char_position( number_, '.' );
 }
 
-size_t BigFloat::digits_after_dot()
+size_t BigFloat::digits_after_dot() const
 {   // TODO: implement count() function?
     return last_digit_position() - 1;
 }
 
-size_t BigFloat::digits_before_dot()
+size_t BigFloat::digits_before_dot() const
 {
     return dot_position();
 }
 
-size_t BigFloat::e_position()
+size_t BigFloat::e_position() const
 {
     size_t e_pos = number_.size();
     for ( size_t i = 0; i < number_.size(); ++i )
@@ -267,17 +268,17 @@ size_t BigFloat::e_position()
     return e_pos;
 }
 
-size_t BigFloat::digits_after_e()
+size_t BigFloat::digits_after_e() const
 {   // TODO: implement count() function?
     return number_.size() - position_before( space_position() );
 }
 
-size_t BigFloat::e_value_as_number()
+size_t BigFloat::e_value_as_number() const
 {
     return string_to_number( e_value_as_string() );
 }
 
-std::string BigFloat::e_value_as_string()
+std::string BigFloat::e_value_as_string() const
 {
     std::string e_val = "";
     for ( size_t i = position_after( e_sign_position() ); i < number_.size(); ++i )
@@ -287,7 +288,7 @@ std::string BigFloat::e_value_as_string()
     return e_val;
 }
 
-size_t BigFloat::lead_zeroes()
+size_t BigFloat::lead_zeroes() const
 {
     size_t result = 0;
     {
@@ -304,7 +305,7 @@ size_t BigFloat::lead_zeroes()
     return result;
 }
 
-size_t BigFloat::e_sign_position()
+size_t BigFloat::e_sign_position() const
 {
     size_t e_sign_pos = number_.size();
     for ( size_t i = e_position(); i < number_.size(); ++i )
@@ -319,12 +320,12 @@ size_t BigFloat::e_sign_position()
     return e_sign_pos;
 }
 
-char BigFloat::e_sign()
+char BigFloat::e_sign() const
 {
     return number_[ e_sign_position() ];
 }
 
-size_t BigFloat::last_digit_position()
+size_t BigFloat::last_digit_position() const
 {
     size_t last_digit_pos = number_.size();
     for ( size_t i = 0; i < number_.size(); ++i )
@@ -342,7 +343,7 @@ size_t BigFloat::last_digit_position()
     return last_digit_pos;
 }
 
-size_t BigFloat::position_after( size_t pos )
+size_t BigFloat::position_after( size_t pos ) const
 {
     size_t pos_after_pos = number_.size();
     if ( pos + 1 < number_.size() )
@@ -353,7 +354,7 @@ size_t BigFloat::position_after( size_t pos )
     return pos_after_pos;
 }
 
-size_t BigFloat::position_before( size_t pos )
+size_t BigFloat::position_before( size_t pos ) const
 {
     size_t pos_before_pos = number_.size();
     if ( pos > 0 )
@@ -364,19 +365,19 @@ size_t BigFloat::position_before( size_t pos )
     return pos_before_pos;
 }
 
-size_t BigFloat::space_position()
+size_t BigFloat::space_position() const
 {
     return char_position( number_, ' ' );
 }
 
-char BigFloat::sign()
+char BigFloat::sign() const
 {
     return number_[0] == '-' ? '-' : '+';
 }
 
-std::string BigFloat::mantissa()
+std::string BigFloat::mantissa() const
 {
-    std::string mantissa = "";
+    std::string mantissa = number_;
 
     if ( is_scientific() )
     {
@@ -384,22 +385,22 @@ std::string BigFloat::mantissa()
             //"\nI AM INSIDE IN FUNCTION mantissa() and "
             //"is_scientific() is TRUE!\n";
         size_t space_pos = space_position();
-        if ( number_[ space_pos ] == ' ' )
+        if ( mantissa[ space_pos ] == ' ' )
         {
-            erase_part_of( number_, space_pos, space_pos );
+            erase_part_of( mantissa, space_pos, space_pos );
         }
-        erase_part_of( number_, e_position(), number_.size() - 1 );
+        erase_part_of( mantissa, e_position(), mantissa.size() - 1 );
     }
 
     return mantissa;
 }
 
-std::string BigFloat::number()
+std::string BigFloat::number() const
 {
     return number_;
 }
 
-BigFloat::NOTATION BigFloat::notation()
+BigFloat::NOTATION BigFloat::notation() const
 {
     return notation_;
 }
@@ -668,28 +669,28 @@ BigFloat BigFloat::operator=( const std::string& obj )
     return *this;
 }
 
-/*
+
 BigFloat BigFloat::operator+( const BigFloat& addendum ) const
 {
-    BigFloat sum( "0" );
+    BigFloat sum( addendum ); // temporary solution to avoid compiler warning
     // TODO
     return sum;
 }
 
 BigFloat BigFloat::operator-( const BigFloat& subtrahend ) const
 {
-    BigFloat diff( "0" );
+    BigFloat diff( subtrahend ); // temporary solution to avoid compiler warning
     // TODO
     return diff;
 }
 
 BigFloat BigFloat::operator*( const BigFloat& multiplier ) const
 {
-    BigFloat product( "0" );
+    BigFloat product( multiplier ); // temporary solution to avoid compiler warning
     // TODO
     return product;
 }
-*/
+
 
 BigFloat BigFloat::operator/( const BigFloat& divider ) const
 {  
@@ -752,12 +753,41 @@ BigFloat BigFloat::operator/( const BigFloat& divider ) const
     return result;
 }
 
+BigFloat BigFloat::operator+( const BigInt& addendum ) const
+{
+    BigFloat sum( addendum ); // temporary solution to avoid compiler warning
+    // TODO
+    return sum;
+}
+
+BigFloat BigFloat::operator-( const BigInt& subtrahend ) const
+{
+    BigFloat diff( subtrahend ); // temporary solution to avoid compiler warning
+    // TODO
+    return diff;
+}
+
+BigFloat BigFloat::operator*( const BigInt& multiplier ) const
+{
+    BigFloat product( multiplier ); // temporary solution to avoid compiler warning
+    // TODO
+    return product;
+}
+
+BigFloat BigFloat::operator/( const BigInt& divider ) const
+{
+    BigFloat result( divider ); // temporary solution to avoid compiler warning
+    // TODO
+    return result;
+}
+
 // input-output operators
 std::istream& operator>>( std::istream& is, BigFloat& bf )
 {
     std::string num;
     std::cin.sync();
     std::getline( std::cin, num );
+
     bf.set_number( num );
 
     if ( bf.is_correct( BigFloat::SCIENTIFIC ) )
