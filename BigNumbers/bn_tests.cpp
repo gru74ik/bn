@@ -167,12 +167,8 @@ void test1_input_operator()
     {
         std::cout << "Enter a big float: ";
         std::cin >> number;
-        std::cout
-            << "The number you have entered is "
-            << number
-            //<< " and its notation is "
-            //<< number.notation()
-            << "\nDo you want proceed? (y /n) ";
+        std::cout << "The number you have entered is " << number;
+        std::cout << "\nDo you want proceed this test? (y /n) ";
         std::cin >> choice;
         std::cout << "\n";
     }
