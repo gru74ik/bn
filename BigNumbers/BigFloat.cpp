@@ -15,27 +15,27 @@ BigFloat::BigFloat( const std::string& number )
     sign_ = sign();
     discard_sign();
     tail_ = "";
-    //std::cout
-        //<< "In constructor before converting: "
-        //<< sign_ << number_ << "\n";
+    std::cout
+        << "In constructor before converting: "
+        << sign_ << number_ << "\n";
     if ( is_correct( DECIMAL ) || is_correct( DEFAULT ) )
     {
         // do nothing
 
-        //std::cout
-            //<< "\nConstructor will try create object from string"
-            //<< "\nthat represent number in decimal notation.\n";
+        std::cout
+            << "\nConstructor will try create object from string"
+            << "\nthat represent number in decimal notation.\n";
 
     }
     else if ( is_correct( SCIENTIFIC ) )
     {
         convert_to( DECIMAL );
-        //std::cout
-            //<< "\nIn constructor after converting: "
-            //<< sign_ << number_ << "\n";
-        //std::cout
-            //<< "\nConstructor will try create object from string"
-            //<< "\nthat represent number in scientific notation.\n";
+        std::cout
+            << "\nIn constructor after converting: "
+            << sign_ << number_ << "\n";
+        std::cout
+            << "\nConstructor will try create object from string"
+            << "\nthat represent number in scientific notation.\n";
     }
     else if ( is_correct( DEFAULT ) )
     {
@@ -44,9 +44,9 @@ BigFloat::BigFloat( const std::string& number )
     else
     {
         mark_as_wrong();
-        //std::cout
-            //<< "\nConstructor tried create object from string\n"
-            //<< "but failed, because string is incorrect.\n";
+        std::cout
+            << "\nConstructor tried create object from string\n"
+            << "but failed, because string is incorrect.\n";
     }
 }
 
@@ -343,6 +343,7 @@ void BigFloat::convert_to( NOTATION notation )
                 number_ = number_ + " E+0";
             }
         }
+        pop_back_extra_zeroes();
         notation_ = SCIENTIFIC;
         break;
 
@@ -417,7 +418,8 @@ void BigFloat::push_back_additional_zeroes( const size_t quantity )
 
 void BigFloat::pop_back_extra_zeroes()
 {
-    while ( number_[last_digit_position()] == '0' )
+    while ( number_[last_digit_position()] == '0' &&
+            last_digit_position() > position_after( dot_position() ) )
     {
         erase_part_of( number_, last_digit_position(), last_digit_position() );
     }
