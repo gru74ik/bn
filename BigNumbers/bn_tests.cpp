@@ -67,7 +67,7 @@ void set_test( std::string choice )
 
         << "14 - to test overloaded comparison operators ( BigFloat::operator<, BigFloat::operator>, BigFloat::operator==).\n"
         << "15 - to test overloaded comparison operators ( BigFloat::operator<=, BigFloat::operator>).\n"
-        << "16 - to test overloaded comparison operators ( BigFloat::operator>=, BigFloat::operator<).\n"
+        << "16 - to test overloaded comparison operators ( BigFloat::operator>=, BigFloat::operator<).\n\n"
            ;
 
     BigInt bi1;
@@ -497,6 +497,10 @@ void test1_comparison_operators( BigFloat & a, BigFloat & b )
         else if ( a > b )
         {
             std::cout << "a > b\n";
+        }
+        else
+        {
+            std::cout << "Some strange error is here.\n";
         }
 
         std::cout << "\nDo you want proceed this test? (y /n) ";

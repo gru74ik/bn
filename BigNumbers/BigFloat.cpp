@@ -645,7 +645,6 @@ bool BigFloat::operator<( const BigFloat& bf ) const
 
     bool result = true;
 
-
     if ( a.sign_ == '+' && b.sign_ == '-' )
     {
         result = false;
@@ -674,7 +673,6 @@ bool BigFloat::operator<( const BigFloat& bf ) const
     }
 
     // TODO: сравнивать поразрядно
-
 
     return result;
 }
@@ -684,36 +682,7 @@ bool BigFloat::operator<=( const BigFloat& bf ) const
     BigFloat a = *this;
     BigFloat b = bf;
 
-    bool result = true;
-
-
-    if ( a.sign_ == '+' && b.sign_ == '-' )
-    {
-        result = false;
-    }
-    else if ( a.is_greater_than_zero() && b.notation_ == DEFAULT )
-    {
-        result = false;
-    }
-    else if ( a.notation_ == DEFAULT && b.is_less_than_zero() )
-    {
-        result = false;
-    }
-
-    if ( !a.is_decimal() )
-    {
-        a.convert_to( DECIMAL );
-    }
-
-    if ( !b.is_decimal() )
-    {
-        b.convert_to( DECIMAL );
-    }
-
-    // TODO: сравнивать поразрядно
-
-
-    return result;
+    return a < b || a == b;
 }
 
 bool BigFloat::operator>( const BigFloat& bf ) const
@@ -722,7 +691,6 @@ bool BigFloat::operator>( const BigFloat& bf ) const
     BigFloat b = bf;
 
     bool result = true;
-
 
     if ( a.sign_ == '-' && b.sign_ == '+' )
     {
@@ -753,7 +721,6 @@ bool BigFloat::operator>( const BigFloat& bf ) const
 
     // TODO: сравнивать поразрядно
 
-
     return result;
 }
 
@@ -762,36 +729,7 @@ bool BigFloat::operator>=( const BigFloat& bf ) const
     BigFloat a = *this;
     BigFloat b = bf;
 
-    bool result = true;
-
-
-    if ( a.sign_ == '-' && b.sign_ == '+' )
-    {
-        result = false;
-    }
-    else if ( a.is_less_than_zero() && b.notation_ == DEFAULT )
-    {
-        result = false;
-    }
-    else if ( a.notation_ == DEFAULT && b.is_greater_than_zero() )
-    {
-        result = false;
-    }
-
-    if ( !a.is_decimal() )
-    {
-        a.convert_to( DECIMAL );
-    }
-
-    if ( !b.is_decimal() )
-    {
-        b.convert_to( DECIMAL );
-    }
-
-    // TODO: сравнивать поразрядно
-
-
-    return result;
+    return a > b || a == b;
 }
 
 bool BigFloat::operator==( const BigFloat& bf ) const
@@ -799,40 +737,7 @@ bool BigFloat::operator==( const BigFloat& bf ) const
     BigFloat a = *this;
     BigFloat b = bf;
 
-    bool result = true;
-
-
-    if ( a.sign_ == '-' && b.sign_ == '+' )
-    {
-        result = false;
-    }
-    if ( a.sign_ == '+' && b.sign_ == '-' )
-    {
-        result = false;
-    }
-    else if ( a.is_less_than_zero() && b.notation_ == DEFAULT )
-    {
-        result = false;
-    }
-    else if ( a.notation_ == DEFAULT && b.is_greater_than_zero() )
-    {
-        result = false;
-    }
-
-    if ( !a.is_decimal() )
-    {
-        a.convert_to( DECIMAL );
-    }
-
-    if ( !b.is_decimal() )
-    {
-        b.convert_to( DECIMAL );
-    }
-
-    // TODO: сравнивать поразрядно
-
-
-    return result;
+    return !(a < b) && !(a > b);
 }
 
 BigFloat BigFloat::operator=( const BigFloat& bf )
