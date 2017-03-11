@@ -5,6 +5,7 @@
 #include "BigInt.h"
 #include "BigFloat.h"
 
+void menu();
 void set_test( std::string choice );
 
 void test_default_ctor();

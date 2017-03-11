@@ -28,6 +28,21 @@ enum ChosenTest
     TEST16_COMPARE_TWO_BIG_FLOATS
 };
 
+void menu()
+{
+    std::string choice = "y";
+    for( size_t i = 1; choice[0] == 'y' || choice[0] == 'Y'; ++i )
+    {
+        std::cout << "Test #" << i << "\n\n";
+        set_test( choice );
+        std::cout << "\nDo you want proceed work with the program? (y /n) ";
+        std::cin >> choice;
+        std::cout <<
+            "\n===================================================="
+            "====================================================\n";
+    }
+}
+
 void set_test( std::string choice )
 {
     std::cout
