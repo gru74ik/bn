@@ -4,7 +4,7 @@
 
 // constructors
 BigFloat::BigFloat()
-    : sign_( '+' ), number_( "0" ), tail_( "" ), notation_( DEFAULT )
+    : sign_( '+' ), number_( "0" ), tail_( ".0 E+0" ), notation_( DEFAULT )
 {
     //std::cout << "\nDefault constructor has been used.\n";
 }
@@ -443,6 +443,7 @@ void BigFloat::reset()
 {
     number_ = "0";
     sign_ = '+';
+    tail_ = ".0 E+0";
     notation_ = DEFAULT;
 }
 
@@ -571,7 +572,7 @@ void BigFloat::convert_to( NOTATION notation )
             erase_part_of( number_, position_before( e_position() ), number_.size() - 1 );
 
             //std::cout
-                //<< "\nconvert_to(DECIMAL) works (after tail erasure): "
+                //<< "\nconvert_to(DECIMAL) works (after exponent tail erasure): "
                 //<< number_
                 //<< "\n";
         }
@@ -587,7 +588,7 @@ void BigFloat::convert_to( NOTATION notation )
             erase_part_of( number_, position_before( e_position() ), number_.size() - 1 );
 
             //std::cout
-                //<< "\nconvert_to(DECIMAL) works (after tail erasure): "
+                //<< "\nconvert_to(DECIMAL) works (after exponent tail erasure): "
                 //<< number_
                 //<< "\n";
         }
@@ -615,6 +616,20 @@ bool BigFloat::operator<( const BigFloat& bf ) const
     BigFloat a = *this;
     BigFloat b = bf;
 
+    bool result = true;
+
+    if ( a.sign_ == '+' && b.sign_ == '-' )
+    {
+        result = false;
+    }
+    else if ( a.notation_ == DEFAULT && b.notation_ == DEFAULT )
+    {
+        result = false;
+    }
+    {
+
+    }
+
     if ( !a.is_decimal() )
     {
         a.convert_to( DECIMAL );
@@ -625,7 +640,8 @@ bool BigFloat::operator<( const BigFloat& bf ) const
         b.convert_to( DECIMAL );
     }
 
-    return string_to_number( a.number_ ) < string_to_number( b.number_ );
+
+    return result;
 }
 
 bool BigFloat::operator<=( const BigFloat& bf ) const
