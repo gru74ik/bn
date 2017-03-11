@@ -25,7 +25,12 @@ enum ChosenTest
 
     TEST14_COMPARE_TWO_BIG_FLOATS,
     TEST15_COMPARE_TWO_BIG_FLOATS,
-    TEST16_COMPARE_TWO_BIG_FLOATS
+    TEST16_COMPARE_TWO_BIG_FLOATS,
+
+    TEST17_CHECKERS_OF_BIG_FLOAT_CLASS,
+    TEST18_CHANGERS_OF_BIG_FLOAT_CLASS,
+    TEST19_GETTERS_OF_BIG_FLOAT_CLASS,
+    TEST20_SETTERS_OF_BIG_FLOAT_CLASS
 };
 
 void menu()
@@ -68,6 +73,11 @@ void set_test( std::string choice )
         << "14 - to test overloaded comparison operators ( BigFloat::operator<, BigFloat::operator>, BigFloat::operator==).\n"
         << "15 - to test overloaded comparison operators ( BigFloat::operator<=, BigFloat::operator>).\n"
         << "16 - to test overloaded comparison operators ( BigFloat::operator>=, BigFloat::operator<).\n\n"
+
+        << "17 - to test function members of class BigFloat (checkers).\n"
+        << "18 - to test function members of class BigFloat (changers).\n"
+        << "19 - to test function members of class BigFloat (getters).\n"
+        << "20 - to test function members of class BigFloat (setters).\n\n"
            ;
 
     BigInt bi1;
@@ -143,6 +153,21 @@ void set_test( std::string choice )
         test3_comparison_operators( bf1, bf2 );
         break;
 
+    case TEST17_CHECKERS_OF_BIG_FLOAT_CLASS:
+        test_checkers();
+        break;
+
+    case TEST18_CHANGERS_OF_BIG_FLOAT_CLASS:
+        test_changers();
+        break;
+
+    case TEST19_GETTERS_OF_BIG_FLOAT_CLASS:
+        test_getters();
+        break;
+
+    case TEST20_SETTERS_OF_BIG_FLOAT_CLASS:
+        test_setters();
+        break;
 
     default:
         std::cout << "Incorrect input.\n";
@@ -557,4 +582,25 @@ void test3_comparison_operators( BigFloat & a, BigFloat & b )
         std::cin >> choice;
         std::cout << "\n";
     }
+}
+
+// function members of class BigFloat
+void test_checkers()
+{
+    // TODO
+}
+
+void test_changers()
+{
+    // TODO
+}
+
+void test_getters()
+{
+    // TODO
+}
+
+void test_setters()
+{
+    // TODO
 }

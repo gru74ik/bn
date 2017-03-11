@@ -7,7 +7,8 @@
 
 class BigFloat
 {
-private:
+//private:
+public: // TODO: remove this label when tests will be completed
     enum NOTATION { DECIMAL, SCIENTIFIC, DEFAULT, WRONG };
     enum DIRECTION { LEFT, RIGHT };
 
@@ -29,7 +30,8 @@ public:
     bool is_less_than_zero() const;
     bool is_greater_than_zero() const;
 
-private:
+//private:
+public: // TODO: remove this label when tests will be completed
     bool is_correct( NOTATION notation ) const;
 
     // changers:
@@ -71,7 +73,8 @@ public:
     void set_number( const std::string& number );   
     void reset();
 
-private:
+//private:
+public: // TODO: remove this label when tests will be completed
     void mark_as_wrong();
 
 public:

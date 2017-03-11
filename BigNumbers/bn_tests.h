@@ -34,6 +34,12 @@ void test3_comparison_operators( BigInt & a, BigInt & b );
 // comparison operators for class BigFloat
 void test1_comparison_operators( BigFloat &a, BigFloat &b );
 void test2_comparison_operators( BigFloat & a, BigFloat & b );
-void test3_comparison_operators(BigFloat &a, BigFloat &b );
+void test3_comparison_operators( BigFloat &a, BigFloat &b );
+
+// function members of class BigFloat
+void test_checkers();
+void test_changers();
+void test_getters();
+void test_setters();
 
 #endif // BN_TESTS_H

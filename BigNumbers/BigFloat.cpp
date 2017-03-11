@@ -15,27 +15,27 @@ BigFloat::BigFloat( const std::string& number )
     sign_ = sign();
     discard_sign();
     tail_ = "";
-    std::cout
-        << "In constructor before converting: "
-        << sign_ << number_ << "\n";
+    //std::cout
+        //<< "In constructor before converting: "
+        //<< sign_ << number_ << "\n";
     if ( is_correct( DECIMAL ) || is_correct( DEFAULT ) )
     {
         // do nothing
 
-        std::cout
-            << "\nConstructor will try create object from string"
-            << "\nthat represent number in decimal notation.\n";
+        //std::cout
+            //<< "\nConstructor will try create object from string"
+            //<< "\nthat represent number in decimal notation.\n";
 
     }
     else if ( is_correct( SCIENTIFIC ) )
     {
         convert_to( DECIMAL );
-        std::cout
-            << "\nIn constructor after converting: "
-            << sign_ << number_ << "\n";
-        std::cout
-            << "\nConstructor will try create object from string"
-            << "\nthat represent number in scientific notation.\n";
+        //std::cout
+            //<< "\nIn constructor after converting: "
+            //<< sign_ << number_ << "\n";
+        //std::cout
+            //<< "\nConstructor will try create object from string"
+            //<< "\nthat represent number in scientific notation.\n";
     }
     else if ( is_correct( DEFAULT ) )
     {
@@ -44,9 +44,9 @@ BigFloat::BigFloat( const std::string& number )
     else
     {
         mark_as_wrong();
-        std::cout
-            << "\nConstructor tried create object from string\n"
-            << "but failed, because string is incorrect.\n";
+        //std::cout
+            //<< "\nConstructor tried create object from string\n"
+            //<< "but failed, because string is incorrect.\n";
     }
 }
 
@@ -627,6 +627,7 @@ void BigFloat::set_number( const std::string& number )
     number_ = number;
     sign_ = sign();
     discard_sign();
+    tail_ = "";
 
     // Сделать функцию is_correct() глобальной?
     if ( is_correct( SCIENTIFIC ) )
