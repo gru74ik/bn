@@ -26,6 +26,8 @@ public:
     // checkers:
     bool is_scientific() const;
     bool is_decimal() const;
+    bool is_less_than_zero() const;
+    bool is_greater_than_zero() const;
 
 private:
     bool is_correct( NOTATION notation ) const;

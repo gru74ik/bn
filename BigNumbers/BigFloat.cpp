@@ -236,6 +236,34 @@ bool BigFloat::is_correct( NOTATION notation ) const
     return result;
 }
 
+
+bool BigFloat::is_less_than_zero() const
+{
+    bool has_digits_greater_than_zero_after_dot = true;
+
+    for ( size_t i = position_after( dot_position() );
+          i < position_after( last_digit_position() );
+          ++i )
+    {
+        if ( char_to_number( number_[i] ) > 0 )
+        {
+            has_digits_greater_than_zero_after_dot = false;
+            break;
+        }
+    }
+
+    return
+        digits_before_dot() == 1 &&
+        number_[0] == '0' &&
+        has_digits_greater_than_zero_after_dot;
+
+}
+
+bool BigFloat::is_greater_than_zero() const
+{
+    return char_to_digit( a.number_[0] ) >= 1;
+}
+
 // getters
 size_t BigFloat::dot_position() const
 {
@@ -458,7 +486,6 @@ void BigFloat::discard_sign()
 
 void BigFloat::move_floating_point( DIRECTION dir, size_t shiftSize )
 {
-    // we work with numbers in decimal notation!
     size_t dot_pos = dot_position();
 
     switch ( dir )
@@ -618,6 +645,7 @@ bool BigFloat::operator<( const BigFloat& bf ) const
 
     bool result = true;
 
+
     if ( a.sign_ == '+' && b.sign_ == '-' )
     {
         result = false;
@@ -626,8 +654,13 @@ bool BigFloat::operator<( const BigFloat& bf ) const
     {
         result = false;
     }
+    else if ( a.is_greater_than_zero() && b.notation_ == DEFAULT )
     {
-
+        result = false;
+    }
+    else if ( a.notation_ == DEFAULT && b.is_less_than_zero() )
+    {
+        result = false;
     }
 
     if ( !a.is_decimal() )
@@ -639,6 +672,8 @@ bool BigFloat::operator<( const BigFloat& bf ) const
     {
         b.convert_to( DECIMAL );
     }
+
+    // TODO: сравнивать поразрядно
 
 
     return result;
