@@ -52,8 +52,7 @@ BigFloat::BigFloat( const std::string& number )
 
 BigFloat::BigFloat( const BigInt& bigInteger )
 {
-    number_ = bigInteger.number();
-    number_ = number_ + ".0";
+    number_ = bigInteger.number() + ".0";
     sign_ = sign();
     discard_sign();
     tail_ = "";
@@ -610,21 +609,99 @@ void BigFloat::convert_to( NOTATION notation )
 
 }
 
-// operators
-bool BigFloat::operator<( BigFloat& b )
+// comparison operators
+bool BigFloat::operator<( const BigFloat& bf ) const
 {
-    BigFloat & a = *this;
+    BigFloat a = *this;
+    BigFloat b = bf;
 
-    if ( a.notation() == SCIENTIFIC )
+    if ( !a.is_decimal() )
     {
         a.convert_to( DECIMAL );
     }
 
-    if ( b.notation() == SCIENTIFIC )
+    if ( !b.is_decimal() )
     {
         b.convert_to( DECIMAL );
     }
-    return a.number_ < b.number_;
+
+    return string_to_number( a.number_ ) < string_to_number( b.number_ );
+}
+
+bool BigFloat::operator<=( const BigFloat& bf ) const
+{
+    BigFloat a = *this;
+    BigFloat b = bf;
+
+    if ( !a.is_decimal() )
+    {
+        a.convert_to( DECIMAL );
+    }
+
+    if ( !b.is_decimal() )
+    {
+        b.convert_to( DECIMAL );
+    }
+
+    return
+        string_to_number( a.number_ ) < string_to_number( b.number_ ) ||
+        string_to_number( a.number_ ) == string_to_number( b.number_ );
+}
+
+bool BigFloat::operator>( const BigFloat& bf ) const
+{
+    BigFloat a = *this;
+    BigFloat b = bf;
+
+    if ( !a.is_decimal() )
+    {
+        a.convert_to( DECIMAL );
+    }
+
+    if ( !b.is_decimal() )
+    {
+        b.convert_to( DECIMAL );
+    }
+
+    return string_to_number( a.number_ ) > string_to_number( b.number_ );
+}
+
+bool BigFloat::operator>=( const BigFloat& bf ) const
+{
+    BigFloat a = *this;
+    BigFloat b = bf;
+
+    if ( !a.is_decimal() )
+    {
+        a.convert_to( DECIMAL );
+    }
+
+    if ( !b.is_decimal() )
+    {
+        b.convert_to( DECIMAL );
+    }
+
+    return
+        string_to_number( a.number_ ) > string_to_number( b.number_ ) ||
+        string_to_number( a.number_ ) == string_to_number( b.number_ );
+}
+
+bool BigFloat::operator==( const BigFloat& bf ) const
+{
+    BigFloat a = *this;
+    BigFloat b = bf;
+
+    if ( !a.is_decimal() )
+    {
+        a.convert_to( DECIMAL );
+    }
+
+    if ( !b.is_decimal() )
+    {
+        b.convert_to( DECIMAL );
+    }
+
+    return string_to_number( a.number_ ) == string_to_number( b.number_ );
 }
 
 BigFloat BigFloat::operator=( const BigFloat& bf )
@@ -694,7 +771,7 @@ BigFloat BigFloat::operator*( const BigFloat& multiplier ) const
 
 BigFloat BigFloat::operator/( const BigFloat& divider ) const
 {  
-    BigFloat result( "0" );
+    BigFloat result;
     BigFloat dividend ( *this );
     BigFloat divisor ( divider );
     if ( dividend.notation() == SCIENTIFIC )
@@ -709,7 +786,7 @@ BigFloat BigFloat::operator/( const BigFloat& divider ) const
 
     if ( dividend.is_correct( DEFAULT ) )
     {
-        // do nothing
+        // do nothing (result already equal to zero)
     }
     else if ( divisor.is_correct( DEFAULT ) )
     {

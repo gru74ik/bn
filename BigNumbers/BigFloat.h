@@ -7,45 +7,50 @@
 
 class BigFloat
 {
-public:
-    enum NOTATION { DECIMAL, SCIENTIFIC, DEFAULT, WRONG };
-    enum DIRECTION { LEFT, RIGHT }; //private
-
 private:
+    enum NOTATION { DECIMAL, SCIENTIFIC, DEFAULT, WRONG };
+    enum DIRECTION { LEFT, RIGHT };
+
     char sign_;
     std::string number_;
     std::string tail_;
     NOTATION notation_;
 
 public:
+    // constructors:
     BigFloat();
     BigFloat( const std::string& number );
     BigFloat( const BigInt &bigInteger );
     BigFloat( const BigFloat& bf );
 
-private: // checkers:
+    // checkers:
     bool is_scientific() const;
     bool is_decimal() const;
-public:
-    bool is_correct( NOTATION notation ) const; //private
-
-public: // getters:
-    size_t dot_position() const; // private (remove to private section after tests)
-    size_t digits_after_dot() const;              // private
-    size_t digits_before_dot() const;             // private
-    size_t e_position() const;                    // private
-    size_t digits_after_e() const;                // private
-    size_t e_value_as_number() const;             // private
-    std::string e_value_as_string() const;        // private
-    size_t lead_zeroes() const;                   // private
-    size_t e_sign_position() const;               // private
-    char e_sign() const;                          // private
-    size_t last_digit_position() const;           // private
-    size_t position_after( size_t pos ) const;    // private
-    size_t position_before( size_t pos ) const;   // private
-    size_t space_position() const;                // private
 
 private:
+    bool is_correct( NOTATION notation ) const;
+
+    // changers:
+    void discard_sign();
+    void move_floating_point( DIRECTION dir, size_t shiftSize );
+    void convert_to( NOTATION notation );
+
+    // getters:
+    size_t dot_position() const;
+    size_t digits_after_dot() const;
+    size_t digits_before_dot() const;
+    size_t e_position() const;
+    size_t digits_after_e() const;
+    size_t e_value_as_number() const;
+    std::string e_value_as_string() const;
+    size_t lead_zeroes() const;
+    size_t e_sign_position() const;
+    char e_sign() const;
+    size_t last_digit_position() const;
+    size_t position_after( size_t pos ) const;
+    size_t position_before( size_t pos ) const;
+    size_t space_position() const;
+
     char sign() const;
     std::string mantissa() const;
 
@@ -55,21 +60,25 @@ public:
     NOTATION notation() const;
 
     // setters:
-    void set_number( const std::string& number );
-    void mark_as_wrong();
+    void set_number( const std::string& number );   
     void reset();
 
-    // changers:
-    void discard_sign(); // private
-    void move_floating_point( DIRECTION dir, size_t shiftSize ); // private
-    void convert_to( NOTATION notation );
+private:
+    void mark_as_wrong();
 
+public:
+    // comparison operators:
+    bool operator<( const BigFloat& bf ) const;
+    bool operator<=( const BigFloat& bf ) const;
+    bool operator>( const BigFloat& bf ) const;
+    bool operator>=( const BigFloat& bf ) const;
+    bool operator==( const BigFloat& bf ) const;
 
-    // operators:
-    bool operator<( BigFloat& b );
+    // assignment operators:
     BigFloat operator=( const BigFloat& bf );
     BigFloat operator=( const std::string& obj );
-\
+
+    // arithmetic operators:
     BigFloat operator+( const BigFloat& addendum ) const;
     BigFloat operator-( const BigFloat& subtrahend ) const;
     BigFloat operator*( const BigFloat& multiplier ) const;

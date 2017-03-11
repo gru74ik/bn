@@ -5,16 +5,27 @@
 
 enum ChosenTest
 {
-    TEST_DEFAULT_CTOR = 1,
-    TEST_CTOR1_ARG_EXP_NOTATION_STR,
-    TEST_CTOR2_ARG_EXP_NOTATION_STR,
-    TEST_CTOR1_ARG_DEC_NOTATION_STR,
-    TEST_CTOR2_ARG_DEC_NOTATION_STR,
-    TEST_INPUT_OPERATOR,
-    TEST_SUBTRACTION_OF_TWO_BIG_INTEGERS,
-    TEST_SUBTRACTION_OF_TWO_BIG_FLOATS,
-    TEST_SUBTRACTION_OF_BIG_INTEGER_AND_BIG_FLOAT,
-    TEST_SUBTRACTION_OF_BIG_FLOAT_AND_BIG_INTEGER
+    TEST1_DEFAULT_CTOR = 1,
+
+    TEST2_CTOR1_ARG_EXP_NOTATION_STR,
+    TEST3_CTOR2_ARG_EXP_NOTATION_STR,
+    TEST4_CTOR1_ARG_DEC_NOTATION_STR,
+    TEST5_CTOR2_ARG_DEC_NOTATION_STR,
+
+    TEST6_INPUT_BY_USER,
+
+    TEST7_SUBTRACTION_OF_TWO_BIG_INTEGERS,
+    TEST8_SUBTRACTION_OF_TWO_BIG_FLOATS,
+    TEST9_SUBTRACTION_OF_BIG_INTEGER_AND_BIG_FLOAT,
+    TEST10_SUBTRACTION_OF_BIG_FLOAT_AND_BIG_INTEGER,
+
+    TEST11_COMPARE_TWO_BIG_INTEGERS,
+    TEST12_COMPARE_TWO_BIG_INTEGERS,
+    TEST13_COMPARE_TWO_BIG_INTEGERS,
+
+    TEST14_COMPARE_TWO_BIG_FLOATS,
+    TEST15_COMPARE_TWO_BIG_FLOATS,
+    TEST16_COMPARE_TWO_BIG_FLOATS
 };
 
 void set_test( std::string choice )
@@ -27,10 +38,16 @@ void set_test( std::string choice )
         << " 4 - to test constructor with 1 parameter - string that represent number in decimal notation (test 1);\n"
         << " 5 - to test constructor with 1 parameter - string that represent number in decimal notation (test 2);\n"
         << " 6 - to test overloaded << operator (input number by user).\n"
-        << " 7 - to test overloaded - operator (subtraction of two big integers).\n"
-        << " 8 - to test overloaded - operator (subtraction of two big floats).\n"
-        << " 9 - to test overloaded - operator (subtraction of big integer and big float).\n"
-        << "10 - to test overloaded - operator (subtraction of big float and big integer).\n"
+        << " 7 - to test overloaded operator- (subtraction of two big integers).\n"
+        << " 8 - to test overloaded operator- (subtraction of two big floats).\n"
+        << " 9 - to test overloaded operator- (subtraction of big integer and big float).\n"
+        << "10 - to test overloaded operator- (subtraction of big float and big integer).\n"
+        << "11 - to test overloaded comparison operators ( BigInt::operator<, BigInt::operator>, BigInt::operator==).\n"
+        << "12 - to test overloaded comparison operators ( BigInt::operator<=, BigInt::operator>).\n"
+        << "13 - to test overloaded comparison operators ( BigInt::operator>=, BigInt::operator<).\n"
+        << "14 - to test overloaded comparison operators ( BigFloat::operator<, BigFloat::operator>, BigFloat::operator==).\n"
+        << "15 - to test overloaded comparison operators ( BigFloat::operator<=, BigFloat::operator>).\n"
+        << "16 - to test overloaded comparison operators ( BigFloat::operator>=, BigFloat::operator<).\n"
            ;
 
     BigInt bi1;
@@ -41,46 +58,71 @@ void set_test( std::string choice )
     std::cin >> choice;
     switch ( string_to_number( choice ) )
     {
-    case TEST_DEFAULT_CTOR:
+    case TEST1_DEFAULT_CTOR:
         test_default_ctor();
         break;
 
-    case TEST_CTOR1_ARG_EXP_NOTATION_STR:
+    case TEST2_CTOR1_ARG_EXP_NOTATION_STR:
         test1_ctor_arg_exp_notation_str();
         break;
 
-    case TEST_CTOR2_ARG_EXP_NOTATION_STR:
+    case TEST3_CTOR2_ARG_EXP_NOTATION_STR:
         test2_ctor_arg_exp_notation_str();
         break;
 
-    case TEST_CTOR1_ARG_DEC_NOTATION_STR:
+    case TEST4_CTOR1_ARG_DEC_NOTATION_STR:
         test1_ctor_arg_dec_notation_str();
         break;
 
-    case TEST_CTOR2_ARG_DEC_NOTATION_STR:
+    case TEST5_CTOR2_ARG_DEC_NOTATION_STR:
         test2_ctor_arg_dec_notation_str();
         break;
 
-    case TEST_INPUT_OPERATOR:
+    case TEST6_INPUT_BY_USER:
         test_input_operator();
         break;
 
-    case TEST_SUBTRACTION_OF_TWO_BIG_INTEGERS:
+    case TEST7_SUBTRACTION_OF_TWO_BIG_INTEGERS:
         test_subtraction_of_two_numbers( bi1, bi2 );
         break;
 
 
-    case TEST_SUBTRACTION_OF_TWO_BIG_FLOATS:
+    case TEST8_SUBTRACTION_OF_TWO_BIG_FLOATS:
         test_subtraction_of_two_numbers( bf1, bf2 );
         break;
 
-    case TEST_SUBTRACTION_OF_BIG_INTEGER_AND_BIG_FLOAT:
+    case TEST9_SUBTRACTION_OF_BIG_INTEGER_AND_BIG_FLOAT:
         test_subtraction_of_two_numbers( bi1, bf1 );
         break;
 
-    case TEST_SUBTRACTION_OF_BIG_FLOAT_AND_BIG_INTEGER:
+    case TEST10_SUBTRACTION_OF_BIG_FLOAT_AND_BIG_INTEGER:
         test_subtraction_of_two_numbers( bf1, bi1 );
         break;
+
+    case TEST11_COMPARE_TWO_BIG_INTEGERS:
+        test1_comparison_operators( bi1, bi2 );
+        break;
+
+    case TEST12_COMPARE_TWO_BIG_INTEGERS:
+        test2_comparison_operators( bi1, bi2 );
+        break;
+
+    case TEST13_COMPARE_TWO_BIG_INTEGERS:
+        test3_comparison_operators( bi1, bi2 );
+        break;
+
+    case TEST14_COMPARE_TWO_BIG_FLOATS:
+        test1_comparison_operators( bf1, bf2 );
+        break;
+
+    case TEST15_COMPARE_TWO_BIG_FLOATS:
+        test2_comparison_operators( bf1, bf2 );
+        break;
+
+    case TEST16_COMPARE_TWO_BIG_FLOATS:
+        test3_comparison_operators( bf1, bf2 );
+        break;
+
 
     default:
         std::cout << "Incorrect input.\n";
@@ -263,6 +305,8 @@ void test_input_operator()
 
 // Yes, templates help us to avoid duplicating
 // code, but we can't use templates, right?
+
+// arithmetic operators
 void test_subtraction_of_two_numbers( BigInt & a, BigInt & b )
 {
     std::string choice = "y";
@@ -325,6 +369,166 @@ void test_subtraction_of_two_numbers( BigFloat & a, BigInt & b )
         std::cin >> b;
         BigFloat difference = a - b;
         std::cout << "a - b = " << difference;
+        std::cout << "\nDo you want proceed this test? (y /n) ";
+        std::cin >> choice;
+        std::cout << "\n";
+    }
+}
+
+// comparison operators for class BigInt
+void test1_comparison_operators( BigInt & a, BigInt & b )
+{
+    std::string choice = "y";
+    while( choice[0] == 'y' || choice[0] == 'Y' )
+    {
+        std::cout << "Enter 1st operand: ";
+        std::cin >> a;
+        std::cout << "Enter 2nd operand: ";
+        std::cin >> b;
+
+        if ( a == b )
+        {
+            std::cout << "a == b\n";
+        }
+        else if ( a < b )
+        {
+            std::cout << "a < b\n";
+        }
+        else if ( a > b )
+        {
+            std::cout << "a > b\n";
+        }
+
+        std::cout << "\nDo you want proceed this test? (y /n) ";
+        std::cin >> choice;
+        std::cout << "\n";
+    }
+}
+
+void test2_comparison_operators( BigInt & a, BigInt & b )
+{
+    std::string choice = "y";
+    while( choice[0] == 'y' || choice[0] == 'Y' )
+    {
+        std::cout << "Enter 1st operand: ";
+        std::cin >> a;
+        std::cout << "Enter 2nd operand: ";
+        std::cin >> b;
+
+        if ( a <= b )
+        {
+            std::cout << "a <= b\n";
+        }
+        else
+        {
+            std::cout << "a > b\n";
+        }
+
+        std::cout << "\nDo you want proceed this test? (y /n) ";
+        std::cin >> choice;
+        std::cout << "\n";
+    }
+}
+
+void test3_comparison_operators(BigInt &a, BigInt &b )
+{
+    std::string choice = "y";
+    while( choice[0] == 'y' || choice[0] == 'Y' )
+    {
+        std::cout << "Enter 1st operand: ";
+        std::cin >> a;
+        std::cout << "Enter 2nd operand: ";
+        std::cin >> b;
+
+        if ( a >= b )
+        {
+            std::cout << "a >= b\n";
+        }
+        else
+        {
+            std::cout << "a < b\n";
+        }
+
+        std::cout << "\nDo you want proceed this test? (y /n) ";
+        std::cin >> choice;
+        std::cout << "\n";
+    }
+}
+
+// comparison operators for class BigFloat
+void test1_comparison_operators( BigFloat & a, BigFloat & b )
+{
+    std::string choice = "y";
+    while( choice[0] == 'y' || choice[0] == 'Y' )
+    {
+        std::cout << "Enter 1st operand: ";
+        std::cin >> a;
+        std::cout << "Enter 2nd operand: ";
+        std::cin >> b;
+
+        if ( a == b )
+        {
+            std::cout << "a == b\n";
+        }
+        else if ( a < b )
+        {
+            std::cout << "a < b\n";
+        }
+        else if ( a > b )
+        {
+            std::cout << "a > b\n";
+        }
+
+        std::cout << "\nDo you want proceed this test? (y /n) ";
+        std::cin >> choice;
+        std::cout << "\n";
+    }
+}
+
+void test2_comparison_operators( BigFloat &a, BigFloat &b )
+{
+    std::string choice = "y";
+    while( choice[0] == 'y' || choice[0] == 'Y' )
+    {
+        std::cout << "Enter 1st operand: ";
+        std::cin >> a;
+        std::cout << "Enter 2nd operand: ";
+        std::cin >> b;
+
+        if ( a <= b )
+        {
+            std::cout << "a <= b\n";
+        }
+        else
+        {
+            std::cout << "a > b\n";
+        }
+
+        std::cout << "\nDo you want proceed this test? (y /n) ";
+        std::cin >> choice;
+        std::cout << "\n";
+    }
+}
+
+void test3_comparison_operators( BigFloat & a, BigFloat & b )
+{
+    std::string choice = "y";
+    while( choice[0] == 'y' || choice[0] == 'Y' )
+    {
+        std::cout << "Enter 1st operand: ";
+        std::cin >> a;
+        std::cout << "Enter 2nd operand: ";
+        std::cin >> b;
+
+        if ( a >= b )
+        {
+            std::cout << "a >= b\n";
+        }
+        else
+        {
+            std::cout << "a < b\n";
+        }
+
         std::cout << "\nDo you want proceed this test? (y /n) ";
         std::cin >> choice;
         std::cout << "\n";
