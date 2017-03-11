@@ -398,6 +398,31 @@ void BigFloat::convert_to( NOTATION notation )
 
 }
 
+void BigFloat::push_front_additional_zeroes( const size_t quantity )
+{
+    std::string additional_zeroes( quantity, '0' );
+    insert_to( number_, additional_zeroes, 0 );
+}
+
+void BigFloat::pop_front_extra_zeroes()
+{
+    erase_part_of( number_, 0, position_before( dot_position() ) - 1 );
+}
+
+void BigFloat::push_back_additional_zeroes( const size_t quantity )
+{
+    std::string additional_zeroes( quantity, '0' );
+    insert_to( number_, additional_zeroes, position_after( last_digit_position() ) );
+}
+
+void BigFloat::pop_back_extra_zeroes()
+{
+    while ( number_[last_digit_position()] == '0' )
+    {
+        erase_part_of( number_, last_digit_position(), last_digit_position() );
+    }
+}
+
 bool BigFloat::is_less_than_zero() const
 {
     bool has_digits_greater_than_zero_after_dot = true;

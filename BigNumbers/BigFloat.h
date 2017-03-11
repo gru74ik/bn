@@ -36,10 +36,12 @@ private:
     void discard_sign();
     void move_floating_point( DIRECTION dir, size_t shiftSize );
     void convert_to( NOTATION notation );
-    void push_front_additional_zeroes( size_t numberOfZeroes );
-    void pop_front_additional_zeroes( size_t numberOfZeroes );
-    void push_back_additional_zeroes( size_t numberOfZeroes );
-    void pop_back_additional_zeroes( size_t numberOfZeroes );
+
+public: // TODO: remove this label when tests will be completed
+    void push_front_additional_zeroes( const size_t quantity );
+    void pop_front_extra_zeroes();
+    void push_back_additional_zeroes( const size_t quantity );
+    void pop_back_extra_zeroes();
 
     // getters:
     size_t dot_position() const;
