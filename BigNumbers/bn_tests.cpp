@@ -3,6 +3,52 @@
 #include "BigInt.h"
 #include "BigFloat.h"
 
+void set_test( std::string choice )
+{
+    std::cout
+        << "Choose the number of the test you want to run:\n"
+        << "1 - to test default constructor;\n"
+        << "2 - to test constructor with 1 parameter - string that represent number in exponent notation (test 1);\n"
+        << "3 - to test constructor with 1 parameter - string that represent number in exponent notation (test 2);\n"
+        << "4 - to test constructor with 1 parameter - string that represent number in decimal notation (test 1);\n"
+        << "5 - to test constructor with 1 parameter - string that represent number in decimal notation (test 2);\n"
+        << "6 - to test overloaded << operator.\n"
+           ;
+
+    std::cin >> choice;
+    switch ( string_to_number( choice ) )
+    {
+    case TEST_DEFAULT_CTOR:
+        test1_default_ctor();
+        break;
+
+    case TEST_CTOR1_ARG_EXP_NOTATION_STR:
+        test1_ctor_arg_exp_notation_str();
+        break;
+
+    case TEST_CTOR2_ARG_EXP_NOTATION_STR:
+        test2_ctor_arg_exp_notation_str();
+        break;
+
+    case TEST_CTOR1_ARG_DEC_NOTATION_STR:
+        test1_ctor_arg_dec_notation_str();
+        break;
+
+    case TEST_CTOR2_ARG_DEC_NOTATION_STR:
+        test2_ctor_arg_dec_notation_str();
+        break;
+
+    case TEST_INPUT_ITERATOR:
+        test1_input_operator();
+        break;
+
+    default:
+        std::cout << "Incorrect input.\n";
+        break;
+
+    } // endof switch
+}
+
 void test1_default_ctor()
 {
     BigFloat x;
