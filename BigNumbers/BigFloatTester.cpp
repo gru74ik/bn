@@ -78,6 +78,109 @@ void BigFloatTester::choose_group()
     } // endof switch
 }
 
+// choosers
+void BigFloatTester::choose_ctor()
+{
+    std::cout
+        << "Choose the constructor you want to test:\n"
+
+        << " 1 - default constructors;\n"
+        << " 2 - constructor with string as parameter;\n"
+        << " 3 - constructor with big integer as parameter;\n"
+        << " 4 - copy constructor;\n"
+           ;
+    std::string choice;
+    std::cin >> choice;
+    switch ( string_to_number( choice ) )
+    {
+    case DEFAULT:
+        big_float_default_ctor();
+        break;
+
+    case WITH_STRING_AS_PARAM:
+        big_float_ctor_with_str_as_param();
+        break;
+
+    case WITH_BIG_INT_AS_PARAM:
+        big_float_ctor_with_bigint_as_param();
+        break;
+
+    case COPY:
+        big_float_copy_ctor();
+        break;
+
+    default:
+        std::cout << "Incorrect input.\n";
+        break;
+
+    } // endof switch
+}
+
+void BigFloatTester::choose_checker()
+{
+    // TODO
+    std::cout <<
+        "\nThis test is temporarily unavailable. "
+        "Try again a little bit later.\n";
+}
+
+void BigFloatTester::choose_changer()
+{
+    // TODO
+    std::cout <<
+        "\nThis test is temporarily unavailable. "
+        "Try again a little bit later.\n";
+}
+
+void BigFloatTester::choose_getter()
+{
+    // TODO
+    std::cout <<
+        "\nThis test is temporarily unavailable. "
+        "Try again a little bit later.\n";
+}
+
+void BigFloatTester::choose_setter()
+{
+    // TODO
+    std::cout <<
+        "\nThis test is temporarily unavailable. "
+        "Try again a little bit later.\n";
+}
+
+void BigFloatTester::choose_comparison_ops()
+{
+    // TODO
+    std::cout <<
+        "\nThis test is temporarily unavailable. "
+        "Try again a little bit later.\n";
+}
+
+void BigFloatTester::choose_assignment_ops()
+{
+    // TODO
+    std::cout <<
+        "\nThis test is temporarily unavailable. "
+        "Try again a little bit later.\n";
+}
+
+void BigFloatTester::choose_arithmetic_ops()
+{
+    // TODO
+    std::cout <<
+        "\nThis test is temporarily unavailable. "
+        "Try again a little bit later.\n";
+}
+
+void BigFloatTester::choose_io_ops()
+{
+    // TODO
+    std::cout <<
+        "\nThis test is temporarily unavailable. "
+        "Try again a little bit later.\n";
+}
+
+
 // to test constructors:
 void BigFloatTester::big_float_default_ctor()
 {
@@ -89,7 +192,7 @@ void BigFloatTester::big_float_default_ctor()
         << "\n";
 }
 
-void BigFloatTester::big_float_ctor_with_str_as_arg()
+void BigFloatTester::big_float_ctor_with_str_as_param()
 {
     // TODO
     std::cout <<
@@ -97,7 +200,7 @@ void BigFloatTester::big_float_ctor_with_str_as_arg()
         "Try again a little bit later.\n";
 }
 
-void BigFloatTester::big_float_ctor_with_bigint_as_arg()
+void BigFloatTester::big_float_ctor_with_bigint_as_param()
 {
     // TODO
     std::cout <<

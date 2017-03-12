@@ -127,8 +127,8 @@ public:
 
     // to test constructors:
     void big_float_default_ctor();
-    void big_float_ctor_with_str_as_arg();
-    void big_float_ctor_with_bigint_as_arg();
+    void big_float_ctor_with_str_as_param();
+    void big_float_ctor_with_bigint_as_param();
     void big_float_copy_ctor();
 
     // to test checkers:
