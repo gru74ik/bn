@@ -383,7 +383,10 @@ void BigFloat::convert_to(Notation notation )
         }
         else
         {
-            std::cout << "\nError: incorrect character instead the sign.\n";
+            std::cout
+                << "\nError: incorrect character instead the sign."
+                << "\nCurrent content of number_ is: " << number_
+                << "\nAnd character is: " << number_[ e_sign() ] << "\n";
         }
         notation_ = DECIMAL;
         break;
@@ -397,6 +400,31 @@ void BigFloat::convert_to(Notation notation )
         break;
     }
 
+} // endof convert_to()
+
+void BigFloat::reverse() // or std::string function member reverse()
+{
+    size_t initial_dot_pos = dot_position();
+    size_t  final_dot_pos = last_digit_position() - dot_position();
+
+    //std::cout << "initial_dot_pos: " << initial_dot_pos << "\n";
+    //std::cout << "final_dot_pos: " << final_dot_pos << "\n";
+
+    erase_part_of( number_, initial_dot_pos, initial_dot_pos );
+
+    for ( size_t i = 0, j = last_digit_position(); i < position_after( last_digit_position() ) / 2; ++i, --j )
+    {
+        //std::cout << i + 1 << " pair: " << number_[i] << " and " << number_[j] << "\n";
+
+        // or standard library algorithm std:swap( number_[i], number_[j] );
+        char temp;
+        temp = number_[i];
+        number_[i] = number_[j];
+        number_[j] = temp;
+    }
+    //std::cout << "current number after swapping and before dot coming back: " << number_ << "\n";
+    insert_to( number_, ".", final_dot_pos );
+    //std::cout << "current number after swapping and after dot coming back: " << number_ << "\n";
 }
 
 void BigFloat::push_front_additional_zeroes( const size_t quantity )
@@ -813,8 +841,60 @@ BigFloat BigFloat::operator=( const std::string& obj )
 // arithmetic operators (both operand are same type):
 BigFloat BigFloat::operator+( const BigFloat& addendum ) const
 {
-    BigFloat sum( addendum ); // temporary solution to avoid compiler warning
-    // TODO
+    BigFloat a = *this;
+    BigFloat b = addendum;
+
+    // уравниваем количество разрядов обоих чисел до плавающей запятой:
+    if ( a.digits_before_dot() < b.digits_before_dot() )
+    {
+        a.push_front_additional_zeroes( b.digits_before_dot() - a.digits_before_dot() );
+    }
+    else if ( b.digits_before_dot() < a.digits_before_dot() )
+    {
+        b.push_front_additional_zeroes( a.digits_before_dot() - b.digits_before_dot() );
+    }
+
+    // уравниваем количество разрядов обоих чисел после плавающей запятой:
+    if ( a.digits_after_dot() < b.digits_after_dot() )
+    {
+        a.push_back_additional_zeroes( b.digits_after_dot() - a.digits_after_dot() );
+    }
+    else if ( b.digits_after_dot() < a.digits_after_dot() )
+    {
+        b.push_back_additional_zeroes( a.digits_after_dot() - b.digits_after_dot() );
+    }
+
+
+    // будем складывать, начиная с млаших разрядов, для этого перевернём число:
+    a.reverse();
+    b.reverse();
+
+    BigFloat sum ( a );
+
+    // запомним позицию плавающей точки и временно выкинем её (точку),
+    // чтобы не мешала при вычислениях:
+    size_t dot_pos = a.dot_position();
+    erase_part_of( a.number_, dot_pos, dot_pos );
+    erase_part_of( b.number_, dot_pos, dot_pos );
+
+    // излишки (то, что обычно при сложении в столбик "пишем в уме") будем складывать в переменную extra;
+    size_t extra = 0;
+    // промежуточный итог сложения двух цифр одинакового разряда будем складывать в переменную subtotal:
+    size_t subtotal = 0;
+
+    for ( size_t i = 0; i < a.position_after( a.last_digit_position() ); ++i )
+    {
+        subtotal = a.number_[i] + a.number_[i] + extra;
+        if ( subtotal > MAX_DIGIT ) // десятичная система, поэтому последняя цифра в разряде 9
+        {
+            extra = subtotal - MAX_DIGIT;
+            subtotal = subtotal % BASE;
+        }
+        sum.number_[i] = subtotal;
+    }
+
+    sum.reverse();
+
     return sum;
 }
 

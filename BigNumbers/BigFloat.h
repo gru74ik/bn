@@ -9,6 +9,9 @@ class BigFloat
 {
 // protected:
 public: // remove this label when all tests will completed
+    const size_t BASE = 10; // десятичная система счисления
+    const size_t MAX_DIGIT = BASE - 1; // максимальная цифра в разряде 9
+
     enum Notation { DECIMAL, SCIENTIFIC, DEFAULT, WRONG };
     enum Direction { LEFT, RIGHT };
 
@@ -38,6 +41,7 @@ public: // remove this label when all tests will completed
     void discard_sign();
     void move_floating_point( Direction dir, size_t shiftSize );
     void convert_to( Notation notation );
+    void reverse();
 
 public: // TODO: remove this label when tests will be completed
     void push_front_additional_zeroes( const size_t quantity );    

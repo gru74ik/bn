@@ -1047,10 +1047,10 @@ void BigFloatTester::op_assign_string_to_big_float()
 // to test arithmetic operators:
 void BigFloatTester::addition_with_big_float_as_param()
 {
-    BigFloat x( "+6.66666666666666666666666666664 E+5" );
-    BigFloat y( "+2.22222222222222222222222222221 E+5" );
+    BigFloat x( "+6.66666666666666666666666666666 E+5" );
+    BigFloat y( "+2.22222222222222222222222222222 E+5" );
     BigFloat result = x + y;
-    BigFloat rightAnswer( "888888.888888888888888888888885" );
+    BigFloat rightAnswer( "+888888.888888888888888888888888" );
 
     std::cout << "Function member addition_with_big_float_as_param() works ";
 
