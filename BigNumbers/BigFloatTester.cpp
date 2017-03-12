@@ -577,7 +577,7 @@ void BigFloatTester::is_correct()
 }
 
 // to test changers:
-void discard_sign()
+void BigFloatTester::discard_sign()
 {
     // TODO
     std::cout <<
@@ -585,7 +585,7 @@ void discard_sign()
         "Try again a little bit later.\n";
 }
 
-void move_floating_point()
+void BigFloatTester::move_floating_point()
 {
     // TODO
     std::cout <<
@@ -593,7 +593,7 @@ void move_floating_point()
         "Try again a little bit later.\n";
 }
 
-void convert_to()
+void BigFloatTester::convert_to()
 {
     // TODO
     std::cout <<
@@ -602,7 +602,7 @@ void convert_to()
 }
 
 
-void push_front_additional_zeroes()
+void BigFloatTester::push_front_additional_zeroes()
 {
     // TODO
     std::cout <<
@@ -610,7 +610,7 @@ void push_front_additional_zeroes()
         "Try again a little bit later.\n";
 }
 
-void push_back_additional_zeroes()
+void BigFloatTester::push_back_additional_zeroes()
 {
     // TODO
     std::cout <<
@@ -618,7 +618,7 @@ void push_back_additional_zeroes()
         "Try again a little bit later.\n";
 }
 
-void pop_front_extra_zeroes()
+void BigFloatTester::pop_front_extra_zeroes()
 {
     // TODO
     std::cout <<
@@ -626,7 +626,7 @@ void pop_front_extra_zeroes()
         "Try again a little bit later.\n";
 }
 
-void pop_back_extra_zeroes()
+void BigFloatTester::pop_back_extra_zeroes()
 {
     // TODO
     std::cout <<
@@ -636,7 +636,7 @@ void pop_back_extra_zeroes()
 
 
 // to test getters:
-void dot_position()
+void BigFloatTester::dot_position()
 {
     // TODO
     std::cout <<
@@ -644,7 +644,7 @@ void dot_position()
         "Try again a little bit later.\n";
 }
 
-void digits_before_dot()
+void BigFloatTester::digits_before_dot()
 {
     // TODO
     std::cout <<
@@ -652,7 +652,7 @@ void digits_before_dot()
         "Try again a little bit later.\n";
 }
 
-void digits_after_dot()
+void BigFloatTester::digits_after_dot()
 {
     // TODO
     std::cout <<
@@ -660,7 +660,7 @@ void digits_after_dot()
         "Try again a little bit later.\n";
 }
 
-void last_digit_position()
+void BigFloatTester::last_digit_position()
 {
     // TODO
     std::cout <<
@@ -668,7 +668,7 @@ void last_digit_position()
         "Try again a little bit later.\n";
 }
 
-void space_position()
+void BigFloatTester::space_position()
 {
     // TODO
     std::cout <<
@@ -676,7 +676,7 @@ void space_position()
         "Try again a little bit later.\n";
 }
 
-void e_sign()
+void BigFloatTester::e_sign()
 {
     // TODO
     std::cout <<
@@ -684,7 +684,7 @@ void e_sign()
         "Try again a little bit later.\n";
 }
 
-void e_sign_position()
+void BigFloatTester::e_sign_position()
 {
     // TODO
     std::cout <<
@@ -692,7 +692,7 @@ void e_sign_position()
         "Try again a little bit later.\n";
 }
 
-void e_position()
+void BigFloatTester::e_position()
 {
     // TODO
     std::cout <<
@@ -700,7 +700,7 @@ void e_position()
         "Try again a little bit later.\n";
 }
 
-void digits_after_e()
+void BigFloatTester::digits_after_e()
 {
     // TODO
     std::cout <<
@@ -708,7 +708,7 @@ void digits_after_e()
         "Try again a little bit later.\n";
 }
 
-void e_value_as_number()
+void BigFloatTester::e_value_as_number()
 {
     // TODO
     std::cout <<
@@ -716,7 +716,7 @@ void e_value_as_number()
         "Try again a little bit later.\n";
 }
 
-void e_value_as_string()
+void BigFloatTester::e_value_as_string()
 {
     // TODO
     std::cout <<
@@ -724,7 +724,7 @@ void e_value_as_string()
         "Try again a little bit later.\n";
 }
 
-void position_before()
+void BigFloatTester::position_before()
 {
     // TODO
     std::cout <<
@@ -732,7 +732,7 @@ void position_before()
         "Try again a little bit later.\n";
 }
 
-void position_after()
+void BigFloatTester::position_after()
 {
     // TODO
     std::cout <<
@@ -740,7 +740,7 @@ void position_after()
         "Try again a little bit later.\n";
 }
 
-void sign()
+void BigFloatTester::sign()
 {
     // TODO
     std::cout <<
@@ -748,7 +748,7 @@ void sign()
         "Try again a little bit later.\n";
 }
 
-void lead_zeroes()
+void BigFloatTester::lead_zeroes()
 {
     // TODO
     std::cout <<
@@ -756,7 +756,7 @@ void lead_zeroes()
         "Try again a little bit later.\n";
 }
 
-void mantissa()
+void BigFloatTester::mantissa()
 {
     // TODO
     std::cout <<
@@ -764,7 +764,7 @@ void mantissa()
         "Try again a little bit later.\n";
 }
 
-void number()
+void BigFloatTester::number()
 {
     // TODO
     std::cout <<
@@ -772,7 +772,7 @@ void number()
         "Try again a little bit later.\n";
 }
 
-void notation()
+void BigFloatTester::notation()
 {
     // TODO
     std::cout <<
@@ -782,7 +782,7 @@ void notation()
 
 
 // to test setters:
-void set_number()
+void BigFloatTester::set_number()
 {
     // TODO
     std::cout <<
@@ -790,7 +790,7 @@ void set_number()
         "Try again a little bit later.\n";
 }
 
-void reset()
+void BigFloatTester::reset()
 {
     // TODO
     std::cout <<
@@ -798,7 +798,7 @@ void reset()
         "Try again a little bit later.\n";
 }
 
-void mark_as_wrong()
+void BigFloatTester::mark_as_wrong()
 {
     // TODO
     std::cout <<
@@ -808,7 +808,7 @@ void mark_as_wrong()
 
 
 // to test comparison operators:
-void op_less_than()
+void BigFloatTester::op_less_than()
 {
     // TODO
     std::cout <<
@@ -816,7 +816,7 @@ void op_less_than()
         "Try again a little bit later.\n";
 }
 
-void op_less_than_or_equal_to()
+void BigFloatTester::op_less_than_or_equal_to()
 {
     // TODO
     std::cout <<
@@ -824,7 +824,7 @@ void op_less_than_or_equal_to()
         "Try again a little bit later.\n";
 }
 
-void op_greater_than()
+void BigFloatTester::op_greater_than()
 {
     // TODO
     std::cout <<
@@ -832,7 +832,7 @@ void op_greater_than()
         "Try again a little bit later.\n";
 }
 
-void op_greater_than_or_equal_to()
+void BigFloatTester::op_greater_than_or_equal_to()
 {
     // TODO
     std::cout <<
@@ -840,7 +840,7 @@ void op_greater_than_or_equal_to()
         "Try again a little bit later.\n";
 }
 
-void op_equal_to()
+void BigFloatTester::op_equal_to()
 {
     // TODO
     std::cout <<
@@ -850,7 +850,7 @@ void op_equal_to()
 
 
 // to test assignment operators:
-void op_assign_big_float_to_big_float()
+void BigFloatTester::op_assign_big_float_to_big_float()
 {
     // TODO
     std::cout <<
@@ -858,7 +858,7 @@ void op_assign_big_float_to_big_float()
         "Try again a little bit later.\n";
 }
 
-void op_assign_string_to_big_float()
+void BigFloatTester::op_assign_string_to_big_float()
 {
     // TODO
     std::cout <<
@@ -868,7 +868,7 @@ void op_assign_string_to_big_float()
 
 
 // to test arithmetic operators:
-void addition_with_big_float_as_param()
+void BigFloatTester::addition_with_big_float_as_param()
 {
     // TODO
     std::cout <<
@@ -876,7 +876,7 @@ void addition_with_big_float_as_param()
         "Try again a little bit later.\n";
 }
 
-void subtraction_with_big_float_as_param()
+void BigFloatTester::subtraction_with_big_float_as_param()
 {
     // TODO
     std::cout <<
@@ -884,7 +884,7 @@ void subtraction_with_big_float_as_param()
         "Try again a little bit later.\n";
 }
 
-void multiplication_with_big_float_as_param()
+void BigFloatTester::multiplication_with_big_float_as_param()
 {
     // TODO
     std::cout <<
@@ -892,7 +892,7 @@ void multiplication_with_big_float_as_param()
         "Try again a little bit later.\n";
 }
 
-void division_with_big_float_as_param()
+void BigFloatTester::division_with_big_float_as_param()
 {
     // TODO
     std::cout <<
@@ -901,7 +901,7 @@ void division_with_big_float_as_param()
 }
 
 
-void addition_with_big_int_as_param()
+void BigFloatTester::addition_with_big_int_as_param()
 {
     // TODO
     std::cout <<
@@ -909,7 +909,7 @@ void addition_with_big_int_as_param()
         "Try again a little bit later.\n";
 }
 
-void subtraction_with_big_int_as_param()
+void BigFloatTester::subtraction_with_big_int_as_param()
 {
     // TODO
     std::cout <<
@@ -917,7 +917,7 @@ void subtraction_with_big_int_as_param()
         "Try again a little bit later.\n";
 }
 
-void multiplication_with_big_int_as_param()
+void BigFloatTester::multiplication_with_big_int_as_param()
 {
     // TODO
     std::cout <<
@@ -925,7 +925,7 @@ void multiplication_with_big_int_as_param()
         "Try again a little bit later.\n";
 }
 
-void division_with_big_int_as_param()
+void BigFloatTester::division_with_big_int_as_param()
 {
     // TODO
     std::cout <<
@@ -935,7 +935,7 @@ void division_with_big_int_as_param()
 
 
 // to test input-output operators:
-void input_op()
+void BigFloatTester::input_op()
 {
     // TODO
     std::cout <<
@@ -943,7 +943,7 @@ void input_op()
         "Try again a little bit later.\n";
 }
 
-void output_op()
+void BigFloatTester::output_op()
 {
     // TODO
     std::cout <<
