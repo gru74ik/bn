@@ -205,18 +205,21 @@ void test1_ctor_arg_exp_notation_str()
     BigFloat l ( "0.234 E+5" );
 
     std::cout
-        << "The number a: " << a << "\n"
-        << "The number b: " << b << "\n"
-        << "The number c: " << c << "\n"
-        << "The number d: " << d << "\n"
-        << "The number e: " << e << "\n"
-        << "The number f: " << f << "\n"
-        << "The number g: " << g << "\n"
-        << "The number h: " << h << "\n"
-        << "The number i: " << i << "\n"
-        << "The number j: " << j << "\n"
-        << "The number k: " << k << "\n"
-        << "The number l: " << l << "\n"
+        << "BigFloat a ( \"+1.234 E-5\" ): " << a << "\n"
+        << "BigFloat b ( \"-1.234 E-5\" ): " << b << "\n"
+        << "BigFloat c ( \"1.234 E-5\" ): " << c << "\n"
+
+        << "BigFloat d ( \"+1.234 E+5\" ): " << d << "\n"
+        << "BigFloat e ( \"-1.234 E+5\" ): " << e << "\n"
+        << "BigFloat f ( \"1.234 E+5\" ): " << f << "\n"
+
+        << "BigFloat g ( \"+0.234 E-5\" ): " << g << "\n"
+        << "BigFloat h ( \"-0.234 E-5\" ): " << h << "\n"
+        << "BigFloat i ( \"0.234 E-5\" ): " << i << "\n"
+
+        << "BigFloat j ( \"+0.234 E+5\" ): " << j << "\n"
+        << "BigFloat k ( \"-0.234 E+5\" ): " << k << "\n"
+        << "BigFloat l ( \"0.234 E+5\" ): " << l << "\n"
            ;
 }
 

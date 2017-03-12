@@ -513,10 +513,77 @@ void BigFloatTester::big_float_default_ctor()
 
 void BigFloatTester::big_float_ctor_with_str_as_param()
 {
-    // TODO
-    std::cout <<
-        "\nThis test is temporarily unavailable. "
-        "Try again a little bit later.\n";
+    BigFloat a ( "+1.234 E-5" );
+    BigFloat b ( "-1.234 E-5" );
+    BigFloat c ( "1.234 E-5" );
+
+    BigFloat d ( "+1.234 E+5" );
+    BigFloat e ( "-1.234 E+5" );
+    BigFloat f ( "1.234 E+5" );
+
+    BigFloat g ( "+0.234 E-5" );
+    BigFloat h ( "-0.234 E-5" );
+    BigFloat i ( "0.234 E-5" );
+
+    BigFloat j ( "+0.234 E+5" );
+    BigFloat k ( "-0.234 E+5" );
+    BigFloat l ( "0.234 E+5" );
+
+    BigFloat m ( "+1.234 e-5" );
+    BigFloat n ( "-1.234 e-5" );
+    BigFloat o ( "1.234 e-5" );
+
+    BigFloat p ( "+1.234 e+5" );
+    BigFloat q ( "-1.234 e+5" );
+    BigFloat r ( "1.234 e+5" );
+
+    BigFloat s ( "+0.234 e-5" );
+    BigFloat t ( "-0.234 e-5" );
+    BigFloat u ( "0.234 e-5" );
+
+    BigFloat v ( "+0.234 e+5" );
+    BigFloat w ( "-0.234 e+5" );
+    BigFloat x ( "0.234 e+5" );
+
+    BigFloat y ( "0" );
+    BigFloat z ( "deliberate_error" );
+
+    std::cout
+        << "BigFloat a ( \"+1.234 E-5\" ): " << a << "\n"
+        << "BigFloat b ( \"-1.234 E-5\" ): " << b << "\n"
+        << "BigFloat c ( \"1.234 E-5\" ): " << c << "\n\n"
+
+        << "BigFloat d ( \"+1.234 E+5\" ): " << d << "\n"
+        << "BigFloat e ( \"-1.234 E+5\" ): " << e << "\n"
+        << "BigFloat f ( \"1.234 E+5\" ): " << f << "\n\n"
+
+        << "BigFloat g ( \"+0.234 E-5\" ): " << g << "\n"
+        << "BigFloat h ( \"-0.234 E-5\" ): " << h << "\n"
+        << "BigFloat i ( \"0.234 E-5\" ): " << i << "\n\n"
+
+        << "BigFloat j ( \"+0.234 E+5\" ): " << j << "\n"
+        << "BigFloat k ( \"-0.234 E+5\" ): " << k << "\n"
+        << "BigFloat l ( \"0.234 E+5\" ): " << l << "\n\n"
+
+        << "BigFloat m ( \"+1.234 e-5\" ): " << m << "\n"
+        << "BigFloat n ( \"-1.234 e-5\" ): " << n << "\n"
+        << "BigFloat o ( \"1.234 e-5\" ): " << o << "\n\n"
+
+        << "BigFloat p ( \"+1.234 e+5\" ): " << p << "\n"
+        << "BigFloat q ( \"-1.234 e+5\" ): " << q << "\n"
+        << "BigFloat r ( \"1.234 e+5\" ): " << r << "\n\n"
+
+        << "BigFloat s ( \"+0.234 e-5\" ): " << s << "\n"
+        << "BigFloat t ( \"-0.234 e-5\" ): " << t << "\n"
+        << "BigFloat u ( \"0.234 e-5\" ): " << u << "\n\n"
+
+        << "BigFloat v ( \"+0.234 e+5\" ): " << v << "\n"
+        << "BigFloat w ( \"-0.234 e+5\" ): " << w << "\n"
+        << "BigFloat x ( \"0.234 e+5\" ): " << x << "\n\n"
+
+        << "BigFloat y ( \"0\" ): " << y << "\n"
+        << "BigFloat z ( \"deliberate_error\" ): " << z << "\n"
+           ;
 }
 
 void BigFloatTester::big_float_ctor_with_bigint_as_param()
@@ -546,34 +613,68 @@ void BigFloatTester::is_scientific()
 
 void BigFloatTester::is_decimal()
 {
-    // TODO
-    std::cout <<
-        "\nThis test is temporarily unavailable. "
-        "Try again a little bit later.\n";
+    BigFloat x( "0.0001" );
+    if ( x.is_decimal() )
+    {
+        std::cout <<
+            "\nBigFloat x( \"0.0001\" ) is decimal.\n"
+            "Function member is_decimal works properly.\n";
+    }
+    else
+    {
+        std::cout <<
+            "Function member is_decimal works with errors.\n";
+    }
 }
 
 void BigFloatTester::is_less_than_zero()
 {
-    // TODO
-    std::cout <<
-        "\nThis test is temporarily unavailable. "
-        "Try again a little bit later.\n";
+    BigFloat x( "0.00000000000000000000000000001" );
+    if ( x.is_less_than_zero() )
+    {
+        std::cout <<
+            "\nBigFloat x( \"0.0001\" ) is less than zero.\n"
+            "Function member is_less_than_zero() works properly.\n";
+    }
+    else
+    {
+        std::cout <<
+            "Function member is_decimal works with errors.\n";
+    }
 }
 
 void BigFloatTester::is_greater_than_zero()
 {
-    // TODO
-    std::cout <<
-        "\nThis test is temporarily unavailable. "
-        "Try again a little bit later.\n";
+    BigFloat x( "1.00000000000000000000000000001" );
+    if ( x.is_greater_than_zero() )
+    {
+        std::cout <<
+            "\nBigFloat x( \"0.0001\" ) is greater than zero.\n"
+            "Function member is_less_than_zero() works properly.\n";
+    }
+    else
+    {
+        std::cout <<
+            "Function member is_decimal works with errors.\n";
+    }
 }
 
 void BigFloatTester::is_correct()
 {
-    // TODO
-    std::cout <<
-        "\nThis test is temporarily unavailable. "
-        "Try again a little bit later.\n";
+    BigFloat x( "1.00000000000000000000000000001" );
+    if ( x.is_correct( DECIMAL ) )
+    {
+        std::cout <<
+            "\nBigFloat x( \"0.0001\" ) is correct number written in decimal notation.\n"
+            "Function member is_less_than_zero() works properly.\n";
+    }
+    else
+    {
+        std::cout <<
+            "Function member is_decimal works with errors.\n";
+    }
+
+    BigFloat y( "+0.12345678901234567890123456789 e-5" );
 }
 
 // to test changers:
