@@ -1,3 +1,6 @@
+// This is old version of tests. Eventually all of them will be moved to
+// class BigFloatTester. Then this version will be removed from project.
+
 #include "bn_tests.h"
 #include "bn_functions.h"
 #include "BigInt.h"

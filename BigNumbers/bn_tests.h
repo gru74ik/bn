@@ -1,3 +1,6 @@
+// This is old version of tests. Eventually all of them will be moved to
+// class BigFloatTester. Then this version will be removed from project.
+
 #ifndef BN_TESTS_H
 #define BN_TESTS_H
 
