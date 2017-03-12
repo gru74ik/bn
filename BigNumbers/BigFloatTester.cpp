@@ -1047,21 +1047,23 @@ void BigFloatTester::op_assign_string_to_big_float()
 // to test arithmetic operators:
 void BigFloatTester::addition_with_big_float_as_param()
 {
-    BigFloat x( "+6.666666 E+5" );
-    BigFloat y( "+2.222222 E+5" );
-    BigFloat result = x + y;
-    BigFloat rightAnswer( "+888888.8" );
-
-    std::cout << "Function member addition_with_big_float_as_param() works ";
-
-    if ( result == rightAnswer )
+    std::string choice = "y";
+    while( choice[0] == 'y' || choice[0] == 'Y' )
     {
-        std::cout << "properly.\n";
-    }
-    else
-    {
-        std::cout << "with errors.\n";
-    }
+        std::cout << "Enter 1st big float operand: ";
+        BigFloat x;
+        std:: cin >> x;
+        std::cout << "Enter 2st big float operand: ";
+        BigFloat y;
+        std:: cin >> y;
+
+        std::cout << "x + y = " << x + y << "\n";
+
+        std::cout << "\nDo you want proceed this test? (y /n) ";
+        std::cin >> choice;
+        std::cout << "\n";
+
+    } // endof while
 }
 
 void BigFloatTester::subtraction_with_big_float_as_param()

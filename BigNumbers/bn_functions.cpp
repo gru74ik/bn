@@ -113,24 +113,18 @@ void erase_part_of( std::string& str, const size_t first, const size_t last )
     if ( first <= last )
     {
         std::string part_before = "";
-        for ( size_t i = 0; i < first; ++i )
+        size_t i = 0;
+        for ( ; i < first; ++i )
         {
             part_before = part_before + str[i];
         }
 
-        if ( last < str.size()-2 )
+        std::string part_after = "";
+        for ( size_t j = i + 1; j < str.size(); ++j )
         {
-            std::string part_after = "";
-            for ( size_t i = last+1; i < str.size(); ++i )
-            {
-                part_after = part_after + str[i];
-            }
-            str = part_before + part_after;
+            part_after = part_after + str[j];
         }
-        else
-        {
-            str = part_before;
-        }
+        str = part_before + part_after;
     }
 }
 

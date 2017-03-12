@@ -27,4 +27,7 @@ int main()
 {
     //BigFloatTester tester;
     //tester.menu();
+
+    BigFloat x( "12.3" );
+    std::cout << x;
 }

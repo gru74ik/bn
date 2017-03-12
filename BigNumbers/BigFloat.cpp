@@ -48,6 +48,7 @@ BigFloat::BigFloat( const std::string& number )
             //<< "\nConstructor tried create object from string\n"
             //<< "but failed, because string is incorrect.\n";
     }
+    std::cout << "After all number_ in ctor: " << number_ << "\n";
 }
 
 BigFloat::BigFloat( const BigInt& bigInteger )
@@ -293,7 +294,22 @@ void BigFloat::move_floating_point(Direction dir, size_t shiftSize )
     case LEFT:
     {
         size_t digits_before = digits_before_dot();
+
+        std::cout
+            <<  "\nWe are in function BigFloat::move_floating_point in section\n"
+                "of switch 'case LEFT' and current content of number_ is: "
+            << number_
+            << "\nand current value of dot_pos is: "
+            << dot_pos << "\n\n";
+
         erase_part_of( number_, dot_pos, dot_pos );
+
+        std::cout
+            <<  "\nWe are in function BigFloat::move_floating_point in section\n"
+                "of switch 'case LEFT' and current content of number_ after dot erasure is: "
+            << number_
+            << "\nand current value of dot_pos is: "
+            << dot_pos << "\n\n";
 
         if ( digits_before > shiftSize )
         {
@@ -329,6 +345,10 @@ void BigFloat::convert_to(Notation notation )
             size_t shift = position_before( dot_position() );
             move_floating_point( LEFT, shift );
             number_ = number_ + " E+" + number_to_string( shift );
+
+            std::cout <<
+                "number_ after converting from decimal to scientific\n"
+                "move_floating_point( LEFT ): " << number_ << "\n";
         }
         else
         {
@@ -342,6 +362,9 @@ void BigFloat::convert_to(Notation notation )
             {
                 number_ = number_ + " E+0";
             }
+            std::cout <<
+                "number_ after converting from decimal to scientific\n"
+                "move_floating_point( RIGHT ): " << number_ << "\n";
         }
         pop_back_extra_zeroes();
         notation_ = SCIENTIFIC;
@@ -401,7 +424,7 @@ void BigFloat::convert_to(Notation notation )
     }
 
 } // endof convert_to()
-
+/*
 void BigFloat::reverse() // or std::string function member reverse()
 {
     size_t initial_dot_pos = dot_position();
@@ -443,7 +466,7 @@ void BigFloat::push_back_additional_zeroes( const size_t quantity )
     std::string additional_zeroes( quantity, '0' );
     insert_to( number_, additional_zeroes, position_after( last_digit_position() ) );
 }
-
+*/
 void BigFloat::pop_back_extra_zeroes()
 {
     while ( number_[last_digit_position()] == '0' &&
@@ -844,65 +867,85 @@ BigFloat BigFloat::operator+( const BigFloat& addendum ) const
     BigFloat a = *this;
     BigFloat b = addendum;
 
-    // уравниваем количество разрядов обоих чисел до плавающей запятой:
+    std::string aStr = this->number_;
+    std::string bStr = addendum.number_;
+
+    std::cout << "this->number_: " << this->number_ << "\n";
+    std::cout << "addendum.number_: " << addendum.number_ << "\n";
+
+    std::cout << "aStr: " << aStr << "\n";
+    std::cout << "bStr: " << bStr << "\n";
+
+    size_t diff; // разница между количеством разрядов
+
+    // уравниваем количество разрядов обоих чисел до плавающей точки:
     if ( a.digits_before_dot() < b.digits_before_dot() )
     {
-        a.push_front_additional_zeroes( b.digits_before_dot() - a.digits_before_dot() );
+        diff = b.digits_before_dot() - a.digits_before_dot();
+        for ( size_t i = 0; i < diff; ++i )
+        {
+            push_front( aStr, "0" );
+        }
     }
     else if ( b.digits_before_dot() < a.digits_before_dot() )
     {
-        b.push_front_additional_zeroes( a.digits_before_dot() - b.digits_before_dot() );
+        diff = a.digits_before_dot() - b.digits_before_dot();
+        for ( size_t i = 0; i < diff; ++i )
+        {
+            push_front( bStr, "0" );
+        }
     }
 
-    // уравниваем количество разрядов обоих чисел после плавающей запятой:
+    // уравниваем количество разрядов обоих чисел после плавающей точки:
     if ( a.digits_after_dot() < b.digits_after_dot() )
     {
-        a.push_back_additional_zeroes( b.digits_after_dot() - a.digits_after_dot() );
+        diff = b.digits_after_dot() - a.digits_after_dot();
+        for ( size_t i = 0; i < diff; ++i )
+        {
+            push_back( aStr, "0" );
+        }
     }
     else if ( b.digits_after_dot() < a.digits_after_dot() )
     {
-        b.push_back_additional_zeroes( a.digits_after_dot() - b.digits_after_dot() );
+        diff = a.digits_after_dot() - b.digits_after_dot();
+        for ( size_t i = 0; i < diff; ++i )
+        {
+            push_back( bStr, "0" );
+        }
     }
 
 
     // будем складывать, начиная с млаших разрядов, для этого перевернём число:
-    std::cout << "a and b before reverse: " << a.number_ << " and " << b.number_ << "\n";
-    a.reverse();
-    b.reverse();
-    std::cout << "a and b after reverse: " << a.number_ << " and " << b.number_ << "\n";
-
-    BigFloat sum ( a );
+    reverse( aStr );
+    reverse( bStr );
 
     // запомним позицию плавающей точки и временно выкинем её (точку),
     // чтобы не мешала при вычислениях:
-    size_t dot_pos = a.dot_position();
-    erase_part_of( a.number_, dot_pos, dot_pos );
-    erase_part_of( b.number_, dot_pos, dot_pos );
+    size_t dot_pos = char_position( aStr, '.' );
+    erase_part_of( aStr, dot_pos, dot_pos );
+    erase_part_of( bStr, dot_pos, dot_pos );
 
     // излишки (то, что обычно при сложении в столбик "пишем в уме") будем складывать в переменную extra;
     size_t extra = 0;
     // промежуточный итог сложения двух цифр одинакового разряда будем складывать в переменную subtotal:
     size_t subtotal = 0;
 
-    for ( size_t i = 0; i < a.position_after( a.last_digit_position() ); ++i )
+    std::string sumStr;
+    for ( size_t i = 0; i < aStr.size(); ++i )
     {
-        subtotal = char_to_digit( a.number_[i] ) + char_to_digit( a.number_[i] ) + extra;
+        subtotal = char_to_digit( aStr[i] ) + char_to_digit( bStr[i] ) + extra;
         if ( subtotal > MAX_DIGIT ) // десятичная система, поэтому последняя цифра в разряде 9
         {
             extra = subtotal - MAX_DIGIT;
             subtotal = subtotal % BASE;
         }
-        sum.number_[i] = digit_to_char( subtotal );
+        push_back( sumStr, digit_to_char( subtotal ) );
     }
 
-    std::cout << "a and b before re-reverse: " << a.number_ << " and " << b.number_ << "\n";
-    a.reverse();
-    b.reverse();
-    std::cout << "a and b after re-reverse: " << a.number_ << " and " << b.number_ << "\n";
+    reverse( sumStr );
+    insert_to( sumStr, ".", dot_pos );
 
-    std::cout << "Sum before reverse: " << sum.number_ << "\n";
-    sum.reverse();
-    std::cout << "Sum after reverse: " << sum.number_ << "\n";
+    BigFloat sum( sumStr );
 
     return sum;
 }
@@ -1012,54 +1055,57 @@ BigFloat BigFloat::operator/( const BigInt& divider ) const
 }
 
 // input-output operators
-std::istream& operator>>( std::istream& is, BigFloat& bf )
+std::istream& operator>>( std::istream& is, const BigFloat& bf )
 {
+    BigFloat temp = bf;
+
     std::string num;
     std::cin.sync();
     std::getline( std::cin, num );
 
-    bf.set_number( num );
+    temp.set_number( num );
 
-    if ( bf.is_correct( BigFloat::SCIENTIFIC ) )
+    if ( temp.is_correct( BigFloat::SCIENTIFIC ) )
     {
-        bf.convert_to( BigFloat::DECIMAL );
+        temp.convert_to( BigFloat::DECIMAL );
     }
-    else if ( bf.is_correct( BigFloat::DECIMAL ) )
+    else if ( temp.is_correct( BigFloat::DECIMAL ) )
     {
         // do nothing
     }
-    else if ( bf.is_correct( BigFloat::DEFAULT ) )
+    else if ( temp.is_correct( BigFloat::DEFAULT ) )
     {
-        bf.reset();
+        temp.reset();
     }
     else
     {
-        bf.mark_as_wrong();
+        temp.mark_as_wrong();
     }
 
     return is;
 }
 
-std::ostream& operator<<( std::ostream& os, BigFloat& bf )
+std::ostream& operator<<( std::ostream& os, const BigFloat& bf )
 {
-    if ( bf.is_correct( BigFloat::DECIMAL ) )
+    BigFloat temp = bf;
+    if ( temp.is_correct( BigFloat::DECIMAL ) )
     {
-        bf.convert_to( BigFloat::SCIENTIFIC );
+        temp.convert_to( BigFloat::SCIENTIFIC );
     }
-    else if ( bf.is_correct( BigFloat::SCIENTIFIC ) )
+    else if ( temp.is_correct( BigFloat::SCIENTIFIC ) )
     {
         // do nothing
     }
-    else if ( bf.is_correct( BigFloat::DEFAULT ) )
+    else if ( temp.is_correct( BigFloat::DEFAULT ) )
     {
-        bf.tail_ = ".0 E+0";
+        temp.tail_ = ".0 E+0";
     }
     else
     {
-        bf.mark_as_wrong();
+        temp.mark_as_wrong();
     }
 
-    os << bf.sign_ << bf.number_ << bf.tail_;
+    os << temp.sign_ << temp.number_ << temp.tail_;
 
     return os;
 }
