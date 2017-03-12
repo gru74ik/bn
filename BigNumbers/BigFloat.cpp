@@ -866,8 +866,10 @@ BigFloat BigFloat::operator+( const BigFloat& addendum ) const
 
 
     // будем складывать, начиная с млаших разрядов, для этого перевернём число:
+    std::cout << "a and b before reverse: " << a.number_ << " and " << b.number_ << "\n";
     a.reverse();
     b.reverse();
+    std::cout << "a and b after reverse: " << a.number_ << " and " << b.number_ << "\n";
 
     BigFloat sum ( a );
 
@@ -884,16 +886,23 @@ BigFloat BigFloat::operator+( const BigFloat& addendum ) const
 
     for ( size_t i = 0; i < a.position_after( a.last_digit_position() ); ++i )
     {
-        subtotal = a.number_[i] + a.number_[i] + extra;
+        subtotal = char_to_digit( a.number_[i] ) + char_to_digit( a.number_[i] ) + extra;
         if ( subtotal > MAX_DIGIT ) // десятичная система, поэтому последняя цифра в разряде 9
         {
             extra = subtotal - MAX_DIGIT;
             subtotal = subtotal % BASE;
         }
-        sum.number_[i] = subtotal;
+        sum.number_[i] = digit_to_char( subtotal );
     }
 
+    std::cout << "a and b before re-reverse: " << a.number_ << " and " << b.number_ << "\n";
+    a.reverse();
+    b.reverse();
+    std::cout << "a and b after re-reverse: " << a.number_ << " and " << b.number_ << "\n";
+
+    std::cout << "Sum before reverse: " << sum.number_ << "\n";
     sum.reverse();
+    std::cout << "Sum after reverse: " << sum.number_ << "\n";
 
     return sum;
 }

@@ -134,6 +134,55 @@ void erase_part_of( std::string& str, const size_t first, const size_t last )
     }
 }
 
+void reverse( std::string& str )
+{
+    for ( size_t i = 0, j = str.size() - 1; i < str.size() / 2; ++i, --j )
+    {
+        //std::cout << i + 1 << " pair: " << number_[i] << " and " << number_[j] << "\n";
+
+        // or standard library algorithm std:swap( number_[i], number_[j] );
+        char temp;
+        temp = str[i];
+        str[i] = str[j];
+        str[j] = temp;
+    }
+}
+
+void push_back( std::string& str, const std::string& substr )
+{
+    insert_to( str, substr, str.size() );
+}
+
+void push_back( std::string& str, const char ch )
+{
+    std::string substr = "";
+    substr = substr + ch;
+    insert_to( str, substr, str.size() );
+}
+
+void push_front( std::string& str, const std::string& substr )
+{
+    insert_to( str, substr, 0 );
+}
+
+void push_front( std::string& str, const char ch )
+{
+    std::string substr = "";
+    substr = substr + ch;
+    insert_to( str, substr, 0 );
+}
+
+void pop_front( std::string& str )
+{
+    erase_part_of( str, 0, 0 );
+}
+
+void pop_back( std::string& str )
+{
+    erase_part_of( str, str.size() - 1, str.size() - 1 );
+}
+
+
 size_t pow( size_t base, size_t exp )
 {
     size_t result = 1;

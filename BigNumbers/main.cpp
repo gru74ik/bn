@@ -25,6 +25,6 @@ N mzn 10 *. 0) ( . Например, число 2.5 можно записать 
 
 int main()
 {
-    BigFloatTester tester;
-    tester.menu();
+    //BigFloatTester tester;
+    //tester.menu();
 }
