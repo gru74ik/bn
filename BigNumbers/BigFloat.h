@@ -106,7 +106,7 @@ public:
     BigFloat operator/( const BigInt& divider ) const;
 
     // input-output operators:
-    friend std::istream& operator>>( std::istream& is, const BigFloat& bf );
+    friend std::istream& operator>>( std::istream& is, BigFloat& bf );
     friend std::ostream& operator<<( std::ostream& os, const BigFloat& bf );
 
 };

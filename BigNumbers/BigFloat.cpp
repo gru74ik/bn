@@ -870,12 +870,6 @@ BigFloat BigFloat::operator+( const BigFloat& addendum ) const
     std::string aStr = this->number_;
     std::string bStr = addendum.number_;
 
-    std::cout << "this->number_: " << this->number_ << "\n";
-    std::cout << "addendum.number_: " << addendum.number_ << "\n";
-
-    std::cout << "aStr: " << aStr << "\n";
-    std::cout << "bStr: " << bStr << "\n";
-
     size_t diff; // разница между количеством разрядов
 
     // уравниваем количество разрядов обоих чисел до плавающей точки:
@@ -914,16 +908,17 @@ BigFloat BigFloat::operator+( const BigFloat& addendum ) const
         }
     }
 
+    // запомним позицию плавающей точки:
+    size_t dot_pos_a = char_position( aStr, '.' );
+    size_t dot_pos_b = char_position( bStr, '.' );
 
-    // будем складывать, начиная с млаших разрядов, для этого перевернём число:
+    // уберём из обоих чисел плавающую точку, чтобы не мешала при вычислениях:
+    erase_part_of( aStr, dot_pos_a, dot_pos_a );
+    erase_part_of( bStr, dot_pos_b, dot_pos_b );
+
+    // будем складывать, начиная с млаших разрядов, для этого перевернём числа:
     reverse( aStr );
     reverse( bStr );
-
-    // запомним позицию плавающей точки и временно выкинем её (точку),
-    // чтобы не мешала при вычислениях:
-    size_t dot_pos = char_position( aStr, '.' );
-    erase_part_of( aStr, dot_pos, dot_pos );
-    erase_part_of( bStr, dot_pos, dot_pos );
 
     // излишки (то, что обычно при сложении в столбик "пишем в уме") будем складывать в переменную extra;
     size_t extra = 0;
@@ -934,16 +929,18 @@ BigFloat BigFloat::operator+( const BigFloat& addendum ) const
     for ( size_t i = 0; i < aStr.size(); ++i )
     {
         subtotal = char_to_digit( aStr[i] ) + char_to_digit( bStr[i] ) + extra;
+
         if ( subtotal > MAX_DIGIT ) // десятичная система, поэтому последняя цифра в разряде 9
         {
-            extra = subtotal - MAX_DIGIT;
+            extra = subtotal / BASE;
             subtotal = subtotal % BASE;
         }
         push_back( sumStr, digit_to_char( subtotal ) );
     }
+    push_back( sumStr, digit_to_char( extra ) );
 
     reverse( sumStr );
-    insert_to( sumStr, ".", dot_pos );
+    insert_to( sumStr, ".", dot_pos_a + 1 );
 
     BigFloat sum( sumStr );
 
@@ -1002,26 +999,6 @@ BigFloat BigFloat::operator/( const BigFloat& divider ) const
         // TODO: закончить
     }
 
-
-/*
-Цикл Х:
-1)  Проверить, действительно ли делимое больше, чем делитель.
-2)  Если да, начинаем делить.
-3)  Если нет, сдвигаем вправо плавающую точку в делимом и
-    добавляем ноль с точкой в ответ.
-4)  Проверить, действительно ли делимое больше, чем делитель.
-5)	Если да, начинаем делить.
-6)  Если нет, сдвигаем вправо плавающую точку в делимом
-    и добавляем ноль после точки в ответ.
-7)  Выполнять цикл X, пока делимое не станет больше, чем делитель или пока
-    количество разрядов в ответе не превысит 30.
-8)  Делим делимое на делитель, частное записываем в ответ, остаток записываем
-    в остаток (сносим вниз).
-9)  Теперь остаток – это делимое.
-10)	Выполнять цикл X, пока делимое не станет больше, чем делитель или пока
-    количество разрядов в ответе не превысит 30.
-*/
-
     return result;
 }
 
@@ -1055,31 +1032,29 @@ BigFloat BigFloat::operator/( const BigInt& divider ) const
 }
 
 // input-output operators
-std::istream& operator>>( std::istream& is, const BigFloat& bf )
+std::istream& operator>>( std::istream& is, BigFloat& bf )
 {
-    BigFloat temp = bf;
-
     std::string num;
     std::cin.sync();
     std::getline( std::cin, num );
 
-    temp.set_number( num );
+    bf.set_number( num );
 
-    if ( temp.is_correct( BigFloat::SCIENTIFIC ) )
+    if ( bf.is_correct( BigFloat::SCIENTIFIC ) )
     {
-        temp.convert_to( BigFloat::DECIMAL );
+        bf.convert_to( BigFloat::DECIMAL );
     }
-    else if ( temp.is_correct( BigFloat::DECIMAL ) )
+    else if ( bf.is_correct( BigFloat::DECIMAL ) )
     {
         // do nothing
     }
-    else if ( temp.is_correct( BigFloat::DEFAULT ) )
+    else if ( bf.is_correct( BigFloat::DEFAULT ) )
     {
-        temp.reset();
+        bf.reset();
     }
     else
     {
-        temp.mark_as_wrong();
+        bf.mark_as_wrong();
     }
 
     return is;

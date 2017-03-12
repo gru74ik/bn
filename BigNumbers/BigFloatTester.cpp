@@ -7,7 +7,7 @@ void BigFloatTester::menu()
     for( size_t i = 1; choice[0] == 'y' || choice[0] == 'Y'; ++i )
     {
         choose_group();
-        std::cout << "\nDo you want proceed work with the program? (y /n) ";
+        std::cout << "Do you want proceed work with the program? (y /n) ";
         std::cin >> choice;
     }
 }
@@ -536,7 +536,7 @@ void BigFloatTester::choose_arithmetic_ops()
 
         } // endof switch
 
-        std::cout << "\nDo you want proceed this test? (y /n) ";
+        std::cout << "Do you want continue testing arithmetic operators? (y /n) ";
         std::cin >> choice;
         std::cout << "\n";
 
@@ -1052,10 +1052,10 @@ void BigFloatTester::addition_with_big_float_as_param()
     {
         std::cout << "Enter 1st big float operand: ";
         BigFloat x;
-        std:: cin >> x;
+        std::cin >> x;
         std::cout << "Enter 2st big float operand: ";
         BigFloat y;
-        std:: cin >> y;
+        std::cin >> y;
 
         std::cout << "x + y = " << x + y << "\n";
 
