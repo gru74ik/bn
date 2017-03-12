@@ -6,13 +6,10 @@ void BigFloatTester::menu()
     std::string choice = "y";
     for( size_t i = 1; choice[0] == 'y' || choice[0] == 'Y'; ++i )
     {
-        std::cout << "Test #" << i << "\n\n";
-        set_test( choice );
+        choose_group();
         std::cout << "\nDo you want proceed work with the program? (y /n) ";
         std::cin >> choice;
-        std::cout <<
-            "\n===================================================="
-            "====================================================\n";
+        std::cout << "\n===================================================\n";
     }
 }
 
@@ -397,7 +394,7 @@ void e_value_as_string()
         "Try again a little bit later.\n";
 }
 
-void position_before( size_t pos )
+void position_before()
 {
     // TODO
     std::cout <<
@@ -405,7 +402,7 @@ void position_before( size_t pos )
         "Try again a little bit later.\n";
 }
 
-void position_after( size_t pos )
+void position_after()
 {
     // TODO
     std::cout <<

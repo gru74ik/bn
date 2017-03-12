@@ -26,15 +26,6 @@ N mzn 10 *. 0) ( . Например, число 2.5 можно записать 
 
 int main()
 {
-    // menu();
-
-    /*
-    BigFloat x( "+1.2 e+5" );
-    std::cout << "BigFloat x: " << x << "\n";
-    x.push_back_additional_zeroes( 5 );
-    std::cout << "BigFloat x: " << x << "\n";
-    */
     BigFloatTester test;
-
-    test.big_float_default_ctor();
+    test.menu();
 }

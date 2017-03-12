@@ -162,8 +162,8 @@ public:
     void e_value_as_number();
     void e_value_as_string();
 
-    void position_before( size_t pos );
-    void position_after( size_t pos );
+    void position_before();
+    void position_after();
 
     void sign();
     void lead_zeroes();
