@@ -115,66 +115,388 @@ void BigFloatTester::choose_ctor()
 
 void BigFloatTester::choose_checker()
 {
-    // TODO
-    std::cout <<
-        "\nThis test is temporarily unavailable. "
-        "Try again a little bit later.\n";
+    std::cout
+        << "Choose the checker you want to test:\n"
+
+        << " 1 - is_scientific;\n"
+        << " 2 - is_decimal;\n"
+        << " 3 - is_less_than_zero;\n"
+        << " 4 - is_greater_than_zero;\n"
+        << " 5 - is_correct;\n"
+           ;
+    std::string choice;
+    std::cin >> choice;
+    switch ( string_to_number( choice ) )
+    {
+    case IS_SCIENTIFIC:
+        is_scientific();
+        break;
+
+    case IS_DECIMAL:
+        is_decimal();
+        break;
+
+    case IS_LESS_THAN_ZERO:
+        is_less_than_zero();
+        break;
+
+    case IS_GREATER_THAN_ZERO:
+        is_greater_than_zero();
+        break;
+
+    case IS_CORRECT:
+        is_correct();
+        break;
+
+    default:
+        std::cout << "Incorrect input.\n";
+        break;
+
+    } // endof switch
 }
 
 void BigFloatTester::choose_changer()
 {
-    // TODO
-    std::cout <<
-        "\nThis test is temporarily unavailable. "
-        "Try again a little bit later.\n";
+    std::cout
+        << "Choose the changer you want to test:\n"
+
+        << " 1 - discard_sign;\n"
+        << " 2 - move_floating_point;\n"
+        << " 3 - convert_to;\n"
+        << " 4 - push_front_additional_zeroes;\n"
+        << " 5 - push_back_additional_zeroes;\n"
+        << " 6 - pop_front_extra_zeroes;\n"
+        << " 7 - pop_back_extra_zeroes;\n"
+           ;
+    std::string choice;
+    std::cin >> choice;
+    switch ( string_to_number( choice ) )
+    {
+    case DISCARD_SIGN:
+        discard_sign();
+        break;
+
+    case MOVE_FLOATING_POINT:
+        move_floating_point();
+        break;
+
+    case CONVERT_TO:
+        convert_to();
+        break;
+
+    case PUSH_FRONT_ADDITIONAL_ZEROES:
+        push_front_additional_zeroes();
+        break;
+
+    case PUSH_BACK_ADDITIONAL_ZEROES:
+        push_back_additional_zeroes();
+        break;
+
+    case POP_FRONT_EXTRA_ZEROES:
+        pop_front_extra_zeroes();
+        break;
+
+    case POP_BACK_EXTRA_ZEROES:
+        pop_back_extra_zeroes();
+        break;
+
+    default:
+        std::cout << "Incorrect input.\n";
+        break;
+
+    } // endof switch
 }
 
 void BigFloatTester::choose_getter()
 {
-    // TODO
-    std::cout <<
-        "\nThis test is temporarily unavailable. "
-        "Try again a little bit later.\n";
+    std::cout
+        << "Choose the getter you want to test:\n"
+
+        << " 1 - dot_position;\n"
+        << " 2 - digits_before_dot;\n"
+        << " 3 - digits_after_dot;\n"
+        << " 4 - last_digit_position;\n"
+        << " 5 - space_position;\n"
+        << " 6 - e_sign;\n"
+        << " 7 - e_sign_position;\n"
+        << " 8 - e_position;\n"
+        << " 9 - digits_after_e;\n"
+        << "10 - e_value_as_number;\n"
+        << "11 - e_value_as_string;\n"
+        << "12 - position_before;\n"
+        << "13 - position_after;\n"
+        << "14 - sign;\n"
+        << "15 - lead_zeroes;\n"
+        << "16 - number;\n"
+        << "17 - notation;\n"
+           ;
+    std::string choice;
+    std::cin >> choice;
+    switch ( string_to_number( choice ) )
+    {
+    case DOT_POSITION:
+        dot_position();
+        break;
+
+    case DIGITS_BEFORE_DOT:
+        digits_before_dot();
+        break;
+
+    case DIGITS_AFTER_DOT:
+        digits_after_dot();
+        break;
+
+    case LAST_DIGIT_POSITION:
+        last_digit_position();
+        break;
+
+    case SPACE_POSITION:
+        space_position();
+        break;
+
+    case E_SIGN:
+        e_sign();
+        break;
+
+    case E_SIGN_POSITION:
+        e_sign_position();
+        break;
+
+    case E_POSITION:
+        e_position();
+        break;
+
+    case DIGITS_AFTER_E:
+        digits_after_e();
+        break;
+
+    case E_VALUE_AS_NUMBER:
+        e_value_as_number();
+        break;
+
+    case E_VALUE_AS_STRING:
+        e_value_as_string();
+        break;
+
+    case POSITION_BEFORE:
+        position_before();
+        break;
+
+    case POSITION_AFTER:
+        position_after();
+        break;
+
+    case SIGN:
+        sign();
+        break;
+
+    case LEAD_ZEROES:
+        lead_zeroes();
+        break;
+
+    case MANTISSA:
+        mantissa();
+        break;
+
+    case NUMBER:
+        number();
+        break;
+
+    case NOTATION:
+        notation();
+        break;
+
+    default:
+        std::cout << "Incorrect input.\n";
+        break;
+
+    } // endof switch
 }
 
 void BigFloatTester::choose_setter()
 {
-    // TODO
-    std::cout <<
-        "\nThis test is temporarily unavailable. "
-        "Try again a little bit later.\n";
+    std::cout
+        << "Choose the setter you want to test:\n"
+
+        << " 1 - set_number;\n"
+        << " 2 - reset;\n"
+        << " 3 - mark_as_wrong;\n"
+           ;
+    std::string choice;
+    std::cin >> choice;
+    switch ( string_to_number( choice ) )
+    {
+    case SET_NUMBER:
+        set_number();
+        break;
+
+    case RESET:
+        reset();
+        break;
+
+    case MARK_AS_WRONG:
+        mark_as_wrong();
+        break;
+
+    default:
+        std::cout << "Incorrect input.\n";
+        break;
+
+    } // endof switch
 }
 
 void BigFloatTester::choose_comparison_ops()
 {
-    // TODO
-    std::cout <<
-        "\nThis test is temporarily unavailable. "
-        "Try again a little bit later.\n";
+    std::cout
+        << "Choose the comparison operator you want to test:\n"
+
+        << " 1 - operator< (less than);\n"
+        << " 2 - operator<= (less than or equal to);\n"
+        << " 3 - operator> (greater than);\n"
+        << " 4 - operator>= (greater than or equal to);\n"
+        << " 5 - operator== (equal to);\n"
+           ;
+    std::string choice;
+    std::cin >> choice;
+    switch ( string_to_number( choice ) )
+    {
+    case OP_LESS_THAN:
+        op_less_than();
+        break;
+
+    case OP_LESS_THAN_OR_EQUAL_TO:
+        op_less_than_or_equal_to();
+        break;
+
+    case OP_GREATER_THAN:
+        op_greater_than();
+        break;
+
+    case OP_GREATER_THAN_OR_EQUAL_TO:
+        op_greater_than_or_equal_to();
+        break;
+
+    case OP_EQUAL_TO:
+        op_equal_to();
+        break;
+
+    default:
+        std::cout << "Incorrect input.\n";
+        break;
+
+    } // endof switch
 }
 
 void BigFloatTester::choose_assignment_ops()
 {
-    // TODO
-    std::cout <<
-        "\nThis test is temporarily unavailable. "
-        "Try again a little bit later.\n";
+    std::cout
+        << "Choose the assignment operator you want to test:\n"
+
+        << " 1 - operator that assings big float to big float;\n"
+        << " 2 - operator that assings string to big float;\n"
+           ;
+    std::string choice;
+    std::cin >> choice;
+    switch ( string_to_number( choice ) )
+    {
+    case ASSIGNMENT_OP_WITH_BIG_FLOAT_AS_PARAM:
+        op_assign_big_float_to_big_float();
+        break;
+
+    case ASSIGNMENT_OP_WITH_STRING_AS_PARAM:
+        op_assign_string_to_big_float();
+        break;
+
+    default:
+        std::cout << "Incorrect input.\n";
+        break;
+
+    } // endof switch
 }
 
 void BigFloatTester::choose_arithmetic_ops()
 {
-    // TODO
-    std::cout <<
-        "\nThis test is temporarily unavailable. "
-        "Try again a little bit later.\n";
+    std::cout
+        << "Choose the arithmetic operator you want to test:\n"
+
+        << " 1 - addition_with_big_float_as_param;\n"
+        << " 2 - subtraction_with_big_float_as_param;\n"
+        << " 3 - multiplication_with_big_float_as_param;\n"
+        << " 4 - division_with_big_float_as_param;\n"
+
+        << " 5 - addition_with_big_int_as_param;\n"
+        << " 6 - subtraction_with_big_int_as_param;\n"
+        << " 7 - multiplication_with_big_int_as_param;\n"
+        << " 8 - division_with_big_int_as_param;\n"
+           ;
+    std::string choice;
+    std::cin >> choice;
+    switch ( string_to_number( choice ) )
+    {
+    case ADDITION_WITH_BIG_FLOAT_AS_PARAM:
+        addition_with_big_float_as_param();
+        break;
+
+    case SUBTRACTION_WITH_BIG_FLOAT_AS_PARAM:
+        subtraction_with_big_float_as_param();
+        break;
+
+    case MULTIPLICATION_WITH_BIG_FLOAT_AS_PARAM:
+        multiplication_with_big_float_as_param();
+        break;
+
+    case DIVISION_WITH_BIG_FLOAT_AS_PARAM:
+        division_with_big_float_as_param();
+        break;
+
+    case ADDITION_WITH_BIG_INT_AS_PARAM:
+        addition_with_big_int_as_param();
+        break;
+
+    case SUBTRACTION_WITH_BIG_INT_AS_PARAM:
+        subtraction_with_big_int_as_param();
+        break;
+
+    case MULTIPLICATION_WITH_BIG_INT_AS_PARAM:
+        multiplication_with_big_int_as_param();
+        break;
+
+    case DIVISION_WITH_BIG_INT_AS_PARAM:
+        division_with_big_int_as_param();
+        break;
+
+    default:
+        std::cout << "Incorrect input.\n";
+        break;
+
+    } // endof switch
 }
 
 void BigFloatTester::choose_io_ops()
 {
-    // TODO
-    std::cout <<
-        "\nThis test is temporarily unavailable. "
-        "Try again a little bit later.\n";
+    std::cout
+        << "Choose the input-output operator you want to test:\n"
+
+        << " 1 - input operator;\n"
+        << " 2 - output operator;\n"
+           ;
+    std::string choice;
+    std::cin >> choice;
+    switch ( string_to_number( choice ) )
+    {
+    case INPUT_OP:
+        input_op();
+        break;
+
+    case OUTPUT_OP:
+        output_op();
+        break;
+
+    default:
+        std::cout << "Incorrect input.\n";
+        break;
+
+    } // endof switch
 }
 
 
@@ -239,6 +561,14 @@ void BigFloatTester::is_less_than_zero()
 }
 
 void BigFloatTester::is_greater_than_zero()
+{
+    // TODO
+    std::cout <<
+        "\nThis test is temporarily unavailable. "
+        "Try again a little bit later.\n";
+}
+
+void BigFloatTester::is_correct()
 {
     // TODO
     std::cout <<
@@ -520,7 +850,7 @@ void op_equal_to()
 
 
 // to test assignment operators:
-void op_assign_to_big_float()
+void op_assign_big_float_to_big_float()
 {
     // TODO
     std::cout <<
@@ -528,7 +858,7 @@ void op_assign_to_big_float()
         "Try again a little bit later.\n";
 }
 
-void op_assign_to_string()
+void op_assign_string_to_big_float()
 {
     // TODO
     std::cout <<

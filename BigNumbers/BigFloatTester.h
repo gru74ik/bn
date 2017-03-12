@@ -30,7 +30,7 @@ public:
 
     enum Checker
     {
-        IS_SCIENTIFIC = 5,
+        IS_SCIENTIFIC = 1,
         IS_DECIMAL,
         IS_LESS_THAN_ZERO,
         IS_GREATER_THAN_ZERO,
@@ -39,32 +39,38 @@ public:
 
     enum Changer
     {
-        DISCARD_SIGN = 10,
+        DISCARD_SIGN = 1,
         MOVE_FLOATING_POINT,
         CONVERT_TO,
+
         PUSH_FRONT_ADDITIONAL_ZEROES,
         PUSH_BACK_ADDITIONAL_ZEROES,
+
         POP_FRONT_EXTRA_ZEROES,
         POP_BACK_EXTRA_ZEROES
     };
 
     enum Getter
     {
-        DOT_POSITION,
-        DIGITS_AFTER_DOT,
+        DOT_POSITION = 1,
         DIGITS_BEFORE_DOT,
+        DIGITS_AFTER_DOT,
+        LAST_DIGIT_POSITION,
+
+        SPACE_POSITION,
+
+        E_SIGN,
+        E_SIGN_POSITION,
         E_POSITION,
         DIGITS_AFTER_E,
         E_VALUE_AS_NUMBER,
         E_VALUE_AS_STRING,
-        LEAD_ZEROES,
-        E_SIGN_POSITION,
-        E_SIGN,
-        LAST_DIGIT_POSITION,
-        POSITION_AFTER,
+
         POSITION_BEFORE,
-        SPACE_POSITION,
+        POSITION_AFTER,
+
         SIGN,
+        LEAD_ZEROES,
         MANTISSA,
         NUMBER,
         NOTATION
@@ -72,29 +78,31 @@ public:
 
     enum Setter
     {
-        SET_NUMBER,
+        SET_NUMBER = 1,
         RESET,
         MARK_AS_WRONG
     };
 
     enum ComparisonOps
     {
-        OP_LESS_THAN,
+        OP_LESS_THAN = 1,
         OP_LESS_THAN_OR_EQUAL_TO,
+
         OP_GREATER_THAN,
         OP_GREATER_THAN_OR_EQUAL_TO,
+
         OP_EQUAL_TO
     };
 
     enum AssignmentOps
     {
-        ASSIGNMENT_OP_WITH_BIG_FLOAT_AS_PARAM,
+        ASSIGNMENT_OP_WITH_BIG_FLOAT_AS_PARAM = 1,
         ASSIGNMENT_OP_WITH_STRING_AS_PARAM
     };
 
     enum ArithmeticOps
     {
-        ADDITION_WITH_BIG_FLOAT_AS_PARAM,
+        ADDITION_WITH_BIG_FLOAT_AS_PARAM = 1,
         SUBTRACTION_WITH_BIG_FLOAT_AS_PARAM,
         MULTIPLICATION_WITH_BIG_FLOAT_AS_PARAM,
         DIVISION_WITH_BIG_FLOAT_AS_PARAM,
@@ -107,7 +115,7 @@ public:
 
     enum InputOutputOps
     {
-        INPUT_OP,
+        INPUT_OP = 1,
         OUTPUT_OP
     };
 
@@ -136,6 +144,7 @@ public:
     void is_decimal();
     void is_less_than_zero();
     void is_greater_than_zero();
+    void is_correct();
 
     // to test changers:
     void discard_sign();
@@ -184,8 +193,8 @@ public:
     void op_equal_to();
 
     // to test assignment operators:
-    void op_assign_to_big_float();
-    void op_assign_to_string();
+    void op_assign_big_float_to_big_float();
+    void op_assign_string_to_big_float();
 
     // to test arithmetic operators:
     void addition_with_big_float_as_param();

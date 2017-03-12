@@ -18,14 +18,13 @@ N mzn 10 *. 0) ( . Например, число 2.5 можно записать 
 4.  STL не пользоваться.
 */
 
-#include <string>
 #include <iostream>
-#include <BigFloatTester.h>
-#include "bn_tests.h"
+#include <string>
+#include "BigFloatTester.h"
 #include "bn_functions.h"
 
 int main()
 {
-    BigFloatTester test;
-    test.menu();
+    BigFloatTester tester;
+    tester.menu();
 }
