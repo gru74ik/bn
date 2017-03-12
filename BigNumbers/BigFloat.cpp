@@ -94,7 +94,7 @@ bool BigFloat::is_decimal() const
     return is_correct( DECIMAL );
 }
 
-bool BigFloat::is_correct( NOTATION notation ) const
+bool BigFloat::is_correct(Notation notation ) const
 {
     bool result = true;
 
@@ -245,7 +245,7 @@ void BigFloat::discard_sign()
     }
 }
 
-void BigFloat::move_floating_point( DIRECTION dir, size_t shiftSize )
+void BigFloat::move_floating_point(Direction dir, size_t shiftSize )
 {
     size_t dot_pos = dot_position();
 
@@ -318,7 +318,7 @@ void BigFloat::move_floating_point( DIRECTION dir, size_t shiftSize )
     }
 }
 
-void BigFloat::convert_to( NOTATION notation )
+void BigFloat::convert_to(Notation notation )
 {
     switch ( notation )
     {
@@ -615,7 +615,7 @@ std::string BigFloat::number() const
     return number_;
 }
 
-BigFloat::NOTATION BigFloat::notation() const
+BigFloat::Notation BigFloat::notation() const
 {
     return notation_;
 }

@@ -20,12 +20,13 @@ N mzn 10 *. 0) ( . Например, число 2.5 можно записать 
 
 #include <string>
 #include <iostream>
+#include <BigFloatTester.h>
 #include "bn_tests.h"
 #include "bn_functions.h"
 
 int main()
 {
-    menu();
+    // menu();
 
     /*
     BigFloat x( "+1.2 e+5" );
@@ -33,4 +34,7 @@ int main()
     x.push_back_additional_zeroes( 5 );
     std::cout << "BigFloat x: " << x << "\n";
     */
+    BigFloatTester test;
+
+    test.big_float_default_ctor();
 }

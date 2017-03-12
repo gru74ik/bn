@@ -7,15 +7,14 @@
 
 class BigFloat
 {
-//private:
-public: // TODO: remove this label when tests will be completed
-    enum NOTATION { DECIMAL, SCIENTIFIC, DEFAULT, WRONG };
-    enum DIRECTION { LEFT, RIGHT };
+protected:
+    enum Notation { DECIMAL, SCIENTIFIC, DEFAULT, WRONG };
+    enum Direction { LEFT, RIGHT };
 
     char sign_;
     std::string number_;
     std::string tail_;
-    NOTATION notation_;
+    Notation notation_;
 
 public:
     // constructors:
@@ -30,19 +29,18 @@ public:
     bool is_less_than_zero() const;
     bool is_greater_than_zero() const;
 
-//private:
-public: // TODO: remove this label when tests will be completed
-    bool is_correct( NOTATION notation ) const;
+protected:
+    bool is_correct( Notation notation ) const;
 
     // changers:
     void discard_sign();
-    void move_floating_point( DIRECTION dir, size_t shiftSize );
-    void convert_to( NOTATION notation );
+    void move_floating_point( Direction dir, size_t shiftSize );
+    void convert_to( Notation notation );
 
 public: // TODO: remove this label when tests will be completed
-    void push_front_additional_zeroes( const size_t quantity );
-    void pop_front_extra_zeroes();
+    void push_front_additional_zeroes( const size_t quantity );    
     void push_back_additional_zeroes( const size_t quantity );
+    void pop_front_extra_zeroes();
     void pop_back_extra_zeroes();
 
     // getters:
@@ -67,14 +65,13 @@ public: // TODO: remove this label when tests will be completed
 
 public:
     std::string number() const;
-    NOTATION notation() const;
+    Notation notation() const;
 
     // setters:
     void set_number( const std::string& number );   
     void reset();
 
-//private:
-public: // TODO: remove this label when tests will be completed
+protected:
     void mark_as_wrong();
 
 public:
