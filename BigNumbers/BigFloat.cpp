@@ -470,52 +470,66 @@ void BigFloat::convert_to(Notation notation)
 } // endof convert_to()
 
 
-  /*
-  void BigFloat::reverse() // or std::string function member reverse()
-  {
-  size_t initial_dot_pos = dot_position();
-  size_t  final_dot_pos = last_digit_position() - dot_position();
+/*
+void BigFloat::reverse() // or std::string function member reverse()
+{
+    size_t initial_dot_pos = dot_position();
+    size_t  final_dot_pos = last_digit_position() - dot_position();
 
-  //std::cout << "initial_dot_pos: " << initial_dot_pos << "\n";
-  //std::cout << "final_dot_pos: " << final_dot_pos << "\n";
+    //std::cout << "initial_dot_pos: " << initial_dot_pos << "\n";
+    //std::cout << "final_dot_pos: " << final_dot_pos << "\n";
 
-  erase_part_of( number_, initial_dot_pos, initial_dot_pos );
+    erase_part_of( number_, initial_dot_pos, initial_dot_pos );
 
-  for ( size_t i = 0, j = last_digit_position(); i < position_after( last_digit_position() ) / 2; ++i, --j )
-  {
-  //std::cout << i + 1 << " pair: " << number_[i] << " and " << number_[j] << "\n";
+    for ( size_t i = 0, j = last_digit_position(); i < position_after( last_digit_position() ) / 2; ++i, --j )
+    {
+        //std::cout << i + 1 << " pair: " << number_[i] << " and " << number_[j] << "\n";
 
-  // or standard library algorithm std:swap( number_[i], number_[j] );
-  char temp;
-  temp = number_[i];
-  number_[i] = number_[j];
-  number_[j] = temp;
-  }
-  //std::cout << "current number after swapping and before dot coming back: " << number_ << "\n";
-  insert_to( number_, ".", final_dot_pos );
-  //std::cout << "current number after swapping and after dot coming back: " << number_ << "\n";
-  }
-
-
-  void BigFloat::push_front_additional_zeroes( const size_t quantity )
-  {
-  std::string additional_zeroes( quantity, '0' );
-  insert_to( number_, additional_zeroes, 0 );
-  }
+        // or standard library algorithm std:swap( number_[i], number_[j] );
+        char temp;
+        temp = number_[i];
+        number_[i] = number_[j];
+        number_[j] = temp;
+    }
+    //std::cout << "current number after swapping and before dot coming back: " << number_ << "\n";
+    insert_to( number_, ".", final_dot_pos );
+    //std::cout << "current number after swapping and after dot coming back: " << number_ << "\n";
+}
 
 
-  void BigFloat::pop_front_extra_zeroes()
-  {
-  erase_part_of( number_, 0, position_before( dot_position() ) - 1 );
-  }
+void BigFloat::push_front_additional_zeroes( const size_t quantity )
+{
+    std::string additional_zeroes( quantity, '0' );
+    insert_to( number_, additional_zeroes, 0 );
+}
+
+*/
+
+void BigFloat::pop_front_extra_zeroes()
+{
+    if ( digits_before_dot() > 2 )
+    {
+        for ( size_t i = 0; i < dot_position(); ++i )
+        {
+            if ( number_[i] == '0' )
+            {
+                pop_front( number_ );
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+}
 
 
-  void BigFloat::push_back_additional_zeroes( const size_t quantity )
-  {
-  std::string additional_zeroes( quantity, '0' );
-  insert_to( number_, additional_zeroes, position_after( last_digit_position() ) );
-  }
-  */
+void BigFloat::push_back_additional_zeroes( const size_t quantity )
+{
+    std::string additional_zeroes( quantity, '0' );
+    insert_to( number_, additional_zeroes, position_after( last_digit_position() ) );
+}
+
 
 
 void BigFloat::pop_back_extra_zeroes()
@@ -1284,6 +1298,8 @@ std::ostream& operator<<(std::ostream& os, const BigFloat& bf) // #op<<(bf)
     {
         temp.mark_as_wrong();
     }
+
+    temp.pop_front_extra_zeroes();
 
     os << temp.sign_ << temp.number_ << temp.tail_;
 

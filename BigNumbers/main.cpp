@@ -40,14 +40,24 @@ int main()
         ;
 */
 
-    BigFloat x("+1.2345 e-5");		// 0.000012345
-    BigFloat y("+1.23456789 E+5");	// 123456.789
+    BigFloat w("0.000012345");		// +1.2345 e-5
+    BigFloat x("123456.789");       // +1.23456789 E+5
+
+    BigFloat y("+5.6789 e-5");		// 0.000056789
+    BigFloat z("+9.87654321 E+5");	// 987654.321
 
     std::cout
         << "Two big floats (addition):\n"
+        << "w = " << w << "\n"
         << "x = " << x << "\n"
+        << "w + x = " << w + x << "\n\n"
+        ;
+
+    std::cout
+        << "Two big floats (addition):\n"
         << "y = " << y << "\n"
-        << "x + y = " << x + y << "\n\n"
+        << "z = " << z << "\n"
+        << "y + z = " << y + z << "\n\n"
         ;
 
 /*

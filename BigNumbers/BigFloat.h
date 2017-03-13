@@ -43,8 +43,8 @@ public: // remove this label when all tests will completed
 
 public: // TODO: remove this label when tests will be completed
     //void push_front_additional_zeroes( const size_t quantity );
-    //void push_back_additional_zeroes( const size_t quantity );
-    //void pop_front_extra_zeroes();
+    void push_back_additional_zeroes( const size_t quantity );
+    void pop_front_extra_zeroes();
     void pop_back_extra_zeroes();
 
     // getters:
