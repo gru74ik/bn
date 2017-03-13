@@ -28,7 +28,7 @@ int main()
     //BigFloatTester tester;
     //tester.menu();
 
-    str::string str = "1.0";
+    std::string str = "1.0";
 
     BigFloat init( str );
 
@@ -36,9 +36,9 @@ int main()
 
     for (size_t i = 0; i < 11; ++i)
     {
+        std::cout << "\nStep #" << i + 1 << " ===============================";
+        std::cout << "\nWe sum " << init.number() << " with " << one.number();
         init = init + one;
-        std::cout << "Step #" << i + 1 << ": " << init << "\n";
-
+        std::cout << "Final result in exponent notation:: " << init << "\n";
     }
-
 }
