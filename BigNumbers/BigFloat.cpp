@@ -1,5 +1,8 @@
 #include "BigFloat.h"
 #include "bn_functions.h"
+
+#include <algorithm> // remove this header when all test will be completed
+
 // #include <cmath> // можно использовать std::pow()
 
 // constructors
@@ -95,7 +98,7 @@ bool BigFloat::is_decimal() const
     return is_correct( DECIMAL );
 }
 
-bool BigFloat::is_correct(Notation notation ) const
+bool BigFloat::is_correct( Notation notation ) const
 {
     bool result = true;
 
@@ -511,7 +514,7 @@ size_t BigFloat::dot_position() const
 
 size_t BigFloat::digits_after_dot() const
 {   // TODO: implement count() function?
-    return last_digit_position() - 1;
+    return last_digit_position() - dot_position();
 }
 
 size_t BigFloat::digits_before_dot() const
@@ -931,14 +934,26 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const
     }
     else if (b.digits_after_dot() < a.digits_after_dot()) // #4
     {
+        auto a_it = std::find(a.number_.begin(), a.number_.end(), '.');
+        auto a_dad = std::distance(a_it + 1, a.number_.end());
+
+        auto b_it = std::find(b.number_.begin(), b.number_.end(), '.');
+        auto b_dad = std::distance(b_it + 1, b.number_.end());
+
         std::cout << "\n#4\n";
         std::cout << "we are here because b.digits_after_dot() < a.digits_after_dot():\n";
+
         std::cout << "a.digits_after_dot(): " << a.digits_after_dot() << "\n";
         std::cout << "b.digits_after_dot(): " << b.digits_after_dot() << "\n";
+
+        std::cout << "real quantity digits after dot in number a: " << a_dad << "\n";
+        std::cout << "real quantity digits after dot in number b: " << b_dad << "\n";
+
         std::cout << "current content of number a: " << a.number_ << "\n";
         std::cout << "current content of number b: " << b.number_ << "\n";
+
         std::cout << "current content of string aStr: " << aStr << "\n";
-        std::cout << "current content of number bStr: " << bStr << "\n\n";
+        std::cout << "current content of string bStr: " << bStr << "\n\n";
 
         diff = a.digits_after_dot() - b.digits_after_dot();
         for (size_t i = 0; i < diff; ++i)
@@ -986,6 +1001,10 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const
             extra = subtotal / BASE;
             subtotal = subtotal % BASE;
         }
+        else
+        {
+            extra = 0;
+        }
 
         std::cout << "\n" << subtotal << " we write, and " << extra << " we keep in mind.\n";
         push_back(sumStr, digit_to_char(subtotal));
@@ -1007,7 +1026,7 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const
 
 
     reverse(sumStr);
-    insert_to(sumStr, ".", dot_pos_a + 1);
+    insert_to(sumStr, ".", dot_pos_a );
 
     std::cout << "final result is " << sumStr << "\n";
 
