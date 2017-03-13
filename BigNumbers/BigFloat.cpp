@@ -913,7 +913,7 @@ BigFloat BigFloat::operator=( const std::string& obj ) // #op=
 
 
 // arithmetic operators (both operand are same type):
-BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
+BigFloat BigFloat::operator+( const BigFloat& addendum ) const // #op+(bf)
 {
     BigFloat a = *this;
     BigFloat b = addendum;
@@ -924,7 +924,7 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
     size_t diff; // разница между количеством разрядов
 
     // уравниваем количество разрядов обоих чисел до плавающей точки:
-    if (a.digits_before_dot() < b.digits_before_dot()) // #op+1
+    if ( a.digits_before_dot() < b.digits_before_dot() ) // #op+1
     {
 /*
         std::cout << "\n#1\n";
@@ -937,13 +937,13 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
         std::cout << "current content of number bStr: " << bStr << "\n\n";
 */
         diff = b.digits_before_dot() - a.digits_before_dot();
-        for (size_t i = 0; i < diff; ++i)
+        for ( size_t i = 0; i < diff; ++i )
         {
             push_front(aStr, "0");
         }
         //std::cout << "string aStr after pushing front zeroes: " << aStr << "\n";
     }
-    else if (b.digits_before_dot() < a.digits_before_dot()) // #op+2
+    else if ( b.digits_before_dot() < a.digits_before_dot() ) // #op+2
     {
 /*
         std::cout << "\n#2\n";
@@ -956,7 +956,7 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
         std::cout << "current content of number bStr: " << bStr << "\n\n";
 */
         diff = a.digits_before_dot() - b.digits_before_dot();
-        for (size_t i = 0; i < diff; ++i)
+        for ( size_t i = 0; i < diff; ++i )
         {
             push_front(bStr, "0");
         }
@@ -1048,10 +1048,10 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
             << ") = "
             << subtotal;
 
-        if (subtotal > MAX_DIGIT) // десятичная система, поэтому последняя цифра в разряде 9
+        if (subtotal > BigInt::MAX_DIGIT) // десятичная система, поэтому последняя цифра в разряде 9
         {
-            extra = subtotal / BASE;
-            subtotal = subtotal % BASE;
+            extra = subtotal / BigInt::BASE;
+            subtotal = subtotal % BigInt::BASE;
         }
         else
         {
@@ -1065,6 +1065,7 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
         std::cout << "current result (without floating point ofc) is " << curRes << "\n";
     }
 
+    size_t extra_dot_shift = 0;
     if ( extra )
     {
         push_back( sumStr, digit_to_char( extra ) );
@@ -1074,14 +1075,11 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
             << ") to out result and ";
         curRes = sumStr;
         reverse( curRes );
+        extra_dot_shift = 1;
     }
 
-
     reverse( sumStr );
-
-// #######################################################################################
-    insert_to( sumStr, ".", dot_pos_a ); // some dot_pos correction needed here
-// #######################################################################################
+    insert_to( sumStr, ".", dot_pos_a + extra_dot_shift );
 
     std::cout << "\nfinal result in decimal notation: " << sumStr << "\n";
 
@@ -1103,8 +1101,26 @@ BigFloat BigFloat::operator-( const BigFloat& subtrahend ) const // #op-(bf)
 
 BigFloat BigFloat::operator*( const BigFloat& multiplier ) const // #op*(bf)
 {
-    BigFloat product( multiplier ); // temporary solution to avoid compiler warning
-    // TODO
+    BigFloat product( *this );
+    BigFloat addition( *this );
+    BigFloat mult( multiplier );
+
+    size_t cur_mult_dot_pos = mult.dot_position();
+    size_t cur_prod_dot_pos = product.digits_after_dot();
+    size_t fin_prod_dot_pos = product.digits_after_dot() + mult.digits_after_dot();
+
+    // уберём из обоих чисел плавающую точку, чтобы не мешала при вычислениях:
+    erase_part_of( product.number_, cur_prod_dot_pos, cur_prod_dot_pos );
+    erase_part_of( mult.number_, cur_mult_dot_pos, cur_mult_dot_pos );
+
+    BigInt limit( mult.number_ );
+    for ( BigInt i( "0" ); i < limit; ++i )
+    {
+        product = product + addition;
+    }
+
+    insert_to( product.number_, ".", fin_prod_dot_pos );
+
     return product;
 } // endof // #op*(bf)
 

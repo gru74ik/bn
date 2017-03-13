@@ -13,6 +13,9 @@ private:
     std::string number_;
 
 public:
+    static const size_t BASE = 10; // десятичная система счисления
+    static const size_t MAX_DIGIT = BASE - 1; // максимальная цифра в разряде 9
+
     // constructors:
     BigInt();
     BigInt( const std::string& number );
@@ -24,6 +27,7 @@ private:
 
     // changers:
     void discard_sign();
+    void add_lead_zeroes( const size_t quantity );
 
     // setters:
     void set_number( const std::string & number );
@@ -32,6 +36,8 @@ private:
 private:
     // getters:
     char sign() const;
+    size_t last_digit_position() const;
+    size_t last_digit() const;
 
 public:
     std::string number() const ;
@@ -57,6 +63,9 @@ public:
     BigFloat operator-( const BigFloat& subtrahend ) const;
     BigFloat operator*( const BigFloat& multiplier ) const;
     BigFloat operator/( const BigFloat& divider ) const;
+
+    friend const BigInt& operator++( BigInt& i );       //префиксный инкремент
+    friend const BigInt operator++( BigInt& i, int fakeArg );   //постфиксный инкремент
 
     // input-output operators:
     friend std::ostream& operator<<( std::ostream& os, const BigInt& bi );

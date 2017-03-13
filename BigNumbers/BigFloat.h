@@ -9,8 +9,6 @@ class BigFloat
 {
 // protected:
 public: // remove this label when all tests will completed
-    const size_t BASE = 10; // десятичная система счисления
-    const size_t MAX_DIGIT = BASE - 1; // максимальная цифра в разряде 9
 
     enum Notation { DECIMAL, SCIENTIFIC, DEFAULT, WRONG };
     enum Direction { LEFT, RIGHT };

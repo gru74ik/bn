@@ -69,6 +69,14 @@ void BigInt::discard_sign()
     }
 }
 
+void BigInt::add_lead_zeroes( const size_t quantity )
+{
+    for ( size_t i = 0; i < quantity; ++i )
+    {
+        push_front( number_, "0" );
+    }
+}
+
 // setters:
 void BigInt::set_number( const std::string & number )
 {
@@ -94,6 +102,16 @@ void BigInt::reset()
 char BigInt::sign() const
 {
     return number_[0] == '-' ? '-' : '+';
+}
+
+size_t BigInt::last_digit_position() const
+{
+    return number_.size() - 1;
+}
+
+size_t BigInt::last_digit() const
+{
+    return number_[ last_digit_position() ];
 }
 
 std::string BigInt::number() const
@@ -228,8 +246,50 @@ bool BigInt::operator==( const BigInt& bi ) const
 // arithmetic operators:
 BigInt BigInt::operator+( const BigInt& addendum ) const
 {
-    BigInt sum( addendum ); // temporary solution to avoid compiler warning
-    // TODO
+    BigInt sum;
+    BigInt a( *this );
+    BigInt b( addendum );
+
+    if ( a < b )
+    {
+        a.add_lead_zeroes( b.number_.size() - a.number_.size() ); // implement this function member
+    }
+    else if ( a > b )
+    {
+        b.add_lead_zeroes( a.number_.size() - b.number_.size() ); // implement this function member
+    }
+
+    // будем складывать, начиная с млаших разрядов, для этого перевернём числа:
+    reverse( a.number_ );
+    reverse( b.number_ );
+
+    // излишки (то, что обычно при сложении в столбик "пишем в уме") будем складывать в переменную extra;
+    size_t extra = 0;
+    // промежуточный итог сложения двух цифр одинакового разряда будем складывать в переменную subtotal:
+    size_t subtotal = 0;
+
+    for ( size_t i = 0; i < a.number_.size(); ++i )
+    {
+        subtotal = char_to_digit( a.number_[i] ) + char_to_digit( b.number_ [i] ) + extra;
+
+        if ( subtotal > MAX_DIGIT ) // десятичная система, поэтому последняя цифра в разряде 9
+        {
+            extra = subtotal / BASE;
+            subtotal = subtotal % BASE;
+        }
+        else
+        {
+            extra = 0;
+        }
+
+        push_back( sum.number_, digit_to_char( subtotal ) );
+    }
+
+    if ( extra )
+    {
+        push_back( sum.number_, digit_to_char( extra ) );
+    }
+
     return sum;
 }
 
@@ -256,7 +316,7 @@ BigInt BigInt::operator/( const BigInt& divider ) const
 
 BigFloat BigInt::operator+( const BigFloat& addendum ) const
 {
-    BigFloat sum( addendum ); // temporary solution to avoid compiler warning
+    BigFloat sum( addendum );
     // TODO
     return sum;
 }
@@ -280,6 +340,24 @@ BigFloat BigInt::operator/( const BigFloat& divider ) const
     BigFloat result( divider ); // temporary solution to avoid compiler warning
     // TODO
     return result;
+}
+
+//префиксная версия возвращает значение после инкремента
+const BigInt& operator++( BigInt& bi )
+{
+    BigInt one( "1" );
+    bi = bi + one;
+    return bi;
+}
+
+//постфиксная версия возвращает значение до инкремента
+const BigInt operator++( BigInt& bi, int fakeArg )
+{
+    BigInt one( "1" );
+    BigInt oldValue( bi );
+
+    bi = bi + one;
+    return oldValue;
 }
 
 // input-output operators:

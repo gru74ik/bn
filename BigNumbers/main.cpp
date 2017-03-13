@@ -28,17 +28,8 @@ int main()
     //BigFloatTester tester;
     //tester.menu();
 
-    std::string str = "1.0";
+    BigInt a( "9988776655" );
+    BigInt b( "1234567890" );
 
-    BigFloat init( str );
-
-    BigFloat one( init );
-
-    for (size_t i = 0; i < 11; ++i)
-    {
-        std::cout << "\nStep #" << i + 1 << " ===============================";
-        std::cout << "\nWe sum " << init.number() << " with " << one.number();
-        init = init + one;
-        std::cout << "Final result in exponent notation:: " << init << "\n";
-    }
+    std::cout << "a + b = " << a + b;
 }
