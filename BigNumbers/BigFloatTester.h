@@ -4,6 +4,18 @@
 #include "BigInt.h"
 #include "BigFloat.h"
 
+#include <random>
+#include <ctime>
+#include <algorithm>
+
+template <typename T>
+T getRandNumber( const T & begin, const T & end )
+{
+    static std::mt19937 generator( time( 0 ) );
+    std::uniform_int_distribution<size_t> distribution( begin, end );
+    return distribution( generator ) ;
+}
+
 class BigFloatTester : public BigFloat
 {
 public:

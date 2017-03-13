@@ -1047,6 +1047,7 @@ void BigFloatTester::op_assign_string_to_big_float()
 // to test arithmetic operators:
 void BigFloatTester::addition_with_big_float_as_param()
 {
+    /*
     std::string choice = "y";
     while( choice[0] == 'y' || choice[0] == 'Y' )
     {
@@ -1064,6 +1065,51 @@ void BigFloatTester::addition_with_big_float_as_param()
         std::cout << "\n";
 
     } // endof while
+    */
+
+    std::string str;
+    BigFloat x;
+    BigFloat y;
+
+    for ( int i = 0; i < 10; ++i )
+    {
+        for ( int i = 0; i < getRandNumber( 1, 30 ); ++i )
+        {
+           str.push_back( digit_to_char( getRandNumber( 0, 9 ) ) );
+        }
+
+        str = str + '.';
+
+        for ( int i = 0; i < getRandNumber( 1, 30 ); ++i )
+        {
+           str.push_back( digit_to_char( getRandNumber( 0, 9 ) ) );
+        }
+
+        x.set_number( str );
+
+        str.clear();
+
+        for ( int i = 0; i < getRandNumber( 1, 30 ); ++i )
+        {
+           str.push_back( digit_to_char( getRandNumber( 0, 9 ) ) );
+        }
+
+        str = str + '.';
+
+        for ( int i = 0; i < getRandNumber( 1, 30 ); ++i )
+        {
+           str.push_back( digit_to_char( getRandNumber( 0, 9 ) ) );
+        }
+
+        y.set_number( str );
+
+        str.clear();
+
+        std::cout << "\nTest #" << i + 1 << "\n";
+        std::cout << "x: " << x.number() << "\n";
+        std::cout << "y: " << y.number() << "\n";
+        std::cout << "x + y = " << x + y << "\n";
+    }
 }
 
 void BigFloatTester::subtraction_with_big_float_as_param()
