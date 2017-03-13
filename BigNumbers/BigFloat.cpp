@@ -7,7 +7,7 @@
 
 // constructors
 BigFloat::BigFloat()
-    : sign_( '+' ), number_( "0" ), tail_( ".0 E+0" ), notation_( DEFAULT )
+    : sign_( '+' ), number_( "0.0" ), tail_( " E+0" ), notation_( DEFAULT )
 {
     //std::cout << "\nDefault constructor has been used.\n";
 }
@@ -40,10 +40,6 @@ BigFloat::BigFloat( const std::string& number )
             //<< "\nConstructor will try create object from string"
             //<< "\nthat represent number in scientific notation.\n";
     }
-    else if ( is_correct( DEFAULT ) )
-    {
-        reset();
-    }
     else
     {
         mark_as_wrong();
@@ -51,7 +47,7 @@ BigFloat::BigFloat( const std::string& number )
             //<< "\nConstructor tried create object from string\n"
             //<< "but failed, because string is incorrect.\n";
     }
-    //std::cout << "After all number_ in ctor: " << number_ << "\n";
+    std::cout << "After all number_ in ctor: " << number_ << "\n";
 }
 
 BigFloat::BigFloat( const BigInt& bigInteger )
@@ -84,7 +80,6 @@ BigFloat::BigFloat( const BigFloat& bf )
     number_ = bf.number_;
     tail_ = bf.tail_;
     notation_ = bf.notation_;
-
 }
 
 //checkers
@@ -238,7 +233,7 @@ bool BigFloat::is_correct( Notation notation ) const
     } // endof switch ( notation )
 
     return result;
-}
+} // endof is_correct
 
 // changers
 void BigFloat::discard_sign()
@@ -297,23 +292,23 @@ void BigFloat::move_floating_point(Direction dir, size_t shiftSize )
     case LEFT:
     {
         size_t digits_before = digits_before_dot();
-        /*
+
         std::cout
             <<  "\nWe are in function BigFloat::move_floating_point in section\n"
                 "of switch 'case LEFT' and current content of number_ is: "
             << number_
             << "\nand current value of dot_pos is: "
             << dot_pos << "\n\n";
-        */
+
         erase_part_of( number_, dot_pos, dot_pos );
-        /*
+
         std::cout
             <<  "\nWe are in function BigFloat::move_floating_point in section\n"
                 "of switch 'case LEFT' and current content of number_ after dot erasure is: "
             << number_
             << "\nand current value of dot_pos is: "
             << dot_pos << "\n\n";
-        */
+
         if ( digits_before > shiftSize )
         {
             insert_to( number_ , ".", dot_pos - shiftSize );
@@ -322,12 +317,19 @@ void BigFloat::move_floating_point(Direction dir, size_t shiftSize )
         {
             insert_to( number_ , "0.", 0 );
         }
-        else
+        else if ( digits_before < shiftSize )
         {
             size_t additional_zeroes = shiftSize - digits_before;
-            for ( size_t i = 0; i < additional_zeroes; ++i )
+
+            size_t i = 0;
+
+            while ( i < additional_zeroes )
+            {
                 number_ = "0" + number_;
-            insert_to( number_ , "0.", 0 );
+                ++i;
+            }
+
+            insert_to( number_ , "0.", 1 );
         }
 
         break;
@@ -349,9 +351,9 @@ void BigFloat::convert_to(Notation notation )
             move_floating_point( LEFT, shift );
             number_ = number_ + " E+" + number_to_string( shift );
 
-            //std::cout <<
-                //"number_ after converting from decimal to scientific\n"
-                //"move_floating_point( LEFT ): " << number_ << "\n";
+            std::cout <<
+                "number_ after converting from decimal to scientific\n"
+                "move_floating_point( LEFT ): " << number_ << "\n";
         }
         else
         {
@@ -365,9 +367,9 @@ void BigFloat::convert_to(Notation notation )
             {
                 number_ = number_ + " E+0";
             }
-            //std::cout <<
-                //"number_ after converting from decimal to scientific\n"
-                //"move_floating_point( RIGHT ): " << number_ << "\n";
+            std::cout <<
+                "number_ after converting from decimal to scientific\n"
+                "move_floating_point( RIGHT ): " << number_ << "\n";
         }
         pop_back_extra_zeroes();
         notation_ = SCIENTIFIC;
@@ -705,8 +707,8 @@ void BigFloat::set_number( const std::string& number )
 void BigFloat::mark_as_wrong()
 {
     sign_ = '+';
-    number_ = "0";
-    tail_ = "\b\bincorrect number";
+    number_ = "0.0";
+    tail_ = "\b\b\b\bincorrect number";
     notation_ = WRONG;
 }
 
@@ -753,64 +755,7 @@ bool BigFloat::operator<( const BigFloat& bf ) const
         b.convert_to( DECIMAL );
     }
 
-    size_t diff; // разница между количеством разрядов
-
-    // уравниваем количество разрядов обоих чисел до плавающей точки:
-    if (a.digits_before_dot() < b.digits_before_dot()) // #op<1
-    {
-        diff = b.digits_before_dot() - a.digits_before_dot();
-        for (size_t i = 0; i < diff; ++i)
-        {
-            push_front(a.number_, "0");
-        }
-    }
-    else if (b.digits_before_dot() < a.digits_before_dot()) // #op<2
-    {
-        diff = a.digits_before_dot() - b.digits_before_dot();
-        for (size_t i = 0; i < diff; ++i)
-        {
-            push_front(b.number_, "0");
-        }
-    }
-
-    // уравниваем количество разрядов обоих чисел после плавающей точки:
-    if (a.digits_after_dot() < b.digits_after_dot()) // #op<3
-    {
-        diff = b.digits_after_dot() - a.digits_after_dot();
-        for (size_t i = 0; i < diff; ++i)
-        {
-            push_back(a.number_, "0");
-        }
-    }
-    else if (b.digits_after_dot() < a.digits_after_dot()) // #op<4
-    {
-        diff = a.digits_after_dot() - b.digits_after_dot();
-        for (size_t i = 0; i < diff; ++i)
-        {
-            push_back(b.number_, "0");
-        }
-    }
-
-    // уберём из обоих чисел плавающую точку, чтобы не мешала при вычислениях:
-    erase_part_of(a.number_, a.dot_position(), a.dot_position());
-    erase_part_of(b.number_, b.dot_position(), b.dot_position());
-
-    for (size_t i = 0; i < a.number_.size(); ++i)
-    {
-        if ( a.number_[i] > b.number_[i] )
-        {
-            result = false;
-            break;
-        }
-        else if ( a.number_[i] == b.number_[i] )
-        {
-            continue;
-        }
-        else
-        {
-            break;
-        }
-    }
+    // TODO: сравнивать поразрядно
 
     return result;
 }
@@ -830,7 +775,7 @@ bool BigFloat::operator>( const BigFloat& bf ) const
 
     bool result = true;
 
-    if ( a.sign_ == '+' && b.sign_ == '-' )
+    if ( a.sign_ == '-' && b.sign_ == '+' )
     {
         result = false;
     }
@@ -838,11 +783,11 @@ bool BigFloat::operator>( const BigFloat& bf ) const
     {
         result = false;
     }
-    else if ( a.is_greater_than_zero() && b.notation_ == DEFAULT )
+    else if ( a.is_less_than_zero() && b.notation_ == DEFAULT )
     {
         result = false;
     }
-    else if ( a.notation_ == DEFAULT && b.is_less_than_zero() )
+    else if ( a.notation_ == DEFAULT && b.is_greater_than_zero() )
     {
         result = false;
     }
@@ -857,64 +802,7 @@ bool BigFloat::operator>( const BigFloat& bf ) const
         b.convert_to( DECIMAL );
     }
 
-    size_t diff; // разница между количеством разрядов
-
-    // уравниваем количество разрядов обоих чисел до плавающей точки:
-    if (a.digits_before_dot() < b.digits_before_dot()) // #op<1
-    {
-        diff = b.digits_before_dot() - a.digits_before_dot();
-        for (size_t i = 0; i < diff; ++i)
-        {
-            push_front(a.number_, "0");
-        }
-    }
-    else if (b.digits_before_dot() < a.digits_before_dot()) // #op<2
-    {
-        diff = a.digits_before_dot() - b.digits_before_dot();
-        for (size_t i = 0; i < diff; ++i)
-        {
-            push_front(b.number_, "0");
-        }
-    }
-
-    // уравниваем количество разрядов обоих чисел после плавающей точки:
-    if (a.digits_after_dot() < b.digits_after_dot()) // #op<3
-    {
-        diff = b.digits_after_dot() - a.digits_after_dot();
-        for (size_t i = 0; i < diff; ++i)
-        {
-            push_back(a.number_, "0");
-        }
-    }
-    else if (b.digits_after_dot() < a.digits_after_dot()) // #op<4
-    {
-        diff = a.digits_after_dot() - b.digits_after_dot();
-        for (size_t i = 0; i < diff; ++i)
-        {
-            push_back(b.number_, "0");
-        }
-    }
-
-    // уберём из обоих чисел плавающую точку, чтобы не мешала при вычислениях:
-    erase_part_of(a.number_, a.dot_position(), a.dot_position());
-    erase_part_of(b.number_, b.dot_position(), b.dot_position());
-
-    for (size_t i = 0; i < a.number_.size(); ++i)
-    {
-        if ( a.number_[i] < b.number_[i] )
-        {
-            result = false;
-            break;
-        }
-        else if ( a.number_[i] == b.number_[i] )
-        {
-            continue;
-        }
-        else
-        {
-            break;
-        }
-    }
+    // TODO: сравнивать поразрядно
 
     return result;
 }
@@ -990,39 +878,91 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const
     size_t diff; // разница между количеством разрядов
 
     // уравниваем количество разрядов обоих чисел до плавающей точки:
-    if (a.digits_before_dot() < b.digits_before_dot()) // #op+1
+    if (a.digits_before_dot() < b.digits_before_dot()) // #1
     {
+        std::cout << "\n#1\n";
+        std::cout << "we are here because a.digits_before_dot() < b.digits_before_dot():\n";
+        std::cout << "a.digits_before_dot(): " << a.digits_before_dot() << "\n";
+        std::cout << "b.digits_before_dot(): " << b.digits_before_dot() << "\n";
+        std::cout << "current content of number a: " << a.number_ << "\n";
+        std::cout << "current content of number b: " << b.number_ << "\n";
+        std::cout << "current content of string aStr: " << aStr << "\n";
+        std::cout << "current content of number bStr: " << bStr << "\n\n";
+
         diff = b.digits_before_dot() - a.digits_before_dot();
         for (size_t i = 0; i < diff; ++i)
         {
             push_front(aStr, "0");
         }
+        std::cout << "string aStr after pushing front zeroes: " << aStr << "\n";
     }
-    else if (b.digits_before_dot() < a.digits_before_dot()) // #op+2
+    else if (b.digits_before_dot() < a.digits_before_dot()) // #2
     {
+        std::cout << "\n#2\n";
+        std::cout << "we are here because b.digits_before_dot() < a.digits_before_dot():\n";
+        std::cout << "a.digits_before_dot(): " << a.digits_before_dot() << "\n";
+        std::cout << "b.digits_before_dot(): " << b.digits_before_dot() << "\n";
+        std::cout << "current content of number a: " << a.number_ << "\n";
+        std::cout << "current content of number b: " << b.number_ << "\n";
+        std::cout << "current content of string aStr: " << aStr << "\n";
+        std::cout << "current content of number bStr: " << bStr << "\n\n";
+
         diff = a.digits_before_dot() - b.digits_before_dot();
         for (size_t i = 0; i < diff; ++i)
         {
             push_front(bStr, "0");
         }
+        std::cout << "string bStr after pushing front zeroes: " << bStr << "\n";
     }
 
     // уравниваем количество разрядов обоих чисел после плавающей точки:
-    if (a.digits_after_dot() < b.digits_after_dot()) // #op+3
+    if (a.digits_after_dot() < b.digits_after_dot()) // #3
     {
+        std::cout << "\n#3\n";
+        std::cout << "we are here because a.digits_after_dot() < b.digits_after_dot():\n";
+        std::cout << "a.digits_after_dot(): " << a.digits_after_dot() << "\n";
+        std::cout << "b.digits_after_dot(): " << b.digits_after_dot() << "\n\n";
+        std::cout << "current content of number a: " << a.number_ << "\n";
+        std::cout << "current content of number b: " << b.number_ << "\n";
+        std::cout << "current content of string aStr: " << aStr << "\n";
+        std::cout << "current content of number bStr: " << bStr << "\n\n";
+
         diff = b.digits_after_dot() - a.digits_after_dot();
         for (size_t i = 0; i < diff; ++i)
         {
             push_back(aStr, "0");
         }
+        std::cout << "string aStr after pushing back zeroes: " << aStr << "\n";
     }
-    else if (b.digits_after_dot() < a.digits_after_dot()) // #op+4
+    else if (b.digits_after_dot() < a.digits_after_dot()) // #4
     {
+        auto a_it = std::find(a.number_.begin(), a.number_.end(), '.');
+        auto a_dad = std::distance(a_it + 1, a.number_.end());
+
+        auto b_it = std::find(b.number_.begin(), b.number_.end(), '.');
+        auto b_dad = std::distance(b_it + 1, b.number_.end());
+
+        std::cout << "\n#4\n";
+        std::cout << "we are here because b.digits_after_dot() < a.digits_after_dot():\n";
+
+        std::cout << "a.digits_after_dot(): " << a.digits_after_dot() << "\n";
+        std::cout << "b.digits_after_dot(): " << b.digits_after_dot() << "\n";
+
+        std::cout << "real quantity digits after dot in number a: " << a_dad << "\n";
+        std::cout << "real quantity digits after dot in number b: " << b_dad << "\n";
+
+        std::cout << "current content of number a: " << a.number_ << "\n";
+        std::cout << "current content of number b: " << b.number_ << "\n";
+
+        std::cout << "current content of string aStr: " << aStr << "\n";
+        std::cout << "current content of string bStr: " << bStr << "\n\n";
+
         diff = a.digits_after_dot() - b.digits_after_dot();
         for (size_t i = 0; i < diff; ++i)
         {
             push_back(bStr, "0");
         }
+        std::cout << "string bStr after pushing back zeroes: " << bStr << "\n";
     }
 
     // запомним позицию плавающей точки:
@@ -1043,9 +983,20 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const
     size_t subtotal = 0;
 
     std::string sumStr;
+    std::string curRes;
     for (size_t i = 0; i < aStr.size(); ++i)
     {
         subtotal = char_to_digit(aStr[i]) + char_to_digit(bStr[i]) + extra;
+
+        std::cout
+            << "\n"
+            << char_to_digit(aStr[i])
+            << " + "
+            << char_to_digit(bStr[i])
+            << " + number, that we keep in mind ("
+            << extra
+            << ") = "
+            << subtotal;
 
         if (subtotal > MAX_DIGIT) // десятичная система, поэтому последняя цифра в разряде 9
         {
@@ -1057,18 +1008,33 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const
             extra = 0;
         }
 
+        std::cout << "\n" << subtotal << " we write, and " << extra << " we keep in mind.\n";
         push_back(sumStr, digit_to_char(subtotal));
+        curRes = sumStr;
+        reverse(curRes);
+        std::cout << "current result is " << curRes << "\n";
     }
 
     if (extra)
     {
         push_back(sumStr, digit_to_char(extra));
+        std::cout
+            << "\nwe add the number, that we keep in mind ("
+            << extra
+            << ") to out result and ";
+        curRes = sumStr;
+        reverse(curRes);
     }
+
 
     reverse(sumStr);
     insert_to(sumStr, ".", dot_pos_a );
 
+    std::cout << "final result is " << sumStr << "\n";
+
     BigFloat sum(sumStr);
+
+    std::cout << "And in exponent notation final result is\n";
 
     return sum;
 }
@@ -1082,26 +1048,8 @@ BigFloat BigFloat::operator-( const BigFloat& subtrahend ) const
 
 BigFloat BigFloat::operator*( const BigFloat& multiplier ) const
 {
-    BigFloat a = *this;
-    BigFloat b = multiplier;
-
-    BigFloat product( a );
-    size_t prod_digits_after_dot = a.digits_after_dot() + b.digits_after_dot();
-
-    erase_part_of( b.number_, b.dot_position(), b.dot_position() );
-
-    BigFloat limit( b.number_ + ".0" );
-    const BigFloat ONE( "1.0" );
-
-    for ( BigFloat i( "1.0" ); i < limit; i = i + ONE )
-    {
-        std::cout << "Current value of product: " << product << "\n";
-        product = product + a;
-    }
-
-    erase_part_of( product.number_, product.dot_position(), product.dot_position() );
-    insert_to( product.number_, ".", product.number_.size() - prod_digits_after_dot );
-
+    BigFloat product( multiplier ); // temporary solution to avoid compiler warning
+    // TODO
     return product;
 }
 

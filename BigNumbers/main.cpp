@@ -28,8 +28,16 @@ int main()
     //BigFloatTester tester;
     //tester.menu();
 
-    BigFloat x( "5.9" );
-    BigFloat y( "3.2" );
-    std::cout << x * y;
+    str::string str = "123.123";
+
+    BigFloat init;
+    BigFloat ONE( "123.123 E+5" );
+
+    for (size_t i = 0; i < 11; ++i)
+    {
+        init = init + ONE;
+        std::cout << "Step #" << i + 1 << ": " << init << "\n";
+
+    }
 
 }
