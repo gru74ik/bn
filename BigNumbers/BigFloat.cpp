@@ -753,7 +753,64 @@ bool BigFloat::operator<( const BigFloat& bf ) const
         b.convert_to( DECIMAL );
     }
 
-    // TODO: сравнивать поразрядно
+    size_t diff; // разница между количеством разрядов
+
+    // уравниваем количество разрядов обоих чисел до плавающей точки:
+    if (a.digits_before_dot() < b.digits_before_dot()) // #op<1
+    {
+        diff = b.digits_before_dot() - a.digits_before_dot();
+        for (size_t i = 0; i < diff; ++i)
+        {
+            push_front(a.number_, "0");
+        }
+    }
+    else if (b.digits_before_dot() < a.digits_before_dot()) // #op<2
+    {
+        diff = a.digits_before_dot() - b.digits_before_dot();
+        for (size_t i = 0; i < diff; ++i)
+        {
+            push_front(b.number_, "0");
+        }
+    }
+
+    // уравниваем количество разрядов обоих чисел после плавающей точки:
+    if (a.digits_after_dot() < b.digits_after_dot()) // #op<3
+    {
+        diff = b.digits_after_dot() - a.digits_after_dot();
+        for (size_t i = 0; i < diff; ++i)
+        {
+            push_back(a.number_, "0");
+        }
+    }
+    else if (b.digits_after_dot() < a.digits_after_dot()) // #op<4
+    {
+        diff = a.digits_after_dot() - b.digits_after_dot();
+        for (size_t i = 0; i < diff; ++i)
+        {
+            push_back(b.number_, "0");
+        }
+    }
+
+    // уберём из обоих чисел плавающую точку, чтобы не мешала при вычислениях:
+    erase_part_of(a.number_, a.dot_position(), a.dot_position());
+    erase_part_of(b.number_, b.dot_position(), b.dot_position());
+
+    for (size_t i = 0; i < a.number_.size(); ++i)
+    {
+        if ( a.number_[i] > b.number_[i] )
+        {
+            result = false;
+            break;
+        }
+        else if ( a.number_[i] == b.number_[i] )
+        {
+            continue;
+        }
+        else
+        {
+            break;
+        }
+    }
 
     return result;
 }
@@ -773,7 +830,7 @@ bool BigFloat::operator>( const BigFloat& bf ) const
 
     bool result = true;
 
-    if ( a.sign_ == '-' && b.sign_ == '+' )
+    if ( a.sign_ == '+' && b.sign_ == '-' )
     {
         result = false;
     }
@@ -781,11 +838,11 @@ bool BigFloat::operator>( const BigFloat& bf ) const
     {
         result = false;
     }
-    else if ( a.is_less_than_zero() && b.notation_ == DEFAULT )
+    else if ( a.is_greater_than_zero() && b.notation_ == DEFAULT )
     {
         result = false;
     }
-    else if ( a.notation_ == DEFAULT && b.is_greater_than_zero() )
+    else if ( a.notation_ == DEFAULT && b.is_less_than_zero() )
     {
         result = false;
     }
@@ -800,7 +857,64 @@ bool BigFloat::operator>( const BigFloat& bf ) const
         b.convert_to( DECIMAL );
     }
 
-    // TODO: сравнивать поразрядно
+    size_t diff; // разница между количеством разрядов
+
+    // уравниваем количество разрядов обоих чисел до плавающей точки:
+    if (a.digits_before_dot() < b.digits_before_dot()) // #op<1
+    {
+        diff = b.digits_before_dot() - a.digits_before_dot();
+        for (size_t i = 0; i < diff; ++i)
+        {
+            push_front(a.number_, "0");
+        }
+    }
+    else if (b.digits_before_dot() < a.digits_before_dot()) // #op<2
+    {
+        diff = a.digits_before_dot() - b.digits_before_dot();
+        for (size_t i = 0; i < diff; ++i)
+        {
+            push_front(b.number_, "0");
+        }
+    }
+
+    // уравниваем количество разрядов обоих чисел после плавающей точки:
+    if (a.digits_after_dot() < b.digits_after_dot()) // #op<3
+    {
+        diff = b.digits_after_dot() - a.digits_after_dot();
+        for (size_t i = 0; i < diff; ++i)
+        {
+            push_back(a.number_, "0");
+        }
+    }
+    else if (b.digits_after_dot() < a.digits_after_dot()) // #op<4
+    {
+        diff = a.digits_after_dot() - b.digits_after_dot();
+        for (size_t i = 0; i < diff; ++i)
+        {
+            push_back(b.number_, "0");
+        }
+    }
+
+    // уберём из обоих чисел плавающую точку, чтобы не мешала при вычислениях:
+    erase_part_of(a.number_, a.dot_position(), a.dot_position());
+    erase_part_of(b.number_, b.dot_position(), b.dot_position());
+
+    for (size_t i = 0; i < a.number_.size(); ++i)
+    {
+        if ( a.number_[i] < b.number_[i] )
+        {
+            result = false;
+            break;
+        }
+        else if ( a.number_[i] == b.number_[i] )
+        {
+            continue;
+        }
+        else
+        {
+            break;
+        }
+    }
 
     return result;
 }
@@ -876,7 +990,7 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const
     size_t diff; // разница между количеством разрядов
 
     // уравниваем количество разрядов обоих чисел до плавающей точки:
-    if (a.digits_before_dot() < b.digits_before_dot()) // #1
+    if (a.digits_before_dot() < b.digits_before_dot()) // #op+1
     {
         diff = b.digits_before_dot() - a.digits_before_dot();
         for (size_t i = 0; i < diff; ++i)
@@ -884,7 +998,7 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const
             push_front(aStr, "0");
         }
     }
-    else if (b.digits_before_dot() < a.digits_before_dot()) // #2
+    else if (b.digits_before_dot() < a.digits_before_dot()) // #op+2
     {
         diff = a.digits_before_dot() - b.digits_before_dot();
         for (size_t i = 0; i < diff; ++i)
@@ -894,7 +1008,7 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const
     }
 
     // уравниваем количество разрядов обоих чисел после плавающей точки:
-    if (a.digits_after_dot() < b.digits_after_dot()) // #3
+    if (a.digits_after_dot() < b.digits_after_dot()) // #op+3
     {
         diff = b.digits_after_dot() - a.digits_after_dot();
         for (size_t i = 0; i < diff; ++i)
@@ -902,7 +1016,7 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const
             push_back(aStr, "0");
         }
     }
-    else if (b.digits_after_dot() < a.digits_after_dot()) // #4
+    else if (b.digits_after_dot() < a.digits_after_dot()) // #op+4
     {
         diff = a.digits_after_dot() - b.digits_after_dot();
         for (size_t i = 0; i < diff; ++i)
@@ -968,8 +1082,26 @@ BigFloat BigFloat::operator-( const BigFloat& subtrahend ) const
 
 BigFloat BigFloat::operator*( const BigFloat& multiplier ) const
 {
-    BigFloat product( multiplier ); // temporary solution to avoid compiler warning
-    // TODO
+    BigFloat a = *this;
+    BigFloat b = multiplier;
+
+    BigFloat product( a );
+    size_t prod_digits_after_dot = a.digits_after_dot() + b.digits_after_dot();
+
+    erase_part_of( b.number_, b.dot_position(), b.dot_position() );
+
+    BigFloat limit( b.number_ + ".0" );
+    const BigFloat ONE( "1.0" );
+
+    for ( BigFloat i( "1.0" ); i < limit; i = i + ONE )
+    {
+        std::cout << "Current value of product: " << product << "\n";
+        product = product + a;
+    }
+
+    erase_part_of( product.number_, product.dot_position(), product.dot_position() );
+    insert_to( product.number_, ".", product.number_.size() - prod_digits_after_dot );
+
     return product;
 }
 

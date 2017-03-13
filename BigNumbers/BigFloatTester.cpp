@@ -1047,7 +1047,7 @@ void BigFloatTester::op_assign_string_to_big_float()
 // to test arithmetic operators:
 void BigFloatTester::addition_with_big_float_as_param()
 {
-    /*
+
     std::string choice = "y";
     while( choice[0] == 'y' || choice[0] == 'Y' )
     {
@@ -1065,8 +1065,9 @@ void BigFloatTester::addition_with_big_float_as_param()
         std::cout << "\n";
 
     } // endof while
-    */
 
+
+    /*
     std::string str;
     BigFloat x;
     BigFloat y;
@@ -1110,6 +1111,7 @@ void BigFloatTester::addition_with_big_float_as_param()
         std::cout << "y: " << y.number() << "\n";
         std::cout << "x + y = " << x + y << "\n";
     }
+    */
 }
 
 void BigFloatTester::subtraction_with_big_float_as_param()

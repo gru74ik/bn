@@ -25,6 +25,11 @@ N mzn 10 *. 0) ( . Например, число 2.5 можно записать 
 
 int main()
 {
-    BigFloatTester tester;
-    tester.menu();
+    //BigFloatTester tester;
+    //tester.menu();
+
+    BigFloat x( "5.9" );
+    BigFloat y( "3.2" );
+    std::cout << x * y;
+
 }
