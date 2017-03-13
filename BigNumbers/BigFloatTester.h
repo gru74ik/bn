@@ -8,7 +8,7 @@
 #include <ctime>
 #include <algorithm>
 
-template <typename T>
+template <typename T> // remove this function when all test will completed
 T getRandNumber( const T & begin, const T & end )
 {
     static std::mt19937 generator( time( 0 ) );

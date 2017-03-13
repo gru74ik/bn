@@ -28,8 +28,34 @@ int main()
     //BigFloatTester tester;
     //tester.menu();
 
-    BigInt a( "9988776655" );
-    BigInt b( "1234567890" );
+/*
+    BigInt a("9988776655");
+    BigInt b("1234567890");
 
-    std::cout << "a + b = " << a + b;
+    std::cout
+        << "Two big integers (addition):\n"
+        << "a = " << a << "\n"
+        << "b = " << b << "\n"
+        << "a + b = " << a + b << "\n\n"
+        ;
+*/
+
+    BigFloat x("+1.2345 e-5");		// 0.000012345
+    BigFloat y("+1.23456789 E+5");	// 123456.789
+
+    std::cout
+        << "Two big floats (addition):\n"
+        << "x = " << x << "\n"
+        << "y = " << y << "\n"
+        << "x + y = " << x + y << "\n\n"
+        ;
+
+/*
+    std::cout
+        << "Two big floats (multiplication):\n"
+        << "x = " << x << "\n"
+        << "y = " << y << "\n"
+        << "x * y = " << x * y << "\n\n"
+        ;
+*/
 }
