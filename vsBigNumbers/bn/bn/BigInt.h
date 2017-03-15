@@ -12,6 +12,7 @@ public:
 	// constructors:
 	BigInt();
 	BigInt(const std::string& number);
+	virtual ~BigInt() {}
 
 private:
 	// checkers:	
@@ -24,15 +25,13 @@ private:
 	// getters:
 	size_t last_digit_position() const;
 	size_t last_digit() const;
-
-public:
-	std::string number() const;
-
+	
+	size_t leading_zeros() const {} // TODO: implement this function member!
 
 private:
 	// setters:
 	void set_number(const std::string & str);
-	void mark_as_wrong();
+	void mark_as_wrong() {} // TODO: implement this function member!
 
 public:
 	void set_number(const std::string & number);
