@@ -21,7 +21,8 @@ BigNumber::BigNumber(const std::string& number)
 }
 
 
-// changers:
+// changers ====================================================================
+// отбросить знак
 void BigNumber::discard_sign()
 {
 	if (is_sign(number_[0]))
@@ -30,18 +31,37 @@ void BigNumber::discard_sign()
 	}
 }
 
+// вытолкнуть спереди лишние нули
 void BigNumber::pop_front_extra_zeros()
 {
-
+	if (number_.size() > 1)
+	{	// TODO: для BigFloat заменить граничащее условие окончания цикла
+		for (size_t i = 0; i < last_digit_position(); ++i)
+		{
+			if (number_[i] = '0')
+			{
+				pop_front(number_);
+			}
+			else
+			{
+				break;
+			}
+		}
+	}
 }
 
+// затолкать вперёд добавочные нули
 void BigNumber::push_front_additional_zeros(const size_t quantity)
 {
-
+	for (size_t i = 0; i < quantity; ++i)
+	{
+		push_front(number_, '0');
+	}
 }
 
 
-// getters:
+// getters =====================================================================
+// найти позицию первой цифры числа
 size_t BigNumber::first_digit_position() const
 {
 	size_t first_digit_pos = number_.size();
@@ -65,13 +85,13 @@ size_t BigNumber::first_digit_position() const
 	return first_digit_pos;
 }
 
-
-size_t BigNumber::first_digit() const
+// найти значение первой цифры числа
+size_t BigNumber::first_digit_value() const
 {
 	return char_to_digit(number_[first_digit_position()]);
 }
 
-
+// найти позицию перед заданной позицией
 size_t BigNumber::position_before(size_t pos) const
 {
 	size_t pos_before_pos = number_.size();
@@ -83,6 +103,7 @@ size_t BigNumber::position_before(size_t pos) const
 	return pos_before_pos;
 }
 
+// найти позицию после заданной позицией
 size_t BigNumber::position_after(size_t pos) const
 {
 	size_t pos_after_pos = number_.size();
@@ -94,26 +115,20 @@ size_t BigNumber::position_after(size_t pos) const
 	return pos_after_pos;
 }
 
+// определить знак числа
 size_t BigNumber::sign() const
 {
 	return number_[0] == '-' ? '-' : '+';
 }
 
-
+// достать (to get) содержимое поля number_
 std::string BigNumber::number() const
 {
 	return number_;
 }
 
-// setters:
-void BigNumber::set_number(const std::string & number)
-{
-	number_ = number;
-	sign_ = sign();
-	discard_sign();
-	tail_ = "";
-}
-
+// setters =====================================================================
+// сбросить значения полей в значения по умолчанию (обнулить)
 void BigNumber::reset()
 {
 	sign_ = '+';
@@ -121,3 +136,11 @@ void BigNumber::reset()
 	tail_ = "";
 }
 
+// установить значения полей в соответствии с переданным аргументом
+void BigNumber::set_number(const std::string & number)
+{
+	number_ = number;
+	sign_ = sign();
+	discard_sign();
+	tail_ = "";
+}

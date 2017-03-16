@@ -44,8 +44,8 @@ public:
 	size_t first_digit_position() const;
 	virtual size_t last_digit_position() const = 0;
 
-	size_t first_digit() const;
-	virtual size_t last_digit() const = 0;
+	size_t first_digit_value() const;
+	virtual size_t last_digit_value() const = 0;
 
 	size_t position_before(size_t pos) const;
 	size_t position_after(size_t pos) const;
@@ -55,9 +55,8 @@ public:
 
 	
 	// setters:
-	virtual void mark_as_wrong() = 0;
 	void reset();
-	void set_number(const std::string & number);
+	virtual void set_number(const std::string & number);
 };
 
 #endif // BIGNUMBER_H

@@ -11,9 +11,21 @@ BigInt::BigInt() : BigNumber()
 
 BigInt::BigInt(const std::string& number) : BigNumber(number)
 {
-	if (!is_correct())
+	if (!is_correct(number))
 	{
 		reset();
+	}
+	else
+	{
+		set_number(number);
+	}
+}
+
+BigInt::BigInt(const BigInt& number)
+{
+	if (number.is_correct())
+	{
+		number.reset();
 	}
 }
 
@@ -23,7 +35,7 @@ bool BigInt::is_correct(const std::string& number) const
 {
 	bool correct = true;
 
-	if (number.size() == 0) // if(bi.number().empty())
+	if (number.size() == 0) // if(number.empty())
 	{
 		correct = false;
 	}
@@ -65,7 +77,7 @@ bool BigInt::is_correct() const
 
 bool BigInt::is_greater_than_zero() const
 {
-	//TODO: проверить, что нет лидирующих нулей
+	//TODO: check there are no leading zeros
 	return sign() == '+' && first_digit() > 0;
 } //endof is_greater_than_zero()
 
@@ -76,7 +88,7 @@ bool BigInt::is_less_than_zero() const
 
 bool BigInt::is_zero() const
 {
-	//TODO: проверить, что нет лидирующих нулей
+	//TODO: check there are no leading zeros
 	return number() == "0";
 }
 
@@ -87,11 +99,18 @@ size_t BigInt::last_digit_position() const
 	return number().size() - 1;
 }
 
-size_t BigInt::last_digit() const
+size_t BigInt::last_digit_value() const
 {
 	return number()[last_digit_position()];
 }
 
+size_t BigInt::leading_zeros() const
+{
+	// TODO: implement this function member!
+}
+
+
+// setters =====================================================================
 void BigInt::set_number(const std::string & str)
 {
 	if (is_correct(str))
@@ -122,13 +141,13 @@ BigInt BigInt::operator=(const std::string& str)
 
 // comparison operators:
 bool BigInt::operator<(const BigInt& bi) const
-{
+{	// TODO: implement it right!
 	BigInt a(*this);
 	BigInt b(bi);
 
 	if (!a.is_correct())
 	{
-		std::cout << "\nFrist operand is incorrect. Comparison is impossible.\n";
+		std::cout << "\nFirst operand is incorrect. Comparison is impossible.\n";
 		a.reset();
 	}
 
@@ -142,7 +161,7 @@ bool BigInt::operator<(const BigInt& bi) const
 }
 
 bool BigInt::operator<=(const BigInt& bi) const
-{
+{	// TODO: implement it right!
 	BigInt a = *this;
 	BigInt b = bi;
 
@@ -164,7 +183,7 @@ bool BigInt::operator<=(const BigInt& bi) const
 }
 
 bool BigInt::operator>(const BigInt& bi) const
-{
+{	// TODO: implement it right!
 	BigInt a = *this;
 	BigInt b = bi;
 
@@ -184,7 +203,7 @@ bool BigInt::operator>(const BigInt& bi) const
 }
 
 bool BigInt::operator>=(const BigInt& bi) const
-{
+{	// TODO: implement it right!
 	BigInt a = *this;
 	BigInt b = bi;
 
@@ -206,7 +225,7 @@ bool BigInt::operator>=(const BigInt& bi) const
 }
 
 bool BigInt::operator==(const BigInt& bi) const
-{
+{	// TODO: implement it right!
 	BigInt a = *this;
 	BigInt b = bi;
 
@@ -227,7 +246,7 @@ bool BigInt::operator==(const BigInt& bi) const
 
 // arithmetic operators:
 BigInt BigInt::operator+(const BigInt& addendum) const
-{
+{	// TODO: implement it right!
 	BigInt sum;
 	BigInt a(*this);
 	BigInt b(addendum);
@@ -276,51 +295,51 @@ BigInt BigInt::operator+(const BigInt& addendum) const
 }
 
 BigInt BigInt::operator-(const BigInt& subtrahend) const
-{
+{	// TODO: implement this function member!
 	BigInt diff(subtrahend); // temporary solution to avoid compiler warning
-							 // TODO
+
 	return diff;
 }
 
 BigInt BigInt::operator*(const BigInt& multiplier) const
-{
+{	// TODO: implement this function member!
 	BigInt product(multiplier); // temporary solution to avoid compiler warning
-								// TODO
+
 	return product;
 }
 
 BigInt BigInt::operator/(const BigInt& divider) const
-{
+{	// TODO: implement this function member!
 	BigInt result(divider); // temporary solution to avoid compiler warning
-							// TODO
+
 	return result;
 }
 
 BigFloat BigInt::operator+(const BigFloat& addendum) const
-{
+{	// TODO: implement this function member!
 	BigFloat sum(addendum);
-	// TODO
+
 	return sum;
 }
 
 BigFloat BigInt::operator-(const BigFloat& subtrahend) const
-{
+{	// TODO: implement this function member!
 	BigFloat diff(subtrahend); // temporary solution to avoid compiler warning
-							   // TODO
+
 	return diff;
 }
 
 BigFloat BigInt::operator*(const BigFloat& multiplier) const
-{
+{	// TODO: implement this function member!
 	BigFloat product(multiplier); // temporary solution to avoid compiler warning
-								  // TODO
+
 	return product;
 }
 
 BigFloat BigInt::operator/(const BigFloat& divider) const
-{
+{	// TODO: implement this function member!
 	BigFloat result(divider); // temporary solution to avoid compiler warning
-							  // TODO
+
 	return result;
 }
 
@@ -345,13 +364,13 @@ const BigInt operator++(BigInt& bi, int fakeArg)
 // input-output operators:
 std::istream& operator >> (std::istream& is, BigInt& bi)
 {
-	is >> bi.number_;
+	is >> bi.number();
 	return is;
 }
 
 std::ostream& operator<<(std::ostream& os, const BigInt& bi)
 {
-	os << bi.number_;
+	os << bi.sign << bi.number();
 
 	return os;
 }
