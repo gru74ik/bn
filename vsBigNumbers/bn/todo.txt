@@ -24,3 +24,7 @@
 
 9. 	in file BigNumber.h in function member size_t leading_zeros() const;
 	TODO: implement for BigFloat his own version
+
+10. in file BigNumber.h in function member reset()
+	TODO: implement for BigFloat his own version
+

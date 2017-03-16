@@ -12,9 +12,9 @@ BigNumber::BigNumber()
 	tail_ = "";
 }
 
-BigNumber::BigNumber(const std::string& number)
+BigNumber::BigNumber(const std::string& num)
 {
-	number_ = number;
+	number_ = num;
 	sign_ = sign();
 	discard_sign();
 	tail_ = "";
@@ -161,9 +161,9 @@ void BigNumber::reset()
 }
 
 // установить значения полей в соответствии с переданным аргументом
-void BigNumber::set_number(const std::string & number)
+void BigNumber::set_number(const std::string & num)
 {
-	number_ = number;
+	number_ = num;
 	sign_ = sign();
 	discard_sign();
 	tail_ = "";

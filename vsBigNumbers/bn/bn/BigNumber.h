@@ -17,7 +17,7 @@ public:
 
 	// ctors =======================================================================
 	BigNumber();
-	BigNumber(const std::string& number);
+	BigNumber(const std::string& num);
 
 	// dtors =======================================================================
 	virtual ~BigNumber() = 0;
@@ -55,8 +55,8 @@ public:
 
 	
 	// setters =====================================================================
-	void reset();
-	virtual void set_number(const std::string & number);
+	void reset();	// TODO: implement for BigFloat his own version
+	virtual void set_number(const std::string & num);
 };
 
 #endif // BIGNUMBER_H

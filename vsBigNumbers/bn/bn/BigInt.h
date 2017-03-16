@@ -39,7 +39,7 @@ public:
 	BigInt operator=(const std::string& num);	// is done
 
 	// comparison operators ========================================================
-	bool operator<(const BigInt& bi) const;		// TODO: implement it right!
+	bool operator<(const BigInt& bi) const;		// is done
 	bool operator<=(const BigInt& bi) const;	// TODO: implement it right!
 	bool operator>(const BigInt& bi) const;		// TODO: implement it right!
 	bool operator>=(const BigInt& bi) const;	// TODO: implement it right!

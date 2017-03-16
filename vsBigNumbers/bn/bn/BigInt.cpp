@@ -111,6 +111,10 @@ void BigInt::set_number(const std::string & num)
 	{
 		BigNumber::set_number(num);
 	}
+	else
+	{
+		reset();
+	}
 } // endof set_number(const std::string & num)
 
 // assignment operators ========================================================
@@ -118,7 +122,7 @@ BigInt BigInt::operator=(const BigInt& bi)
 {
 	if (this != &bi)
 	{
-		number() = bi.number();
+		set_number(bi.number());
 	}
 	return *this;
 } //endof operator=(const BigInt& bi)
@@ -127,14 +131,16 @@ BigInt BigInt::operator=(const std::string& num)
 {
 	if (number() != &num[0]) // &str.front()
 	{
-		number() = num;
+		set_number(num);
 	}
 	return *this;
 } //endof operator=(const std::string& num)
 
 // comparison operators ========================================================
 bool BigInt::operator<(const BigInt& bi) const
-{	// TODO: implement it right!
+{	
+	bool result = true;
+
 	BigInt a(*this);
 	BigInt b(bi);
 
@@ -150,7 +156,45 @@ bool BigInt::operator<(const BigInt& bi) const
 		b.reset();
 	}
 
-	return string_to_number(a.number()) < string_to_number(b.number());
+	if (b.number().size() < a.number().size()) // #op<(bi) 1
+	{
+		result = false;
+	}
+	else if (a.number().size() < b.number().size()) // #op<(bi) 2
+	{
+		// do nothing (a indeed less than b and result is true already)
+	}
+	else
+	{
+		bool both_numbers_are_the_same = true;
+
+		for (size_t i = 0; i < a.number().size(); ++i)
+		{
+			if (a.number()[i] < b.number()[i])
+			{
+				both_numbers_are_the_same = false;
+				result = true;
+				continue;
+			}
+			else if (a.number()[i] == b.number()[i])
+			{
+				continue;
+			}
+			else
+			{
+				both_numbers_are_the_same = false;
+				result = false;
+				break;
+			}
+		}
+
+		if (both_numbers_are_the_same)
+		{
+			result = false;
+		}
+	}
+
+	return result;
 } //endof operator<(const BigInt& bi) const
 
 bool BigInt::operator<=(const BigInt& bi) const
