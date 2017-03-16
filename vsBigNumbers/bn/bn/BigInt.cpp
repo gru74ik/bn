@@ -9,59 +9,58 @@ BigInt::BigInt() : BigNumber()
 {
 }
 
-BigInt::BigInt(const std::string& number) : BigNumber(number)
+BigInt::BigInt(const std::string& num) : BigNumber(num)
 {
-	if (!is_correct(number))
+	if (is_correct(num))
+	{
+		set_number(num);		
+	}
+	else
 	{
 		reset();
 	}
-	else
-	{
-		set_number(number);
-	}
 }
 
-BigInt::BigInt(const BigInt& number)
+BigInt::BigInt(const BigInt& bi)
 {
-	if (number.is_correct())
+	if (bi.is_correct())
 	{
-		// TODO
+		set_number(bi.number());
 	}
 	else
 	{
-
+		reset();
 	}
 }
-
 
 // checkers ====================================================================
-bool BigInt::is_correct(const std::string& number) const
+bool BigInt::is_correct(const std::string& num) const
 {
 	bool correct = true;
 
-	if (number.size() == 0) // if(number.empty())
+	if (num.size() == 0) // if(number.empty())
 	{
 		correct = false;
 	}
 	else
 	{
-		if (is_one_char(number))
+		if (is_one_char(num))
 		{
-			if (!is_digit(number[0])) // bi.number().at(0)
+			if (!is_digit(num[0])) // bi.number().at(0)
 			{
 				correct = false;
 			}
 		}
 		else
 		{
-			if (!is_digit(number[0]))
+			if (!is_digit(num[0]))
 			{
 				correct = false;
 			}
 
-			for (size_t i = 1; i < number.size(); ++i)
+			for (size_t i = 1; i < num.size(); ++i)
 			{
-				if (!is_digit(number[i]))
+				if (!is_digit(num[i]))
 				{
 					correct = false;
 					break;
@@ -72,12 +71,12 @@ bool BigInt::is_correct(const std::string& number) const
 	}
 
 	return correct;
-} //endof is_correct()
+} //endof is_correct(const std::string& number) const
 
 bool BigInt::is_correct() const
 {
 	return is_correct(number());
-}
+} //endof is_correct() const
 
 bool BigInt::is_greater_than_zero() const
 {
@@ -87,42 +86,34 @@ bool BigInt::is_greater_than_zero() const
 bool BigInt::is_less_than_zero() const
 {
 	return sign() == '-';
-}
+} // endof is_less_than_zero()
 
 bool BigInt::is_zero() const
 {
 	return has_leading_zeros() ? last_digit_value : number() == "0";
-}
-
+} // endof is_zero()
 
 // getters =====================================================================
 size_t BigInt::last_digit_position() const
 {
 	return number().size() - 1;
-}
+} // endof last_digit_position()
 
 size_t BigInt::last_digit_value() const
 {
 	return number()[last_digit_position()];
-}
-
-size_t BigInt::leading_zeros() const
-{
-	// TODO: implement this function member!
-}
-
+} // endof last_digit_value()
 
 // setters =====================================================================
-void BigInt::set_number(const std::string & str)
+void BigInt::set_number(const std::string & num)
 {
-	if (is_correct(str))
+	if (is_correct(num))
 	{
-		BigNumber::set_number(str);
+		BigNumber::set_number(num);
 	}
-}
+} // endof set_number(const std::string & num)
 
-
-// assignment operators:
+// assignment operators ========================================================
 BigInt BigInt::operator=(const BigInt& bi)
 {
 	if (this != &bi)
@@ -130,18 +121,18 @@ BigInt BigInt::operator=(const BigInt& bi)
 		number() = bi.number();
 	}
 	return *this;
-}
+} //endof operator=(const BigInt& bi)
 
-BigInt BigInt::operator=(const std::string& str)
+BigInt BigInt::operator=(const std::string& num)
 {
-	if (number() != &str[0]) // &str.front()
+	if (number() != &num[0]) // &str.front()
 	{
-		number() = str;
+		number() = num;
 	}
 	return *this;
-}
+} //endof operator=(const std::string& num)
 
-// comparison operators:
+// comparison operators ========================================================
 bool BigInt::operator<(const BigInt& bi) const
 {	// TODO: implement it right!
 	BigInt a(*this);
@@ -160,7 +151,7 @@ bool BigInt::operator<(const BigInt& bi) const
 	}
 
 	return string_to_number(a.number()) < string_to_number(b.number());
-}
+} //endof operator<(const BigInt& bi) const
 
 bool BigInt::operator<=(const BigInt& bi) const
 {	// TODO: implement it right!
@@ -182,7 +173,7 @@ bool BigInt::operator<=(const BigInt& bi) const
 	return
 		string_to_number(a.number_) < string_to_number(b.number_) ||
 		string_to_number(a.number_) == string_to_number(b.number_);
-}
+} //endof operator<=(const BigInt& bi) const
 
 bool BigInt::operator>(const BigInt& bi) const
 {	// TODO: implement it right!
@@ -202,7 +193,7 @@ bool BigInt::operator>(const BigInt& bi) const
 	}
 
 	return string_to_number(a.number_) > string_to_number(b.number_);
-}
+}	// endof operator>(const BigInt& bi) const
 
 bool BigInt::operator>=(const BigInt& bi) const
 {	// TODO: implement it right!
@@ -224,7 +215,7 @@ bool BigInt::operator>=(const BigInt& bi) const
 	return
 		string_to_number(a.number_) > string_to_number(b.number_) ||
 		string_to_number(a.number_) == string_to_number(b.number_);
-}
+} // endof operator>=(const BigInt& bi) const
 
 bool BigInt::operator==(const BigInt& bi) const
 {	// TODO: implement it right!
@@ -244,9 +235,9 @@ bool BigInt::operator==(const BigInt& bi) const
 	}
 
 	return string_to_number(a.number_) == string_to_number(b.number_);
-}
+} // endof operator==(const BigInt& bi) const
 
-// arithmetic operators:
+// arithmetic operators ========================================================
 BigInt BigInt::operator+(const BigInt& addendum) const
 {	// TODO: implement it right!
 	BigInt sum;
@@ -294,56 +285,56 @@ BigInt BigInt::operator+(const BigInt& addendum) const
 	}
 
 	return sum;
-}
+} // endof operator+(const BigInt& addendum) const
 
 BigInt BigInt::operator-(const BigInt& subtrahend) const
 {	// TODO: implement this function member!
 	BigInt diff(subtrahend); // temporary solution to avoid compiler warning
 
 	return diff;
-}
+} // endof operator-(const BigInt& subtrahend) const
 
 BigInt BigInt::operator*(const BigInt& multiplier) const
 {	// TODO: implement this function member!
 	BigInt product(multiplier); // temporary solution to avoid compiler warning
 
 	return product;
-}
+} // endof operator*(const BigInt& multiplier) const
 
 BigInt BigInt::operator/(const BigInt& divider) const
 {	// TODO: implement this function member!
 	BigInt result(divider); // temporary solution to avoid compiler warning
 
 	return result;
-}
+} // endof operator/(const BigInt& divider) const
 
 BigFloat BigInt::operator+(const BigFloat& addendum) const
 {	// TODO: implement this function member!
 	BigFloat sum(addendum);
 
 	return sum;
-}
+} // endof operator+(const BigFloat& addendum) const
 
 BigFloat BigInt::operator-(const BigFloat& subtrahend) const
 {	// TODO: implement this function member!
 	BigFloat diff(subtrahend); // temporary solution to avoid compiler warning
 
 	return diff;
-}
+} // endof operator-(const BigFloat& subtrahend) const
 
 BigFloat BigInt::operator*(const BigFloat& multiplier) const
 {	// TODO: implement this function member!
 	BigFloat product(multiplier); // temporary solution to avoid compiler warning
 
 	return product;
-}
+} // endof operator*(const BigFloat& multiplier) const
 
 BigFloat BigInt::operator/(const BigFloat& divider) const
 {	// TODO: implement this function member!
 	BigFloat result(divider); // temporary solution to avoid compiler warning
 
 	return result;
-}
+} // endof operator/(const BigFloat& divider) const
 
 //префиксная версия возвращает значение после инкремента
 const BigInt& operator++(BigInt& bi)
@@ -351,7 +342,7 @@ const BigInt& operator++(BigInt& bi)
 	BigInt one("1");
 	bi = bi + one;
 	return bi;
-}
+} // endof operator++(BigInt& bi)
 
 //постфиксная версия возвращает значение до инкремента
 const BigInt operator++(BigInt& bi, int fakeArg)
@@ -361,18 +352,18 @@ const BigInt operator++(BigInt& bi, int fakeArg)
 
 	bi = bi + one;
 	return oldValue;
-}
+} // endof BigInt operator++(BigInt& bi, int fakeArg)
 
-// input-output operators:
-std::istream& operator >> (std::istream& is, BigInt& bi)
+// input-output operators ======================================================
+std::istream& operator>>(std::istream& is, BigInt& bi)
 {
 	is >> bi.number();
 	return is;
-}
+} // endof operator>>(std::istream& is, BigInt& bi)
 
 std::ostream& operator<<(std::ostream& os, const BigInt& bi)
 {
 	os << bi.sign << bi.number();
 
 	return os;
-}
+} // endof operator<<(std::ostream& os, const BigInt& bi)

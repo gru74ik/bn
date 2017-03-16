@@ -44,19 +44,12 @@ void BigNumber::discard_sign()
 
 // вытолкнуть спереди (отбросить) лишние нули
 void BigNumber::pop_front_extra_zeros()
-{
+{	// TODO: implement for BigFloat his own version
 	if (has_leading_zeros)
 	{	// TODO: для BigFloat заменить граничащее условие окончания цикла
-		for (size_t i = 0; i < last_digit_position(); ++i)
+		for (size_t i = 0; i < leading_zeros(); ++i)
 		{
-			if (number_[i] = '0')
-			{
 				pop_front(number_);
-			}
-			else
-			{
-				break;
-			}
 		}
 	}
 }
@@ -71,7 +64,27 @@ void BigNumber::push_front_additional_zeros(const size_t quantity)
 }
 
 
+
+
 // getters =====================================================================
+// найти количество лидирующих нулей
+size_t BigNumber::leading_zeros() const
+{	// TODO: implement for BigFloat his own version
+	size_t quantity_of_leading_zeros = 0;
+	for (size_t i = 0; i < last_digit_position(); ++i)
+	{	// TODO: для BigFloat заменить граничащее условие окончания цикла
+		if (number_[i] == '0')
+		{
+			++quantity_of_leading_zeros;
+		}
+		else
+		{
+			break;
+		}
+	}
+	return quantity_of_leading_zeros;
+}
+
 // найти позицию первой цифры числа
 size_t BigNumber::first_digit_position() const
 {

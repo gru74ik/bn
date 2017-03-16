@@ -15,32 +15,31 @@ public:
 	static const size_t BASE = 10; // десятичная система счисления
 	static const size_t MAX_DIGIT = BASE - 1; // максимальная цифра в разряде 9
 
-	// constructors:
+	// ctors =======================================================================
 	BigNumber();
 	BigNumber(const std::string& number);
 
+	// dtors =======================================================================
 	virtual ~BigNumber() = 0;
 
-
-	// checkers:
+	// checkers ====================================================================
 	bool has_leading_zeros() const;
 	virtual bool is_correct() const = 0;
 	virtual bool is_greater_than_zero() const = 0;
 	virtual bool is_less_than_zero() const = 0;
 	virtual bool is_zero() const = 0;
 	
-
-	// changers:
+	// changers ====================================================================
 	void discard_sign();
-	//void pop_back_extra_zeros(); // I changed my mind - this function member have to be in BigFloat only.
-	void pop_front_extra_zeros();
+	//void pop_back_extra_zeros();	// I changed my mind - this function member have to be in BigFloat only.
+	void pop_front_extra_zeros();	// TODO: implement for BigFloat his own version
 	//void push_back_additional_zeros(const size_t quantity); // I changed my mind - this function member have to be in BigFloat only.
 	void push_front_additional_zeros(const size_t quantity);
 	
 
-	// getters:
-	virtual size_t leading_zeros() const = 0;
-	//size_t trailing_zeros() const; // I changed my mind - this function member have to be in BigFloat only.
+	// getters =====================================================================
+	size_t leading_zeros() const;		// TODO: implement for BigFloat his own version
+	//size_t trailing_zeros() const;	// I changed my mind - this function member have to be in BigFloat only.
 
 	size_t first_digit_position() const;
 	virtual size_t last_digit_position() const = 0;
@@ -55,7 +54,7 @@ public:
 	std::string number() const;
 
 	
-	// setters:
+	// setters =====================================================================
 	void reset();
 	virtual void set_number(const std::string & number);
 };

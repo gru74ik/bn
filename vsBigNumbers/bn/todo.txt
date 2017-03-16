@@ -7,8 +7,8 @@
 3. 	in file BigInt.cpp in function member BigInt::is_zero() const
 	DONE: check there are no leading zeros
 	
-4. 	in file BigInt.cpp in function member size_t leading_zeros() const
-	TODO: implement this function member
+4. 	in file BigNumber.cpp in function member size_t leading_zeros() const
+	DONE: implement this function member
 	
 5.	in file BigInt.h in section comparison operators
 	TODO: to fix implementation (implement it right)
@@ -16,5 +16,11 @@
 6.	in file BigInt.h in section arithmetic operators
 	TODO: to fix implementation (implement it right)
 
-7.	in file BigNumber.cpp
-	TODO: implement copy ctor
+7.	in file BigInt.cpp
+	DONE: implement copy ctor
+
+8. 	in file BigNumber.h in function member void pop_front_extra_zeros();
+	TODO: implement for BigFloat his own version
+
+9. 	in file BigNumber.h in function member size_t leading_zeros() const;
+	TODO: implement for BigFloat his own version
