@@ -25,7 +25,11 @@ BigInt::BigInt(const BigInt& number)
 {
 	if (number.is_correct())
 	{
-		number.reset();
+		// TODO
+	}
+	else
+	{
+
 	}
 }
 
@@ -77,8 +81,7 @@ bool BigInt::is_correct() const
 
 bool BigInt::is_greater_than_zero() const
 {
-	//TODO: check there are no leading zeros
-	return sign() == '+' && first_digit() > 0;
+	return has_leading_zeros() ? last_digit_value : sign() == '+' && first_digit_value() > 0;
 } //endof is_greater_than_zero()
 
 bool BigInt::is_less_than_zero() const
@@ -88,8 +91,7 @@ bool BigInt::is_less_than_zero() const
 
 bool BigInt::is_zero() const
 {
-	//TODO: check there are no leading zeros
-	return number() == "0";
+	return has_leading_zeros() ? last_digit_value : number() == "0";
 }
 
 

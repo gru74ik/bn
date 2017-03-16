@@ -1,11 +1,11 @@
-п»ї1. 	in file BigNumber.cpp in function member BigNumber::pop_front_extra_zeros()
-	TODO: РґР»СЏ BigFloat Р·Р°РјРµРЅРёС‚СЊ РіСЂР°РЅРёС‡Р°С‰РµРµ СѓСЃР»РѕРІРёРµ РѕРєРѕРЅС‡Р°РЅРёСЏ С†РёРєР»Р°
+1. 	in file BigNumber.cpp in function member BigNumber::pop_front_extra_zeros()
+	TODO: для BigFloat заменить граничащее условие окончания цикла
 	
 2. 	in file BigInt.cpp in function member BigInt::is_greater_than_zero() const
-	TODO: check there are no leading zeros
+	DONE: check there are no leading zeros
 	
 3. 	in file BigInt.cpp in function member BigInt::is_zero() const
-	TODO: check there are no leading zeros
+	DONE: check there are no leading zeros
 	
 4. 	in file BigInt.cpp in function member size_t leading_zeros() const
 	TODO: implement this function member
@@ -14,4 +14,7 @@
 	TODO: to fix implementation (implement it right)
 	
 6.	in file BigInt.h in section arithmetic operators
-	TODO: to fix implementation (implement it right)	
+	TODO: to fix implementation (implement it right)
+
+7.	in file BigNumber.cpp
+	TODO: implement copy ctor

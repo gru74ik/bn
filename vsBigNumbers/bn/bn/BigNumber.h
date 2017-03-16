@@ -23,6 +23,7 @@ public:
 
 
 	// checkers:
+	bool has_leading_zeros() const;
 	virtual bool is_correct() const = 0;
 	virtual bool is_greater_than_zero() const = 0;
 	virtual bool is_less_than_zero() const = 0;

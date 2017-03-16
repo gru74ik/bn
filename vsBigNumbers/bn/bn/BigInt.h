@@ -9,28 +9,30 @@ class BigFloat; // forward declaration
 class BigInt : public BigNumber
 {
 public:
-	// constructors:
+	// ctors =======================================================================
 	BigInt();							// is done
 	BigInt(const std::string& number);	// is done
-	BigInt(const BigInt& number);
+	BigInt(const BigInt& number);		// TODO: implement this ctor!
+
+	// dtors =======================================================================
 	virtual ~BigInt() {}				// is done
 
 private:
-	// checkers:	
+	// checkers ====================================================================	
 	bool is_correct(const std::string& number) const; // is done
 	bool is_correct() const;			// is done
-	bool is_greater_than_zero() const;	// is almost done
+	bool is_greater_than_zero() const;	// is done
 	bool is_less_than_zero() const;		// is done
-	bool is_zero() const;				// is almost done
+	bool is_zero() const;				// is done
 
-	// getters:
+	// getters =====================================================================
 	size_t last_digit_position() const; // is done
 	size_t last_digit_value() const;	// is done
 	
 	size_t leading_zeros() const;	// TODO: implement this function member!
 
 public:
-	// setters:
+	// setters =====================================================================
 	void set_number(const std::string & str);	// is done
 
 

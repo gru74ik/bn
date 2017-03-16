@@ -3,7 +3,7 @@
 #include "bn_functions.h"
 
 
-// constructors:
+// ctors =======================================================================
 BigNumber::BigNumber()
 {
 	number_ = "0";
@@ -20,6 +20,17 @@ BigNumber::BigNumber(const std::string& number)
 	tail_ = "";
 }
 
+// checkers ====================================================================
+bool BigNumber::has_leading_zeros() const
+{
+	bool result = false;
+	if (number_.size() > 1 && first_digit_value == 0 )
+	{
+		result = true;
+	}
+
+	return result;
+}
 
 // changers ====================================================================
 // отбросить знак
@@ -31,10 +42,10 @@ void BigNumber::discard_sign()
 	}
 }
 
-// вытолкнуть спереди лишние нули
+// вытолкнуть спереди (отбросить) лишние нули
 void BigNumber::pop_front_extra_zeros()
 {
-	if (number_.size() > 1)
+	if (has_leading_zeros)
 	{	// TODO: для BigFloat заменить граничащее условие окончания цикла
 		for (size_t i = 0; i < last_digit_position(); ++i)
 		{
