@@ -126,6 +126,7 @@ void pop_back(std::string& str)
 void pop_front(std::string& str)
 {
 	erase_part_of(str, 0, 0);
+	//str.erase(0, 1); // or function member 'erase' from std::string class
 } // endof pop_front(std::string& str)
 
 void push_back(std::string& str, const std::string& substr)

@@ -22,6 +22,13 @@ BigNumber::BigNumber(const std::string& num)
 	discard_sign();
 	tail_ = "";
 /*
+	std::cout
+		<< "The object has_leading_zeros(). "
+		<< "Assertion occured in BigNumber.cpp, #ctor(arg)\n"
+		;
+*/
+	pop_front_extra_zeros();
+/*
 	std::cout << "Ctor BigNumber::BigNumber(const std::string& num) has been called.\n";
 */
 }
@@ -51,32 +58,15 @@ void BigNumber::discard_sign()
 // вытолкнуть спереди (отбросить) лишние нули
 void BigNumber::pop_front_extra_zeros() // #pfez
 {	// TODO: implement for BigFloat his own version
-	if (has_leading_zeros())
-	{	// TODO: для BigFloat заменить граничащее условие окончания цикла
-/*
-		std::cout
-			<< "The number has leading zeros. "
-			<< "Assert occured in BigNumber.cpp, "
-			<< "in function pop_front_extra_zeros().\n"
-			;
-*/
-		for (size_t i = 0; i < leading_zeros(); ++i)
+	for (size_t i = 0; i < number_.size() - 1; ++i)
+	{
+		if (number_[i] == '0')
 		{
-/*
-				std::cout
-					<< "Number before popping: "
-					<< number_
-					<< "\n"
-					;
-*/
 			pop_front(number_);
-/*
-					std::cout
-						<< "Number after popping: "
-						<< number_
-						<< "\n"
-						;
-*/
+		}
+		else
+		{
+			break;
 		}
 	}
 }
@@ -91,6 +81,7 @@ void BigNumber::push_front_additional_zeros(const size_t quantity)
 }
 
 // getters =====================================================================
+
 // найти количество лидирующих нулей
 size_t BigNumber::leading_zeros() const
 {	// TODO: implement for BigFloat his own version
@@ -110,7 +101,7 @@ size_t BigNumber::leading_zeros() const
 	std::cout
 		<< "The quantity of leading zeros is: "
 		<< quantity_of_leading_zeros
-		<< ". Assert occured in BigNumber.cpp, "
+		<< ". Assertion occured in BigNumber.cpp, "
 		<< "in function leading_zeros().\n"
 		;
 */

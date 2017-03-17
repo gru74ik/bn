@@ -22,15 +22,19 @@ BigInt::BigInt(const std::string& num) // #ctor(arg)
 
 	if (has_leading_zeros())
 	{
+/*
 		std::cout
 			<< "The object has_leading_zeros(). "
-			<< "Assert occured in BigInt.cpp, #ctor(arg)\n"
+			<< "Assertion occured in BigInt.cpp, #ctor(arg)\n"
 			;
+*/
 		pop_front_extra_zeros();
 	}
 /*
 	std::cout << "Ctor BigInt::BigInt(const std::string& num) has been called.\n";
 */
+
+	std::cout << "Num after all: " << get_number() << "\n";
 }
 
 BigInt::BigInt(const BigInt& bi) // #copy ctor
@@ -43,10 +47,12 @@ BigInt::BigInt(const BigInt& bi) // #copy ctor
 
 	if (has_leading_zeros())
 	{
+/*
 		std::cout
 			<< "The object has_leading_zeros()\n"
-			<< "assert occured in BigInt.cpp, ##copy ctor\n"
+			<< "Assertion occured in BigInt.cpp, ##copy ctor\n"
 			;
+*/
 		pop_front_extra_zeros();
 	}
 /*
@@ -209,7 +215,7 @@ bool BigInt::operator<(const BigInt& bi) const
 /*
 		std::cout
 			<< "(bNumSize < aNumSize) is true. "
-			<< "Assert occured in BigInt.cpp, #op<(bi), branch 3\n"
+			<< "Assertion occured in BigInt.cpp, #op<(bi), branch 3\n"
 			;
 */
 		result = false;
@@ -219,7 +225,7 @@ bool BigInt::operator<(const BigInt& bi) const
 /*
 		std::cout
 			<< "(aNumSize < bNumSize) is true. "
-			<< "Assert occured in BigInt.cpp, #op<(bi), branch 4\n"
+			<< "Assertion occured in BigInt.cpp, #op<(bi), branch 4\n"
 			;
 */
 		// do nothing (object a indeed less than b and result is true already)
