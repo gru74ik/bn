@@ -10,7 +10,9 @@ BigNumber::BigNumber()
 	sign_ = define_sign();
 	discard_sign();
 	tail_ = "";
+/*
 	std::cout << "Ctor BigNumber::BigNumber() has been called.\n";
+*/
 }
 
 BigNumber::BigNumber(const std::string& num)
@@ -19,7 +21,9 @@ BigNumber::BigNumber(const std::string& num)
 	sign_ = define_sign();
 	discard_sign();
 	tail_ = "";
+/*
 	std::cout << "Ctor BigNumber::BigNumber(const std::string& num) has been called.\n";
+*/
 }
 
 // checkers ====================================================================
@@ -45,13 +49,34 @@ void BigNumber::discard_sign()
 }
 
 // вытолкнуть спереди (отбросить) лишние нули
-void BigNumber::pop_front_extra_zeros()
+void BigNumber::pop_front_extra_zeros() // #pfez
 {	// TODO: implement for BigFloat his own version
 	if (has_leading_zeros())
 	{	// TODO: для BigFloat заменить граничащее условие окончания цикла
+/*
+		std::cout
+			<< "The number has leading zeros. "
+			<< "Assert occured in BigNumber.cpp, "
+			<< "in function pop_front_extra_zeros().\n"
+			;
+*/
 		for (size_t i = 0; i < leading_zeros(); ++i)
 		{
-				pop_front(number_);
+/*
+				std::cout
+					<< "Number before popping: "
+					<< number_
+					<< "\n"
+					;
+*/
+			pop_front(number_);
+/*
+					std::cout
+						<< "Number after popping: "
+						<< number_
+						<< "\n"
+						;
+*/
 		}
 	}
 }
@@ -70,7 +95,7 @@ void BigNumber::push_front_additional_zeros(const size_t quantity)
 size_t BigNumber::leading_zeros() const
 {	// TODO: implement for BigFloat his own version
 	size_t quantity_of_leading_zeros = 0;
-	for (size_t i = 0; i < last_digit_position(); ++i)
+	for (size_t i = 0; i < number_.size(); ++i)
 	{	// TODO: для BigFloat заменить граничащее условие окончания цикла
 		if (number_[i] == '0')
 		{
@@ -81,6 +106,14 @@ size_t BigNumber::leading_zeros() const
 			break;
 		}
 	}
+/*
+	std::cout
+		<< "The quantity of leading zeros is: "
+		<< quantity_of_leading_zeros
+		<< ". Assert occured in BigNumber.cpp, "
+		<< "in function leading_zeros().\n"
+		;
+*/
 	return quantity_of_leading_zeros;
 }
 
@@ -89,19 +122,12 @@ size_t BigNumber::first_digit_position() const
 {
 	size_t first_digit_pos = number_.size();
 
-	if (is_digit(number_[0]))
+	for (size_t i = 0; i < number_.size(); ++i)
 	{
-		first_digit_pos = number_[0];
-	}
-	else
-	{
-		for (size_t i = 0; i < number_.size(); ++i)
+		if (is_digit(number_[0]))
 		{
-			if (is_digit(number_[0]))
-			{
-				first_digit_pos = i;
-				break;
-			}
+			first_digit_pos = i;
+			break;
 		}
 	}
 
@@ -112,6 +138,7 @@ size_t BigNumber::first_digit_position() const
 size_t BigNumber::first_digit_value() const
 {
 	return char_to_digit(number_[first_digit_position()]);
+	//return char_to_digit(number_[0]);
 }
 
 // найти позицию перед заданной позицией

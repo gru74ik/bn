@@ -25,10 +25,22 @@ N mzn 10 *. 0) ( . Ќапример, число 2.5 можно записать в виде: +0.25 E+1.
 int main()
 {
 	BigInt a = "1234";
+	BigInt b = "0000";
 
 	std::cout
-		<< "\na.get_number(): " << a.get_number() << "\n"
-		<< "a: " << a << "\n\n\n";
+		<< "\na: "
+		<< a
+		<< "\nb: "
+		<< b
+		<< "\n"
+		;
+
+	std::cout
+		<< std::boolalpha
+		<< "\n\n1234 > 0009: "
+		<< (a > b)
+		<< "\n\n"
+		;
 
     return 0;
 }

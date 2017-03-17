@@ -7,27 +7,51 @@
 BigInt::BigInt()
 	: BigNumber()
 {
+/*
 	std::cout << "Ctor BigInt::BigInt() has been called.\n";
+*/
 }
 
-BigInt::BigInt(const std::string& num)
+BigInt::BigInt(const std::string& num) // #ctor(arg)
 	: BigNumber(num)
 {
 	if (!is_correct(num))
 	{
 		reset();
 	}
+
+	if (has_leading_zeros())
+	{
+		std::cout
+			<< "The object has_leading_zeros(). "
+			<< "Assert occured in BigInt.cpp, #ctor(arg)\n"
+			;
+		pop_front_extra_zeros();
+	}
+/*
 	std::cout << "Ctor BigInt::BigInt(const std::string& num) has been called.\n";
+*/
 }
 
-BigInt::BigInt(const BigInt& bi)
+BigInt::BigInt(const BigInt& bi) // #copy ctor
 	: BigNumber(bi.get_number())
 {
 	if (!bi.is_correct())
 	{
 		reset();
 	}
+
+	if (has_leading_zeros())
+	{
+		std::cout
+			<< "The object has_leading_zeros()\n"
+			<< "assert occured in BigInt.cpp, ##copy ctor\n"
+			;
+		pop_front_extra_zeros();
+	}
+/*
 	std::cout << "Ctor BigInt::BigInt(const BigInt& bi) has been called.\n";
+*/
 }
 
 // checkers ====================================================================
@@ -180,12 +204,24 @@ bool BigInt::operator<(const BigInt& bi) const
 	size_t aNumSize = a.get_number().size();
 	size_t bNumSize = b.get_number().size();
 
-	if (bNumSize < aNumSize) // #op<(bi) 1
+	if (bNumSize < aNumSize) // #op<(bi) 3
 	{
+/*
+		std::cout
+			<< "(bNumSize < aNumSize) is true. "
+			<< "Assert occured in BigInt.cpp, #op<(bi), branch 3\n"
+			;
+*/
 		result = false;
 	}
-	else if (aNumSize < bNumSize) // #op<(bi) 2
+	else if (aNumSize < bNumSize) // #op<(bi) 4
 	{
+/*
+		std::cout
+			<< "(aNumSize < bNumSize) is true. "
+			<< "Assert occured in BigInt.cpp, #op<(bi), branch 4\n"
+			;
+*/
 		// do nothing (object a indeed less than b and result is true already)
 	}
 	else
@@ -241,23 +277,29 @@ bool BigInt::operator>(const BigInt& bi) const
 
 	if (bNumSize > aNumSize) // #op>(bi) 1
 	{
+/*
 		std::cout << 
 			"\nbNumSize > aNumSize\n"
-			"#op>(bi) 1\n";
+			"occured in #op>(bi) in branch 1\n";
+*/
 		result = false;
 	}
 	else if (aNumSize > bNumSize) // #op>(bi) 2
 	{
+/*
 		std::cout <<
 			"\naNumSize > bNumSize\n"
-			"#op>(bi) 2\n";
+			"occured in #op>(bi) in branch 2\n";
+*/
 		// do nothing (object a indeed greater than b and result is true already)
 	}
 	else if (aNumSize == bNumSize) // #op>(bi) 3
 	{
+/*
 		std::cout <<
 			"\naNumSize == bNumSize\n"
-			"#op>(bi) 3\n";
+			"occured in #op>(bi) in branch 3\n";
+*/
 		bool bothNumbersAreTheSame = true;
 
 		for (size_t i = 0; i < aNumSize; ++i)
