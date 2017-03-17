@@ -11,7 +11,7 @@
 	DONE: implement this function member
 	
 5.	in file BigInt.h in section comparison operators
-	TODO: to fix implementation (implement it right)
+	DONE: to fix implementation (implement it right)
 	
 6.	in file BigInt.h in section arithmetic operators
 	TODO: to fix implementation (implement it right)

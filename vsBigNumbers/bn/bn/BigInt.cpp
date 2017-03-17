@@ -162,17 +162,17 @@ bool BigInt::operator<(const BigInt& bi) const
 	}
 	else if (a.number().size() < b.number().size()) // #op<(bi) 2
 	{
-		// do nothing (a indeed less than b and result is true already)
+		// do nothing (object a indeed less than b and result is true already)
 	}
 	else
 	{
-		bool both_numbers_are_the_same = true;
+		bool bothNumbersAreTheSame = true;
 
 		for (size_t i = 0; i < a.number().size(); ++i)
 		{
 			if (a.number()[i] < b.number()[i])
 			{
-				both_numbers_are_the_same = false;
+				bothNumbersAreTheSame = false;
 				result = true;
 				continue;
 			}
@@ -182,13 +182,13 @@ bool BigInt::operator<(const BigInt& bi) const
 			}
 			else
 			{
-				both_numbers_are_the_same = false;
+				bothNumbersAreTheSame = false;
 				result = false;
 				break;
 			}
 		}
 
-		if (both_numbers_are_the_same)
+		if (bothNumbersAreTheSame)
 		{
 			result = false;
 		}
@@ -202,31 +202,19 @@ bool BigInt::operator<=(const BigInt& bi) const
 	BigInt a = *this;
 	BigInt b = bi;
 
-	if (!a.is_correct())
-	{
-		std::cout << "\nFrist operand is incorrect. Comparison is impossible.\n";
-		a.reset();
-	}
-
-	if (!b.is_correct())
-	{
-		std::cout << "\nSecond operand is incorrect. Comparison is impossible.\n";
-		b.reset();
-	}
-
-	return
-		string_to_number(a.number_) < string_to_number(b.number_) ||
-		string_to_number(a.number_) == string_to_number(b.number_);
+	return !(a > b);
 } //endof operator<=(const BigInt& bi) const
 
 bool BigInt::operator>(const BigInt& bi) const
-{	// TODO: implement it right!
-	BigInt a = *this;
-	BigInt b = bi;
+{
+	bool result = true;
+
+	BigInt a(*this);
+	BigInt b(bi);
 
 	if (!a.is_correct())
 	{
-		std::cout << "\nFrist operand is incorrect. Comparison is impossible.\n";
+		std::cout << "\nFirst operand is incorrect. Comparison is impossible.\n";
 		a.reset();
 	}
 
@@ -236,7 +224,45 @@ bool BigInt::operator>(const BigInt& bi) const
 		b.reset();
 	}
 
-	return string_to_number(a.number_) > string_to_number(b.number_);
+	if (b.number().size() > a.number().size()) // #op<(bi) 1
+	{
+		result = false;
+	}
+	else if (a.number().size() > b.number().size()) // #op<(bi) 2
+	{
+		// do nothing (object a indeed greater than b and result is true already)
+	}
+	else
+	{
+		bool bothNumbersAreTheSame = true;
+
+		for (size_t i = 0; i < a.number().size(); ++i)
+		{
+			if (a.number()[i] > b.number()[i])
+			{
+				bothNumbersAreTheSame = false;
+				result = true;
+				continue;
+			}
+			else if (a.number()[i] == b.number()[i])
+			{
+				continue;
+			}
+			else
+			{
+				bothNumbersAreTheSame = false;
+				result = false;
+				break;
+			}
+		}
+
+		if (bothNumbersAreTheSame)
+		{
+			result = false;
+		}
+	}
+
+	return result;
 }	// endof operator>(const BigInt& bi) const
 
 bool BigInt::operator>=(const BigInt& bi) const
@@ -244,21 +270,7 @@ bool BigInt::operator>=(const BigInt& bi) const
 	BigInt a = *this;
 	BigInt b = bi;
 
-	if (!a.is_correct())
-	{
-		std::cout << "\nFrist operand is incorrect. Comparison is impossible.\n";
-		a.reset();
-	}
-
-	if (!b.is_correct())
-	{
-		std::cout << "\nSecond operand is incorrect. Comparison is impossible.\n";
-		b.reset();
-	}
-
-	return
-		string_to_number(a.number_) > string_to_number(b.number_) ||
-		string_to_number(a.number_) == string_to_number(b.number_);
+	return !(a < b);
 } // endof operator>=(const BigInt& bi) const
 
 bool BigInt::operator==(const BigInt& bi) const
@@ -266,19 +278,7 @@ bool BigInt::operator==(const BigInt& bi) const
 	BigInt a = *this;
 	BigInt b = bi;
 
-	if (!a.is_correct())
-	{
-		std::cout << "\nFrist operand is incorrect. Comparison is impossible.\n";
-		a.reset();
-	}
-
-	if (!b.is_correct())
-	{
-		std::cout << "\nSecond operand is incorrect. Comparison is impossible.\n";
-		b.reset();
-	}
-
-	return string_to_number(a.number_) == string_to_number(b.number_);
+	return !(a < b) && !(a > b);
 } // endof operator==(const BigInt& bi) const
 
 // arithmetic operators ========================================================
