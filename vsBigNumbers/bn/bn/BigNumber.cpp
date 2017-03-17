@@ -80,6 +80,11 @@ void BigNumber::push_front_additional_zeros(const size_t quantity)
 	}
 }
 
+void BigNumber::reverse_number()
+{
+	reverse(number_);
+}
+
 // getters =====================================================================
 
 // найти количество лидирующих нулей

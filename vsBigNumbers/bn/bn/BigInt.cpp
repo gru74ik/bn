@@ -264,7 +264,7 @@ bool BigInt::operator<(const BigInt& bi) const
 } //endof operator<(const BigInt& bi) const
 
 bool BigInt::operator<=(const BigInt& bi) const
-{	// TODO: implement it right!
+{
 	BigInt a = *this;
 	BigInt b = bi;
 
@@ -338,7 +338,7 @@ bool BigInt::operator>(const BigInt& bi) const
 }	// endof operator>(const BigInt& bi) const
 
 bool BigInt::operator>=(const BigInt& bi) const
-{	// TODO: implement it right!
+{
 	BigInt a = *this;
 	BigInt b = bi;
 
@@ -346,15 +346,14 @@ bool BigInt::operator>=(const BigInt& bi) const
 } // endof operator>=(const BigInt& bi) const
 
 bool BigInt::operator==(const BigInt& bi) const
-{	// TODO: implement it right!
+{
 	BigInt a = *this;
 	BigInt b = bi;
 
 	return !(a < b) && !(a > b);
 } // endof operator==(const BigInt& bi) const
 
-// arithmetic operators =========================================================
-// (both operands are same type)
+// arithmetic operators (both operands are same type) ===========================
 BigInt BigInt::operator+(const BigInt& addendum) const
 {
 	BigInt sum;
@@ -364,18 +363,67 @@ BigInt BigInt::operator+(const BigInt& addendum) const
 	size_t aNumSize = a.get_number().size();
 	size_t bNumSize = b.get_number().size();
 
-	if (a < b)
+	if (aNumSize < bNumSize) // #op+(bi) 1
 	{
+/*
+		std::cout
+			<< "The object a have less digits than b. "
+			<< "Object a before adding zeros: "
+			<< a
+			<< "\nAssertion occured in BigInt.cpp, #op+(bi), branch 1\n"
+			;
+*/
 		a.push_front_additional_zeros(bNumSize - aNumSize);
+/*
+		std::cout
+			<< "Object a after adding zeros: "
+			<< a
+			<< "\nAssertion occured in BigInt.cpp, #op+(bi), branch 1\n"
+			;
+*/
 	}
-	else if (a > b)
+	else if (aNumSize > bNumSize) // #op+(bi) 2
 	{
+/*
+		std::cout
+			<< "The object a have more digits than b. "
+			<< "Object b before adding zeros: "
+			<< b
+			<< "\nAssertion occured in BigInt.cpp, #op+(bi), branch 2\n"
+			;
+*/
 		b.push_front_additional_zeros(aNumSize - bNumSize);
+/*
+		std::cout
+			<< "Object b after adding zeros: "
+			<< b
+			<< "\nAssertion occured in BigInt.cpp, #op+(bi), branch 2\n"
+			;
+*/
+	}
+	else // #op+(bi) 3
+	{
+/*
+		std::cout
+			<< "The objects a and b have same quantity of digits. "
+			<< "Assertion occured in BigInt.cpp, #op+(bi), branch 2\n"
+			;
+*/
+		// do nothing (both numbers have same quantity of digits)
 	}
 
 	// будем складывать, начиная с млаших разрядов, для этого перевернём числа:
-	reverse(a.get_number());
-	reverse(b.get_number());
+	a.reverse_number();
+	b.reverse_number();
+	// #op+(bi) 4
+/**/
+	std::cout
+		<< "The objects a after reverse is: "
+		<< a
+		<< "\nThe objects b after reverse is: "
+		<< b
+		<< "\nAssertion occured in BigInt.cpp, #op+(bi), section 4\n"
+		;
 
 	// излишки (то, что обычно при сложении в столбик "пишем в уме") будем складывать в переменную extra;
 	size_t extra = 0;
@@ -428,8 +476,7 @@ BigInt BigInt::operator/(const BigInt& divider) const
 	return result;
 } // endof operator/(const BigInt& divider) const
 
-// arithmetic operators ========================================================
-// (each operand is different type)
+// arithmetic operators (each operand is different type) =======================
 /*
 BigFloat BigInt::operator+(const BigInt& a, const BigFloat& b)
 {

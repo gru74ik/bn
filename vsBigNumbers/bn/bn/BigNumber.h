@@ -32,6 +32,7 @@ public:
 	void discard_sign();
 	void pop_front_extra_zeros();
 	void push_front_additional_zeros(const size_t quantity);
+	void reverse_number();
 	
 	// getters =====================================================================
 	size_t leading_zeros() const;		// TODO: implement for BigFloat his own version
