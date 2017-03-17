@@ -7,7 +7,7 @@
 BigNumber::BigNumber()
 {
 	number_ = "0";
-	sign_ = sign();
+	sign_ = define_sign();
 	discard_sign();
 	tail_ = "";
 }
@@ -15,7 +15,7 @@ BigNumber::BigNumber()
 BigNumber::BigNumber(const std::string& num)
 {
 	number_ = num;
-	sign_ = sign();
+	sign_ = define_sign();
 	discard_sign();
 	tail_ = "";
 }
@@ -62,9 +62,6 @@ void BigNumber::push_front_additional_zeros(const size_t quantity)
 		push_front(number_, '0');
 	}
 }
-
-
-
 
 // getters =====================================================================
 // найти количество лидирующих нулей
@@ -118,31 +115,39 @@ size_t BigNumber::first_digit_value() const
 // найти позицию перед заданной позицией
 size_t BigNumber::position_before(size_t pos) const
 {
-	size_t pos_before_pos = number_.size();
+	size_t posBeforePos = number_.size();
 	if (pos > 0)
 	{
-		pos_before_pos = pos - 1;
+		posBeforePos = pos - 1;
 	}
 
-	return pos_before_pos;
+	return posBeforePos;
 }
 
 // найти позицию после заданной позицией
 size_t BigNumber::position_after(size_t pos) const
 {
-	size_t pos_after_pos = number_.size();
-	if (pos + 1 < number_.size())
+	size_t numSize = number_.size();
+	size_t posAfterPos = numSize;
+
+	if (pos + 1 < numSize)
 	{
-		pos_after_pos = pos + 1;
+		posAfterPos = pos + 1;
 	}
 
-	return pos_after_pos;
+	return posAfterPos;
 }
 
 // определить знак числа
-size_t BigNumber::sign() const
+size_t BigNumber::define_sign() const
 {
 	return number_[0] == '-' ? '-' : '+';
+}
+
+// получить знак числа
+size_t BigNumber::get_sign() const
+{
+	return sign_;
 }
 
 // достать (to get) содержимое поля number_
@@ -164,7 +169,7 @@ void BigNumber::reset()
 void BigNumber::set_number(const std::string & num)
 {
 	number_ = num;
-	sign_ = sign();
+	sign_ = define_sign();
 	discard_sign();
 	tail_ = "";
 }

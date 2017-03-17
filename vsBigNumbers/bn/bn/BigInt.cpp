@@ -5,7 +5,8 @@
 
 
 // ctors =======================================================================
-BigInt::BigInt() : BigNumber()
+BigInt::BigInt()
+	: BigNumber()
 {
 }
 
@@ -80,12 +81,12 @@ bool BigInt::is_correct() const
 
 bool BigInt::is_greater_than_zero() const
 {
-	return has_leading_zeros() ? last_digit_value : sign() == '+' && first_digit_value() > 0;
+	return has_leading_zeros() ? last_digit_value : get_sign() == '+' && first_digit_value() > 0;
 } //endof is_greater_than_zero()
 
 bool BigInt::is_less_than_zero() const
 {
-	return sign() == '-';
+	return get_sign() == '-';
 } // endof is_less_than_zero()
 
 bool BigInt::is_zero() const
@@ -144,23 +145,14 @@ bool BigInt::operator<(const BigInt& bi) const
 	BigInt a(*this);
 	BigInt b(bi);
 
-	if (!a.is_correct())
-	{
-		std::cout << "\nFirst operand is incorrect. Comparison is impossible.\n";
-		a.reset();
-	}
+	size_t aNumSize = a.number().size();
+	size_t bNumSize = b.number().size();
 
-	if (!b.is_correct())
-	{
-		std::cout << "\nSecond operand is incorrect. Comparison is impossible.\n";
-		b.reset();
-	}
-
-	if (b.number().size() < a.number().size()) // #op<(bi) 1
+	if (bNumSize < aNumSize) // #op<(bi) 1
 	{
 		result = false;
 	}
-	else if (a.number().size() < b.number().size()) // #op<(bi) 2
+	else if (aNumSize < bNumSize) // #op<(bi) 2
 	{
 		// do nothing (object a indeed less than b and result is true already)
 	}
@@ -168,7 +160,7 @@ bool BigInt::operator<(const BigInt& bi) const
 	{
 		bool bothNumbersAreTheSame = true;
 
-		for (size_t i = 0; i < a.number().size(); ++i)
+		for (size_t i = 0; i < aNumSize; ++i)
 		{
 			if (a.number()[i] < b.number()[i])
 			{
@@ -212,23 +204,14 @@ bool BigInt::operator>(const BigInt& bi) const
 	BigInt a(*this);
 	BigInt b(bi);
 
-	if (!a.is_correct())
-	{
-		std::cout << "\nFirst operand is incorrect. Comparison is impossible.\n";
-		a.reset();
-	}
+	size_t aNumSize = a.number().size();
+	size_t bNumSize = b.number().size();
 
-	if (!b.is_correct())
-	{
-		std::cout << "\nSecond operand is incorrect. Comparison is impossible.\n";
-		b.reset();
-	}
-
-	if (b.number().size() > a.number().size()) // #op<(bi) 1
+	if (bNumSize > aNumSize) // #op>(bi) 1
 	{
 		result = false;
 	}
-	else if (a.number().size() > b.number().size()) // #op<(bi) 2
+	else if (aNumSize > bNumSize) // #op>(bi) 2
 	{
 		// do nothing (object a indeed greater than b and result is true already)
 	}
@@ -236,7 +219,7 @@ bool BigInt::operator>(const BigInt& bi) const
 	{
 		bool bothNumbersAreTheSame = true;
 
-		for (size_t i = 0; i < a.number().size(); ++i)
+		for (size_t i = 0; i < aNumSize; ++i)
 		{
 			if (a.number()[i] > b.number()[i])
 			{
@@ -288,27 +271,30 @@ BigInt BigInt::operator+(const BigInt& addendum) const
 	BigInt a(*this);
 	BigInt b(addendum);
 
+	size_t aNumSize = a.number().size();
+	size_t bNumSize = b.number().size();
+
 	if (a < b)
 	{
-		a.add_lead_zeroes(b.number_.size() - a.number_.size()); // implement this function member
+		a.push_front_additional_zeros(bNumSize - aNumSize);
 	}
 	else if (a > b)
 	{
-		b.add_lead_zeroes(a.number_.size() - b.number_.size()); // implement this function member
+		b.push_front_additional_zeros(aNumSize - bNumSize);
 	}
 
 	// будем складывать, начина€ с млаших разр€дов, дл€ этого перевернЄм числа:
-	reverse(a.number_);
-	reverse(b.number_);
+	reverse(a.number());
+	reverse(b.number());
 
 	// излишки (то, что обычно при сложении в столбик "пишем в уме") будем складывать в переменную extra;
 	size_t extra = 0;
 	// промежуточный итог сложени€ двух цифр одинакового разр€да будем складывать в переменную subtotal:
 	size_t subtotal = 0;
 
-	for (size_t i = 0; i < a.number_.size(); ++i)
+	for (size_t i = 0; i < aNumSize; ++i)
 	{
-		subtotal = char_to_digit(a.number_[i]) + char_to_digit(b.number_[i]) + extra;
+		subtotal = char_to_digit(a.number()[i]) + char_to_digit(b.number()[i]) + extra;
 
 		if (subtotal > MAX_DIGIT) // дес€тична€ система, поэтому последн€€ цифра в разр€де 9
 		{
@@ -320,12 +306,12 @@ BigInt BigInt::operator+(const BigInt& addendum) const
 			extra = 0;
 		}
 
-		push_back(sum.number_, digit_to_char(subtotal));
+		push_back(sum.number(), digit_to_char(subtotal));
 	}
 
 	if (extra)
 	{
-		push_back(sum.number_, digit_to_char(extra));
+		push_back(sum.number(), digit_to_char(extra));
 	}
 
 	return sum;

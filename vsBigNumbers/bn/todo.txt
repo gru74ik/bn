@@ -20,11 +20,13 @@
 	DONE: implement copy ctor
 
 8. 	in file BigNumber.h in function member void pop_front_extra_zeros();
-	TODO: implement for BigFloat his own version
+	NOT RELEVANT YET: implement for BigFloat his own version
 
-9. 	in file BigNumber.h in function member size_t leading_zeros() const;
-	TODO: implement for BigFloat his own version
+9. in file BigNumber.h in function member size_t leading_zeros() const;
+	NOT RELEVANT YET: implement for BigFloat his own version
 
 10. in file BigNumber.h in function member reset()
 	TODO: implement for BigFloat his own version
 
+11. in file BigFloat.h in function virtual bool is_correct() const {}
+	TODO: decide what to do with this function

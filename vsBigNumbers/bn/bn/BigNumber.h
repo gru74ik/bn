@@ -31,9 +31,7 @@ public:
 	
 	// changers ====================================================================
 	void discard_sign();
-	//void pop_back_extra_zeros();	// I changed my mind - this function member have to be in BigFloat only.
-	void pop_front_extra_zeros();	// TODO: implement for BigFloat his own version
-	//void push_back_additional_zeros(const size_t quantity); // I changed my mind - this function member have to be in BigFloat only.
+	void pop_front_extra_zeros();
 	void push_front_additional_zeros(const size_t quantity);
 	
 
@@ -50,7 +48,9 @@ public:
 	size_t position_before(size_t pos) const;
 	size_t position_after(size_t pos) const;
 
-	size_t sign() const;
+	size_t define_sign() const;
+	size_t get_sign() const;
+
 	std::string number() const;
 
 	

@@ -6,7 +6,8 @@
 
 class BigFloat; // forward declaration
 
-class BigInt : public BigNumber
+class BigInt
+	: public BigNumber
 {
 public:
 	// ctors =======================================================================

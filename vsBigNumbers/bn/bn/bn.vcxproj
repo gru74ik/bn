@@ -145,6 +145,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BigFloat.h" />
     <ClInclude Include="BigInt.h" />
     <ClInclude Include="BigNumber.h" />
     <ClInclude Include="bn_functions.h" />
@@ -152,6 +153,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BigFloat.cpp" />
     <ClCompile Include="BigInt.cpp" />
     <ClCompile Include="BigNumber.cpp" />
     <ClCompile Include="bn.cpp" />
