@@ -32,7 +32,7 @@ int main()
 		<< a
 		<< "\nb: "
 		<< b
-		<< "\n"
+		<< "\n\n"
 		;
 
 	std::cout

@@ -80,9 +80,15 @@ void BigNumber::push_front_additional_zeros(const size_t quantity)
 	}
 }
 
+// "перевернуть" число (поменять местами старшие разряды и младшие)
 void BigNumber::reverse_number()
 {
 	reverse(number_);
+}
+
+void BigNumber::push_back_elem(const char ch)
+{
+	push_back(number_, ch);
 }
 
 // getters =====================================================================

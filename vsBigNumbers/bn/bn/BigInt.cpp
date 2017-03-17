@@ -357,20 +357,28 @@ bool BigInt::operator==(const BigInt& bi) const
 BigInt BigInt::operator+(const BigInt& addendum) const
 {
 	BigInt sum;
+	// #op+(bi) 1
+/*
+	std::cout
+		<< "Sum is: "
+		<< sum
+		<< "\nAssertion occured in BigInt.cpp, #op+(bi), section 1\n\n"
+		;
+*/
 	BigInt a(*this);
 	BigInt b(addendum);
 
 	size_t aNumSize = a.get_number().size();
 	size_t bNumSize = b.get_number().size();
 
-	if (aNumSize < bNumSize) // #op+(bi) 1
+	if (aNumSize < bNumSize) // #op+(bi) 2
 	{
 /*
 		std::cout
 			<< "The object a have less digits than b. "
 			<< "Object a before adding zeros: "
 			<< a
-			<< "\nAssertion occured in BigInt.cpp, #op+(bi), branch 1\n"
+			<< "\nAssertion occured in BigInt.cpp, #op+(bi), section 2\n"
 			;
 */
 		a.push_front_additional_zeros(bNumSize - aNumSize);
@@ -378,18 +386,18 @@ BigInt BigInt::operator+(const BigInt& addendum) const
 		std::cout
 			<< "Object a after adding zeros: "
 			<< a
-			<< "\nAssertion occured in BigInt.cpp, #op+(bi), branch 1\n"
+			<< "\nAssertion occured in BigInt.cpp, #op+(bi), section 2\n"
 			;
 */
 	}
-	else if (aNumSize > bNumSize) // #op+(bi) 2
+	else if (aNumSize > bNumSize) // #op+(bi) 3
 	{
 /*
 		std::cout
 			<< "The object a have more digits than b. "
 			<< "Object b before adding zeros: "
 			<< b
-			<< "\nAssertion occured in BigInt.cpp, #op+(bi), branch 2\n"
+			<< "\nAssertion occured in BigInt.cpp, #op+(bi), section 3\n"
 			;
 */
 		b.push_front_additional_zeros(aNumSize - bNumSize);
@@ -397,16 +405,16 @@ BigInt BigInt::operator+(const BigInt& addendum) const
 		std::cout
 			<< "Object b after adding zeros: "
 			<< b
-			<< "\nAssertion occured in BigInt.cpp, #op+(bi), branch 2\n"
+			<< "\nAssertion occured in BigInt.cpp, #op+(bi), section 3\n"
 			;
 */
 	}
-	else // #op+(bi) 3
+	else // #op+(bi) 4
 	{
 /*
 		std::cout
 			<< "The objects a and b have same quantity of digits. "
-			<< "Assertion occured in BigInt.cpp, #op+(bi), branch 2\n"
+			<< "Assertion occured in BigInt.cpp, #op+(bi), section 4\n"
 			;
 */
 		// do nothing (both numbers have same quantity of digits)
@@ -415,14 +423,14 @@ BigInt BigInt::operator+(const BigInt& addendum) const
 	// будем складывать, начиная с млаших разрядов, для этого перевернём числа:
 	a.reverse_number();
 	b.reverse_number();
-	// #op+(bi) 4
+	// #op+(bi) 5
 /**/
 	std::cout
 		<< "The objects a after reverse is: "
 		<< a
 		<< "\nThe objects b after reverse is: "
 		<< b
-		<< "\nAssertion occured in BigInt.cpp, #op+(bi), section 4\n"
+		<< "\nAssertion occured in BigInt.cpp, #op+(bi), section 5\n\n"
 		;
 
 	// излишки (то, что обычно при сложении в столбик "пишем в уме") будем складывать в переменную extra;
@@ -430,7 +438,17 @@ BigInt BigInt::operator+(const BigInt& addendum) const
 	// промежуточный итог сложения двух цифр одинакового разряда будем складывать в переменную subtotal:
 	size_t subtotal = 0;
 
-	for (size_t i = 0; i < aNumSize; ++i)
+	// #op+(bi) 6
+	std::cout
+		<< "aNumSize is: "
+		<< aNumSize
+		<< "\nbNumSize is: "
+		<< bNumSize
+		<< "\nAssertion occured in BigInt.cpp, #op+(bi), section 6\n\n"
+		;
+
+	size_t limit = aNumSize > bNumSize ? aNumSize : bNumSize;
+	for (size_t i = 0; i < limit; ++i)
 	{
 		subtotal = char_to_digit(a.get_number()[i]) + char_to_digit(b.get_number()[i]) + extra;
 
@@ -443,15 +461,44 @@ BigInt BigInt::operator+(const BigInt& addendum) const
 		{
 			extra = 0;
 		}
+		// #op+(bi) 7
+		std::cout
+			<< i + 1 << " digit of number a is: "
+			<< a.get_number()[i]
+			<< "\n"
+			<< i + 1 << " digit of number b is: "
+			<< b.get_number()[i]
+			<< "\nsubtotal is: "
+			<< subtotal
+			<< "\nextra is: "
+			<< extra
+			<< "\nAssertion occured in BigInt.cpp, #op+(bi), section 7\n\n"
+			;
 
-		push_back(sum.get_number(), digit_to_char(subtotal));
+		sum.push_back_elem(digit_to_char(subtotal));
+		sum.pop_front_extra_zeros();
+		// #op+(bi) 8
+		std::cout
+			<< "Sum is: "
+			<< sum
+			<< "\nAssertion occured in BigInt.cpp, #op+(bi), section 8\n\n"
+			;
+
 	}
 
 	if (extra)
 	{
-		push_back(sum.get_number(), digit_to_char(extra));
+		sum.push_back_elem(digit_to_char(extra));
 	}
 
+	// #op+(bi) 9
+	std::cout
+		<< "Sum is: "
+		<< sum
+		<< "\nAssertion occured in BigInt.cpp, #op+(bi), section 9\n\n"
+		;
+
+	sum.reverse_number();
 	return sum;
 } // endof operator+(const BigInt& addendum) const
 
