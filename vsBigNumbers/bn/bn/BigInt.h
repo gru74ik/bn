@@ -32,7 +32,7 @@ private:
 
 public:
 	// setters =====================================================================
-	void set_number(const const BigInt& bi);	// is done
+	void set_number(const BigInt& bi);	// is done
 	void set_number(const std::string & num);	// is done
 
 
@@ -47,17 +47,18 @@ public:
 	bool operator>=(const BigInt& bi) const;	// TODO: implement it right!
 	bool operator==(const BigInt& bi) const;
 
-	// arithmetic operators ========================================================
-	BigInt operator+(const BigInt& addendum) const;			// TODO: implement it right!
-	BigInt operator-(const BigInt& subtrahend) const;		// TODO: implement this function member!
-	BigInt operator*(const BigInt& multiplier) const;		// TODO: implement this function member!
-	BigInt operator/(const BigInt& divider) const;			// TODO: implement this function member!
-
-	BigFloat operator+(const BigFloat& addendum) const;		// TODO: implement this function member!
-	BigFloat operator-(const BigFloat& subtrahend) const;	// TODO: implement this function member!
-	BigFloat operator*(const BigFloat& multiplier) const;	// TODO: implement this function member!
-	BigFloat operator/(const BigFloat& divider) const;		// TODO: implement this function member!
-
+	// arithmetic operators (both operands are same type) ===========================
+	BigInt operator+(const BigInt& addendum) const;		// TODO: implement it right!
+	BigInt operator-(const BigInt& subtrahend) const;	// TODO: implement this function member!
+	BigInt operator*(const BigInt& multiplier) const;	// TODO: implement this function member!
+	BigInt operator/(const BigInt& divider) const;		// TODO: implement this function member!
+/*
+	// Some temporary unresolved troubles here
+	friend BigFloat operator+(const BigInt& a, const BigFloat& b);	// TODO: implement this function member!
+	friend BigFloat operator-(const BigInt& a, const BigFloat& b);	// TODO: implement this function member!
+	friend BigFloat operator*(const BigInt& a, const BigFloat& b);	// TODO: implement this function member!
+	friend BigFloat operator/(const BigInt& a, const BigFloat& b);	// TODO: implement this function member!
+*/
 	// prefix increment:
 	friend const BigInt& operator++(BigInt& i);
 	// postfix increment:

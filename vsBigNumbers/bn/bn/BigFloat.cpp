@@ -290,7 +290,7 @@ bool BigFloat::is_less_than_zero() const
 			++i
 			)
 	{
-		if (char_to_digit(number()[i]) > 0)
+		if (char_to_digit(get_number()[i]) > 0)
 		{
 			hasDigitsGreaterThanZeroAfterDot = false;
 			break;
@@ -326,7 +326,7 @@ void BigFloat::move_floating_point(Direction dir, size_t shiftSize)
 			<< "\ndigits_after_dot(): " << digits_after_dot()
 			<< "\nshiftSize: " << shiftSize << "\n";
 			*/
-			insert_to(number(), ".", position_after(dotPos) + shiftSize);
+			insert_to(get_number(), ".", position_after(dotPos) + shiftSize);
 		}
 		else if (digits_after_dot() == shiftSize)
 		{
@@ -336,7 +336,7 @@ void BigFloat::move_floating_point(Direction dir, size_t shiftSize)
 			<< "\ndigits_after_dot(): " << digits_after_dot()
 			<< "shiftSize: " << shiftSize << "\n";
 			*/
-			insert_to(number(), ".0", position_after(last_digit_position()));
+			insert_to(get_number(), ".0", position_after(last_digit_position()));
 		}
 		else
 		{
@@ -350,12 +350,12 @@ void BigFloat::move_floating_point(Direction dir, size_t shiftSize)
 			for (size_t i = 0; i < additionalzeros; ++i)
 			{
 				//std::cout << "\nI insert zeros, man!\n";
-				insert_to(number(), "0", position_after(last_digit_position()));
+				insert_to(get_number(), "0", position_after(last_digit_position()));
 			}
-			insert_to(number(), ".0", position_after(last_digit_position()));
+			insert_to(get_number(), ".0", position_after(last_digit_position()));
 		}
 
-		erase_part_of(number(), dotPos, dotPos);
+		erase_part_of(get_number(), dotPos, dotPos);
 
 		break;
 	}
@@ -370,7 +370,7 @@ void BigFloat::move_floating_point(Direction dir, size_t shiftSize)
 		<< "\nand current value of dot_pos is: "
 		<< dot_pos << "\n\n";
 		*/
-		erase_part_of(number(), dotPos, dotPos);
+		erase_part_of(get_number(), dotPos, dotPos);
 		/*
 		std::cout
 		<<  "\nWe are in function BigFloat::move_floating_point in section\n"
@@ -381,11 +381,11 @@ void BigFloat::move_floating_point(Direction dir, size_t shiftSize)
 		*/
 		if (digitsBefore > shiftSize)
 		{
-			insert_to(number(), ".", dotPos - shiftSize);
+			insert_to(get_number(), ".", dotPos - shiftSize);
 		}
 		else if (digitsBefore == shiftSize)
 		{
-			insert_to(number(), "0.", 0);
+			insert_to(get_number(), "0.", 0);
 		}
 		else if (digitsBefore < shiftSize)
 		{
@@ -395,11 +395,11 @@ void BigFloat::move_floating_point(Direction dir, size_t shiftSize)
 
 			while (i < additionalzeros)
 			{
-				number() = "0" + number();
+				set_number("0" + get_number());
 				++i;
 			}
 
-			insert_to(number(), "0.", 1);
+			insert_to(get_number(), "0.", 1);
 		}
 
 		break;
@@ -411,7 +411,7 @@ void BigFloat::move_floating_point(Direction dir, size_t shiftSize)
 
 void BigFloat::convert_to(Notation notation)
 {
-	size_t numSize = number().size();
+	size_t numSize = get_number().size();
 	size_t dotPos = dot_position();
 	size_t ePos = e_position();
 	size_t eValAsNum = e_value_as_number();
@@ -424,7 +424,7 @@ void BigFloat::convert_to(Notation notation)
 		{
 			size_t shift = position_before(dotPos);
 			move_floating_point(LEFT, shift);
-			number() = number() + " E+" + number_to_string(shift);
+			set_number(get_number() + " E+" + number_to_string(shift));
 			/*
 			std::cout <<
 			"number() after converting from decimal to scientific\n"
@@ -436,12 +436,12 @@ void BigFloat::convert_to(Notation notation)
 			if (leading_zeros())
 			{
 				move_floating_point(RIGHT, leading_zeros());
-				number() = number() + " E-" + number_to_string(leading_zeros());
-				erase_part_of(number(), 0, leading_zeros());
+				set_number(get_number() + " E-" + number_to_string(leading_zeros()));
+				erase_part_of(get_number(), 0, leading_zeros());
 			}
 			else
 			{
-				number() = number() + " E+0";
+				set_number(get_number() + " E+0");
 			}
 			/*
 			std::cout <<
@@ -464,7 +464,7 @@ void BigFloat::convert_to(Notation notation)
 			<< number()
 			<< "\n";
 			*/
-			erase_part_of(number(), position_before(ePos), numSize - 1);
+			erase_part_of(get_number(), position_before(ePos), numSize - 1);
 			/*
 			std::cout
 			<< "\nconvert_to(DECIMAL) works (after exponent tail erasure): "
@@ -481,7 +481,7 @@ void BigFloat::convert_to(Notation notation)
 			<< number()
 			<< "\n";
 			*/
-			erase_part_of(number(), position_before(ePos), numSize - 1);
+			erase_part_of(get_number(), position_before(ePos), numSize - 1);
 			/*
 			std::cout
 			<< "\nconvert_to(DECIMAL) works (after exponent tail erasure): "
@@ -493,7 +493,7 @@ void BigFloat::convert_to(Notation notation)
 		{
 			std::cout
 				<< "\nError: incorrect character instead the sign."
-				<< "\nCurrent content of number() is: " << number()
+				<< "\nCurrent content of number() is: " << get_number()
 				<< "\nAnd character is: " << e_sign() << "\n";
 		}
 		notation_ = DECIMAL;
@@ -513,7 +513,7 @@ void BigFloat::convert_to(Notation notation)
 void BigFloat::push_back_additional_zeros(const size_t quantity)
 {
 	std::string additionalZeros(quantity, '0');
-	insert_to(number(), additionalZeros, position_after(last_digit_position()));
+	insert_to(get_number(), additionalZeros, position_after(last_digit_position()));
 }
 
 void BigFloat::pop_back_extra_zeros()
@@ -522,18 +522,18 @@ void BigFloat::pop_back_extra_zeros()
 
 	while
 		(
-			number()[lastDigitPos] == '0' &&
+			last_digit_value() == 0 &&
 			lastDigitPos > position_after(dot_position())
 		)
 	{
-		erase_part_of(number(), last_digit_position(), last_digit_position());
+		erase_part_of(get_number(), lastDigitPos, lastDigitPos);
 	}
 }
 
 // getters =====================================================================
 size_t BigFloat::dot_position() const
 {
-	return char_position(number(), '.');
+	return char_position(get_number(), '.');
 }
 
 size_t BigFloat::digits_after_dot() const
@@ -548,12 +548,12 @@ size_t BigFloat::digits_before_dot() const
 
 size_t BigFloat::e_position() const
 {
-	size_t numSize = number().size();
+	size_t numSize = get_number().size();
 	size_t ePos = numSize;
 
 	for (size_t i = 0; i < numSize; ++i)
 	{
-		if (number()[i] == 'e' || number()[i] == 'E')
+		if (get_number()[i] == 'e' || get_number()[i] == 'E')
 		{
 			ePos = i;
 			break;
@@ -565,7 +565,7 @@ size_t BigFloat::e_position() const
 
 size_t BigFloat::digits_after_e() const
 {   // TODO: implement count() function?
-	return number().size() - position_before(space_position());
+	return get_number().size() - position_before(space_position());
 }
 
 size_t BigFloat::e_value_as_number() const
@@ -576,19 +576,20 @@ size_t BigFloat::e_value_as_number() const
 std::string BigFloat::e_value_as_string() const
 {
 	std::string eVal = "";
-	for (size_t i = position_after(e_sign_position()); i < number().size(); ++i)
+	for (size_t i = position_after(e_sign_position()); i < get_number().size(); ++i)
 	{
-		eVal = eVal + number()[i];
+		eVal = eVal + get_number()[i];
 	}
 	return eVal;
 }
 
 size_t BigFloat::e_sign_position() const
 {
-	size_t eSignPos = number().size();
-	for (size_t i = e_position(); i < number().size(); ++i)
+	size_t numSize = get_number().size();
+	size_t eSignPos = numSize;
+	for (size_t i = e_position(); i < numSize; ++i)
 	{
-		if (is_sign(number()[i]))
+		if (is_sign(get_number()[i]))
 		{
 			eSignPos = i;
 			break;
@@ -600,15 +601,16 @@ size_t BigFloat::e_sign_position() const
 
 char BigFloat::e_sign() const
 {
-	return number()[e_sign_position()];
+	return get_number()[e_sign_position()];
 }
 
 size_t BigFloat::last_digit_position() const
 {
-	size_t lastDigitPos = number().size();
-	for (size_t i = 0; i < number().size(); ++i)
+	size_t numSize = get_number().size();
+	size_t lastDigitPos = numSize;
+	for (size_t i = 0; i < numSize; ++i)
 	{
-		if (is_digit(number()[i]) || is_dot(number()[i]))
+		if (is_digit(get_number()[i]) || is_dot(get_number()[i]))
 		{
 			lastDigitPos = i;
 		}
@@ -623,17 +625,17 @@ size_t BigFloat::last_digit_position() const
 
 size_t BigFloat::last_digit_value() const
 {
-	return number()[last_digit_position()];
+	return get_number()[last_digit_position()];
 }
 
 size_t BigFloat::space_position() const
 {
-	return char_position(number(), ' ');
+	return char_position(get_number(), ' ');
 }
 
 std::string BigFloat::mantissa() const
 {
-	std::string mantissa = number();
+	std::string mantissa = get_number();
 
 	if (is_scientific())
 	{
@@ -643,9 +645,9 @@ std::string BigFloat::mantissa() const
 		"is_scientific() is TRUE!\n";
 		*/
 		size_t spacePos = space_position();
-		if (mantissa[space_pos] == ' ')
+		if (mantissa[spacePos] == ' ')
 		{
-			erase_part_of(mantissa, space_pos, space_pos);
+			erase_part_of(mantissa, spacePos, spacePos);
 		}
 		erase_part_of(mantissa, e_position(), mantissa.size() - 1);
 	}
@@ -817,29 +819,21 @@ BigFloat BigFloat::operator=(const BigFloat& bf) // #op=
 
 BigFloat BigFloat::operator=(const std::string& obj) // #op=
 {
-	if (this->number() != &obj[0]) // &obj.front()
+	if (this->get_number() != &obj[0]) // &obj.front()
 	{
-		BigFloat temp = *this;
-		number() = obj;
-		sign_ = sign();
-		discard_sign();
+		set_number(obj);
 
 		if (is_correct(SCIENTIFIC))
 		{
 			convert_to(DECIMAL);
-			notation_ = DECIMAL;
 		}
 		else if (is_correct(DECIMAL))
 		{
 			// do nothing
 		}
-		else if (is_correct(DEFAULT))
-		{
-			reset();
-		}
 		else
 		{
-			*this = temp;
+			reset();
 		}
 	}
 	return *this;
@@ -848,11 +842,11 @@ BigFloat BigFloat::operator=(const std::string& obj) // #op=
 // arithmetic operators (both operand are same type) ===========================
 BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 {
-	BigFloat a = *this;
-	BigFloat b = addendum;
+	BigFloat a(*this);
+	BigFloat b(addendum);
 
-	std::string aStr = this->number();
-	std::string bStr = addendum.number();
+	std::string aStr = this->get_number();
+	std::string bStr = addendum.get_number();
 
 	size_t diff; // разница между количеством разрядов
 
@@ -1038,21 +1032,21 @@ BigFloat BigFloat::operator*(const BigFloat& multiplier) const // #op*(bf)
 	BigFloat addition(*this);
 	BigFloat mult(multiplier);
 
-	size_t cur_mult_dot_pos = mult.dot_position();
-	size_t cur_prod_dot_pos = product.digits_after_dot();
-	size_t fin_prod_dot_pos = product.digits_after_dot() + mult.digits_after_dot();
+	size_t curMultDotPos = mult.dot_position();
+	size_t curProdDotPos = product.digits_after_dot();
+	size_t finProdDotPos = product.digits_after_dot() + mult.digits_after_dot();
 
 	// уберём из обоих чисел плавающую точку, чтобы не мешала при вычислениях:
-	erase_part_of(product.number(), cur_prod_dot_pos, cur_prod_dot_pos);
-	erase_part_of(mult.number(), cur_mult_dot_pos, cur_mult_dot_pos);
+	erase_part_of(product.get_number(), curProdDotPos, curProdDotPos);
+	erase_part_of(mult.get_number(), curMultDotPos, curMultDotPos);
 
-	BigInt limit(mult.number());
+	BigInt limit(mult.get_number());
 	for (BigInt i("0"); i < limit; ++i)
 	{
 		product = product + addition;
 	}
 
-	insert_to(product.number(), ".", fin_prod_dot_pos);
+	insert_to(product.get_number(), ".", finProdDotPos);
 
 	return product;
 } // endof // #op*(bf)
@@ -1078,7 +1072,7 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 	}
 	else if (divisor.is_correct(DEFAULT))
 	{
-		result.number() = "1.0";
+		result.set_number("1.0");
 		std::cout <<
 			"\nYou can not divide by zero! The result is "
 			"equated to 1, but it is a wrong result.\n";
@@ -1098,7 +1092,7 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 	return result;
 } // endof #op/(bf)
 
-// arithmetic operators (each operand are different type) ======================
+// arithmetic operators (each operand is different type) =======================
 BigFloat BigFloat::operator+(const BigInt& addendum) const // #op+(bi)
 {
 	BigFloat sum(addendum); // temporary solution to avoid compiler warning

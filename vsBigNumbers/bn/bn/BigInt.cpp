@@ -3,7 +3,6 @@
 #include "BigInt.h"
 #include "bn_functions.h"
 
-
 // ctors =======================================================================
 BigInt::BigInt()
 	: BigNumber()
@@ -81,17 +80,36 @@ bool BigInt::is_correct() const
 
 bool BigInt::is_greater_than_zero() const
 {
-	return has_leading_zeros() ? last_digit_value : get_sign() == '+' && first_digit_value() > 0;
+	BigInt num(*this);
+
+	if (has_leading_zeros())
+	{
+		num.pop_front_extra_zeros();
+	}
+	return num.get_sign() == '+' && num.first_digit_value() != 0;
 } //endof is_greater_than_zero()
 
 bool BigInt::is_less_than_zero() const
 {
-	return get_sign() == '-';
+	BigInt num(*this);
+
+	if (has_leading_zeros())
+	{
+		num.pop_front_extra_zeros();
+	}
+	return num.get_sign() == '-' && num.first_digit_value() != 0;
 } // endof is_less_than_zero()
 
 bool BigInt::is_zero() const
 {
-	return has_leading_zeros() ? last_digit_value : get_number() == "0";
+	BigInt num(*this);
+
+	if (has_leading_zeros())
+	{
+		num.pop_front_extra_zeros();
+	}
+
+	return num.get_number() == "0";
 } // endof is_zero()
 
 // getters =====================================================================
@@ -276,7 +294,8 @@ bool BigInt::operator==(const BigInt& bi) const
 	return !(a < b) && !(a > b);
 } // endof operator==(const BigInt& bi) const
 
-// arithmetic operators ========================================================
+// arithmetic operators =========================================================
+// (both operands are same type)
 BigInt BigInt::operator+(const BigInt& addendum) const
 {
 	BigInt sum;
@@ -350,34 +369,41 @@ BigInt BigInt::operator/(const BigInt& divider) const
 	return result;
 } // endof operator/(const BigInt& divider) const
 
-BigFloat BigInt::operator+(const BigFloat& addendum) const
-{	// TODO: implement this function member!
-	BigFloat sum(addendum);
+// arithmetic operators ========================================================
+// (each operand is different type)
+/*
+BigFloat BigInt::operator+(const BigInt& a, const BigFloat& b)
+{
+	BigFloat x(a);
+	BigFloat y(b);
 
-	return sum;
+	return x + y;
 } // endof operator+(const BigFloat& addendum) const
 
-BigFloat BigInt::operator-(const BigFloat& subtrahend) const
-{	// TODO: implement this function member!
-	BigFloat diff(subtrahend); // temporary solution to avoid compiler warning
+BigFloat BigInt::operator-(const BigInt& a, const BigFloat& b)
+{
+	BigFloat x(a);
+	BigFloat y(b);
 
-	return diff;
+	return x - y;
 } // endof operator-(const BigFloat& subtrahend) const
 
-BigFloat BigInt::operator*(const BigFloat& multiplier) const
-{	// TODO: implement this function member!
-	BigFloat product(multiplier); // temporary solution to avoid compiler warning
+BigFloat BigInt::operator*(const BigInt& a, const BigFloat& b)
+{
+	BigFloat x(a);
+	BigFloat y(b);
 
-	return product;
+	return x * y;
 } // endof operator*(const BigFloat& multiplier) const
 
-BigFloat BigInt::operator/(const BigFloat& divider) const
-{	// TODO: implement this function member!
-	BigFloat result(divider); // temporary solution to avoid compiler warning
+BigFloat BigInt::operator/(const BigInt& a, const BigFloat& b)
+{
+	BigFloat x(a);
+	BigFloat y(b);
 
-	return result;
+	return x / y;
 } // endof operator/(const BigFloat& divider) const
-
+*/
 //префиксная версия возвращает значение после инкремента
 const BigInt& operator++(BigInt& bi)
 {

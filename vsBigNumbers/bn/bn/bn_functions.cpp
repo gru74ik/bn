@@ -182,14 +182,14 @@ size_t string_to_number(const std::string& str)
 	size_t last_elem_index = str.size() - 1;
 	for (size_t i = 0; i < str.size(); ++i)
 	{
-		result += char_to_digit(str[last_elem_index - i]) * pow(10, i);
+		result += char_to_digit(str[last_elem_index - i]) * bn_pow(10, i);
 	}
 	return result;
 } // endof string_to_number()
 
 
 // math functions ==============================================================
-size_t pow(size_t base, size_t exp)
+size_t bn_pow(size_t base, size_t exp)
 {
 	size_t result = 1;
 	for (size_t i = 0; i < exp; ++i)
@@ -197,4 +197,4 @@ size_t pow(size_t base, size_t exp)
 		result *= base;
 	}
 	return result;
-} // endof pow()
+} // endof bn_pow()

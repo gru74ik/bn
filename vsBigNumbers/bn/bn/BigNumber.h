@@ -20,7 +20,7 @@ public:
 	BigNumber(const std::string& num);
 
 	// dtors =======================================================================
-	virtual ~BigNumber() = 0;
+	virtual ~BigNumber() {};
 
 	// checkers ====================================================================
 	bool has_leading_zeros() const;

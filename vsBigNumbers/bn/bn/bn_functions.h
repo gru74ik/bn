@@ -51,6 +51,6 @@ size_t string_to_number(const std::string& str);
 
 // math functions ==============================================================
 // Because we can't use STL. Otherwise we can use std::pow() from cmath header.
-size_t pow(size_t base, size_t exp);
+size_t bn_pow(size_t base, size_t exp);
 
 #endif // BN_FUNCTIONS_H
