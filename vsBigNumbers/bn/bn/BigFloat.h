@@ -8,22 +8,26 @@
 class BigFloat
 	: public BigNumber
 {
-	// protected:
-public: // remove this label when all tests will completed
-
-	enum Notation { DEFAULT = 0, DECIMAL, SCIENTIFIC };
+private:
 	enum Direction { LEFT, RIGHT };
+
+public:
+	enum Notation { DEFAULT = 0, DECIMAL, SCIENTIFIC };
 
 	Notation notation_;
 
 public:
-	// constructors:
+	// ctors =======================================================================
 	BigFloat();
 	BigFloat(const std::string & num);
 	BigFloat(const BigInt & bi);
 	BigFloat(const BigFloat & bf);
 
-	// checkers:
+	// dtors =======================================================================
+	virtual ~BigFloat() {}
+
+	// checkers ====================================================================
+	bool is_correct(Notation notation) const;
 	bool is_decimal() const;
 	bool is_scientific() const;
 
@@ -31,10 +35,6 @@ public:
 	virtual bool is_less_than_zero() const;
 	virtual bool is_zero() const;
 
-	// protected:
-public: // remove this label when all tests will completed
-	virtual bool is_correct() const {} // TODO: decide what to do with this function
-	bool is_correct(Notation notation) const;
 
 	// changers:
 	void move_floating_point(Direction dir, size_t shiftSize);
@@ -57,19 +57,15 @@ public: // TODO: remove this label when tests will be completed
 	char e_sign() const;
 	size_t last_digit_position() const;
 	virtual size_t last_digit_value() const;
-	size_t position_after(size_t pos) const;
-	size_t position_before(size_t pos) const;
 	size_t space_position() const;
-
-	char sign() const;
 	std::string mantissa() const;
 
 
 public:
-	std::string number() const;
 	Notation notation() const;
 
 	// setters:
+	void set_number(const BigFloat& bf);
 	void set_number(const std::string& num);
 	void reset();
 

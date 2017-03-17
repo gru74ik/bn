@@ -1,45 +1,50 @@
 #include "stdafx.h"
 #include "BigFloat.h"
 #include "bn_functions.h"
-
 // #include <cmath> // можно использовать std::pow()
 
-// constructors
+// ctors =======================================================================
 BigFloat::BigFloat()
 	: BigNumber()
 {
 	//std::cout << "\nDefault constructor has been used.\n";
 	notation_ = DEFAULT;
-	number() = number() + ".0";
+	set_number("0.0");
+	set_tail(" E+0");
 }
-
 
 BigFloat::BigFloat(const std::string& num)
 	: BigNumber(num)
 {
-	BigNumber::set_number(num);
+	set_number(num);
 	notation_ = DEFAULT;
-	//std::cout
-	//<< "In constructor before converting: "
-	//<< sign_ << number() << "\n";
+/*
+	std::cout
+		<< "In constructor before converting: "
+		<< sign_ << number() << "\n";
+*/
 	if (is_correct(DECIMAL) || is_correct(DEFAULT))
 	{
 		// do nothing
-
-		//std::cout
-		//<< "\nConstructor will try create object from string"
-		//<< "\nthat represent number in decimal notation.\n";
-
+/*
+		std::cout
+			<< "\nConstructor will try create object from string"
+			<< "\nthat represent number in decimal notation.\n";
+*/
 	}
 	else if (is_correct(SCIENTIFIC))
 	{
 		convert_to(DECIMAL);
-		//std::cout
-		//<< "\nIn constructor after converting: "
-		//<< sign_ << number() << "\n";
-		//std::cout
-		//<< "\nConstructor will try create object from string"
-		//<< "\nthat represent number in scientific notation.\n";
+/*
+		std::cout
+			<< "\nIn constructor after converting: "
+			<< sign_ << number() << "\n";
+*/
+/*
+		std::cout
+			<< "\nConstructor will try create object from string"
+			<< "\nthat represent number in scientific notation.\n";
+*/
 	}
 	else
 	{
@@ -49,92 +54,82 @@ BigFloat::BigFloat(const std::string& num)
 			<< "but failed, because string is incorrect.\n"
 			<< "The number you have entered set to zero.\n";
 	}
-	//std::cout << "After all number() in ctor: " << number() << "\n";
+/*
+	std::cout << "After all number() in ctor: " << number() << "\n";
+*/
 }
-
 
 BigFloat::BigFloat(const BigInt& bi)
 {
-	BigNumber::set_number(bi.number() + ".0");
+	BigNumber::set_number(bi.get_number() + ".0");
 }
-
 
 BigFloat::BigFloat(const BigFloat& bf)
 {
-	set_number(bf.number());
+	set_number(bf.get_number());
 }
 
-
-//checkers
-bool BigFloat::is_scientific() const
-{
-	return is_correct(SCIENTIFIC);
-}
-
-
-bool BigFloat::is_decimal() const
-{
-	return is_correct(DECIMAL);
-}
-
-
+// checkers ====================================================================
 bool BigFloat::is_correct(Notation notation) const
 {
 	bool result = true;
+	size_t spacePos = space_position();
+	size_t ePos = e_position();
+	size_t eSignPos = e_sign_position();
+	size_t numSize = get_number().size();
 
 	switch (notation)
 	{
 	case SCIENTIFIC:
 	{
-		//std::cout << "\nThe scientific number notation assertion.\n";
-		size_t spacePos = space_position();
-		size_t ePos = e_position();
-		size_t eSignPos = e_sign_position();
-		size_t numSize = number().size();
+/*
+		std::cout << "\nThe scientific number notation assertion.\n";
+*/
+
 
 		// проверяем, что строка содержит пробел:
 		if (spacePos == numSize)
 		{
 			result = false;
-			/*
+/*
 			std::cout <<
-			"\nThe scientific number notation is incorrect, because"
-			"\nthe number have to contain 1 space at least.\n";
-			*/
+				"\nThe scientific number notation is incorrect, because"
+				"\nthe number have to contain 1 space at least.\n";
+*/
 		}
 		// проверяем, что строка содержит букву 'e' или 'E':
 		else if (ePos == numSize)
 		{
 			result = false;
-			/*
+/*
 			std::cout <<
-			"\nThe scientific number notation is incorrect, because"
-			"\nthe number have to contain 1 letter 'e' or 'E'.\n";
-			*/
+				"\nThe scientific number notation is incorrect, because"
+				"\nthe number have to contain 1 letter 'e' or 'E'.\n";
+*/
 		}
 		// проверяем, что строка содержит точку и точка только одна:
-		else if (!contains_one_dot_only(number()))
+		else if (!contains_one_dot_only(get_number()))
 		{
 			result = false;
-			/*
+/*
 			std::cout <<
-			"\nThe scientific number notation is incorrect, because"
-			"\nthe number have to contain 1 dot (no more and no less).\n";
-			*/
+				"\nThe scientific number notation is incorrect, because"
+				"\nthe number have to contain 1 dot (no more and no less).\n";
+*/
 		}
 		else
 		{
 			// проверяем, что до пробела все элементы строки - числа или точка:
 			for (size_t i = 0; i < spacePos; ++i)
 			{
-				if (!is_digit(number()[i]) && !is_dot(number()[i]))
+				if (!is_digit(get_number()[i]) && !is_dot(get_number()[i]))
 				{
 					result = false;
-					/*
+/*
 					std::cout <<
-					"\nThe scientific number notation is incorrect, because"
-					"\nthe number contains forbidden characters before space.\n";
-					*/
+						"\nThe scientific number notation is incorrect, because"
+						"\nthe number contains forbidden characters before space.\n";
+*/
 					break;
 				}
 			}
@@ -142,67 +137,69 @@ bool BigFloat::is_correct(Notation notation) const
 			if (ePos != position_after(spacePos))
 			{
 				result = false;
-				/*
+/*
 				std::cout <<
-				"\nThe scientific number notation is incorrect,"
-				"\nbecause letter was not found after space.\n";
-				*/
+					"\nThe scientific number notation is incorrect,"
+					"\nbecause letter was not found after space.\n";
+*/
 			}
 			// проверяем что за буквой 'e' или 'E' следует знак плюс или минус:
-			else if (!is_sign(number()[eSignPos]))
+			else if (!is_sign(get_number()[eSignPos]))
 			{
 				result = false;
-				/*
+/*
 				std::cout <<
-				"\nThe scientific number notation is incorrect,"
-				"\nbecause sign was not found after letter.\n";
-				*/
+					"\nThe scientific number notation is incorrect,"
+					"\nbecause sign was not found after letter.\n";
+*/
 			}
 			else
 			{
 				// проверяем, что после знака следуют только числа:
 				for (size_t i = position_after(eSignPos); i < numSize; ++i)
 				{
-					if (!is_digit(number()[i]))
+					if (!is_digit(get_number()[i]))
 					{
 						result = false;
-						/*
+/*
 						std::cout <<
-						"\nThe scientific number notation is incorrect,"
-						"\nbecause was found forbidden characters after sign.\n";
-						*/
+							"\nThe scientific number notation is incorrect,"
+							"\nbecause was found forbidden characters after sign.\n";
+*/
 						break;
 					}
 				}
 			}
 		}
-		/*
+/*
 		std::cout
-		<< "\nis_correct( SCIENTIFIC ): "
-		<< std::boolalpha
-		<< result
-		<< std::noboolalpha
-		<< "\n";
-		*/
+			<< "\nis_correct( SCIENTIFIC ): "
+			<< std::boolalpha
+			<< result
+			<< std::noboolalpha
+			<< "\n";
+*/
 		break;
 	}
 
 	case DECIMAL:
-		//std::cout << "\nThe decimal number notation assertion.\n";
+/*
+		std::cout << "\nThe decimal number notation assertion.\n";
+*/
 		// проверяем, что строка содержит точку и точка только одна:
-		if (contains_one_dot_only(number()))
+		if (contains_one_dot_only(get_number()))
 		{
 			// проверяем, что все элементы строки - числа или точка:
-			for (size_t i = 0; i < number().size(); ++i)
+			for (size_t i = 0; i < numSize; ++i)
 			{
-				if (!is_digit(number()[i]) && !is_dot(number()[i]))
+				if (!is_digit(get_number()[i]) && !is_dot(get_number()[i]))
 				{
 					result = false;
-					/*
+/*
 					std::cout <<
-					"\nThe decimal notation of this number is incorrect,"
-					"\nbecause it contains forbidden characters.\n";
-					*/
+						"\nThe decimal notation of this number is incorrect,"
+						"\nbecause it contains forbidden characters.\n";
+*/
 					break;
 				}
 			}
@@ -210,27 +207,29 @@ bool BigFloat::is_correct(Notation notation) const
 		else
 		{
 			result = false;
-			/*
+/*
 			std::cout <<
-			"\nThe decimal notation of this number is incorrect,"
-			"\nbecause it contains more than 1 dot.\n";
-			*/
+				"\nThe decimal notation of this number is incorrect,"
+				"\nbecause it contains more than 1 dot.\n";
+*/
 		}
-		/*
+/*
 		std::cout
-		<< "\nis_correct( DECIMAL ): "
-		<< std::boolalpha
-		<< result
-		<< std::noboolalpha
-		<< "\n";
-		*/
+			<< "\nis_correct( DECIMAL ): "
+			<< std::boolalpha
+			<< result
+			<< std::noboolalpha
+			<< "\n";
+*/
 		break;
 
 	case DEFAULT:
-		if (number() != "0" || number() != "0.0")
+		if (!is_zero())
 		{
 			result = false;
-			//std::cout << "\nThis number is not equal to zero.\n"
+/*
+			std::cout << "\nThis number is not equal to zero.\n"
+*/
 		}
 		break;
 
@@ -241,10 +240,75 @@ bool BigFloat::is_correct(Notation notation) const
 	} // endof switch ( notation )
 
 	return result;
-} // endof is_correct
+} // endof is_correct()
 
+bool BigFloat::is_decimal() const
+{
+	return is_correct(DECIMAL);
+}
 
-  // changers
+bool BigFloat::is_scientific() const
+{
+	return is_correct(SCIENTIFIC);
+}
+
+bool BigFloat::is_greater_than_zero() const
+{
+	bool result = true;
+	BigFloat num(*this);
+	if (get_sign() == '-')
+	{
+		result = false;
+	}
+	else
+	{
+		if (num.has_leading_zeros())
+		{
+			num.pop_front_extra_zeros();
+			if (first_digit_value() >= 1)
+			{
+				result = true;
+			}
+			else
+			{
+				result = false;
+			}
+		}
+	}
+
+	return result;
+}
+
+bool BigFloat::is_less_than_zero() const
+{
+	bool hasDigitsGreaterThanZeroAfterDot = true;
+
+	for
+		(
+			size_t i = position_after(dot_position());
+			i < position_after(last_digit_position());
+			++i
+			)
+	{
+		if (char_to_digit(number()[i]) > 0)
+		{
+			hasDigitsGreaterThanZeroAfterDot = false;
+			break;
+		}
+	}
+
+	return
+		digits_before_dot() == 1 &&
+		first_digit_value() == 0 &&
+		hasDigitsGreaterThanZeroAfterDot;
+}
+
+bool BigFloat::is_zero() const
+{
+	return get_number() == "0" || get_number() == "0.0";
+}
+
+// changers ====================================================================
 void BigFloat::move_floating_point(Direction dir, size_t shiftSize)
 {
 	size_t dotPos = dot_position();
@@ -344,7 +408,6 @@ void BigFloat::move_floating_point(Direction dir, size_t shiftSize)
 		break;
 	}
 } // endof move_floating_point()
-
 
 void BigFloat::convert_to(Notation notation)
 {
@@ -447,14 +510,11 @@ void BigFloat::convert_to(Notation notation)
 
 } // endof convert_to()
 
-
 void BigFloat::push_back_additional_zeros(const size_t quantity)
 {
 	std::string additionalZeros(quantity, '0');
 	insert_to(number(), additionalZeros, position_after(last_digit_position()));
 }
-
-
 
 void BigFloat::pop_back_extra_zeros()
 {
@@ -470,83 +530,28 @@ void BigFloat::pop_back_extra_zeros()
 	}
 }
 
-
-bool BigFloat::is_less_than_zero() const
-{
-	bool hasDigitsGreaterThanZeroAfterDot = true;
-
-	for
-		(
-			size_t i = position_after(dot_position());
-			i < position_after(last_digit_position());
-			++i
-		)
-	{
-		if (char_to_digit(number()[i]) > 0)
-		{
-			hasDigitsGreaterThanZeroAfterDot = false;
-			break;
-		}
-	}
-
-	return
-		digits_before_dot() == 1 &&
-		first_digit_value() == 0 &&
-		hasDigitsGreaterThanZeroAfterDot;
-}
-
-
-bool BigFloat::is_greater_than_zero() const
-{
-	bool result = true;
-	BigFloat num(*this);
-	if (get_sign() == '-')
-	{
-		result = false;
-	}
-	else
-	{
-		if (num.has_leading_zeros())
-		{
-			num.pop_front_extra_zeros();
-			if (first_digit_value() >= 1)
-			{
-				result = true;
-			}
-			else
-			{
-				result = false;
-			}
-		}
-	}
-
-	return result;
-}
-
-
-// getters
+// getters =====================================================================
 size_t BigFloat::dot_position() const
 {
 	return char_position(number(), '.');
 }
-
 
 size_t BigFloat::digits_after_dot() const
 {   // TODO: implement count() function?
 	return last_digit_position() - dot_position();
 }
 
-
 size_t BigFloat::digits_before_dot() const
 {
 	return dot_position();
 }
 
-
 size_t BigFloat::e_position() const
 {
-	size_t ePos = number().size();
-	for (size_t i = 0; i < number().size(); ++i)
+	size_t numSize = number().size();
+	size_t ePos = numSize;
+
+	for (size_t i = 0; i < numSize; ++i)
 	{
 		if (number()[i] == 'e' || number()[i] == 'E')
 		{
@@ -558,29 +563,25 @@ size_t BigFloat::e_position() const
 	return ePos;
 }
 
-
 size_t BigFloat::digits_after_e() const
 {   // TODO: implement count() function?
 	return number().size() - position_before(space_position());
 }
-
 
 size_t BigFloat::e_value_as_number() const
 {
 	return string_to_number(e_value_as_string());
 }
 
-
 std::string BigFloat::e_value_as_string() const
 {
-	std::string e_val = "";
+	std::string eVal = "";
 	for (size_t i = position_after(e_sign_position()); i < number().size(); ++i)
 	{
-		e_val = e_val + number()[i];
+		eVal = eVal + number()[i];
 	}
-	return e_val;
+	return eVal;
 }
-
 
 size_t BigFloat::e_sign_position() const
 {
@@ -597,21 +598,19 @@ size_t BigFloat::e_sign_position() const
 	return eSignPos;
 }
 
-
 char BigFloat::e_sign() const
 {
 	return number()[e_sign_position()];
 }
 
-
 size_t BigFloat::last_digit_position() const
 {
-	size_t last_digit_pos = number().size();
+	size_t lastDigitPos = number().size();
 	for (size_t i = 0; i < number().size(); ++i)
 	{
 		if (is_digit(number()[i]) || is_dot(number()[i]))
 		{
-			last_digit_pos = i;
+			lastDigitPos = i;
 		}
 		else
 		{
@@ -619,51 +618,18 @@ size_t BigFloat::last_digit_position() const
 		}
 	}
 
-	return last_digit_pos;
+	return lastDigitPos;
 }
-
 
 size_t BigFloat::last_digit_value() const
 {
 	return number()[last_digit_position()];
 }
 
-
-size_t BigFloat::position_after(size_t pos) const
-{
-	size_t pos_after_pos = number().size();
-	if (pos + 1 < number().size())
-	{
-		pos_after_pos = pos + 1;
-	}
-
-	return pos_after_pos;
-}
-
-
-size_t BigFloat::position_before(size_t pos) const
-{
-	size_t pos_beforePos = number().size();
-	if (pos > 0)
-	{
-		pos_beforePos = pos - 1;
-	}
-
-	return pos_beforePos;
-}
-
-
 size_t BigFloat::space_position() const
 {
 	return char_position(number(), ' ');
 }
-
-
-char BigFloat::sign() const
-{
-	return number()[0] == '-' ? '-' : '+';
-}
-
 
 std::string BigFloat::mantissa() const
 {
@@ -687,29 +653,16 @@ std::string BigFloat::mantissa() const
 	return mantissa;
 }
 
-
-std::string BigFloat::number() const
-{
-	return number();
-}
-
-
 BigFloat::Notation BigFloat::notation() const
 {
 	return notation_;
 }
 
-
-// setters
-void BigFloat::set_number(const std::string& number)
+// setters =====================================================================
+void BigFloat::set_number(const BigFloat& bf)
 {
-	BigFloat temp = *this; // Лишнее копирование (вынужденное).
-	number() = number;
-	sign_ = sign();
-	discard_sign();
-	tail_ = "";
+	BigNumber::set_number(bf.get_number());
 
-	// Сделать функцию is_correct() глобальной?
 	if (is_correct(SCIENTIFIC))
 	{
 		convert_to(DECIMAL);
@@ -718,44 +671,46 @@ void BigFloat::set_number(const std::string& number)
 	{
 		// do nothing
 	}
-	else if (is_correct(DEFAULT))
+	else
 	{
 		reset();
 	}
+}
+
+void BigFloat::set_number(const std::string& num)
+{	
+	BigNumber::set_number(num);
+
+	if (is_correct(SCIENTIFIC))
+	{
+		convert_to(DECIMAL);
+	}
+	else if (is_correct(DECIMAL))
+	{
+		// do nothing
+	}
 	else
 	{
-		*this = temp; // Лишнее копирование (вынужденное).
+		reset();
 	}
 }
 
-
-void BigFloat::mark_as_wrong()
-{
-	sign_ = '+';
-	number() = "0.0";
-	tail_ = "\b\b\b\bincorrect number";
-	notation_ = WRONG;
-}
-
-
 void BigFloat::reset()
 {
-	sign_ = '+';
-	number() = "0.0";
-	tail_ = " E+0";
+	set_number("0.0");
+	set_tail(" E+0");
 	notation_ = DEFAULT;
 }
 
-
-// comparison operators
+// comparison operators ========================================================
 bool BigFloat::operator<(const BigFloat& bf) const // #op<
 {
-	BigFloat a = *this;
-	BigFloat b = bf;
+	BigFloat a(*this);
+	BigFloat b(bf);
 
 	bool result = true;
 
-	if (a.sign_ == '+' && b.sign_ == '-')
+	if (a.get_sign() == '+' && b.get_sign() == '-')
 	{
 		result = false;
 	}
@@ -787,15 +742,13 @@ bool BigFloat::operator<(const BigFloat& bf) const // #op<
 	return result;
 }
 
-
 bool BigFloat::operator<=(const BigFloat& bf) const // #op<=
 {
-	BigFloat a = *this;
-	BigFloat b = bf;
+	BigFloat a(*this);
+	BigFloat b(bf);
 
-	return a < b || a == b;
+	return !(a > b);
 }
-
 
 bool BigFloat::operator>(const BigFloat& bf) const // #op>
 {
@@ -804,7 +757,7 @@ bool BigFloat::operator>(const BigFloat& bf) const // #op>
 
 	bool result = true;
 
-	if (a.sign_ == '-' && b.sign_ == '+')
+	if (a.get_sign() == '-' && b.get_sign() == '+')
 	{
 		result = false;
 	}
@@ -836,38 +789,31 @@ bool BigFloat::operator>(const BigFloat& bf) const // #op>
 	return result;
 } // endof operator>
 
-
 bool BigFloat::operator>=(const BigFloat& bf) const // #op>=
 {
-	BigFloat a = *this;
-	BigFloat b = bf;
+	BigFloat a(*this);
+	BigFloat b(bf);
 
-	return a > b || a == b;
+	return !(a < b);
 } // endof operator>=
-
 
 bool BigFloat::operator==(const BigFloat& bf) const // #op==
 {
-	BigFloat a = *this;
-	BigFloat b = bf;
+	BigFloat a(*this);
+	BigFloat b(bf);
 
 	return !(a < b) && !(a > b);
 } // endof operator==
 
-
-  // assignment operators:
+// assignment operators ========================================================
 BigFloat BigFloat::operator=(const BigFloat& bf) // #op=
 {
 	if (this != &bf)
 	{
-		sign_ = bf.sign_;
-		number() = bf.number();
-		tail_ = bf.tail_;
-		notation_ = bf.notation_;
+		set_number(bf);
 	}
 	return *this;
 } // endof operator=
-
 
 BigFloat BigFloat::operator=(const std::string& obj) // #op=
 {
@@ -899,8 +845,7 @@ BigFloat BigFloat::operator=(const std::string& obj) // #op=
 	return *this;
 } // endof operator=
 
-
-  // arithmetic operators (both operand are same type):
+// arithmetic operators (both operand are same type) ===========================
 BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 {
 	BigFloat a = *this;
@@ -1080,14 +1025,12 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 	return sum;
 } // endof #op+(bf)
 
-
 BigFloat BigFloat::operator-(const BigFloat& subtrahend) const // #op-(bf)
 {
 	BigFloat diff(subtrahend); // temporary solution to avoid compiler warning
 							   // TODO
 	return diff;
 } // endof // #op-(bf)
-
 
 BigFloat BigFloat::operator*(const BigFloat& multiplier) const // #op*(bf)
 {
@@ -1113,7 +1056,6 @@ BigFloat BigFloat::operator*(const BigFloat& multiplier) const // #op*(bf)
 
 	return product;
 } // endof // #op*(bf)
-
 
 BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 {
@@ -1156,15 +1098,13 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 	return result;
 } // endof #op/(bf)
 
-
-  // arithmetic operators (each operand are different type):
+// arithmetic operators (each operand are different type) ======================
 BigFloat BigFloat::operator+(const BigInt& addendum) const // #op+(bi)
 {
 	BigFloat sum(addendum); // temporary solution to avoid compiler warning
 							// TODO
 	return sum;
 } // endof #op+(bi)
-
 
 BigFloat BigFloat::operator-(const BigInt& subtrahend) const // #op-(bi)
 {
@@ -1173,14 +1113,12 @@ BigFloat BigFloat::operator-(const BigInt& subtrahend) const // #op-(bi)
 	return diff;
 } // endof #op-(bi)
 
-
 BigFloat BigFloat::operator*(const BigInt& multiplier) const // #op*(bi)
 {
 	BigFloat product(multiplier); // temporary solution to avoid compiler warning
 								  // TODO
 	return product;
 } // endof #op*(bi)
-
 
 BigFloat BigFloat::operator/(const BigInt& divider) const // #op/(bi)
 {
@@ -1190,7 +1128,7 @@ BigFloat BigFloat::operator/(const BigInt& divider) const // #op/(bi)
 } // endof #op/(bi)
 
 
-  // input-output operators
+// input-output operators ======================================================
 std::istream& operator >> (std::istream& is, BigFloat& bf)
 {
 	std::string num;
@@ -1207,13 +1145,9 @@ std::istream& operator >> (std::istream& is, BigFloat& bf)
 	{
 		// do nothing
 	}
-	else if (bf.is_correct(BigFloat::DEFAULT))
-	{
-		bf.reset();
-	}
 	else
 	{
-		bf.mark_as_wrong();
+		bf.reset();
 	}
 
 	return is;
@@ -1231,18 +1165,14 @@ std::ostream& operator<<(std::ostream& os, const BigFloat& bf) // #op<<(bf)
 	{
 		// do nothing
 	}
-	else if (temp.is_correct(BigFloat::DEFAULT))
-	{
-		temp.tail_ = " E+0";
-	}
 	else
 	{
-		temp.mark_as_wrong();
+		temp.reset();
 	}
 
 	temp.pop_front_extra_zeros();
 
-	os << temp.sign_ << temp.number() << temp.tail_;
+	os << temp.get_sign() << temp.get_number() << temp.get_tail();
 
 	return os;
 } // endof // #op<<(bf)

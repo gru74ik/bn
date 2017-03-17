@@ -26,7 +26,7 @@ BigInt::BigInt(const BigInt& bi)
 {
 	if (bi.is_correct())
 	{
-		set_number(bi.number());
+		set_number(bi.get_number());
 	}
 	else
 	{
@@ -76,7 +76,7 @@ bool BigInt::is_correct(const std::string& num) const
 
 bool BigInt::is_correct() const
 {
-	return is_correct(number());
+	return is_correct(get_number());
 } //endof is_correct() const
 
 bool BigInt::is_greater_than_zero() const
@@ -91,21 +91,33 @@ bool BigInt::is_less_than_zero() const
 
 bool BigInt::is_zero() const
 {
-	return has_leading_zeros() ? last_digit_value : number() == "0";
+	return has_leading_zeros() ? last_digit_value : get_number() == "0";
 } // endof is_zero()
 
 // getters =====================================================================
 size_t BigInt::last_digit_position() const
 {
-	return number().size() - 1;
+	return get_number().size() - 1;
 } // endof last_digit_position()
 
 size_t BigInt::last_digit_value() const
 {
-	return number()[last_digit_position()];
+	return get_number()[last_digit_position()];
 } // endof last_digit_value()
 
 // setters =====================================================================
+void BigInt::set_number(const BigInt& bi)
+{
+	if (is_correct(bi.get_number()))
+	{
+		BigNumber::set_number(bi.get_number());
+	}
+	else
+	{
+		reset();
+	}
+} // endof set_number(const std::string & num)
+
 void BigInt::set_number(const std::string & num)
 {
 	if (is_correct(num))
@@ -123,14 +135,14 @@ BigInt BigInt::operator=(const BigInt& bi)
 {
 	if (this != &bi)
 	{
-		set_number(bi.number());
+		set_number(bi.get_number());
 	}
 	return *this;
 } //endof operator=(const BigInt& bi)
 
 BigInt BigInt::operator=(const std::string& num)
 {
-	if (number() != &num[0]) // &str.front()
+	if (get_number() != &num[0]) // &str.front()
 	{
 		set_number(num);
 	}
@@ -145,8 +157,8 @@ bool BigInt::operator<(const BigInt& bi) const
 	BigInt a(*this);
 	BigInt b(bi);
 
-	size_t aNumSize = a.number().size();
-	size_t bNumSize = b.number().size();
+	size_t aNumSize = a.get_number().size();
+	size_t bNumSize = b.get_number().size();
 
 	if (bNumSize < aNumSize) // #op<(bi) 1
 	{
@@ -162,13 +174,13 @@ bool BigInt::operator<(const BigInt& bi) const
 
 		for (size_t i = 0; i < aNumSize; ++i)
 		{
-			if (a.number()[i] < b.number()[i])
+			if (a.get_number()[i] < b.get_number()[i])
 			{
 				bothNumbersAreTheSame = false;
 				result = true;
 				continue;
 			}
-			else if (a.number()[i] == b.number()[i])
+			else if (a.get_number()[i] == b.get_number()[i])
 			{
 				continue;
 			}
@@ -204,8 +216,8 @@ bool BigInt::operator>(const BigInt& bi) const
 	BigInt a(*this);
 	BigInt b(bi);
 
-	size_t aNumSize = a.number().size();
-	size_t bNumSize = b.number().size();
+	size_t aNumSize = a.get_number().size();
+	size_t bNumSize = b.get_number().size();
 
 	if (bNumSize > aNumSize) // #op>(bi) 1
 	{
@@ -221,13 +233,13 @@ bool BigInt::operator>(const BigInt& bi) const
 
 		for (size_t i = 0; i < aNumSize; ++i)
 		{
-			if (a.number()[i] > b.number()[i])
+			if (a.get_number()[i] > b.get_number()[i])
 			{
 				bothNumbersAreTheSame = false;
 				result = true;
 				continue;
 			}
-			else if (a.number()[i] == b.number()[i])
+			else if (a.get_number()[i] == b.get_number()[i])
 			{
 				continue;
 			}
@@ -266,13 +278,13 @@ bool BigInt::operator==(const BigInt& bi) const
 
 // arithmetic operators ========================================================
 BigInt BigInt::operator+(const BigInt& addendum) const
-{	// TODO: implement it right!
+{
 	BigInt sum;
 	BigInt a(*this);
 	BigInt b(addendum);
 
-	size_t aNumSize = a.number().size();
-	size_t bNumSize = b.number().size();
+	size_t aNumSize = a.get_number().size();
+	size_t bNumSize = b.get_number().size();
 
 	if (a < b)
 	{
@@ -284,8 +296,8 @@ BigInt BigInt::operator+(const BigInt& addendum) const
 	}
 
 	// будем складывать, начина€ с млаших разр€дов, дл€ этого перевернЄм числа:
-	reverse(a.number());
-	reverse(b.number());
+	reverse(a.get_number());
+	reverse(b.get_number());
 
 	// излишки (то, что обычно при сложении в столбик "пишем в уме") будем складывать в переменную extra;
 	size_t extra = 0;
@@ -294,7 +306,7 @@ BigInt BigInt::operator+(const BigInt& addendum) const
 
 	for (size_t i = 0; i < aNumSize; ++i)
 	{
-		subtotal = char_to_digit(a.number()[i]) + char_to_digit(b.number()[i]) + extra;
+		subtotal = char_to_digit(a.get_number()[i]) + char_to_digit(b.get_number()[i]) + extra;
 
 		if (subtotal > MAX_DIGIT) // дес€тична€ система, поэтому последн€€ цифра в разр€де 9
 		{
@@ -306,12 +318,12 @@ BigInt BigInt::operator+(const BigInt& addendum) const
 			extra = 0;
 		}
 
-		push_back(sum.number(), digit_to_char(subtotal));
+		push_back(sum.get_number(), digit_to_char(subtotal));
 	}
 
 	if (extra)
 	{
-		push_back(sum.number(), digit_to_char(extra));
+		push_back(sum.get_number(), digit_to_char(extra));
 	}
 
 	return sum;
@@ -387,13 +399,13 @@ const BigInt operator++(BigInt& bi, int fakeArg)
 // input-output operators ======================================================
 std::istream& operator>>(std::istream& is, BigInt& bi)
 {
-	is >> bi.number();
+	is >> bi.get_number();
 	return is;
 } // endof operator>>(std::istream& is, BigInt& bi)
 
 std::ostream& operator<<(std::ostream& os, const BigInt& bi)
 {
-	os << bi.sign << bi.number();
+	os << bi.get_sign() << bi.get_number();
 
 	return os;
 } // endof operator<<(std::ostream& os, const BigInt& bi)

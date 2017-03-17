@@ -139,19 +139,25 @@ size_t BigNumber::position_after(size_t pos) const
 }
 
 // определить знак числа
-size_t BigNumber::define_sign() const
+char BigNumber::define_sign() const
 {
 	return number_[0] == '-' ? '-' : '+';
 }
 
 // получить знак числа
-size_t BigNumber::get_sign() const
+char BigNumber::get_sign() const
 {
 	return sign_;
 }
 
+// получить "хвост"
+std::string BigNumber::get_tail() const
+{
+	return tail_;
+}
+
 // достать (to get) содержимое поля number_
-std::string BigNumber::number() const
+std::string BigNumber::get_number() const
 {
 	return number_;
 }
@@ -172,4 +178,9 @@ void BigNumber::set_number(const std::string & num)
 	sign_ = define_sign();
 	discard_sign();
 	tail_ = "";
+}
+
+void BigNumber::set_tail(const std::string & num)
+{
+	tail_ = num;
 }

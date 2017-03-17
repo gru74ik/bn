@@ -21,7 +21,7 @@ public:
 private:
 	// checkers ====================================================================	
 	bool is_correct(const std::string& num) const;		// is done
-	virtual bool is_correct() const;					// is done
+	bool is_correct() const;							// is done
 	virtual bool is_greater_than_zero() const;			// is done
 	virtual bool is_less_than_zero() const;				// is done
 	virtual bool is_zero() const;						// is done
@@ -32,7 +32,8 @@ private:
 
 public:
 	// setters =====================================================================
-	virtual void set_number(const std::string & num);	// is done
+	void set_number(const const BigInt& bi);	// is done
+	void set_number(const std::string & num);	// is done
 
 
 	// assignment operators ========================================================

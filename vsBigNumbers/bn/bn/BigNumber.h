@@ -24,7 +24,6 @@ public:
 
 	// checkers ====================================================================
 	bool has_leading_zeros() const;
-	virtual bool is_correct() const = 0;
 	virtual bool is_greater_than_zero() const = 0;
 	virtual bool is_less_than_zero() const = 0;
 	virtual bool is_zero() const = 0;
@@ -34,7 +33,6 @@ public:
 	void pop_front_extra_zeros();
 	void push_front_additional_zeros(const size_t quantity);
 	
-
 	// getters =====================================================================
 	size_t leading_zeros() const;		// TODO: implement for BigFloat his own version
 	//size_t trailing_zeros() const;	// I changed my mind - this function member have to be in BigFloat only.
@@ -48,15 +46,15 @@ public:
 	size_t position_before(size_t pos) const;
 	size_t position_after(size_t pos) const;
 
-	size_t define_sign() const;
-	size_t get_sign() const;
+	char define_sign() const;
+	char get_sign() const;
+	std::string get_tail() const;
+	std::string get_number() const;
 
-	std::string number() const;
-
-	
 	// setters =====================================================================
 	void reset();	// TODO: implement for BigFloat his own version
-	virtual void set_number(const std::string & num);
+	void set_number(const std::string & num);
+	void set_tail(const std::string & num);
 };
 
 #endif // BIGNUMBER_H
