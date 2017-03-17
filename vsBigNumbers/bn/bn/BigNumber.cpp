@@ -10,6 +10,7 @@ BigNumber::BigNumber()
 	sign_ = define_sign();
 	discard_sign();
 	tail_ = "";
+	std::cout << "Ctor BigNumber::BigNumber() has been called.\n";
 }
 
 BigNumber::BigNumber(const std::string& num)
@@ -18,6 +19,7 @@ BigNumber::BigNumber(const std::string& num)
 	sign_ = define_sign();
 	discard_sign();
 	tail_ = "";
+	std::cout << "Ctor BigNumber::BigNumber(const std::string& num) has been called.\n";
 }
 
 // checkers ====================================================================

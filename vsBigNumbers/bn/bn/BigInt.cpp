@@ -7,30 +7,27 @@
 BigInt::BigInt()
 	: BigNumber()
 {
+	std::cout << "Ctor BigInt::BigInt() has been called.\n";
 }
 
-BigInt::BigInt(const std::string& num) : BigNumber(num)
+BigInt::BigInt(const std::string& num)
+	: BigNumber(num)
 {
-	if (is_correct(num))
-	{
-		set_number(num);		
-	}
-	else
+	if (!is_correct(num))
 	{
 		reset();
 	}
+	std::cout << "Ctor BigInt::BigInt(const std::string& num) has been called.\n";
 }
 
 BigInt::BigInt(const BigInt& bi)
+	: BigNumber(bi.get_number())
 {
-	if (bi.is_correct())
-	{
-		set_number(bi.get_number());
-	}
-	else
+	if (!bi.is_correct())
 	{
 		reset();
 	}
+	std::cout << "Ctor BigInt::BigInt(const BigInt& bi) has been called.\n";
 }
 
 // checkers ====================================================================
@@ -38,8 +35,9 @@ bool BigInt::is_correct(const std::string& num) const
 {
 	bool correct = true;
 
-	if (num.size() == 0) // if(number.empty())
+	if (num.size() == 0)
 	{
+		std::cout << "BigInt is incorrect because num.size() == 0.\n";
 		correct = false;
 	}
 	else
@@ -48,25 +46,29 @@ bool BigInt::is_correct(const std::string& num) const
 		{
 			if (!is_digit(num[0])) // bi.number().at(0)
 			{
+				std::cout <<
+					"BigInt is incorrect because num.size() == 1 "
+					"and the character is not a digit.\n";
 				correct = false;
 			}
 		}
 		else
 		{
-			if (!is_digit(num[0]))
+			for (size_t i = 0; i < num.size(); ++i)
 			{
-				correct = false;
-			}
-
-			for (size_t i = 1; i < num.size(); ++i)
-			{
-				if (!is_digit(num[i]))
+				if (!is_digit(num[i]) && !is_sign(num[i]))
 				{
+					std::cout
+						<<
+						"BigInt is incorrect because first character "
+						"of the number is not a digit nor a sign.\n"
+						<< "The character is : "
+						<< num[0]
+						<< "\n";
 					correct = false;
 					break;
 				}
 			}
-
 		}
 	}
 
@@ -239,14 +241,23 @@ bool BigInt::operator>(const BigInt& bi) const
 
 	if (bNumSize > aNumSize) // #op>(bi) 1
 	{
+		std::cout << 
+			"\nbNumSize > aNumSize\n"
+			"#op>(bi) 1\n";
 		result = false;
 	}
 	else if (aNumSize > bNumSize) // #op>(bi) 2
 	{
+		std::cout <<
+			"\naNumSize > bNumSize\n"
+			"#op>(bi) 2\n";
 		// do nothing (object a indeed greater than b and result is true already)
 	}
-	else
+	else if (aNumSize == bNumSize) // #op>(bi) 3
 	{
+		std::cout <<
+			"\naNumSize == bNumSize\n"
+			"#op>(bi) 3\n";
 		bool bothNumbersAreTheSame = true;
 
 		for (size_t i = 0; i < aNumSize; ++i)

@@ -40,7 +40,6 @@ public:
 	void convert_to(Notation notation);
 	//void reverse();
 
-public: // TODO: remove this label when tests will be completed
 	void push_back_additional_zeros(const size_t quantity);
 	void pop_back_extra_zeros();
 
@@ -58,9 +57,6 @@ public: // TODO: remove this label when tests will be completed
 	virtual size_t last_digit_value() const;
 	size_t space_position() const;
 	std::string mantissa() const;
-
-
-public:
 	Notation notation() const;
 
 	// setters =====================================================================
@@ -68,7 +64,6 @@ public:
 	void set_number(const std::string& num);
 	void reset();
 
-public:
 	// comparison operators ========================================================
 	bool operator<(const BigFloat& bf) const;
 	bool operator<=(const BigFloat& bf) const;

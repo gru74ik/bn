@@ -9,7 +9,7 @@
 
 #include <iostream>
 #include <string>
-// #include <cctype> // Can we use it?
+#include <cctype>
 #include <ctime>
 #include <cstdlib>
 

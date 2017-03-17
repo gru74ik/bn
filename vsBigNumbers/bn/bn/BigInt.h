@@ -18,7 +18,6 @@ public:
 	// dtors =======================================================================
 	virtual ~BigInt() {}				// is done
 
-private:
 	// checkers ====================================================================	
 	bool is_correct(const std::string& num) const;		// is done
 	bool is_correct() const;							// is done
@@ -30,7 +29,6 @@ private:
 	virtual size_t last_digit_position() const;			// is done
 	virtual size_t last_digit_value() const;			// is done
 
-public:
 	// setters =====================================================================
 	void set_number(const BigInt& bi);	// is done
 	void set_number(const std::string & num);	// is done

@@ -17,7 +17,8 @@ bool contains_one_dot_only(const std::string& number)
 
 bool is_digit(const char ch)
 {
-	return ch >= '0' && ch <= '9';
+	//return ch >= '0' && ch <= '9';
+	return isdigit(ch);
 } // endof is_digit()
 
 bool is_dot(const char ch)
