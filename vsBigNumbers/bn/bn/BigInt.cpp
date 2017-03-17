@@ -424,7 +424,7 @@ BigInt BigInt::operator+(const BigInt& addendum) const
 	a.reverse_number();
 	b.reverse_number();
 	// #op+(bi) 5
-/**/
+/*
 	std::cout
 		<< "The objects a after reverse is: "
 		<< a
@@ -432,13 +432,14 @@ BigInt BigInt::operator+(const BigInt& addendum) const
 		<< b
 		<< "\nAssertion occured in BigInt.cpp, #op+(bi), section 5\n\n"
 		;
-
+*/
 	// излишки (то, что обычно при сложении в столбик "пишем в уме") будем складывать в переменную extra;
 	size_t extra = 0;
 	// промежуточный итог сложения двух цифр одинакового разряда будем складывать в переменную subtotal:
 	size_t subtotal = 0;
 
 	// #op+(bi) 6
+/*
 	std::cout
 		<< "aNumSize is: "
 		<< aNumSize
@@ -446,7 +447,8 @@ BigInt BigInt::operator+(const BigInt& addendum) const
 		<< bNumSize
 		<< "\nAssertion occured in BigInt.cpp, #op+(bi), section 6\n\n"
 		;
-
+*/
+	bool hasBeenCalledBeforeYet = false;
 	size_t limit = aNumSize > bNumSize ? aNumSize : bNumSize;
 	for (size_t i = 0; i < limit; ++i)
 	{
@@ -462,6 +464,7 @@ BigInt BigInt::operator+(const BigInt& addendum) const
 			extra = 0;
 		}
 		// #op+(bi) 7
+/*
 		std::cout
 			<< i + 1 << " digit of number a is: "
 			<< a.get_number()[i]
@@ -474,16 +477,22 @@ BigInt BigInt::operator+(const BigInt& addendum) const
 			<< extra
 			<< "\nAssertion occured in BigInt.cpp, #op+(bi), section 7\n\n"
 			;
-
+*/
 		sum.push_back_elem(digit_to_char(subtotal));
-		sum.pop_front_extra_zeros();
+		if (!hasBeenCalledBeforeYet)
+		{
+			sum.pop_front_extra_zeros();
+			hasBeenCalledBeforeYet = true;
+		}
+
 		// #op+(bi) 8
+/*
 		std::cout
 			<< "Sum is: "
 			<< sum
 			<< "\nAssertion occured in BigInt.cpp, #op+(bi), section 8\n\n"
 			;
-
+*/
 	}
 
 	if (extra)
@@ -492,12 +501,13 @@ BigInt BigInt::operator+(const BigInt& addendum) const
 	}
 
 	// #op+(bi) 9
+/*
 	std::cout
 		<< "Sum is: "
 		<< sum
 		<< "\nAssertion occured in BigInt.cpp, #op+(bi), section 9\n\n"
 		;
-
+*/
 	sum.reverse_number();
 	return sum;
 } // endof operator+(const BigInt& addendum) const
