@@ -19,12 +19,7 @@ BigNumber::BigNumber(const std::string& num)
 	number_ = num;
 	sign_ = define_sign();
 	discard_sign();
-/*
-	std::cout
-		<< "The object has_leading_zeros(). "
-		<< "Assertion occured in BigNumber.cpp, #ctor(arg)\n"
-		;
-*/
+
 	pop_front_extra_zeros();
 /*
 	std::cout << "Ctor BigNumber::BigNumber(const std::string& num) has been called.\n";
@@ -39,8 +34,15 @@ bool BigNumber::has_leading_zeros() const
 	bool result = false;
 	if (number_.size() > 1 && first_digit_value() == 0 )
 	{
+/**/
+		std::cout
+			<< "The object has leading zeros. "
+			<< "Assertion occured in BigNumber.cpp, has_leading_zeros()\n"
+			;
+
 		result = true;
 	}
+
 
 	return result;
 }
@@ -61,16 +63,23 @@ void BigNumber::discard_sign()
 // вытолкнуть спереди (отбросить) лишние нули
 void BigNumber::pop_front_extra_zeros() // #pfez
 {	// TODO: implement for BigFloat his own version
+
+	std::cout << "Function member BigNumber::pop_front_extra_zeros() has been called.\n";
+	size_t fromPos = 0, toPos = 0;
 	for (size_t i = 0; i < number_.size() - 1; ++i)
 	{
 		if (number_[i] == '0')
 		{
-			pop_front_elem();
+			++toPos;
 		}
 		else
 		{
 			break;
 		}
+	}
+	if (has_leading_zeros())
+	{
+		erase_elem(fromPos, toPos-1);
 	}
 }
 

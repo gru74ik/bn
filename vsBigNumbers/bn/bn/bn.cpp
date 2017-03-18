@@ -57,9 +57,9 @@ int main()
 		<< "\n\n"
 		;
 */
-	BigInt x("-1984");
-	
-	std::cout << "x.get_number(): " << x.get_sign() << "\n\n";
+	BigInt x("0000000000000000000000000000000000001984");
+
+	std::cout <<  "x: " << x << "\n\n";
 	
 	return 0;
 }
