@@ -33,7 +33,6 @@ public:
 	void set_number(const BigInt& bi);	// is done
 	void set_number(const std::string & num);	// is done
 
-
 	// assignment operators ========================================================
 	BigInt operator=(const BigInt& bi);			// is done
 	BigInt operator=(const std::string& num);	// is done

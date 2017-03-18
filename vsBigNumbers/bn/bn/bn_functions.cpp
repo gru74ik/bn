@@ -42,6 +42,7 @@ bool is_space(const char ch)
 } // endof is_space()
 
 
+
 // finders =====================================================================
 size_t char_position(const std::string &str, const char ch)
 {
@@ -79,6 +80,30 @@ void erase_part_of(std::string& str, const size_t first, const size_t last)
 		str = part_before + part_after;
 	}
 } // endof erase_part_of()
+
+void insert_to(std::string& str, const char ch, const size_t pos)
+{
+	std::string part_before = "";
+	for (size_t i = 0; i < pos; ++i)
+		part_before = part_before + str[i];
+
+	std::string part_after = "";
+	std::string result;
+
+	if (pos < str.size())
+	{
+		for (size_t i = pos; i < str.size(); ++i)
+			part_after = part_after + str[i];
+
+		result = part_before + ch + part_after;
+	}
+	else
+	{
+		result = part_before + ch;
+	}
+
+	str = result;
+}
 
 void insert_to(std::string& str, const std::string& ins, const size_t pos)
 {
@@ -154,6 +179,7 @@ void push_front(std::string& str, const char ch)
 } // endof push_front(std::string& str, const char ch)
 
 
+
 // converters ==================================================================
 size_t char_to_digit(const char ch)
 {
@@ -188,6 +214,7 @@ size_t string_to_number(const std::string& str)
 	}
 	return result;
 } // endof string_to_number()
+
 
 
 // math functions ==============================================================

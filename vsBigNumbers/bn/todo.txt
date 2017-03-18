@@ -20,16 +20,22 @@
 	DONE: implement copy ctor
 
 8. 	in file BigNumber.h in function member void pop_front_extra_zeros();
-	NOT RELEVANT YET: implement for BigFloat his own version
+	DOESN'T MATTER ANYMORE: implement for BigFloat his own version
 
 9. in file BigNumber.h in function member size_t leading_zeros() const;
-	NOT RELEVANT YET: implement for BigFloat his own version
+	DOESN'T MATTER ANYMORE: implement for BigFloat his own version
 
 10. in file BigNumber.h in function member reset()
 	TODO: implement for BigFloat his own version
 
 11. in file BigFloat.h in function virtual bool is_correct() const {}
-	NOT RELEVANT YET: decide what to do with this function
+	DOESN'T MATTER ANYMORE: decide what to do with this function
 
 12. in file BigNumber.cpp in function pop_front_extra_zeros()
 	DONE: find out why zeros discards not right (why some zeros left)
+
+13. in file BigFloat.cpp in function void BigFloat::convert_to(Notation notation)
+	TODO: ñheck out how exactly pop_front_extra_zeros() removes leading zeros
+
+14. in file BigFloat.cpp in ctors and setters
+	TODO: ñheck out if they works properly

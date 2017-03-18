@@ -8,8 +8,6 @@ class BigNumber
 private:
 	char sign_;
 	std::string number_;
-	std::string tail_;	// special trick (hack?) to show error
-						// message if the number is incorrect
 
 public:
 	static const size_t BASE = 10; // десятичная система счисления
@@ -20,7 +18,7 @@ public:
 	BigNumber(const std::string& num);
 
 	// dtors =======================================================================
-	virtual ~BigNumber() {};
+	virtual ~BigNumber() {}
 
 	// checkers ====================================================================
 	bool has_leading_zeros() const;
@@ -30,11 +28,24 @@ public:
 	
 	// changers ====================================================================
 	void discard_sign();
+
 	void pop_front_extra_zeros();
 	void push_front_additional_zeros(const size_t quantity);
+
 	void reverse_number();
+
+	void erase_elem(const size_t pos);
+	void erase_elem(const size_t first, const size_t last);
+
+	void insert_elem(const char ch, const size_t pos);
+	void insert_elem(const std::string& str, const size_t pos);
+
 	void push_back_elem(const char ch);
+	void push_back_elem(const std::string& str);
+
 	void push_front_elem(const char ch);
+	void push_front_elem(const std::string& str);
+
 	void pop_back_elem();
 	void pop_front_elem();
 	
@@ -53,13 +64,11 @@ public:
 
 	char define_sign() const;
 	char get_sign() const;
-	std::string get_tail() const;
 	std::string get_number() const;
 
 	// setters =====================================================================
 	void reset();	// TODO: implement for BigFloat his own version
 	void set_number(const std::string & num);
-	void set_tail(const std::string & num);
 };
 
 #endif // BIGNUMBER_H

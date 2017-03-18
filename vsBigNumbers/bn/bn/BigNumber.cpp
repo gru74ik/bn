@@ -9,7 +9,6 @@ BigNumber::BigNumber()
 	number_ = "0";
 	sign_ = define_sign();
 	discard_sign();
-	tail_ = "";
 /*
 	std::cout << "Ctor BigNumber::BigNumber() has been called.\n";
 */
@@ -20,7 +19,6 @@ BigNumber::BigNumber(const std::string& num)
 	number_ = num;
 	sign_ = define_sign();
 	discard_sign();
-	tail_ = "";
 /*
 	std::cout
 		<< "The object has_leading_zeros(). "
@@ -32,6 +30,8 @@ BigNumber::BigNumber(const std::string& num)
 	std::cout << "Ctor BigNumber::BigNumber(const std::string& num) has been called.\n";
 */
 }
+
+
 
 // checkers ====================================================================
 bool BigNumber::has_leading_zeros() const
@@ -45,7 +45,10 @@ bool BigNumber::has_leading_zeros() const
 	return result;
 }
 
+
+
 // changers ====================================================================
+
 // отбросить знак
 void BigNumber::discard_sign()
 {
@@ -86,14 +89,44 @@ void BigNumber::reverse_number()
 	reverse(number_);
 }
 
+void BigNumber::erase_elem(const size_t pos)
+{
+	erase_part_of(number_, pos, pos);
+}
+
+void BigNumber::erase_elem(const size_t first, const size_t last)
+{
+	erase_part_of(number_, first, last);
+}
+
+void BigNumber::insert_elem(const char ch, const size_t pos)
+{
+	insert_to(number_, ch, pos);
+}
+
+void BigNumber::insert_elem(const std::string & str, const size_t pos)
+{
+	insert_to(number_, str, pos);
+}
+
 void BigNumber::push_back_elem(const char ch)
 {
 	push_back(number_, ch);
 }
 
+void BigNumber::push_back_elem(const std::string & str)
+{
+	push_back(number_, str);
+}
+
 void BigNumber::push_front_elem(const char ch)
 {
 	push_front(number_, ch);
+}
+
+void BigNumber::push_front_elem(const std::string & str)
+{
+	push_front(number_, str);
 }
 
 void BigNumber::pop_back_elem()
@@ -105,6 +138,8 @@ void BigNumber::pop_front_elem()
 {
 	pop_front(number_);
 }
+
+
 
 // getters =====================================================================
 
@@ -196,25 +231,21 @@ char BigNumber::get_sign() const
 	return sign_;
 }
 
-// получить "хвост"
-std::string BigNumber::get_tail() const
-{
-	return tail_;
-}
-
 // достать (to get) содержимое поля number_
 std::string BigNumber::get_number() const
 {
 	return number_;
 }
 
+
+
 // setters =====================================================================
+
 // сбросить значения полей в значения по умолчанию (обнулить)
 void BigNumber::reset()
 {
 	sign_ = '+';
 	number_ = "0";
-	tail_ = "";
 }
 
 // установить значения полей в соответствии с переданным аргументом
@@ -223,10 +254,4 @@ void BigNumber::set_number(const std::string & num)
 	number_ = num;
 	sign_ = define_sign();
 	discard_sign();
-	tail_ = "";
-}
-
-void BigNumber::set_tail(const std::string & num)
-{
-	tail_ = num;
 }

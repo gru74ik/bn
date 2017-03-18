@@ -60,6 +60,8 @@ BigInt::BigInt(const BigInt& bi) // #copy ctor
 */
 }
 
+
+
 // checkers ====================================================================
 bool BigInt::is_correct(const std::string& num) const
 {
@@ -144,6 +146,8 @@ bool BigInt::is_zero() const
 	return num.get_number() == "0";
 } // endof is_zero()
 
+
+
 // getters =====================================================================
 size_t BigInt::last_digit_position() const
 {
@@ -154,6 +158,8 @@ size_t BigInt::last_digit_value() const
 {
 	return get_number()[last_digit_position()];
 } // endof last_digit_value()
+
+
 
 // setters =====================================================================
 void BigInt::set_number(const BigInt& bi)
@@ -180,6 +186,8 @@ void BigInt::set_number(const std::string & num)
 	}
 } // endof set_number(const std::string & num)
 
+
+
 // assignment operators ========================================================
 BigInt BigInt::operator=(const BigInt& bi)
 {
@@ -198,6 +206,8 @@ BigInt BigInt::operator=(const std::string& num)
 	}
 	return *this;
 } //endof operator=(const std::string& num)
+
+
 
 // comparison operators ========================================================
 bool BigInt::operator<(const BigInt& bi) const
@@ -352,6 +362,8 @@ bool BigInt::operator==(const BigInt& bi) const
 
 	return !(a < b) && !(a > b);
 } // endof operator==(const BigInt& bi) const
+
+
 
 // arithmetic operators (both operands are same type) ===========================
 BigInt BigInt::operator+(const BigInt& addendum) const
@@ -533,6 +545,8 @@ BigInt BigInt::operator/(const BigInt& divider) const
 	return result;
 } // endof operator/(const BigInt& divider) const
 
+
+
 // arithmetic operators (each operand is different type) =======================
 /*
 BigFloat BigInt::operator+(const BigInt& a, const BigFloat& b)
@@ -584,6 +598,8 @@ const BigInt operator++(BigInt& bi, int fakeArg)
 	bi = bi + one;
 	return oldValue;
 } // endof BigInt operator++(BigInt& bi, int fakeArg)
+
+
 
 // input-output operators ======================================================
 std::istream& operator>>(std::istream& is, BigInt& bi)

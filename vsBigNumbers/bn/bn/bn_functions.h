@@ -27,6 +27,9 @@ size_t char_position(const std::string& str, const char ch);
 // Erases part of string str from position first to position last inclusive:
 void erase_part_of(std::string& str, const size_t first, const size_t last);
 
+// Inserts character ch before position pos:
+void insert_to(std::string& str, const char ch, const size_t pos);
+
 // Inserts string ins before position pos:
 void insert_to(std::string& str, const std::string& ins, const size_t pos);
 
