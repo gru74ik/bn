@@ -27,6 +27,7 @@ public:
 	virtual ~BigFloat() {}
 
 	// checkers ====================================================================
+	bool has_leading_zeros() const;
 	bool is_correct(Notation notation) const;
 	bool is_decimal() const;
 	bool is_scientific() const;

@@ -73,6 +73,27 @@ BigFloat::BigFloat(const BigFloat& bf)
 
 
 // checkers ====================================================================
+bool BigFloat::has_leading_zeros() const
+{
+	bool result = false;
+	if (get_number().size() > 3 && first_digit_value() == 0)
+	{
+		/**/
+		std::cout
+			<< "The object has leading zeros. "
+			<< "Assertion occured in BigFloat.cpp, has_leading_zeros().\n\n"
+			;
+		if (digits_before_dot() > 2)
+		{
+			result = true;
+		}
+	}
+
+
+	return result;
+}
+
+
 bool BigFloat::is_correct(Notation notation) const
 {
 	bool result = true;
