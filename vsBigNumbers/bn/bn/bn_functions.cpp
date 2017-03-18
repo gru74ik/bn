@@ -70,11 +70,13 @@ void erase_part_of(std::string& str, const size_t first, const size_t last)
 		for (size_t i = 0; i < first; ++i)
 		{
 			part_before = part_before + str[i];
-
+/*
+			// #epo() 1
 			std::cout
 				<< "part_before: "
 				<< part_before
-				<<	"\n";
+				<< "Assertion occured in bn_functions.cpp, erase_part_of(), #epo() 1.\n\n";
+*/
 		}
 
 		std::string part_after = "";
@@ -83,13 +85,17 @@ void erase_part_of(std::string& str, const size_t first, const size_t last)
 			for (size_t j = last + 1; j < str.size(); ++j)
 			{
 				part_after = part_after + str[j];
-
+/*
+				// #epo() 2
 				std::cout
 					<< "part_after: "
 					<< part_after
-					<< "\n";
+					<< "Assertion occured in bn_functions.cpp, erase_part_of(), #epo() 2.\n\n";
+*/
 			}
 		}
+/*
+		// #epo() 3
 		std::cout
 			<< "part_before: "
 			<< part_before
@@ -98,14 +104,16 @@ void erase_part_of(std::string& str, const size_t first, const size_t last)
 		std::cout
 			<< "part_after: "
 			<< part_after
-			<< "\n";
-
+			<< "Assertion occured in bn_functions.cpp, erase_part_of(), #epo() 3.\n\n";
+*/
 		str = part_before + part_after;
-
+/*
+		// #epo() 4
 		std::cout
 			<< "str = part_before + part_after: "
 			<< str
 			<< "\n";
+*/
 	}
 } // endof erase_part_of()
 
