@@ -60,7 +60,11 @@ int main()
 	BigInt x("0000000000000000000000000000000000001984");
 	BigInt y("02000");
 	BigInt z("000000000000007770000000000999");
+	x.insert_elem("777", 0);
+	y.insert_elem('6', y.last_digit_position());
+	z.insert_elem('4', z.get_number().size());
 	std::cout
+		<< "\n\n"
 		<< "x: " << x << "\n\n"
 		<< "y: " << y << "\n\n"
 		<< "z: " << z << "\n\n"
