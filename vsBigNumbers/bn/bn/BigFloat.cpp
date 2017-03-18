@@ -510,6 +510,21 @@ void BigFloat::convert_to(Notation notation)
 
 } // endof convert_to()
 
+void BigFloat::pop_front_extra_zeros()
+{
+	for (size_t i = 0; i < position_before(dot_position()); ++i)
+	{
+		if (get_number()[i] == '0')
+		{
+			pop_front_elem();
+		}
+		else
+		{
+			break;
+		}
+	}
+}
+
 void BigFloat::push_back_additional_zeros(const size_t quantity)
 {
 	std::string additionalZeros(quantity, '0');

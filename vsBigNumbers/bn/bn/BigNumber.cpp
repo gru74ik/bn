@@ -62,7 +62,7 @@ void BigNumber::pop_front_extra_zeros() // #pfez
 	{
 		if (number_[i] == '0')
 		{
-			pop_front(number_);
+			pop_front_elem();
 		}
 		else
 		{
@@ -89,6 +89,21 @@ void BigNumber::reverse_number()
 void BigNumber::push_back_elem(const char ch)
 {
 	push_back(number_, ch);
+}
+
+void BigNumber::push_front_elem(const char ch)
+{
+	push_front(number_, ch);
+}
+
+void BigNumber::pop_back_elem()
+{
+	pop_back(number_);
+}
+
+void BigNumber::pop_front_elem()
+{
+	pop_front(number_);
 }
 
 // getters =====================================================================

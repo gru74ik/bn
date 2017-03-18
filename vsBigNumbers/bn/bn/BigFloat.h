@@ -40,6 +40,7 @@ public:
 	void convert_to(Notation notation);
 	//void reverse();
 
+	void pop_front_extra_zeros();
 	void push_back_additional_zeros(const size_t quantity);
 	void pop_back_extra_zeros();
 

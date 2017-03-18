@@ -34,6 +34,9 @@ public:
 	void push_front_additional_zeros(const size_t quantity);
 	void reverse_number();
 	void push_back_elem(const char ch);
+	void push_front_elem(const char ch);
+	void pop_back_elem();
+	void pop_front_elem();
 	
 	// getters =====================================================================
 	size_t leading_zeros() const;		// TODO: implement for BigFloat his own version
