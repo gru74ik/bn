@@ -34,7 +34,7 @@ BigInt::BigInt(const std::string& num) // #ctor(arg)
 	std::cout << "Ctor BigInt::BigInt(const std::string& num) has been called.\n";
 */
 
-	std::cout << "Num after all: " << get_number() << "\n";
+	//std::cout << "Num after all: " << get_number() << "\n";
 }
 
 BigInt::BigInt(const BigInt& bi) // #copy ctor

@@ -32,4 +32,4 @@
 	NOT RELEVANT YET: decide what to do with this function
 
 12. in file BigNumber.cpp in function pop_front_extra_zeros()
-	find out why zeros discards not right (why some zeros left)
+	DONE: find out why zeros discards not right (why some zeros left)

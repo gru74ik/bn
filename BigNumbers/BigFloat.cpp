@@ -970,7 +970,7 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 
     size_t diff; // разница между количеством разрядов
 
-                 // уравниваем количество разрядов обоих чисел до плавающей точки:
+    // уравниваем количество разрядов обоих чисел до плавающей точки:
     if (a.digits_before_dot() < b.digits_before_dot()) // #op+1
     {
 /*
