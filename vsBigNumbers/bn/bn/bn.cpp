@@ -63,6 +63,7 @@ int main()
 	x.insert_elem("777", 0);
 	y.insert_elem('6', y.last_digit_position());
 	z.insert_elem('4', z.get_number().size());
+
 	std::cout
 		<< "\n\n"
 		<< "x: " << x << "\n\n"
