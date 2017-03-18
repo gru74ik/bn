@@ -58,8 +58,8 @@ int main()
 		;
 */
 	BigInt x("6646");
-	x.erase_elem(2); // 666
-	std::cout << x << "\n\n";
+
+	std::cout << "x.first_digit_position(): " << x.first_digit_position() << "\n\n";
 	
 	return 0;
 }
