@@ -57,9 +57,9 @@ int main()
 		<< "\n\n"
 		;
 */
-	BigInt x("1984");
-	
-	std::cout << "x.first_digit_value(): " << x.first_digit_value() << "\n\n";
+	BigInt x("+1984");
+
+	std::cout << "x.get_number(): " << x.get_number() << "\n\n";
 	
 	return 0;
 }
