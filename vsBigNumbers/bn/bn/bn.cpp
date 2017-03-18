@@ -36,7 +36,9 @@ int main()
 	/// 2. порядок - верный
 	/// 3. плавающая точка должна сдигаться влево, но она почему-то вообще не сдвигается
 	/// 4. "съедается" пробел после мантиссы
+*/
 
+/*
 	BigFloat d("0.089");
 
 	// число: 0.089
@@ -55,28 +57,9 @@ int main()
 		<< "\n\n"
 		;
 */
-    
-	std::string str("123456789");
-	std::cout << "str: " << str << "\n\n";
-
-	BigInt x(str);
-	std::cout << "x: " << x << "\n\n";
-
-	erase_part_of(str, 1, 7); // 19
-	std::cout << "str after erasing characters from pos 1 to pos 7: " << str << "\n\n";
-
-	x.erase_elem(1, 7); // 19
-	std::cout << "x after erasing characters from pos 1 to pos 7: " << x << "\n\n";
-
-/*
-	x.erase_elem(1);	// 1
-	std::cout << "x after erasing 7: " << x << "\n";
-
-	std::cout << "x.first_digit_position: " << x.first_digit_position() << "\n";	// 0
-
-	std::cout << "x.first_digit_value: " << x.first_digit_value() << "\n";		// x[0]
-*/
-
-
+	BigInt x("6646");
+	x.erase_elem(2); // 666
+	std::cout << x << "\n\n";
+	
 	return 0;
 }
