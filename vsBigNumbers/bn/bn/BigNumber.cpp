@@ -39,8 +39,11 @@ bool BigNumber::has_leading_zeros() const
 			<< "The object has leading zeros. "
 			<< "Assertion occured in BigNumber.cpp, has_leading_zeros()\n"
 			;
+		if (number_[1] != '.')
+		{
+			result = true;
+		}
 
-		result = true;
 	}
 
 
