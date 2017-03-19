@@ -48,6 +48,8 @@ public:
 
 	void pop_back_elem();
 	void pop_front_elem();
+
+	void clear_number();
 	
 	// getters =====================================================================
 	size_t leading_zeros() const;		// TODO: implement for BigFloat his own version

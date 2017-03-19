@@ -9,9 +9,10 @@
 
 #include <iostream>
 #include <string>
-#include <cctype>
-#include <ctime>
-#include <cstdlib>
+
+#include <cctype>		// can we use this header?
+#include <ctime>		// can we use this header?
+#include <cstdlib>		// can we use this header?
 
 
 //======================================================

@@ -1265,7 +1265,8 @@ void BigFloat::set_number(const std::string& num)
 
 void BigFloat::reset()
 {
-	set_number("0.0  E+0");
+	//clear_number();
+	BigNumber::set_number("0.0  E+0");
 	notation_ = DEFAULT;
 /*
 	std::cout
@@ -1429,7 +1430,7 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 				 // уравниваем количество разрядов обоих чисел до плавающей точки:
 	if (a.digits_before_dot() < b.digits_before_dot()) // #op+1
 	{
-		/*
+/*
 		std::cout << "\n#1\n";
 		std::cout << "we are here because a.digits_before_dot() < b.digits_before_dot():\n";
 		std::cout << "a.digits_before_dot(): " << a.digits_before_dot() << "\n";
@@ -1438,7 +1439,7 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 		std::cout << "current content of number b: " << b.number() << "\n";
 		std::cout << "current content of string aStr: " << aStr << "\n";
 		std::cout << "current content of number bStr: " << bStr << "\n\n";
-		*/
+*/
 		diff = b.digits_before_dot() - a.digits_before_dot();
 		for (size_t i = 0; i < diff; ++i)
 		{
@@ -1448,7 +1449,7 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 	}
 	else if (b.digits_before_dot() < a.digits_before_dot()) // #op+2
 	{
-		/*
+/*
 		std::cout << "\n#2\n";
 		std::cout << "we are here because b.digits_before_dot() < a.digits_before_dot():\n";
 		std::cout << "a.digits_before_dot(): " << a.digits_before_dot() << "\n";
@@ -1457,7 +1458,7 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 		std::cout << "current content of number b: " << b.number() << "\n";
 		std::cout << "current content of string aStr: " << aStr << "\n";
 		std::cout << "current content of number bStr: " << bStr << "\n\n";
-		*/
+*/
 		diff = a.digits_before_dot() - b.digits_before_dot();
 		for (size_t i = 0; i < diff; ++i)
 		{
@@ -1469,7 +1470,7 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 	// уравниваем количество разрядов обоих чисел после плавающей точки:
 	if (a.digits_after_dot() < b.digits_after_dot()) // #op+3
 	{
-		/*
+/*
 		std::cout << "\n#3\n";
 		std::cout << "we are here because a.digits_after_dot() < b.digits_after_dot():\n";
 		std::cout << "a.digits_after_dot(): " << a.digits_after_dot() << "\n";
@@ -1478,7 +1479,7 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 		std::cout << "current content of number b: " << b.number() << "\n";
 		std::cout << "current content of string aStr: " << aStr << "\n";
 		std::cout << "current content of number bStr: " << bStr << "\n\n";
-		*/
+*/
 		diff = b.digits_after_dot() - a.digits_after_dot();
 		for (size_t i = 0; i < diff; ++i)
 		{
@@ -1488,7 +1489,7 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 	}
 	else if (b.digits_after_dot() < a.digits_after_dot()) // #op+4
 	{
-		/*
+/*
 		auto a_it = std::find(a.number().begin(), a.number().end(), '.');
 		auto a_dad = std::distance(a_it + 1, a.number().end());
 
@@ -1509,7 +1510,7 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 
 		std::cout << "current content of string aStr: " << aStr << "\n";
 		std::cout << "current content of string bStr: " << bStr << "\n\n";
-		*/
+*/
 		diff = a.digits_after_dot() - b.digits_after_dot();
 		for (size_t i = 0; i < diff; ++i)
 		{
@@ -1540,7 +1541,7 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 	for (size_t i = 0; i < aStr.size(); ++i)
 	{
 		subtotal = char_to_digit(aStr[i]) + char_to_digit(bStr[i]) + extra;
-		/*
+/*
 		std::cout
 		<< "\n"
 		<< char_to_digit(aStr[i])
@@ -1550,7 +1551,7 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 		<< extra
 		<< ") = "
 		<< subtotal;
-		*/
+*/
 		if (subtotal > BigInt::MAX_DIGIT) // десятичная система, поэтому последняя цифра в разряде 9
 		{
 			extra = subtotal / BigInt::BASE;
@@ -1572,12 +1573,12 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 	if (extra)
 	{
 		push_back(sumStr, digit_to_char(extra));
-		/*
+/*
 		std::cout
-		<< "\nwe add the number we keep in mind (it's "
-		<< extra
-		<< ") to out result and ";
-		*/
+			<< "\nwe add the number we keep in mind (it's "
+			<< extra
+			<< ") to out result and ";
+*/
 		curRes = sumStr;
 		reverse(curRes);
 		extra_dot_shift = 1;

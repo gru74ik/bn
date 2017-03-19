@@ -204,7 +204,10 @@ void BigNumber::pop_front_elem()
 	pop_front(number_);
 }
 
-
+void BigNumber::clear_number()
+{
+	number_.clear();
+}
 
 // getters =====================================================================
 
