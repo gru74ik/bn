@@ -17,22 +17,32 @@ BigFloat::BigFloat()
 BigFloat::BigFloat(const std::string& num)
 	: BigNumber(num)
 {
+/**/
+// #ctor(str) 1
+	std::cout
+		<< "The constructor BigFloat::BigFloat(const std::string& num) has been called."
+		<< "\nAssertion occured in BigFloat.cpp, #ctor(str) 1.\n\n"
+		;
+
 	set_number(num);
 	notation_ = DEFAULT;
-/*
+/**/
+// #ctor(str) 2
 	std::cout
-		<< "In constructor before converting: "
-		<< sign_ << number() << "\n";
-*/
+		<< "The number after BigFloat::set_number(num): "
+		<< get_sign() << get_number()
+		<< "\nAssertion occured in BigFloat.cpp, #ctor(str) 2.\n\n"
+		;
+
 	if (is_correct(DEFAULT))
 	{
-/*
-		// #ctor(str) 1
+/**/
+// #ctor(str) 3
 		std::cout
 			<< "is_correct(DEFAULT) has been called.\n"
-			<< "Assertion occured in BigFloat.cpp, #ctor(str) 1.\n\n"
+			<< "Assertion occured in BigFloat.cpp, #ctor(str) 3.\n\n"
 			;
-*/
+
 		// do nothing
 /*
 		std::cout
@@ -42,13 +52,13 @@ BigFloat::BigFloat(const std::string& num)
 	}
 	else if (is_correct(DECIMAL))
 	{
-/*
-		// #ctor(str) 2
+/**/
+// #ctor(str) 4
 		std::cout
 			<< "is_correct(DECIMAL) has been called.\n"
-			<< "Assertion occured in BigFloat.cpp, #ctor(str) 2.\n\n"
+			<< "Assertion occured in BigFloat.cpp, #ctor(str) 4.\n\n"
 			;
-*/
+
 		// do nothing
 /*
 		std::cout
@@ -58,19 +68,23 @@ BigFloat::BigFloat(const std::string& num)
 	}
 	else if (is_correct(SCIENTIFIC))
 	{
-/*
-		// #ctor(str) 3
+/**/
+// #ctor(str) 5
 		std::cout
 			<< "is_correct(SCIENTIFIC) has been called.\n"
-			<< "Assertion occured in BigFloat.cpp, #ctor(str) 3.\n\n"
+			<< "Assertion occured in BigFloat.cpp, #ctor(str) 5.\n\n"
 			;
-*/
+
 		convert_to(DECIMAL);
-/*
+/**/
+// #ctor(str) 6
 		std::cout
-			<< "\nIn constructor after converting: "
-			<< sign_ << number() << "\n";
-*/
+			<< "convert_to(DECIMAL) has been called.\n"
+			<< "The number after converting from scientific to decimal: "
+			<< get_sign() << get_number()
+			<< "\nAssertion occured in BigFloat.cpp, #ctor(str) 6.\n\n"
+			;
+
 /*
 		std::cout
 			<< "\nConstructor will try create object from string"
@@ -80,21 +94,26 @@ BigFloat::BigFloat(const std::string& num)
 	else
 	{
 		reset();
-/*
-		// #ctor(str) 4
+/**/
+// #ctor(str) 7
 		std::cout
 			<< "reset() has been called.\n"
-			<< "Assertion occured in BigFloat.cpp, ctor(str) 4.\n\n"
+			<< "Assertion occured in BigFloat.cpp, ctor(str) 7.\n\n"
 			;
-*/
+/*
 		std::cout
 			<< "\nConstructor tried create object from string\n"
 			<< "but failed, because string is incorrect.\n"
 			<< "The number you have entered set to zero.\n";
-	}
-/*
-	std::cout << "After all number() in ctor: " << number() << "\n";
 */
+	}
+/**/
+// #ctor(str) 8
+	std::cout
+		<< "After all number() in ctor: " << get_number() << "\n\n"
+		<< "Assertion occured in BigFloat.cpp, ctor(str) 8.\n\n"
+		;
+
 }
 
 BigFloat::BigFloat(const BigInt& bi)
@@ -104,14 +123,20 @@ BigFloat::BigFloat(const BigInt& bi)
 
 BigFloat::BigFloat(const BigFloat& bf)
 {
+/**/
+// #cpy ctor() 1
+	std::cout
+		<< "The copy constructor BigFloat::BigFloat(const BigFloat& bf) has been called."
+		<< "\nAssertion occured in BigFloat.cpp, #cpy ctor() 1.\n\n"
+		;
 	set_number(bf.get_number());
-/*
-	// #cpy ctor() 1
+/**/
+// #cpy ctor() 2
 	std::cout
 		<< "set_number(str) has been called.\n"
-		<< "Assertion occured in BigFloat.cpp, #cpy ctor() 1.\n\n"
+		<< "Assertion occured in BigFloat.cpp, #cpy ctor() 2.\n\n"
 		;
-*/
+
 }
 
 
