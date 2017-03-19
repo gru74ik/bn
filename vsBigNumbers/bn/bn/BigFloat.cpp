@@ -567,11 +567,11 @@ void BigFloat::convert_to(Notation notation)
 			/**/
 			// #conv(arg) 8
 			std::cout
-				<< "number before set_number(get_number() + \" E + \" + number_to_string(shift)): "
+				<< "number before push_back_elem(\" E+\" + number_to_string(shift)): "
 				<< get_number()
 				<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 8\n\n"
 				;
-			set_number(get_number() + " E+" + number_to_string(shift));
+			push_back_elem(" E+" + number_to_string(shift));
 			/**/
 			// #conv(arg) 9
 			std::cout
@@ -582,9 +582,9 @@ void BigFloat::convert_to(Notation notation)
 		}
 		else
 		{	
+			size_t leadingZeros = leading_zeros();
 
-
-			if (leading_zeros()) // TODO: проверить как именно считаются лидирующие нули
+			if (leadingZeros) // TODO: проверить как именно считаются лидирующие нули
 			{
 /**/
 				// #conv(arg) 10
@@ -600,7 +600,7 @@ void BigFloat::convert_to(Notation notation)
 					<< get_number()
 					<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 11\n\n"
 					;
-				move_floating_point(RIGHT, leading_zeros());
+				move_floating_point(RIGHT, leadingZeros);
 /**/
 				// #conv(arg) 12
 				std::cout
@@ -621,11 +621,19 @@ void BigFloat::convert_to(Notation notation)
 /**/
 				// #conv(arg) 13
 				std::cout
-					<< "number before set_number(get_number() + \" E-\" + number_to_string(leading_zeros())): "
+					<< "number before push_back_elem(\" E-\" + number_to_string(leadingZeros)): "
 					<< get_number()
 					<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 13\n\n"
 					;
-				set_number(get_number() + " E-" + number_to_string(leading_zeros()));
+				push_back_elem(" E-" + number_to_string(leadingZeros));
+
+/**/
+				// #conv(arg) 13a
+				std::cout
+					<< "number after set_number(get_number() + \" E-\" + number_to_string(leading_zeros())): "
+					<< get_number()
+					<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 13a\n\n"
+					;
 
 /**/
 				// #conv(arg) 14
