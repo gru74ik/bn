@@ -592,6 +592,9 @@ const BigInt& operator++(BigInt& bi)
 //постфиксная версия возвращает значение до инкремента
 const BigInt operator++(BigInt& bi, int fakeArg)
 {
+	fakeArg++;  // In fact, we don't need this.
+				// This is to avoid compiler warnings.
+
 	BigInt one("1");
 	BigInt oldValue(bi);
 
