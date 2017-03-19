@@ -206,7 +206,8 @@ void BigNumber::pop_front_elem()
 
 void BigNumber::clear_number()
 {
-	number_.clear();
+	//number_.clear();
+	erase_elem(0, number_.size() - 1);
 }
 
 // getters =====================================================================

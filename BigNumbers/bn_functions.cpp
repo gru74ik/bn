@@ -1,99 +1,158 @@
+#include "stdafx.h"
 #include "bn_functions.h"
 
-bool is_sign( const char ch )
-{
-    return ch == '+' || ch == '-';
-}
-
-bool is_digit( const char ch )
-{
-    return ch >= '0' && ch <= '9';
-}
-
-bool is_dot( const char ch )
-{
-    return ch == '.';
-}
-
-bool is_one_char( const std::string& number )
-{
-    return number.size() == 1;
-}
-
-bool contains_one_dot_only( const std::string& number )
+// checkers ====================================================================
+bool contains_one_dot_only(const std::string& number)
 {
     int counter = 0;
-    for ( size_t i = 0; i < number.size(); ++i )
+    for (size_t i = 0; i < number.size(); ++i)
     {
-        if ( is_dot( number[i] ) )
+        if (is_dot(number[i]))
             ++counter;
-        if ( counter > 1)
+        if (counter > 1)
             break;
     }
     return counter == 1;
-}
+} // endof contains_one_dot_only()
 
-size_t char_to_digit( const char ch )
+bool is_digit(const char ch)
 {
-    return ch - '0';
-}
+    //return ch >= '0' && ch <= '9';
+    return isdigit(ch);
+} // endof is_digit()
 
-char digit_to_char( const size_t num )
+bool is_dot(const char ch)
 {
-    return num + '0';
-}
+    return ch == '.' || ch == ',';
+} // endof is_dot()
 
-size_t string_to_number( const std::string& str )
+bool is_one_char(const std::string& number)
 {
-    size_t result = 0;
-    size_t last_elem_index = str.size() - 1;
-    for ( size_t i = 0; i < str.size(); ++i )
-    {
-        result += char_to_digit( str[last_elem_index - i] ) * pow( 10, i );
-    }
-    return result;
-}
+    return number.size() == 1;
+} // endof is_one_char()
 
-std::string number_to_string( size_t number )
+bool is_sign(const char ch)
 {
-    size_t part_of_number;
-    std::string result = "";
-    while ( number )
-    {
-        part_of_number = number % 10;
-        result = digit_to_char( part_of_number ) + result;
-        number /= 10;
-    }
-    return result;
-}
+    return ch == '+' || ch == '-';
+} // endof is_sign()
 
-size_t char_position(const std::string &str, const char ch )
+bool is_space(const char ch)
+{
+    return ch == ' ';
+} // endof is_space()
+
+
+
+// finders =====================================================================
+size_t char_position(const std::string &str, const char ch)
 {
     size_t char_pos = str.size();
-    for ( size_t i = 0; i < str.size(); ++i )
+    for (size_t i = 0; i < str.size(); ++i)
     {
-        if ( str[i] == ch )
+        if (str[i] == ch)
         {
             char_pos = i;
             break;
         }
     }
     return char_pos;
-}
+} // endof char_position()
 
-// string ins will be inserted before position pos:
-void insert_to( std::string& str, const std::string& ins, const size_t pos )
+
+
+// changers ====================================================================
+void erase_part_of(std::string& str, const size_t first, const size_t last)
+{
+    if (first <= last)
+    {
+        std::string part_before = "";
+
+        for (size_t i = 0; i < first; ++i)
+        {
+            part_before = part_before + str[i];
+/*
+            // #epo() 1
+            std::cout
+                << "part_before: "
+                << part_before
+                << "Assertion occured in bn_functions.cpp, erase_part_of(), #epo() 1.\n\n";
+*/
+        }
+
+        std::string part_after = "";
+        if ( last < str.size() - 1)
+        {
+            for (size_t j = last + 1; j < str.size(); ++j)
+            {
+                part_after = part_after + str[j];
+/*
+                // #epo() 2
+                std::cout
+                    << "part_after: "
+                    << part_after
+                    << "Assertion occured in bn_functions.cpp, erase_part_of(), #epo() 2.\n\n";
+*/
+            }
+        }
+/*
+        // #epo() 3
+        std::cout
+            << "part_before: "
+            << part_before
+            << "\n";
+
+        std::cout
+            << "part_after: "
+            << part_after
+            << "Assertion occured in bn_functions.cpp, erase_part_of(), #epo() 3.\n\n";
+*/
+        str = part_before + part_after;
+/*
+        // #epo() 4
+        std::cout
+            << "str = part_before + part_after: "
+            << str
+            << "\n";
+*/
+    }
+} // endof erase_part_of()
+
+void insert_to(std::string& str, const char ch, const size_t pos)
 {
     std::string part_before = "";
-    for ( size_t i = 0; i < pos; ++i )
+    for (size_t i = 0; i < pos; ++i)
         part_before = part_before + str[i];
 
     std::string part_after = "";
     std::string result;
 
-    if ( pos < str.size() )
+    if (pos < str.size())
     {
-        for ( size_t i = pos; i < str.size(); ++i )
+        for (size_t i = pos; i < str.size(); ++i)
+            part_after = part_after + str[i];
+
+        result = part_before + ch + part_after;
+    }
+    else
+    {
+        result = part_before + ch;
+    }
+
+    str = result;
+}
+
+void insert_to(std::string& str, const std::string& ins, const size_t pos)
+{
+    std::string part_before = "";
+    for (size_t i = 0; i < pos; ++i)
+        part_before = part_before + str[i];
+
+    std::string part_after = "";
+    std::string result;
+
+    if (pos < str.size())
+    {
+        for (size_t i = pos; i < str.size(); ++i)
             part_after = part_after + str[i];
 
         result = part_before + ins + part_after;
@@ -104,33 +163,11 @@ void insert_to( std::string& str, const std::string& ins, const size_t pos )
     }
 
     str = result;
-}
+} //endof insert_to()
 
-// part of string str will be erased from
-// position first to position last inclusive:
-void erase_part_of( std::string& str, const size_t first, const size_t last )
+void reverse(std::string& str)
 {
-    if ( first <= last )
-    {
-        std::string part_before = "";
-        size_t i = 0;
-        for ( ; i < first; ++i )
-        {
-            part_before = part_before + str[i];
-        }
-
-        std::string part_after = "";
-        for ( size_t j = i + 1; j < str.size(); ++j )
-        {
-            part_after = part_after + str[j];
-        }
-        str = part_before + part_after;
-    }
-}
-
-void reverse( std::string& str )
-{
-    for ( size_t i = 0, j = str.size() - 1; i < str.size() / 2; ++i, --j )
+    for (size_t i = 0, j = str.size() - 1; i < str.size() / 2; ++i, --j)
     {
         //std::cout << i + 1 << " pair: " << number_[i] << " and " << number_[j] << "\n";
 
@@ -140,49 +177,89 @@ void reverse( std::string& str )
         str[i] = str[j];
         str[j] = temp;
     }
-}
+} // endof reverse()
 
-void push_back( std::string& str, const std::string& substr )
+void pop_back(std::string& str)
 {
-    insert_to( str, substr, str.size() );
-}
+    erase_part_of(str, str.size() - 1, str.size() - 1);
+} // endof pop_back(std::string& str)
 
-void push_back( std::string& str, const char ch )
+void pop_front(std::string& str)
+{
+    erase_part_of(str, 0, 0);
+    //str.erase(0, 1); // or function member 'erase' from std::string class
+} // endof pop_front(std::string& str)
+
+void push_back(std::string& str, const std::string& substr)
+{
+    insert_to(str, substr, str.size());
+} // endof push_back(std::string& str, const std::string& substr)
+
+void push_back(std::string& str, const char ch)
 {
     std::string substr = "";
     substr = substr + ch;
-    insert_to( str, substr, str.size() );
-}
+    insert_to(str, substr, str.size());
+} // endof push_back(std::string& str, const char ch)
 
-void push_front( std::string& str, const std::string& substr )
+void push_front(std::string& str, const std::string& substr)
 {
-    insert_to( str, substr, 0 );
-}
+    insert_to(str, substr, 0);
+} // endof push_front(std::string& str, const std::string& substr)
 
-void push_front( std::string& str, const char ch )
+void push_front(std::string& str, const char ch)
 {
     std::string substr = "";
     substr = substr + ch;
-    insert_to( str, substr, 0 );
-}
+    insert_to(str, substr, 0);
+} // endof push_front(std::string& str, const char ch)
 
-void pop_front( std::string& str )
+
+
+// converters ==================================================================
+size_t char_to_digit(const char ch)
 {
-    erase_part_of( str, 0, 0 );
-}
+    return ch - '0';
+} // endof char_to_digit()
 
-void pop_back( std::string& str )
+char digit_to_char(const size_t num)
 {
-    erase_part_of( str, str.size() - 1, str.size() - 1 );
-}
+    return num + '0';
+} // endof digit_to_char()
+
+std::string number_to_string(size_t number)
+{
+    size_t part_of_number;
+    std::string result = "";
+    while (number)
+    {
+        part_of_number = number % 10;
+        result = digit_to_char(part_of_number) + result;
+        number /= 10;
+    }
+    return result;
+} // endof number_to_string()
+
+size_t string_to_number(const std::string& str)
+{
+    size_t result = 0;
+    size_t last_elem_index = str.size() - 1;
+    for (size_t i = 0; i < str.size(); ++i)
+    {
+        result += char_to_digit(str[last_elem_index - i]) * bn_pow(10, i);
+    }
+    return result;
+} // endof string_to_number()
 
 
-size_t pow( size_t base, size_t exp )
+
+// math functions ==============================================================
+size_t bn_pow(size_t base, size_t exp)
 {
     size_t result = 1;
-    for ( size_t i = 0; i < exp; ++i )
+    for (size_t i = 0; i < exp; ++i)
     {
         result *= base;
     }
     return result;
-}
+} // endof bn_pow()

@@ -12,60 +12,72 @@ N mzn 10 *. 0) ( . Например, число 2.5 можно записать 
 Порядок выполнения работы:
 1.  Определить структуру данных для хранения длинного числа.
 2.  Предусмотреть ввод и вывод чисел обязательно в том формате, который указан
-    в задании.
+в задании.
 3.  Разбивать число на составляющие при вводе нельзя (т.е. число должно
-    считываться сразу полностью).
+считываться сразу полностью).
 4.  STL не пользоваться.
 */
 
-#include <iostream>
-#include <string>
-#include "BigFloatTester.h"
+#include "stdafx.h"
+#include "BigInt.h"
+#include "BigFloat.h"
 #include "bn_functions.h"
 
 int main()
 {
-    //BigFloatTester tester;
-    //tester.menu();
-
 /*
-    BigInt a("9988776655");
-    BigInt b("1234567890");
-
+    BigFloat c("123.45");
+    // число: 123.45
+    // на выходе должно быть: +1.2347 Е+2
     std::cout
-        << "Two big integers (addition):\n"
-        << "a = " << a << "\n"
-        << "b = " << b << "\n"
-        << "a + b = " << a + b << "\n\n"
+        << "c: "
+        << c
+        << "\n\n"
         ;
 */
-
-    BigFloat w("0.000012345");		// +1.2345 e-5
-    BigFloat x("123456.789");       // +1.23456789 E+5
-
-    BigFloat y("+5.6789 e-5");		// 0.000056789
-    BigFloat z("+9.87654321 E+5");	// 987654.321
-
-    std::cout
-        << "Two big floats (addition):\n"
-        << "w = " << w << "\n"
-        << "x = " << x << "\n"
-        << "w + x = " << w + x << "\n\n"
-        ;
-
-    std::cout
-        << "Two big floats (addition):\n"
-        << "y = " << y << "\n"
-        << "z = " << z << "\n"
-        << "y + z = " << y + z << "\n\n"
-        ;
-
 /*
+    BigFloat d("0.089");
+    // число: 0.089
+    // на выходе должно быть: +8.9 Е-2
     std::cout
-        << "Two big floats (multiplication):\n"
-        << "x = " << x << "\n"
-        << "y = " << y << "\n"
-        << "x * y = " << x * y << "\n\n"
+        << "d: "
+        << d
+        << "\n\n"
         ;
 */
+/*
+    std::cout
+        << "c + d = "
+        << (c + d)
+        << "\n\n"
+        ;
+*/
+/*
+    BigInt x("0000000000000000000000000000000000001984");
+    BigInt y("02000");
+    BigInt z("000000000000007770000000000999");
+    x.insert_elem("777", 0);
+    y.insert_elem('6', y.last_digit_position());
+    z.insert_elem('4', z.get_number().size());
+
+    std::cout
+        << "\n\n"
+        << "x: " << x << "\n\n"
+        << "y: " << y << "\n\n"
+        << "z: " << z << "\n\n"
+        ;
+*/
+/*
+    BigFloat x;
+    BigFloat y;
+    std::cout << "Enter two big floating point numbers one by one:\n";
+    std::cin >> x >> y;
+    std::cout << "x + y = " << (x + y) << "\n\n";
+*/
+
+    std::cout << "The number before all is: +1.23456 E+5\n\n";
+    BigFloat a("+1.23456 E+5"); // 123456.0
+    std::cout << a << "\n\n";
+
+    return 0;
 }

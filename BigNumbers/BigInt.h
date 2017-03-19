@@ -1,75 +1,69 @@
 #ifndef BIGINT_H
 #define BIGINT_H
 
-#include <iostream>
-#include <string>
+#include "stdafx.h"
+#include "BigNumber.h"
 
 class BigFloat; // forward declaration
 
 class BigInt
+    : public BigNumber
 {
-private:
-    char sign_;
-    std::string number_;
-
 public:
-    static const size_t BASE = 10; // десятичная система счисления
-    static const size_t MAX_DIGIT = BASE - 1; // максимальная цифра в разряде 9
+    // ctors =======================================================================
+    BigInt();							// is done
+    BigInt(const std::string& num);		// is done
+    BigInt(const BigInt& bi);			// is done
 
-    // constructors:
-    BigInt();
-    BigInt( const std::string& number );
-    BigInt( const BigInt& bi );
+    // dtors =======================================================================
+    virtual ~BigInt() {}				// is done
 
-private:
-    // checkers:
-    bool is_correct() const;
+    // checkers ====================================================================
+    bool is_correct(const std::string& num) const;		// is done
+    bool is_correct() const;							// is done
+    virtual bool is_greater_than_zero() const;			// is done
+    virtual bool is_less_than_zero() const;				// is done
+    virtual bool is_zero() const;						// is done
 
-    // changers:
-    void discard_sign();
-    void add_lead_zeroes( const size_t quantity );
+    // getters =====================================================================
+    virtual size_t last_digit_position() const;			// is done
+    virtual size_t last_digit_value() const;			// is done
 
-    // setters:
-    void set_number( const std::string & number );
-    void reset();
+    // setters =====================================================================
+    void set_number(const BigInt& bi);	// is done
+    void set_number(const std::string & num);	// is done
 
-private:
-    // getters:
-    char sign() const;
-    size_t last_digit_position() const;
-    size_t last_digit() const;
+    // assignment operators ========================================================
+    BigInt operator=(const BigInt& bi);			// is done
+    BigInt operator=(const std::string& num);	// is done
 
-public:
-    std::string number() const ;
+    // comparison operators ========================================================
+    bool operator<(const BigInt& bi) const;		// is done
+    bool operator<=(const BigInt& bi) const;	// TODO: implement it right!
+    bool operator>(const BigInt& bi) const;		// TODO: implement it right!
+    bool operator>=(const BigInt& bi) const;	// TODO: implement it right!
+    bool operator==(const BigInt& bi) const;
 
-    // assignment operators:
-    BigInt operator=( const BigInt& bi );
-    BigInt operator=( const std::string& obj );
+    // arithmetic operators (both operands are same type) ===========================
+    BigInt operator+(const BigInt& addendum) const;		// TODO: implement it right!
+    BigInt operator-(const BigInt& subtrahend) const;	// TODO: implement this function member!
+    BigInt operator*(const BigInt& multiplier) const;	// TODO: implement this function member!
+    BigInt operator/(const BigInt& divider) const;		// TODO: implement this function member!
+/*
+    // Some temporary unresolved troubles here
+    friend BigFloat operator+(const BigInt& a, const BigFloat& b);	// TODO: implement this function member!
+    friend BigFloat operator-(const BigInt& a, const BigFloat& b);	// TODO: implement this function member!
+    friend BigFloat operator*(const BigInt& a, const BigFloat& b);	// TODO: implement this function member!
+    friend BigFloat operator/(const BigInt& a, const BigFloat& b);	// TODO: implement this function member!
+*/
+    // prefix increment:
+    friend const BigInt& operator++(BigInt& i);
+    // postfix increment:
+    friend const BigInt operator++(BigInt& i, int fakeArg); // fakeArg - trick for compiler
 
-    // comparison operators:
-    bool operator<( const BigInt& bi ) const;
-    bool operator<=( const BigInt& bi ) const;
-    bool operator>( const BigInt& bi ) const;
-    bool operator>=( const BigInt& bi ) const;
-    bool operator==( const BigInt& bi ) const;
-
-    // arithmetic operators:
-    BigInt operator+( const BigInt& addendum ) const;
-    BigInt operator-( const BigInt& subtrahend ) const;
-    BigInt operator*( const BigInt& multiplier ) const;
-    BigInt operator/( const BigInt& divider ) const;
-
-    BigFloat operator+( const BigFloat& addendum ) const;
-    BigFloat operator-( const BigFloat& subtrahend ) const;
-    BigFloat operator*( const BigFloat& multiplier ) const;
-    BigFloat operator/( const BigFloat& divider ) const;
-
-    friend const BigInt& operator++( BigInt& i );       //префиксный инкремент
-    friend const BigInt operator++( BigInt& i, int fakeArg );   //постфиксный инкремент
-
-    // input-output operators:
-    friend std::ostream& operator<<( std::ostream& os, const BigInt& bi );
-    friend std::istream& operator>>( std::istream& is, BigInt& bi );
+    // input-output operators ======================================================
+    friend std::ostream& operator<<(std::ostream& os, const BigInt& bi);
+    friend std::istream& operator >> (std::istream& is, BigInt& bi);
 };
 
 #endif // BIGINT_H

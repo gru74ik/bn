@@ -1,111 +1,106 @@
 #ifndef BIGFLOAT_H
 #define BIGFLOAT_H
 
-#include <iostream>
-#include <string>
+#include "stdafx.h"
+#include "BigNumber.h"
 #include "BigInt.h"
 
 class BigFloat
+    : public BigNumber
 {
-// protected:
-public: // remove this label when all tests will completed
-
-    enum Notation { DECIMAL, SCIENTIFIC, DEFAULT, WRONG };
+private:
     enum Direction { LEFT, RIGHT };
 
-    char sign_;
-    std::string number_;
-    std::string tail_;
+public:
+    enum Notation { DEFAULT = 0, DECIMAL, SCIENTIFIC };
+
     Notation notation_;
 
 public:
-    // constructors:
+    // ctors =======================================================================
     BigFloat();
-    BigFloat( const std::string& number );
-    BigFloat( const BigInt &bigInteger );
-    BigFloat( const BigFloat& bf );
+    BigFloat(const std::string & num);
+    BigFloat(const BigInt & bi);
+    BigFloat(const BigFloat & bf);
 
-    // checkers:
-    bool is_scientific() const;
+    // dtors =======================================================================
+    virtual ~BigFloat() {}
+
+    // checkers ====================================================================
+    bool has_extra_leading_zeros() const;
+    bool has_leading_zeros() const;
+    bool is_correct(Notation notation) const;
     bool is_decimal() const;
-    bool is_less_than_zero() const;
-    bool is_greater_than_zero() const;
+    bool is_scientific() const;
 
-// protected:
-public: // remove this label when all tests will completed
-    bool is_correct( Notation notation ) const;
+    virtual bool is_greater_than_zero() const;
+    virtual bool is_less_than_zero() const;
+    virtual bool is_zero() const;
 
-    // changers:
-    void discard_sign();
-    void move_floating_point( Direction dir, size_t shiftSize );
-    void convert_to( Notation notation );
+    // changers ====================================================================
+    void move_floating_point(Direction dir, size_t shiftSize);
+    void convert_to(Notation notation);
     //void reverse();
 
-public: // TODO: remove this label when tests will be completed
-    //void push_front_additional_zeroes( const size_t quantity );
-    void push_back_additional_zeroes( const size_t quantity );
-    void pop_front_extra_zeroes();
-    void pop_back_extra_zeroes();
+    void pop_front_leading_zeros();
+    void push_back_additional_zeros(const size_t quantity);
+    void pop_back_extra_zeros();
 
-    // getters:
+    // getters =====================================================================
+    size_t leading_zeros() const;
+
+    size_t digits_before_dot() const;
     size_t dot_position() const;
     size_t digits_after_dot() const;
-    size_t digits_before_dot() const;
+
     size_t e_position() const;
     size_t digits_after_e() const;
+
     size_t e_value_as_number() const;
     std::string e_value_as_string() const;
-    size_t lead_zeroes() const;
+
     size_t e_sign_position() const;
     char e_sign() const;
-    size_t last_digit_position() const;
-    size_t position_after( size_t pos ) const;
-    size_t position_before( size_t pos ) const;
+
+    virtual size_t last_digit_position() const;
+    virtual size_t last_digit_value() const;
+
     size_t space_position() const;
 
-    char sign() const;
     std::string mantissa() const;
-
-
-public:
-    std::string number() const;
     Notation notation() const;
 
-    // setters:
-    void set_number( const std::string& number );   
+    // setters =====================================================================
+    void set_number(const BigFloat& bf);
+    void set_number(const std::string& num);
     void reset();
 
-// protected:
-public: // remove this label when all tests will completed
-    void mark_as_wrong();
+    // comparison operators ========================================================
+    bool operator<(const BigFloat& bf) const;
+    bool operator<=(const BigFloat& bf) const;
+    bool operator>(const BigFloat& bf) const;
+    bool operator>=(const BigFloat& bf) const;
+    bool operator==(const BigFloat& bf) const;
 
-public:
-    // comparison operators:
-    bool operator<( const BigFloat& bf ) const;
-    bool operator<=( const BigFloat& bf ) const;
-    bool operator>( const BigFloat& bf ) const;
-    bool operator>=( const BigFloat& bf ) const;
-    bool operator==( const BigFloat& bf ) const;
+    // assignment operators ========================================================
+    BigFloat operator=(const BigFloat& bf);
+    BigFloat operator=(const std::string& obj);
 
-    // assignment operators:
-    BigFloat operator=( const BigFloat& bf );
-    BigFloat operator=( const std::string& obj );
+    // arithmetic operators (both operand are same type) ===========================
+    BigFloat operator+(const BigFloat& addendum) const;
+    BigFloat operator-(const BigFloat& subtrahend) const;
+    BigFloat operator*(const BigFloat& multiplier) const;
+    BigFloat operator/(const BigFloat& divider) const;
 
-    // arithmetic operators (both operand are same type):
-    BigFloat operator+( const BigFloat& addendum ) const;
-    BigFloat operator-( const BigFloat& subtrahend ) const;
-    BigFloat operator*( const BigFloat& multiplier ) const;
-    BigFloat operator/( const BigFloat& divider ) const;
+    // arithmetic operators (each operand is different type) =======================
+    BigFloat operator+(const BigInt& addendum) const;
+    BigFloat operator-(const BigInt& subtrahend) const;
+    BigFloat operator*(const BigInt& multiplier) const;
+    BigFloat operator/(const BigInt& divider) const;
 
-    // arithmetic operators (each operand are different type):
-    BigFloat operator+( const BigInt& addendum ) const;
-    BigFloat operator-( const BigInt& subtrahend ) const;
-    BigFloat operator*( const BigInt& multiplier ) const;
-    BigFloat operator/( const BigInt& divider ) const;
-
-    // input-output operators:
-    friend std::istream& operator>>( std::istream& is, BigFloat& bf );
-    friend std::ostream& operator<<( std::ostream& os, const BigFloat& bf );
+    // input-output operators ======================================================
+    friend std::istream& operator >> (std::istream& is, BigFloat& bf);
+    friend std::ostream& operator<<(std::ostream& os, const BigFloat& bf);
 
 };
 
