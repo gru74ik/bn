@@ -237,6 +237,11 @@ size_t BigNumber::leading_zeros() const
 	return quantity_of_leading_zeros;
 }
 
+size_t BigNumber::elem_value(size_t index) const
+{
+	return char_to_digit(number_[index]);
+}
+
 // найти позицию первой цифры числа
 size_t BigNumber::first_digit_position() const
 {

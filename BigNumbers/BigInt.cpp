@@ -445,7 +445,7 @@ BigInt BigInt::operator+(const BigInt& addendum) const
         << "\nAssertion occured in BigInt.cpp, #op+(bi), section 5\n\n"
         ;
 */
-    // излишки (то, что обычно при сложении в столбик "пишем в уме") будем складывать в переменную extra:
+    // излишки (то, что обычно при сложении в столбик "пишем в уме") будем складывать в переменную extra;
     size_t extra = 0;
     // промежуточный итог сложения двух цифр одинакового разряда будем складывать в переменную subtotal:
     size_t subtotal = 0;
@@ -610,6 +610,7 @@ std::istream& operator>>(std::istream& is, BigInt& bi)
 
     bi.set_number(num);
 
+    return is;
 } // endof operator>>(std::istream& is, BigInt& bi)
 
 std::ostream& operator<<(std::ostream& os, const BigInt& bi)

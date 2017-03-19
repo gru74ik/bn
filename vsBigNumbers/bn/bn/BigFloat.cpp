@@ -1678,128 +1678,74 @@ BigFloat BigFloat::operator-(const BigFloat& subtrahend) const // #op-(bf)
 	BigFloat a(*this);
 	BigFloat b(subtrahend);
 
-	std::string aStr = this->get_number();
-	std::string bStr = subtrahend.get_number();
-
-	size_t aNumSize = a.get_number().size();
-	size_t bNumSize = b.get_number().size();
+	size_t aSize = a.get_number().size();
+	size_t bSize = b.get_number().size();
 
 	size_t quantityOfDigitsDiff;
 
+	size_t aDigitsBeforeDot = a.digits_before_dot();
+	size_t bDigitsBeforeDot = b.digits_before_dot();
 	// уравниваем количество разрядов обоих чисел до плавающей точки:
-	if (a.digits_before_dot() < b.digits_before_dot()) // #op-1
+	if (aDigitsBeforeDot < bDigitsBeforeDot) // #op-1
 	{
-		/*
-		std::cout << "\n#op-1\n";
-		std::cout << "we are here because a.digits_before_dot() < b.digits_before_dot():\n";
-		std::cout << "a.digits_before_dot(): " << a.digits_before_dot() << "\n";
-		std::cout << "b.digits_before_dot(): " << b.digits_before_dot() << "\n";
-		std::cout << "current content of number a: " << a.number() << "\n";
-		std::cout << "current content of number b: " << b.number() << "\n";
-		std::cout << "current content of string aStr: " << aStr << "\n";
-		std::cout << "current content of number bStr: " << bStr << "\n\n";
-		*/
-		quantityOfDigitsDiff = b.digits_before_dot() - a.digits_before_dot();
+		quantityOfDigitsDiff = bDigitsBeforeDot - aDigitsBeforeDot;
 		for (size_t i = 0; i < quantityOfDigitsDiff; ++i)
 		{
-			push_front(aStr, "0");
+			a.push_front_elem('0');
 		}
-		//std::cout << "string aStr after pushing front zeros: " << aStr << "\n";
 	}
-	else if (b.digits_before_dot() < a.digits_before_dot()) // #op-2
+	else if (bDigitsBeforeDot < aDigitsBeforeDot) // #op-2
 	{
-		/*
-		std::cout << "\n#op-2\n";
-		std::cout << "we are here because b.digits_before_dot() < a.digits_before_dot():\n";
-		std::cout << "a.digits_before_dot(): " << a.digits_before_dot() << "\n";
-		std::cout << "b.digits_before_dot(): " << b.digits_before_dot() << "\n";
-		std::cout << "current content of number a: " << a.number() << "\n";
-		std::cout << "current content of number b: " << b.number() << "\n";
-		std::cout << "current content of string aStr: " << aStr << "\n";
-		std::cout << "current content of number bStr: " << bStr << "\n\n";
-		*/
-		quantityOfDigitsDiff = a.digits_before_dot() - b.digits_before_dot();
+		quantityOfDigitsDiff = aDigitsBeforeDot - bDigitsBeforeDot;
 		for (size_t i = 0; i < quantityOfDigitsDiff; ++i)
 		{
-			push_front(bStr, "0");
+			b.push_front_elem('0');
 		}
 		//std::cout << "string bStr after pushing front zeros: " << bStr << "\n";
 	}
 
 	// уравниваем количество разрядов обоих чисел после плавающей точки:
-	if (a.digits_after_dot() < b.digits_after_dot()) // #op-3
+	size_t aDigitsAfterDot = a.digits_after_dot();
+	size_t bDigitsAfterDot = b.digits_after_dot();
+	if (aDigitsAfterDot < bDigitsAfterDot) // #op-3
 	{
-		/*
-		std::cout << "\n#op-3\n";
-		std::cout << "we are here because a.digits_after_dot() < b.digits_after_dot():\n";
-		std::cout << "a.digits_after_dot(): " << a.digits_after_dot() << "\n";
-		std::cout << "b.digits_after_dot(): " << b.digits_after_dot() << "\n\n";
-		std::cout << "current content of number a: " << a.number() << "\n";
-		std::cout << "current content of number b: " << b.number() << "\n";
-		std::cout << "current content of string aStr: " << aStr << "\n";
-		std::cout << "current content of number bStr: " << bStr << "\n\n";
-		*/
-		quantityOfDigitsDiff = b.digits_after_dot() - a.digits_after_dot();
+		quantityOfDigitsDiff = bDigitsAfterDot - aDigitsAfterDot;
 		for (size_t i = 0; i < quantityOfDigitsDiff; ++i)
 		{
-			push_back(aStr, "0");
+			a.push_back_elem('0');
 		}
 		//std::cout << "string aStr after pushing back zeros: " << aStr << "\n";
 	}
-	else if (b.digits_after_dot() < a.digits_after_dot()) // #op-4
+	else if (bDigitsAfterDot < aDigitsAfterDot) // #op-4
 	{
-		/*
-		auto a_it = std::find(a.number().begin(), a.number().end(), '.');
-		auto a_dad = std::distance(a_it + 1, a.number().end());
-
-		auto b_it = std::find(b.number().begin(), b.number().end(), '.');
-		auto b_dad = std::distance(b_it + 1, b.number().end());
-
-		std::cout << "\n#op-4\n";
-		std::cout << "we are here because b.digits_after_dot() < a.digits_after_dot():\n";
-
-		std::cout << "a.digits_after_dot(): " << a.digits_after_dot() << "\n";
-		std::cout << "b.digits_after_dot(): " << b.digits_after_dot() << "\n";
-
-		std::cout << "real quantity digits after dot in number a: " << a_dad << "\n";
-		std::cout << "real quantity digits after dot in number b: " << b_dad << "\n";
-
-		std::cout << "current content of number a: " << a.number() << "\n";
-		std::cout << "current content of number b: " << b.number() << "\n";
-
-		std::cout << "current content of string aStr: " << aStr << "\n";
-		std::cout << "current content of string bStr: " << bStr << "\n\n";
-		*/
-		quantityOfDigitsDiff = a.digits_after_dot() - b.digits_after_dot();
+		quantityOfDigitsDiff = aDigitsAfterDot - bDigitsAfterDot;
 		for (size_t i = 0; i < quantityOfDigitsDiff; ++i)
 		{
-			push_back(bStr, "0");
+			b.push_back_elem('0');
 		}
 		//std::cout << "string bStr after pushing back zeros: " << bStr << "\n";
 	}
 
 	// запомним позицию плавающей точки:
-	size_t dot_pos_a = char_position(aStr, '.');
-	size_t dot_pos_b = char_position(bStr, '.');
+	size_t aDotPos = a.dot_position();
+	size_t bDotPos = b.dot_position();
 
 	// уберём из обоих чисел плавающую точку, чтобы не мешала при вычислениях:
-	erase_part_of(aStr, dot_pos_a, dot_pos_a);
-	erase_part_of(bStr, dot_pos_b, dot_pos_b);
-
-	// занимать единичку из старшего разряда будем, складывая её в переменную borrowed:
-	size_t borrowed = 0;
+	a.erase_elem(aDotPos);
+	b.erase_elem(bDotPos);
 
 	// промежуточный итог сложения двух цифр одинакового разряда будем складывать в переменную subtotal:
 	size_t subtotal = 0;
 
-	bool hasBeenCalledBeforeYet = false;
-	size_t limit = aNumSize > bNumSize ? aNumSize : bNumSize;
+	size_t limit = aSize > bSize ? aSize : bSize;
 	size_t minuendDigit = 0;
 	size_t subTrahendDigit = 0;
-	for (size_t i = 0; i < limit; ++i)
+
+	// занимать единичку из старшего разряда будем, складывая её в переменную borrowed:
+	for (size_t i = 0, borrowed = 0; i < limit; ++i)
 	{
-		minuendDigit = char_to_digit(a.get_number()[i]);
-		subTrahendDigit = char_to_digit(b.get_number()[i]);
+		minuendDigit = a.elem_value(i);
+		subTrahendDigit = b.elem_value(i);
 		minuendDigit -= borrowed;
 
 		if (minuendDigit < subTrahendDigit)

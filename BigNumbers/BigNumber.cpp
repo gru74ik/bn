@@ -206,7 +206,8 @@ void BigNumber::pop_front_elem()
 
 void BigNumber::clear_number()
 {
-    number_.clear();
+    //number_.clear();
+    erase_elem(0, number_.size() - 1);
 }
 
 // getters =====================================================================
@@ -234,6 +235,11 @@ size_t BigNumber::leading_zeros() const
         ;
 
     return quantity_of_leading_zeros;
+}
+
+size_t BigNumber::elem_value(size_t index) const
+{
+    return char_to_digit(number_[index]);
 }
 
 // найти позицию первой цифры числа
