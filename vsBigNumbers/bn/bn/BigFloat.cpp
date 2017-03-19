@@ -621,7 +621,7 @@ void BigFloat::convert_to(Notation notation)
 /**/
 				// #conv(arg) 13
 				std::cout
-					<< "number before set_number(get_number() + \" E - \" + number_to_string(leading_zeros())): "
+					<< "number before set_number(get_number() + \" E-\" + number_to_string(leading_zeros())): "
 					<< get_number()
 					<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 13\n\n"
 					;
@@ -630,7 +630,7 @@ void BigFloat::convert_to(Notation notation)
 /**/
 				// #conv(arg) 14
 				std::cout
-					<< "number after set_number(get_number() + \" E - \" + number_to_string(leading_zeros())): "
+					<< "number after set_number(get_number() + \" E-\" + number_to_string(leading_zeros())): "
 					<< get_number()
 					<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 14\n\n"
 					;
@@ -839,41 +839,35 @@ void BigFloat::pop_front_leading_zeros()
 */
 	for (size_t i = 0; i < limit; ++i)
 	{
-		if (get_number()[i] == '0')
+		if (get_number()[0] == '0')
 		{
 /**/
 			// #pflz() 2
 			std::cout
-				<< "Current content of number is: "
-				<< get_number()
-				<< "\nCurrent index of digit is: "
-				<< i
-				<< "\nCurrent digit of number is: "
-				<< get_number()[i]
+				<< "Current content of number is: " << get_number()
+				<< "\nCurrent index of digit is: " << i << " and this element will be erased."
+				<< "\nCurrent digit of number is: " << get_number()[i]
 				<< "\nAssertion occured in BigFloat.cpp, #pflz() 2.\n\n"
 				;
-			erase_elem(i);
+			erase_elem(0);
 /**/
 			// #pflz() 3
 			std::cout
-				<< "BigNumber::erase_elem() has been called by BigFloat::pop_front_leading_zeros().\n"
-				<< "Current content of number is: "
-				<< get_number()
-				<< "Assertion occured in BigFloat.cpp, #pflz() 3.\n\n"
+				<< "BigNumber::erase_elem() has been called by BigFloat::pop_front_leading_zeros()."
+				<< "\nThe element with index: " << i << " has been erased."
+				<< "\nCurrent content of number is: " << get_number()
+				<< "\nAssertion occured in BigFloat.cpp, #pflz() 3.\n\n"
 				;
 		}
-		else if (get_number()[i] == '.')
+		else if (get_number()[0] == '.')
 		{
 /**/
 			// #pflz() 4
 			std::cout
 				<< "BigNumber::pop_front_elem() has been skipped by BigFloat::pop_front_leading_zeros()."
-				<< "\nCurrent content of number is: "
-				<< get_number()
-				<< "\nCurrent index of digit is: "
-				<< i
-				<< "\nCurrent digit of number is: "
-				<< get_number()[i]
+				<< "\nCurrent content of number is: " << get_number()
+				<< "\nCurrent index of digit is: " << i
+				<< "\nCurrent digit of number is: " << get_number()[i]
 				<< "\nAssertion occured in BigFloat.cpp, #pflz() 4.\n\n"
 				;
 			continue;
@@ -884,12 +878,9 @@ void BigFloat::pop_front_leading_zeros()
 			// #pflz() 5
 			std::cout
 				<< "BigNumber::pop_front_elem() has been skipped by BigFloat::pop_front_leading_zeros()."
-				<< "\nCurrent content of number is: "
-				<< get_number()
-				<< "\nCurrent index of digit is: "
-				<< i
-				<< "\nCurrent digit of number is: "
-				<< get_number()[i]
+				<< "\nCurrent content of number is: " << get_number()
+				<< "\nCurrent index of digit is: " << i
+				<< "\nCurrent digit of number is: " << get_number()[i]
 				<< "\nAssertion occured in BigFloat.cpp, #pflz() 5.\n\n"
 				;
 			break;
