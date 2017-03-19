@@ -66,15 +66,18 @@ int main()
 		<< "y: " << y << "\n\n"
 		<< "z: " << z << "\n\n"
 		;
-*/	
-
-/**/
+*/
+/*
 	BigFloat x;
 	BigFloat y;
 	std::cout << "Enter two big floating point numbers one by one:\n";
 	std::cin >> x >> y;
 	std::cout << "x + y = " << (x + y) << "\n\n";
-
+*/
+	
+	
+	BigFloat a("+12345.6 E+5"); // 123456.0
+	std::cout << a << "\n\n";
 
 	return 0;
 }

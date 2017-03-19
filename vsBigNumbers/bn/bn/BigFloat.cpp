@@ -156,42 +156,52 @@ bool BigFloat::is_correct(Notation notation) const
 	{
 	case SCIENTIFIC:
 	{
-/*
-		// #iscor(sci) 1
+/**/
+// #iscor(sci) 1
 		std::cout
 			<< "\nThe scientific number notation assertion.\n"
 			<< "Assertion occured in BigFloat.cpp, is_correct(), #iscor(sci) 1.\n\n"
 			;
-*/
+
 		// проверяем, что строка содержит пробел:
 		if (spacePos == numSize)
 		{
 			result = false;
-/*
-			std::cout <<
-				"\nThe scientific number notation is incorrect, because"
-				"\nthe number have to contain 1 space at least.\n";
-*/
+/**/
+// #iscor(sci) 2
+			std::cout
+				<<
+				"The scientific number notation is incorrect, because "
+				"the number have to contain 1 space at least.\n"
+				<< "Assertion occured in BigFloat.cpp, is_correct(), #iscor(sci) 2.\n\n"
+				;
+
 		}
 		// проверяем, что строка содержит букву 'e' или 'E':
 		else if (ePos == numSize)
 		{
 			result = false;
-/*
+/**/
+// #iscor(sci) 3
 			std::cout <<
-				"\nThe scientific number notation is incorrect, because"
-				"\nthe number have to contain 1 letter 'e' or 'E'.\n";
-*/
+				"The scientific number notation is incorrect, because "
+				"the number have to contain 1 letter 'e' or 'E'.\n"
+				"Assertion occured in BigFloat.cpp, is_correct(), #iscor(sci) 3.\n\n"
+				;
+
 		}
 		// проверяем, что строка содержит точку и точка только одна:
 		else if (!contains_one_dot_only(get_number()))
 		{
 			result = false;
-/*
+/**/
+// #iscor(sci) 4
 			std::cout <<
-				"\nThe scientific number notation is incorrect, because"
-				"\nthe number have to contain 1 dot (no more and no less).\n";
-*/
+				"The scientific number notation is incorrect, because "
+				"the number have to contain 1 dot (no more and no less).\n"
+				"Assertion occured in BigFloat.cpp, is_correct(), #iscor(sci) 4.\n\n"
+				;
+
 		}
 		else
 		{
@@ -201,11 +211,14 @@ bool BigFloat::is_correct(Notation notation) const
 				if (!is_digit(get_number()[i]) && !is_dot(get_number()[i]))
 				{
 					result = false;
-/*
+/**/
+// #iscor(sci) 5
 					std::cout <<
-						"\nThe scientific number notation is incorrect, because"
-						"\nthe number contains forbidden characters before space.\n";
-*/
+						"The scientific number notation is incorrect, because "
+						"the number contains forbidden characters before space.\n"
+						"Assertion occured in BigFloat.cpp, is_correct(), #iscor(sci) 5.\n\n"
+						;
+
 					break;
 				}
 			}
@@ -213,21 +226,27 @@ bool BigFloat::is_correct(Notation notation) const
 			if (ePos != position_after(spacePos))
 			{
 				result = false;
-/*
+/**/
+// #iscor(sci) 6
 				std::cout <<
-					"\nThe scientific number notation is incorrect,"
-					"\nbecause letter was not found after space.\n";
-*/
+					"The scientific number notation is incorrect, "
+					"because letter was not found after space.\n"
+					"Assertion occured in BigFloat.cpp, is_correct(), #iscor(sci) 6.\n\n"
+					;
+
 			}
 			// проверяем что за буквой 'e' или 'E' следует знак плюс или минус:
 			else if (!is_sign(get_number()[eSignPos]))
 			{
 				result = false;
-/*
+/**/
+// #iscor(sci) 7
 				std::cout <<
-					"\nThe scientific number notation is incorrect,"
-					"\nbecause sign was not found after letter.\n";
-*/
+					"The scientific number notation is incorrect, "
+					"because sign was not found after letter.\n"
+					"Assertion occured in BigFloat.cpp, is_correct(), #iscor(sci) 7.\n\n"
+					;
+
 			}
 			else
 			{
@@ -237,35 +256,37 @@ bool BigFloat::is_correct(Notation notation) const
 					if (!is_digit(get_number()[i]))
 					{
 						result = false;
-/*
+/**/
+// #iscor(sci) 8
 						std::cout <<
-							"\nThe scientific number notation is incorrect,"
-							"\nbecause was found forbidden characters after sign.\n";
-*/
+							"The scientific number notation is incorrect, "
+							"because was found forbidden characters after sign.\n"
+							"Assertion occured in BigFloat.cpp, is_correct(), #iscor(sci) 8.\n\n"
+							;
+
 						break;
 					}
 				}
 			}
 		}
-/*
+/**/
+// #iscor(sci) 9
 		std::cout
-			<< "\nis_correct( SCIENTIFIC ): "
-			<< std::boolalpha
-			<< result
-			<< std::noboolalpha
-			<< "\n";
-*/
+			<< "is_correct(SCIENTIFIC): " << std::boolalpha << result << std::noboolalpha
+			<< "\nAssertion occured in BigFloat.cpp, is_correct(), #iscor(sci) 9.\n\n"
+			;
+
 		break;
 	}
 
 	case DECIMAL:
-/*
-		// #iscor(dec) 2
+/**/
+// #iscor(dec) 1
 		std::cout
 			<< "\nThe decimal number notation assertion.\n"
-			<< "Assertion occured in BigFloat.cpp, is_correct(), #iscor(dec) 2.\n\n"
+			<< "Assertion occured in BigFloat.cpp, is_correct(), #iscor(dec) 1.\n\n"
 			;
-*/
+
 		// проверяем, что строка содержит точку и точка только одна:
 		if (contains_one_dot_only(get_number()))
 		{
@@ -275,11 +296,14 @@ bool BigFloat::is_correct(Notation notation) const
 				if (!is_digit(get_number()[i]) && !is_dot(get_number()[i]))
 				{
 					result = false;
-/*
+/**/
+// #iscor(dec) 2
 					std::cout <<
-						"\nThe decimal notation of this number is incorrect,"
-						"\nbecause it contains forbidden characters.\n";
-*/
+						"\nThe decimal notation of this number is incorrect, "
+						"because it contains forbidden characters.\n"
+						"Assertion occured in BigFloat.cpp, is_correct(), #iscor(dec) 2.\n\n"
+						;
+
 					break;
 				}
 			}
@@ -287,42 +311,56 @@ bool BigFloat::is_correct(Notation notation) const
 		else
 		{
 			result = false;
-/*
+/**/
+// #iscor(dec) 3
 			std::cout <<
-				"\nThe decimal notation of this number is incorrect,"
-				"\nbecause it contains more than 1 dot.\n";
-*/
+				"\nThe decimal notation of this number is incorrect, "
+				"because it contains more than 1 dot.\n"
+				"Assertion occured in BigFloat.cpp, is_correct(), #iscor(dec) 3.\n\n"
+				;
+
 		}
-/*
+/**/
+// #iscor(dec) 4
 		std::cout
-			<< "\nis_correct( DECIMAL ): "
-			<< std::boolalpha
-			<< result
-			<< std::noboolalpha
-			<< "\n";
-*/
+			<< "\nis_correct(DECIMAL): " << std::boolalpha << result << std::noboolalpha
+			<< "\nAssertion occured in BigFloat.cpp, is_correct(), #iscor(dec) 4.\n\n"
+			;
+
 		break;
 
 	case DEFAULT:
-/*
-		// #iscor(dft) 3
+/**/
+// #iscor(dft) 1
 		std::cout
 			<< "\nThe default number notation assertion.\n"
-			<< "Assertion occured in BigFloat.cpp, is_correct(), #iscor(dft) 3.\n\n"
+			<< "Assertion occured in BigFloat.cpp, is_correct(), #iscor(dft) 1.\n\n"
 			;
-*/
+
 		if (!is_zero())
 		{
 			result = false;
-/*
-			std::cout << "\nThis number is not equal to zero.\n"
-*/
+/**/
+// #iscor(dft) 2
+			std::cout <<
+				"\nThe default notation of this number is incorrect, "
+				"because the number is not equal to zero.\n"
+				"Assertion occured in BigFloat.cpp, is_correct(), #iscor(dft) 2.\n\n"
+				;
+
 		}
 		break;
+/**/
+// #iscor(dft) 3
+		std::cout
+			<< "\nis_correct(DEFAULT): " << std::boolalpha << result << std::noboolalpha
+			<< "\nAssertion occured in BigFloat.cpp, is_correct(), #iscor(dft) 3.\n\n"
+			;
 
 	default:
 		std::cout << "\nError: incorrect function argument\n";
 		break;
+
 
 	} // endof switch ( notation )
 
