@@ -24,26 +24,23 @@ BigFloat::BigFloat(const std::string& num)
 		<< "\nAssertion occured in BigFloat.cpp, #ctor(str) 1.\n\n"
 		;
 */
-	set_number(num);
-	notation_ = DEFAULT;
-/*
-// #ctor(str) 2
-	std::cout
-		<< "The number after BigFloat::set_number(num): "
-		<< get_sign() << get_number()
-		<< "\nAssertion occured in BigFloat.cpp, #ctor(str) 2.\n\n"
-		;
-*/
 	if (is_correct(DEFAULT))
 	{
 /*
-// #ctor(str) 3
+// #ctor(str) 2
 		std::cout
 			<< "is_correct(DEFAULT) has been called.\n"
-			<< "Assertion occured in BigFloat.cpp, #ctor(str) 3.\n\n"
+			<< "Assertion occured in BigFloat.cpp, #ctor(str) 2.\n\n"
 			;
 */
-		// do nothing
+		reset();
+/*
+		// #ctor(str) 3
+		std::cout
+			<< "reset() has been called.\n"
+			<< "Assertion occured in BigFloat.cpp, ctor(str) 3.\n\n"
+			;
+*/
 /*
 		std::cout
 			<< "\nConstructor will try create object from string"
@@ -91,6 +88,10 @@ BigFloat::BigFloat(const std::string& num)
 			<< "\nthat represent number in scientific notation.\n";
 */
 	}
+	else if (contains_digits_only(num))
+	{
+		push_back_elem(".0");
+	}
 	else
 	{
 		reset();
@@ -120,7 +121,7 @@ BigFloat::BigFloat(const std::string& num)
 BigFloat::BigFloat(const BigInt& bi)
 	: BigNumber(bi.get_sign() + bi.get_number())
 {
-	BigNumber::set_number(bi.get_number() + ".0");
+	push_back_elem(".0");
 }
 
 BigFloat::BigFloat(const BigFloat& bf)
@@ -171,6 +172,11 @@ bool BigFloat::has_leading_zeros() const
 			;
 */
 	return first_digit_value() == 0 ? true : false;
+}
+
+bool BigFloat::has_trailing_zeros() const
+{
+	return char_position(get_number(), '0') != get_number().size();
 }
 
 bool BigFloat::is_correct(Notation notation) const
@@ -995,16 +1001,33 @@ void BigFloat::pop_back_extra_zeros()
 
 
 // getters =====================================================================
+size_t BigFloat::extra_leading_zeros() const
+{	
+	// for example:
+	// number 000012.345 has 4 extra leading zeros (normal view: 12.345)
+	// number 0000.00666 has 3 extra leading zeros (normal view: 0.00666)
+
+	size_t extraLeadingZeros = 0;
+
+	// TODO: implement this function
+
+	return extraLeadingZeros;
+}
+
 size_t BigFloat::leading_zeros() const
 {
-	size_t quantity_of_leading_zeros = 0;
+	// for example:
+	// number 000012.345 has 4 leading zeros
+	// number 0000.00666 has 6 leading zeros
+
+	size_t LeadingZeros = 0;
 	if (has_leading_zeros())
 	{
 		for (size_t i = 0; i < last_digit_position(); ++i)
 		{
 			if (get_number()[i] == '0')
 			{
-				++quantity_of_leading_zeros;
+				++LeadingZeros;
 			}
 			else if (get_number()[i] == '.')
 			{
@@ -1024,7 +1047,16 @@ size_t BigFloat::leading_zeros() const
 		<< "\nAssertion occured in BigFloat.cpp, leading_zeros().\n\n"
 		;
 */
-	return quantity_of_leading_zeros;
+	return LeadingZeros;
+}
+
+size_t BigFloat::trailing_zeros() const
+{
+	size_t trailingZeros = 0;
+
+	// TODO: implement this function
+
+	return trailingZeros;
 }
 
 size_t BigFloat::dot_position() const

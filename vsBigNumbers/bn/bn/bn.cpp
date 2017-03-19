@@ -52,37 +52,42 @@ int main()
 		<< "\n\n"
 		;
 */
-/*
+
 	BigInt x("0000000000000000000000000000000000001984");
 	BigInt y("02000");
-	BigInt z("000000000000007770000000000999");
+	BigInt z("00000000000000777000999");
+/*
 	x.insert_elem("777", 0);
 	y.insert_elem('6', y.last_digit_position());
 	z.insert_elem('4', z.get_number().size());
-
+*/
 	std::cout
-		<< "\n\n"
 		<< "x: " << x << "\n\n"
 		<< "y: " << y << "\n\n"
 		<< "z: " << z << "\n\n"
 		;
-*/
-/**/
-	BigFloat x;
-	BigFloat y;
-	std::string choice = "y";
 
+	BigFloat a(x);
+	BigFloat b(y);
+	BigFloat c(z);
+	std::cout
+		<< "a: " << a << "\n\n"
+		<< "b: " << b << "\n\n"
+		<< "c: " << c << "\n\n"
+		;
+/*
+	std::string choice = "y";
 	while (choice[0] == 'y' || choice[0] == 'Y')
 	{
 		std::cout << "Enter two big floating point numbers one by one:\n";
-		std::cin >> x >> y;
+		std::cin >> m >> s;
 		std::cout
-			<< "x + y = " << (x + y) << "\n\n"
+			<< "m - s = " << (m - s) << "\n\n"
 			<< "Do you want proceed? (y/n)";
 		std::cin >> choice;
 		std::cout << "\n\n";
 	}
-
+*/
 
 /*	
 	std::cout << "The number a before all is: +1.23456 E+5\n\n";

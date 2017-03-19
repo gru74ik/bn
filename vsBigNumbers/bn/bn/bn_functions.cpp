@@ -2,15 +2,35 @@
 #include "bn_functions.h"
 
 // checkers ====================================================================
-bool contains_one_dot_only(const std::string& number)
+bool contains_digits_only(const std::string& num)
+{
+	bool result = true;
+	for (size_t i = 0; i < num.size(); ++i)
+	{
+		if (!is_digit(num[i]))
+		{
+			result = false;
+			break;
+		}
+	}
+	return result;
+} // endof contains_digits_only()
+
+bool contains_one_dot_only(const std::string& num)
 {
 	int counter = 0;
-	for (size_t i = 0; i < number.size(); ++i)
+	for (size_t i = 0; i < num.size(); ++i)
 	{
-		if (is_dot(number[i]))
+		if (is_dot(num[i]))
+		{
 			++counter;
+		}
+
 		if (counter > 1)
+		{
 			break;
+		}
+
 	}
 	return counter == 1;
 } // endof contains_one_dot_only()
@@ -26,9 +46,9 @@ bool is_dot(const char ch)
 	return ch == '.' || ch == ',';
 } // endof is_dot()
 
-bool is_one_char(const std::string& number)
+bool is_one_char(const std::string& num)
 {
-	return number.size() == 1;
+	return num.size() == 1;
 } // endof is_one_char()
 
 bool is_sign(const char ch)
@@ -227,15 +247,15 @@ char digit_to_char(const size_t num)
 	return num + '0';
 } // endof digit_to_char()
 
-std::string number_to_string(size_t number)
+std::string number_to_string(size_t num)
 {
-	size_t part_of_number;
+	size_t part_of_num;
 	std::string result = "";
-	while (number)
+	while (num)
 	{
-		part_of_number = number % 10;
-		result = digit_to_char(part_of_number) + result;
-		number /= 10;
+		part_of_num = num % 10;
+		result = digit_to_char(part_of_num) + result;
+		num /= 10;
 	}
 	return result;
 } // endof number_to_string()

@@ -29,6 +29,8 @@ public:
 	// checkers ====================================================================
 	bool has_extra_leading_zeros() const;
 	bool has_leading_zeros() const;
+	bool has_trailing_zeros() const;
+
 	bool is_correct(Notation notation) const;
 	bool is_decimal() const;
 	bool is_scientific() const;
@@ -47,7 +49,9 @@ public:
 	void pop_back_extra_zeros();
 
 	// getters =====================================================================
+	size_t extra_leading_zeros() const;
 	size_t leading_zeros() const;
+	size_t trailing_zeros() const;
 
 	size_t digits_before_dot() const;
 	size_t dot_position() const;
