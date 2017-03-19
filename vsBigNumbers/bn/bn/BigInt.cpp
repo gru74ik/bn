@@ -604,7 +604,12 @@ const BigInt operator++(BigInt& bi, int fakeArg)
 // input-output operators ======================================================
 std::istream& operator>>(std::istream& is, BigInt& bi)
 {
-	is >> bi.get_number();
+	std::string num;
+	std::cin.ignore(std::cin.rdbuf()->in_avail());
+	std::getline(std::cin, num);
+
+	bi.set_number(num);
+
 	return is;
 } // endof operator>>(std::istream& is, BigInt& bi)
 

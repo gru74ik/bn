@@ -67,14 +67,14 @@ int main()
 		<< "z: " << z << "\n\n"
 		;
 */
-/*
+/**/
 	BigFloat x;
 	BigFloat y;
 	std::cout << "Enter two big floating point numbers one by one:\n";
 	std::cin >> x >> y;
 	std::cout << "x + y = " << (x + y) << "\n\n";
-*/
-	
+
+/*	
 	std::cout << "The number a before all is: +1.23456 E+5\n\n";
 	BigFloat a("+2.95638 E+3"); // 2956.38
 	std::cout << "a: " << a << "\n\n";
@@ -84,6 +84,6 @@ int main()
 	std::cout << "b: " << b << "\n\n";
 
 	std::cout << "a - b: " << (a - b) << "\n\n";
-
+*/
 	return 0;
 }

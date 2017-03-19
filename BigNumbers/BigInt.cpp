@@ -445,7 +445,7 @@ BigInt BigInt::operator+(const BigInt& addendum) const
         << "\nAssertion occured in BigInt.cpp, #op+(bi), section 5\n\n"
         ;
 */
-    // излишки (то, что обычно при сложении в столбик "пишем в уме") будем складывать в переменную extra;
+    // излишки (то, что обычно при сложении в столбик "пишем в уме") будем складывать в переменную extra:
     size_t extra = 0;
     // промежуточный итог сложения двух цифр одинакового разряда будем складывать в переменную subtotal:
     size_t subtotal = 0;
@@ -604,8 +604,12 @@ const BigInt operator++(BigInt& bi, int fakeArg)
 // input-output operators ======================================================
 std::istream& operator>>(std::istream& is, BigInt& bi)
 {
-    is >> bi.get_number();
-    return is;
+    std::string num;
+    std::cin.ignore(std::cin.rdbuf()->in_avail());
+    std::getline(std::cin, num);
+
+    bi.set_number(num);
+
 } // endof operator>>(std::istream& is, BigInt& bi)
 
 std::ostream& operator<<(std::ostream& os, const BigInt& bi)

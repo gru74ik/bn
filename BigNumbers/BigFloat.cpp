@@ -118,11 +118,13 @@ BigFloat::BigFloat(const std::string& num)
 }
 
 BigFloat::BigFloat(const BigInt& bi)
+    : BigNumber(bi.get_sign() + bi.get_number())
 {
     BigNumber::set_number(bi.get_number() + ".0");
 }
 
 BigFloat::BigFloat(const BigFloat& bf)
+    : BigNumber(bf.get_sign() + bf.get_number())
 {
 /**/
 // #cpy ctor() 1
@@ -146,7 +148,7 @@ BigFloat::BigFloat(const BigFloat& bf)
 bool BigFloat::has_extra_leading_zeros() const
 {
     bool result = false;
-    size_t leadingZerosBeforeAnotherDigit = 0;
+
     if (digits_before_dot() > 1)
     {
         if (first_digit_value() == 0)
@@ -972,7 +974,7 @@ void BigFloat::pop_front_leading_zeros()
 void BigFloat::push_back_additional_zeros(const size_t quantity)
 {
     std::string additionalZeros(quantity, '0');
-    insert_to(get_number(), additionalZeros, position_after(last_digit_position()));
+    insert_elem(additionalZeros, space_position());
 }
 
 void BigFloat::pop_back_extra_zeros()
@@ -1799,8 +1801,8 @@ BigFloat BigFloat::operator*(const BigFloat& multiplier) const // #op*(bf)
     size_t finProdDotPos = product.digits_after_dot() + mult.digits_after_dot();
 
     // уберём из обоих чисел плавающую точку, чтобы не мешала при вычислениях:
-    erase_part_of(product.get_number(), curProdDotPos, curProdDotPos);
-    erase_part_of(mult.get_number(), curMultDotPos, curMultDotPos);
+    product.erase_elem(curProdDotPos);
+    mult.erase_elem(curMultDotPos);
 
     BigInt limit(mult.get_number());
     for (BigInt i("0"); i < limit; ++i)
@@ -1808,7 +1810,7 @@ BigFloat BigFloat::operator*(const BigFloat& multiplier) const // #op*(bf)
         product = product + addition;
     }
 
-    insert_to(product.get_number(), ".", finProdDotPos);
+    product.insert_elem('.', finProdDotPos);
 
     return product;
 } // endof // #op*(bf)
