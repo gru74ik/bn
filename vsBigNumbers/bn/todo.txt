@@ -38,10 +38,10 @@
 	DONE: ñheck out how exactly pop_front_extra_zeros() removes leading zeros
 
 14. in file BigFloat.cpp in ctors and setters
-	TODO: ñheck out if they works properly
+	DONE: ñheck out if they works properly
 
 15. BigFloat total testing:
-	TODO: ñheck out if all functions calling by constructors works properly
+	DONE: ñheck out if all functions calling by constructors works properly
 
 	Default ctor BigFloat::BigFloat():
 			void BigFloat::set_number(const std::string& num);
@@ -69,7 +69,5 @@
 				BigFloat::e_sign();
 				move_floating_point(RIGHT, arg);
 				BigNumber::erase_elem(first, last);
-
-
 
 			void BigFloat::reset()

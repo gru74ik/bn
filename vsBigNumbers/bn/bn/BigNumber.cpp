@@ -40,7 +40,7 @@ bool BigNumber::has_leading_zeros() const
 
 	if (dotPos != number_.size())
 	{
-		/**/
+/*
 		// #hlz() 1
 		std::cout
 			<< "The number is float pointing because "
@@ -50,9 +50,10 @@ bool BigNumber::has_leading_zeros() const
 			<< "Discarding of extra zeros is not necessary.\n"
 			<< "Assertion occured in BigNumber.cpp, has_leading_zeros(), #hlz() 3\n\n"
 			;
+*/
 		if (dotPos > 1)
 		{
-			/**/
+/*
 			// #hlz() 2
 			std::cout
 				<< "The number has leading zeros "
@@ -61,12 +62,13 @@ bool BigNumber::has_leading_zeros() const
 				<< "\nand number_.size() is: " << number_.size() << "\n"
 				<< "Assertion occured in BigNumber.cpp, has_leading_zeros(), #hlz() 4\n\n"
 				;
+*/
 			result = true;
 		}
 	}
 	else
 	{
-		/**/
+/*
 		// #hlz() 3
 		std::cout
 			<< "The number is integer because "
@@ -75,10 +77,10 @@ bool BigNumber::has_leading_zeros() const
 			<< "\nand number_.size() is: " << number_.size() << "\n"
 			<< "Assertion occured in BigNumber.cpp, has_leading_zeros(), #hlz() 4\n\n"
 			;
-
+*/
 		if (number_.size() > 1 && first_digit_value() == 0)
 		{
-			/**/
+/*
 			// #hlz() 4
 			std::cout
 				<< "Condition (number_.size() > 1 && first_digit_value() == 0) is true because:\n"
@@ -86,16 +88,15 @@ bool BigNumber::has_leading_zeros() const
 				<< "first_digit_value(): " << first_digit_value() << "\n"
 				<< "Assertion occured in BigNumber.cpp, has_leading_zeros(), #hlz() 1\n\n"
 				;
-
-
-			/**/
+*/
+/*
 			// #hlz() 5
 			std::cout
 				<< "size_t dotPos = char_position(number_, '.'): "
 				<< dotPos
 				<< ". Assertion occured in BigNumber.cpp, has_leading_zeros(), #hlz() 2\n\n"
 				;
-
+*/
 			result = true;
 		}		
 	}
@@ -117,8 +118,9 @@ void BigNumber::discard_sign()
 // вытолкнуть спереди (отбросить) лишние нули
 void BigNumber::pop_front_extra_zeros() // #pfez
 {	// TODO: implement for BigFloat his own version
-
+/*
 	std::cout << "Function member BigNumber::pop_front_extra_zeros() has been called.\n\n";
+*/
 	size_t fromPos = 0, toPos = 0;
 	for (size_t i = 0; i < number_.size() - 1; ++i)
 	{
