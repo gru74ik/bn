@@ -46,19 +46,24 @@ public:
 	void pop_back_extra_zeros();
 
 	// getters =====================================================================
+	size_t leading_zeros() const;
+
+	size_t digits_before_dot() const;
 	size_t dot_position() const;
 	size_t digits_after_dot() const;
-	size_t digits_before_dot() const;
-
+	
 	size_t e_position() const;
 	size_t digits_after_e() const;
+
 	size_t e_value_as_number() const;
 	std::string e_value_as_string() const;
+
 	size_t e_sign_position() const;
 	char e_sign() const;
 
 	virtual size_t last_digit_position() const;
 	virtual size_t last_digit_value() const;
+
 	size_t space_position() const;
 
 	std::string mantissa() const;

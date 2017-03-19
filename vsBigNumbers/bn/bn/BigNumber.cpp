@@ -53,30 +53,30 @@ bool BigNumber::has_leading_zeros() const
 		std::cout
 			<< "size_t dotPos = char_position(number_, '.'): "
 			<< dotPos
-			<< "Assertion occured in BigNumber.cpp, has_leading_zeros(), #hlz() 2\n\n"
+			<< ". Assertion occured in BigNumber.cpp, has_leading_zeros(), #hlz() 2\n\n"
 			;
 
 		if (dotPos != number_.size())
 		{
 			/**/
-			// #hlz() 2
+			// #hlz() 3
 			std::cout
 				<< "The number is float pointing because "
 				<< "condition (dotPos != number_.size()) is true.\n"
 				<< "dotPos is : " << dotPos << "\n"
-				<< "\nand number_.size() is: " << number_.size() << "\n"
-				<< "Assertion occured in BigNumber.cpp, has_leading_zeros(), #hlz() 2\n\n"
+				<< "and number_.size() is: " << number_.size() << "\n"
+				<< "Assertion occured in BigNumber.cpp, has_leading_zeros(), #hlz() 3\n\n"
 				;
 			if (dotPos > 1)
 			{
 				/**/
-				// #hlz() 3
+				// #hlz() 4
 				std::cout
 					<< "The number has leading zeros "
 					<< "because condition (dotPos > 1) is true.\n"
 					<< "dotPos is : " << dotPos << "\n"
 					<< "\nand number_.size() is: " << number_.size() << "\n"
-					<< "Assertion occured in BigNumber.cpp, has_leading_zeros(), #hlz() 3\n\n"
+					<< "Assertion occured in BigNumber.cpp, has_leading_zeros(), #hlz() 4\n\n"
 					;
 				result = true;
 			}
@@ -220,14 +220,13 @@ size_t BigNumber::leading_zeros() const
 			break;
 		}
 	}
-/*
+/**/
 	std::cout
 		<< "The quantity of leading zeros is: "
 		<< quantity_of_leading_zeros
-		<< ". Assertion occured in BigNumber.cpp, "
-		<< "in function leading_zeros().\n"
+		<< ". Assertion occured in BigNumber.cpp, leading_zeros().\n\n"
 		;
-*/
+
 	return quantity_of_leading_zeros;
 }
 

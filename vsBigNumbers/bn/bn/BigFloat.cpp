@@ -93,7 +93,6 @@ bool BigFloat::has_leading_zeros() const
 	return result;
 }
 
-
 bool BigFloat::is_correct(Notation notation) const
 {
 	bool result = true;
@@ -799,6 +798,34 @@ void BigFloat::pop_back_extra_zeros()
 
 
 // getters =====================================================================
+size_t BigFloat::leading_zeros() const
+{
+	size_t quantity_of_leading_zeros = 0;
+	if (digits_before_dot() > 1)
+	{
+		for (size_t i = 0; i < position_before(dot_position()); ++i)
+		{	// TODO: для BigFloat заменить граничащее условие окончания цикла
+			if (get_number()[i] == '0')
+			{
+				++quantity_of_leading_zeros;
+			}
+			else
+			{
+				break;
+			}
+		}
+	}
+
+/**/
+	std::cout
+		<< "The quantity of leading zeros is: "
+		<< quantity_of_leading_zeros
+		<< ". Assertion occured in BigFloat.cpp, leading_zeros().\n\n"
+		;
+
+	return quantity_of_leading_zeros;
+}
+
 size_t BigFloat::dot_position() const
 {
 	return char_position(get_number(), '.');
