@@ -35,59 +35,28 @@ BigNumber::BigNumber(const std::string& num)
 // checkers ====================================================================
 bool BigNumber::has_leading_zeros() const
 {
+	size_t dotPos = char_position(number_, '.');
 	bool result = false;
-	if (number_.size() > 1 && first_digit_value() == 0 )
+
+	if (dotPos != number_.size())
 	{
-/**/
+		/**/
 		// #hlz() 1
 		std::cout
-			<< "Condition (number_.size() > 1 && first_digit_value() == 0) is true because:\n"
-			<< "number_.size(): " << number_.size() << "\n"
-			<< "first_digit_value(): " << first_digit_value() << "\n"
-			<< "Assertion occured in BigNumber.cpp, has_leading_zeros(), #hlz() 1\n\n"
+			<< "The number is float pointing because "
+			<< "condition (dotPos != number_.size()) is true.\n"
+			<< "dotPos is : " << dotPos << "\n"
+			<< "and number_.size() is: " << number_.size() << "\n"
+			<< "Discarding of extra zeros is not necessary.\n"
+			<< "Assertion occured in BigNumber.cpp, has_leading_zeros(), #hlz() 3\n\n"
 			;
-
-		size_t dotPos = char_position(number_, '.');
-/**/
-		// #hlz() 2
-		std::cout
-			<< "size_t dotPos = char_position(number_, '.'): "
-			<< dotPos
-			<< ". Assertion occured in BigNumber.cpp, has_leading_zeros(), #hlz() 2\n\n"
-			;
-
-		if (dotPos != number_.size())
+		if (dotPos > 1)
 		{
 			/**/
-			// #hlz() 3
+			// #hlz() 2
 			std::cout
-				<< "The number is float pointing because "
-				<< "condition (dotPos != number_.size()) is true.\n"
-				<< "dotPos is : " << dotPos << "\n"
-				<< "and number_.size() is: " << number_.size() << "\n"
-				<< "Assertion occured in BigNumber.cpp, has_leading_zeros(), #hlz() 3\n\n"
-				;
-			if (dotPos > 1)
-			{
-				/**/
-				// #hlz() 4
-				std::cout
-					<< "The number has leading zeros "
-					<< "because condition (dotPos > 1) is true.\n"
-					<< "dotPos is : " << dotPos << "\n"
-					<< "\nand number_.size() is: " << number_.size() << "\n"
-					<< "Assertion occured in BigNumber.cpp, has_leading_zeros(), #hlz() 4\n\n"
-					;
-				result = true;
-			}
-		}
-		else
-		{
-			/**/
-			// #hlz() 4
-			std::cout
-				<< "The number is integer because "
-				<< "condition (dotPos != number_.size()) is false.\n"
+				<< "The number has leading zeros "
+				<< "because condition (dotPos > 1) is true.\n"
 				<< "dotPos is : " << dotPos << "\n"
 				<< "\nand number_.size() is: " << number_.size() << "\n"
 				<< "Assertion occured in BigNumber.cpp, has_leading_zeros(), #hlz() 4\n\n"
@@ -95,12 +64,44 @@ bool BigNumber::has_leading_zeros() const
 			result = true;
 		}
 	}
+	else
+	{
+		/**/
+		// #hlz() 3
+		std::cout
+			<< "The number is integer because "
+			<< "condition (dotPos != number_.size()) is false.\n"
+			<< "dotPos is : " << dotPos << "\n"
+			<< "\nand number_.size() is: " << number_.size() << "\n"
+			<< "Assertion occured in BigNumber.cpp, has_leading_zeros(), #hlz() 4\n\n"
+			;
+
+		if (number_.size() > 1 && first_digit_value() == 0)
+		{
+			/**/
+			// #hlz() 4
+			std::cout
+				<< "Condition (number_.size() > 1 && first_digit_value() == 0) is true because:\n"
+				<< "number_.size(): " << number_.size() << "\n"
+				<< "first_digit_value(): " << first_digit_value() << "\n"
+				<< "Assertion occured in BigNumber.cpp, has_leading_zeros(), #hlz() 1\n\n"
+				;
 
 
+			/**/
+			// #hlz() 5
+			std::cout
+				<< "size_t dotPos = char_position(number_, '.'): "
+				<< dotPos
+				<< ". Assertion occured in BigNumber.cpp, has_leading_zeros(), #hlz() 2\n\n"
+				;
+
+			result = true;
+		}		
+	}
+	
 	return result;
 }
-
-
 
 // changers ====================================================================
 
@@ -207,10 +208,10 @@ void BigNumber::pop_front_elem()
 
 // найти количество лидирующих нулей
 size_t BigNumber::leading_zeros() const
-{	// TODO: implement for BigFloat his own version
+{
 	size_t quantity_of_leading_zeros = 0;
 	for (size_t i = 0; i < number_.size(); ++i)
-	{	// TODO: для BigFloat заменить граничащее условие окончания цикла
+	{
 		if (number_[i] == '0')
 		{
 			++quantity_of_leading_zeros;
@@ -295,6 +296,13 @@ char BigNumber::get_sign() const
 // достать (to get) содержимое поля number_
 std::string BigNumber::get_number() const
 {
+/*
+	std::cout
+		<< "get_number() function has been called. The number is: "
+		<< number_
+		<< "\nAssertion occured in BigNumber.cpp, get_number().\n\n"
+		;
+*/
 	return number_;
 }
 
