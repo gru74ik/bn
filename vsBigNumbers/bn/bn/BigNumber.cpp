@@ -45,8 +45,8 @@ bool BigNumber::has_leading_zeros() const
 		std::cout
 			<< "The number is float pointing because "
 			<< "condition (dotPos != number_.size()) is true.\n"
-			<< "dotPos is : " << dotPos << "\n"
-			<< "and number_.size() is: " << number_.size() << "\n"
+			<< "dotPos is : " << dotPos << ", "
+			<< "number_.size() is: " << number_.size() << ". "
 			<< "Discarding of extra zeros is not necessary.\n"
 			<< "Assertion occured in BigNumber.cpp, has_leading_zeros(), #hlz() 3\n\n"
 			;

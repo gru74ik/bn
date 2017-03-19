@@ -27,6 +27,7 @@ public:
 	virtual ~BigFloat() {}
 
 	// checkers ====================================================================
+	bool has_extra_leading_zeros() const;
 	bool has_leading_zeros() const;
 	bool is_correct(Notation notation) const;
 	bool is_decimal() const;
@@ -41,7 +42,7 @@ public:
 	void convert_to(Notation notation);
 	//void reverse();
 
-	void pop_front_extra_zeros();
+	void pop_front_leading_zeros();
 	void push_back_additional_zeros(const size_t quantity);
 	void pop_back_extra_zeros();
 

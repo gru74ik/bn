@@ -24,9 +24,31 @@ BigFloat::BigFloat(const std::string& num)
 		<< "In constructor before converting: "
 		<< sign_ << number() << "\n";
 */
-	if (is_correct(DECIMAL) || is_correct(DEFAULT))
+	if (is_correct(DEFAULT))
 	{
+/**/
+		// #ctor(str) 1
+		std::cout
+			<< "is_correct(DEFAULT) has been called.\n"
+			<< "Assertion occured in BigFloat.cpp, #ctor(str) 1.\n\n"
+			;
 		// do nothing
+/*
+		std::cout
+			<< "\nConstructor will try create object from string"
+			<< "\nthat represent number equals to zero.\n";
+*/
+	}
+	else if (is_correct(DECIMAL))
+	{
+/**/
+		// #ctor(str) 2
+		std::cout
+			<< "is_correct(DECIMAL) has been called.\n"
+			<< "Assertion occured in BigFloat.cpp, #ctor(str) 2.\n\n"
+			;
+		// do nothing
+
 /*
 		std::cout
 			<< "\nConstructor will try create object from string"
@@ -35,6 +57,12 @@ BigFloat::BigFloat(const std::string& num)
 	}
 	else if (is_correct(SCIENTIFIC))
 	{
+/**/
+		// #ctor(str) 3
+		std::cout
+			<< "is_correct(SCIENTIFIC) has been called.\n"
+			<< "Assertion occured in BigFloat.cpp, #ctor(str) 3.\n\n"
+			;
 		convert_to(DECIMAL);
 /*
 		std::cout
@@ -50,6 +78,13 @@ BigFloat::BigFloat(const std::string& num)
 	else
 	{
 		reset();
+/**/
+		// #ctor(str) 4
+		std::cout
+			<< "reset() has been called.\n"
+			<< "Assertion occured in BigFloat.cpp, ctor(str) 4.\n\n"
+			;
+
 		std::cout
 			<< "\nConstructor tried create object from string\n"
 			<< "but failed, because string is incorrect.\n"
@@ -68,16 +103,38 @@ BigFloat::BigFloat(const BigInt& bi)
 BigFloat::BigFloat(const BigFloat& bf)
 {
 	set_number(bf.get_number());
+	/**/
+	// #cpy ctor() 1
+	std::cout
+		<< "set_number(str) has been called.\n"
+		<< "Assertion occured in BigFloat.cpp, #cpy ctor() 1.\n\n"
+		;
 }
 
 
 
 // checkers ====================================================================
+bool BigFloat::has_extra_leading_zeros() const
+{
+	bool result = false;
+	size_t leadingZerosBeforeAnotherDigit = 0;
+	if (digits_before_dot() > 1)
+	{
+		if (first_digit_value() == 0)
+		{
+			if (is_digit(get_number()[1]))
+				result = true;
+		}
+	}
+	
+	return result;
+}
+
 bool BigFloat::has_leading_zeros() const
 {
 /**/
 		std::cout
-			<< "The object has leading zeros. "
+			<< "The object has leading zeros.\n"
 			<< "Assertion occured in BigFloat.cpp, has_leading_zeros().\n\n"
 			;
 
@@ -288,7 +345,7 @@ bool BigFloat::is_greater_than_zero() const
 	{
 		if (num.has_leading_zeros())
 		{
-			num.pop_front_extra_zeros();
+			num.pop_front_leading_zeros();
 			if (first_digit_value() >= 1)
 			{
 				result = true;
@@ -447,36 +504,33 @@ void BigFloat::convert_to(Notation notation)
 	std::cout
 		<< "size_t numSize = get_number().size(): "
 		<< numSize
-		<< " Assertion occured in BigFloat.cpp, #conv(arg) 1\n\n"
+		<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 1\n\n"
 		;
 	
 	size_t dotPos = dot_position();	
-/*
+/**/
 	// #conv(arg) 2
 	std::cout
-		<< "size_t dotPos = dot_position(): "
-		<< dotPos
-		<< " Assertion occured in BigFloat.cpp, #conv(arg) 2\n\n"
+		<< "dot_position() has been called.\n"
+		<< "Assertion occured in BigFloat.cpp, #conv(arg) 2\n\n"
 		;
-*/
+
 	size_t ePos = e_position();
-/*
+/**/
 	// #conv(arg) 3
 	std::cout
-		<< "size_t ePos = e_position(): "
-		<< ePos
-		<< " Assertion occured in BigFloat.cpp, #conv(arg) 3\n\n"
+		<< "e_position() has been called.\n"
+		<< "Assertion occured in BigFloat.cpp, #conv(arg) 3\n\n"
 		;
-*/
+
 	size_t eValAsNum = e_value_as_number();
-/*
+/**/
 	// #conv(arg) 4
 	std::cout
-		<< "size_t eValAsNum = e_value_as_number(): "
-		<< eValAsNum
-		<< " Assertion occured in BigFloat.cpp, #conv(arg) 4\n\n"
+		<< "e_value_as_number() has been called.\n"
+		<< "Assertion occured in BigFloat.cpp, #conv(arg) 4\n\n"
 		;
-*/
+
 
 	switch (notation)
 	{
@@ -490,7 +544,7 @@ void BigFloat::convert_to(Notation notation)
 			std::cout
 				<< "size_t shift = position_before(dotPos): "
 				<< shift
-				<< " Assertion occured in BigFloat.cpp, #conv(arg) 5\n\n"
+				<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 5\n\n"
 				;
 
 			/**/
@@ -498,7 +552,7 @@ void BigFloat::convert_to(Notation notation)
 			std::cout
 				<< "number before move_floating_point(LEFT, shift): "
 				<< get_number()
-				<< " Assertion occured in BigFloat.cpp, #conv(arg) 6\n\n"
+				<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 6\n\n"
 				;
 
 			move_floating_point(LEFT, shift);
@@ -507,7 +561,7 @@ void BigFloat::convert_to(Notation notation)
 			std::cout
 				<< "number after move_floating_point(LEFT, shift): "
 				<< get_number()
-				<< " Assertion occured in BigFloat.cpp, #conv(arg) 7\n\n"
+				<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 7\n\n"
 				;
 
 			/**/
@@ -515,7 +569,7 @@ void BigFloat::convert_to(Notation notation)
 			std::cout
 				<< "number before set_number(get_number() + \" E + \" + number_to_string(shift)): "
 				<< get_number()
-				<< " Assertion occured in BigFloat.cpp, #conv(arg) 8\n\n"
+				<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 8\n\n"
 				;
 			set_number(get_number() + " E+" + number_to_string(shift));
 			/**/
@@ -523,7 +577,7 @@ void BigFloat::convert_to(Notation notation)
 			std::cout
 				<< "number after set_number(get_number() + \" E + \" + number_to_string(shift)): "
 				<< get_number()
-				<< " Assertion occured in BigFloat.cpp, #conv(arg) 9\n\n"
+				<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 9\n\n"
 				;
 		}
 		else
@@ -535,7 +589,7 @@ void BigFloat::convert_to(Notation notation)
 /**/
 				// #conv(arg) 10
 				std::cout
-					<< "Function leading_zeros() has been called. "
+					<< "Function leading_zeros() has been called.\n"
 					<< "Assertion occured in BigFloat.cpp, #conv(arg) 10\n\n"
 					;
 
@@ -544,7 +598,7 @@ void BigFloat::convert_to(Notation notation)
 				std::cout
 					<< "number before move_floating_point(RIGHT, leading_zeros()): "
 					<< get_number()
-					<< " Assertion occured in BigFloat.cpp, #conv(arg) 11\n\n"
+					<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 11\n\n"
 					;
 				move_floating_point(RIGHT, leading_zeros());
 /**/
@@ -552,7 +606,16 @@ void BigFloat::convert_to(Notation notation)
 				std::cout
 					<< "number after move_floating_point(RIGHT, leading_zeros()): "
 					<< get_number()
-					<< " Assertion occured in BigFloat.cpp, #conv(arg) 12\n\n"
+					<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 12\n\n"
+					;
+
+				pop_front_leading_zeros();
+/**/
+				// #conv(arg) 12a
+				std::cout
+					<< "number after BigFloat::pop_front_leading_zeros(): "
+					<< get_number()
+					<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 12a\n\n"
 					;
 
 /**/
@@ -560,7 +623,7 @@ void BigFloat::convert_to(Notation notation)
 				std::cout
 					<< "number before set_number(get_number() + \" E - \" + number_to_string(leading_zeros())): "
 					<< get_number()
-					<< " Assertion occured in BigFloat.cpp, #conv(arg) 13\n\n"
+					<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 13\n\n"
 					;
 				set_number(get_number() + " E-" + number_to_string(leading_zeros()));
 
@@ -569,26 +632,27 @@ void BigFloat::convert_to(Notation notation)
 				std::cout
 					<< "number after set_number(get_number() + \" E - \" + number_to_string(leading_zeros())): "
 					<< get_number()
-					<< " Assertion occured in BigFloat.cpp, #conv(arg) 14\n\n"
+					<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 14\n\n"
 					;
 
-/**/
+/*
 				// #conv(arg) 15
 				std::cout
-					<< "number before pop_front_extra_zeros(): "
+					<< "number before pop_front_leading_zeros(): "
 					<< get_number()
-					<< " Assertion occured in BigFloat.cpp, #conv(arg) 15\n\n"
+					<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 15\n\n"
 					;
-
+*/
 				// TODO: проверить как именно удаляются лидирующие нули:
-				pop_front_extra_zeros(); 
-/**/
+				// pop_front_leading_zeros(); 
+/*
 				// #conv(arg) 16
 				std::cout
-					<< "number before pop_front_extra_zeros(): "
+					<< "number after pop_front_leading_zeros(): "
 					<< get_number()
-					<< " Assertion occured in BigFloat.cpp, #conv(arg) 16\n\n"
+					<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 16\n\n"
 					;
+*/
 			}
 			else
 			{
@@ -597,7 +661,7 @@ void BigFloat::convert_to(Notation notation)
 				std::cout
 					<< "number before push_back_elem(\" E + 0\"): "
 					<< get_number()
-					<< " Assertion occured in BigFloat.cpp, #conv(arg) 17\n\n"
+					<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 17\n\n"
 					;
 
 				push_back_elem(" E+0");
@@ -607,7 +671,7 @@ void BigFloat::convert_to(Notation notation)
 				std::cout
 					<< "number after push_back_elem(\" E + 0\"): "
 					<< get_number()
-					<< " Assertion occured in BigFloat.cpp, #conv(arg) 18\n\n"
+					<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 18\n\n"
 					;
 			}
 		}
@@ -617,7 +681,7 @@ void BigFloat::convert_to(Notation notation)
 		std::cout
 			<< "number before pop_back_extra_zeros(): "
 			<< get_number()
-			<< " Assertion occured in BigFloat.cpp, #conv(arg) 19\n\n"
+			<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 19\n\n"
 			;
 
 		// TODO: проверить как именно удаляются лидирующие нули:
@@ -628,7 +692,7 @@ void BigFloat::convert_to(Notation notation)
 		std::cout
 			<< "number after pop_back_extra_zeros(): "
 			<< get_number()
-			<< " Assertion occured in BigFloat.cpp, #conv(arg) 20\n\n"
+			<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 20\n\n"
 			;
 
 		notation_ = SCIENTIFIC;
@@ -641,7 +705,7 @@ void BigFloat::convert_to(Notation notation)
 /**/
 		// #conv(arg) 21
 		std::cout
-			<< "e_sign() has been called. "
+			<< "e_sign() has been called.\n"
 			<< "Assertion occured in BigFloat.cpp, #conv(arg) 21\n\n"
 			;
 
@@ -650,7 +714,7 @@ void BigFloat::convert_to(Notation notation)
 			std::cout
 				<< "number before move_floating_point(RIGHT, eValAsNum): "
 				<< get_number()
-				<< " Assertion occured in BigFloat.cpp, #conv(arg) 22\n\n"
+				<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 22\n\n"
 				;
 			move_floating_point(RIGHT, eValAsNum);
 /**/
@@ -658,7 +722,7 @@ void BigFloat::convert_to(Notation notation)
 			std::cout
 				<< "number after move_floating_point(RIGHT, eValAsNum): "
 				<< get_number()
-				<< " Assertion occured in BigFloat.cpp, #conv(arg) 23\n\n"
+				<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 23\n\n"
 				;
 
 /**/
@@ -666,7 +730,7 @@ void BigFloat::convert_to(Notation notation)
 			std::cout
 				<< "number before erase_elem(position_before(ePos), numSize - 1): "
 				<< get_number()
-				<< " Assertion occured in BigFloat.cpp, #conv(arg) 24\n\n"
+				<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 24\n\n"
 				;
 			erase_elem(position_before(ePos), numSize - 1);
 /**/
@@ -674,7 +738,7 @@ void BigFloat::convert_to(Notation notation)
 			std::cout
 				<< "number after erase_elem(position_before(ePos), numSize - 1): "
 				<< get_number()
-				<< " Assertion occured in BigFloat.cpp, #conv(arg) 25\n\n"
+				<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 25\n\n"
 				;
 		}
 		else if (e_sign() == '-')
@@ -682,9 +746,8 @@ void BigFloat::convert_to(Notation notation)
 /**/
 			// #conv(arg) 26
 			std::cout
-				<< "e_sign(): "
-				<< e_sign()
-				<< " Assertion occured in BigFloat.cpp, #conv(arg) 26\n\n"
+				<< "e_sign() has been called.\n"
+				<< "Assertion occured in BigFloat.cpp, #conv(arg) 26\n\n"
 				;
 
 /**/
@@ -692,7 +755,7 @@ void BigFloat::convert_to(Notation notation)
 			std::cout
 				<< "number before move_floating_point(LEFT, eValAsNum): "
 				<< get_number()
-				<< " Assertion occured in BigFloat.cpp, #conv(arg) 27\n\n"
+				<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 27\n\n"
 				;
 			move_floating_point(LEFT, eValAsNum);
 /**/
@@ -700,7 +763,7 @@ void BigFloat::convert_to(Notation notation)
 			std::cout
 				<< "number after move_floating_point(LEFT, eValAsNum): "
 				<< get_number()
-				<< " Assertion occured in BigFloat.cpp, #conv(arg) 28\n\n"
+				<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 28\n\n"
 				;
 
 /**/
@@ -708,7 +771,7 @@ void BigFloat::convert_to(Notation notation)
 			std::cout
 				<< "number before erase_elem(position_before(ePos), numSize - 1): "
 				<< get_number()
-				<< " Assertion occured in BigFloat.cpp, #conv(arg) 29\n\n"
+				<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 29\n\n"
 				;
 			erase_elem(position_before(ePos), numSize - 1);
 /**/
@@ -716,7 +779,7 @@ void BigFloat::convert_to(Notation notation)
 			std::cout
 				<< "position_before(ePos): "
 				<< position_before(ePos)
-				<< " Assertion occured in BigFloat.cpp, #conv(arg) 30\n\n"
+				<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 30\n\n"
 				;
 
 /**/
@@ -724,7 +787,7 @@ void BigFloat::convert_to(Notation notation)
 			std::cout
 				<< "number after erase_elem(position_before(ePos), numSize - 1): "
 				<< get_number()
-				<< " Assertion occured in BigFloat.cpp, #conv(arg) 31\n\n"
+				<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 31\n\n"
 				;
 		}
 		else
@@ -744,7 +807,7 @@ void BigFloat::convert_to(Notation notation)
 		std::cout
 			<< "number before reset(): "
 			<< get_number()
-			<< " Assertion occured in BigFloat.cpp, #conv(arg) 32\n\n"
+			<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 32\n\n"
 			;
 		reset();
 /**/
@@ -752,7 +815,7 @@ void BigFloat::convert_to(Notation notation)
 		std::cout
 			<< "number after reset(): "
 			<< get_number()
-			<< " Assertion occured in BigFloat.cpp, #conv(arg) 33\n\n"
+			<< ".\nAssertion occured in BigFloat.cpp, #conv(arg) 33\n\n"
 			;
 
 	default:
@@ -762,16 +825,73 @@ void BigFloat::convert_to(Notation notation)
 
 } // endof convert_to()
 
-void BigFloat::pop_front_extra_zeros()
+void BigFloat::pop_front_leading_zeros()
 {
-	for (size_t i = 0; i < position_before(dot_position()); ++i)
+	size_t limit = last_digit_position();
+/*
+		// #pflz() 1
+		std::cout
+			<< "BigFloat::last_digit_position() has been called by BigFloat::pop_front_leading_zeros().\n"
+			<< "Last digit position is: "
+			<< limit
+			<< "\nAssertion occured in BigFloat.cpp, #pflz() 1.\n\n"
+			;
+*/
+	for (size_t i = 0; i < limit; ++i)
 	{
 		if (get_number()[i] == '0')
 		{
-			pop_front_elem();
+/**/
+			// #pflz() 2
+			std::cout
+				<< "Current content of number is: "
+				<< get_number()
+				<< "\nCurrent index of digit is: "
+				<< i
+				<< "\nCurrent digit of number is: "
+				<< get_number()[i]
+				<< "\nAssertion occured in BigFloat.cpp, #pflz() 2.\n\n"
+				;
+			erase_elem(i);
+/**/
+			// #pflz() 3
+			std::cout
+				<< "BigNumber::erase_elem() has been called by BigFloat::pop_front_leading_zeros().\n"
+				<< "Current content of number is: "
+				<< get_number()
+				<< "Assertion occured in BigFloat.cpp, #pflz() 3.\n\n"
+				;
+		}
+		else if (get_number()[i] == '.')
+		{
+/**/
+			// #pflz() 4
+			std::cout
+				<< "BigNumber::pop_front_elem() has been skipped by BigFloat::pop_front_leading_zeros()."
+				<< "\nCurrent content of number is: "
+				<< get_number()
+				<< "\nCurrent index of digit is: "
+				<< i
+				<< "\nCurrent digit of number is: "
+				<< get_number()[i]
+				<< "\nAssertion occured in BigFloat.cpp, #pflz() 4.\n\n"
+				;
+			continue;
 		}
 		else
 		{
+/**/
+			// #pflz() 5
+			std::cout
+				<< "BigNumber::pop_front_elem() has been skipped by BigFloat::pop_front_leading_zeros()."
+				<< "\nCurrent content of number is: "
+				<< get_number()
+				<< "\nCurrent index of digit is: "
+				<< i
+				<< "\nCurrent digit of number is: "
+				<< get_number()[i]
+				<< "\nAssertion occured in BigFloat.cpp, #pflz() 5.\n\n"
+				;
 			break;
 		}
 	}
@@ -822,47 +942,49 @@ size_t BigFloat::leading_zeros() const
 		}
 	}
 
-/**/
+/*
 	std::cout
 		<< "The quantity of leading zeros is: "
 		<< quantity_of_leading_zeros
-		<< ". Assertion occured in BigFloat.cpp, leading_zeros().\n\n"
+		<< "\nAssertion occured in BigFloat.cpp, leading_zeros().\n\n"
 		;
-
+*/
 	return quantity_of_leading_zeros;
 }
 
 size_t BigFloat::dot_position() const
 {
-	/**/
+/*
 	std::cout
 		<< "The dot position is: "
 		<< char_position(get_number(), '.')
-		<< ". Assertion occured in BigFloat.cpp, dot_position().\n\n"
+		<< "\nAssertion occured in BigFloat.cpp, dot_position().\n\n"
 		;
+*/
 	return char_position(get_number(), '.');
 }
 
 size_t BigFloat::digits_after_dot() const
 {   // TODO: implement count() function?
-/**/
+/*
 	std::cout
 		<< "The quantity of digits after dot is: "
 		<< last_digit_position() - dot_position()
-		<< ". Assertion occured in BigFloat.cpp, digits_after_dot().\n\n"
+		<< "\nAssertion occured in BigFloat.cpp, digits_after_dot().\n\n"
 		;
-
+*/
 	return last_digit_position() - dot_position();
 }
 
 size_t BigFloat::digits_before_dot() const
 {
-	/**/
+/*
 	std::cout
 		<< "The quantity of digits before dot is: "
 		<< dot_position()
-		<< ". Assertion occured in BigFloat.cpp, digits_before_dot().\n\n"
+		<< "\nAssertion occured in BigFloat.cpp, digits_before_dot().\n\n"
 		;
+*/
 	return dot_position();
 }
 
@@ -880,51 +1002,59 @@ size_t BigFloat::e_position() const
 		}
 	}
 
-/**/
+/*
 	std::cout
 		<< "The E position is: "
 		<< ePos
-		<< ". Assertion occured in BigFloat.cpp, e_position().\n\n"
+		<< "\nAssertion occured in BigFloat.cpp, e_position().\n\n"
 		;
-
+*/
 	return ePos;
 }
 
 size_t BigFloat::digits_after_e() const
 {   // TODO: implement count() function?
-/**/
+/*
 	std::cout
 		<< "The quantity of digits after E is: "
 		<< get_number().size() - position_before(space_position())
-		<< ". Assertion occured in BigFloat.cpp, digits_after_e().\n\n"
+		<< "\nAssertion occured in BigFloat.cpp, digits_after_e().\n\n"
 		;
+*/
 	return get_number().size() - position_before(space_position());
 }
 
 size_t BigFloat::e_value_as_number() const
 {
-/**/
+/*
 	std::cout
 		<< "The E value as number is: "
 		<< string_to_number(e_value_as_string())
-		<< ". Assertion occured in BigFloat.cpp, digits_after_e().\n\n"
+		<< "\nAssertion occured in BigFloat.cpp, digits_after_e().\n\n"
 		;
+*/
 	return string_to_number(e_value_as_string());
 }
 
 std::string BigFloat::e_value_as_string() const
 {
 	std::string eVal = "";
-	for (size_t i = position_after(e_sign_position()); i < get_number().size(); ++i)
+	size_t posAfterESignPos = position_after(e_sign_position());
+	if (posAfterESignPos < get_number().size())
 	{
-		eVal = eVal + get_number()[i];
+		for (size_t i = position_after(e_sign_position()); i < get_number().size(); ++i)
+		{
+			eVal = eVal + get_number()[i];
+		}
 	}
-/**/
+
+/*
 	std::cout
 		<< "The E value as string is: "
 		<< eVal
-		<< ". Assertion occured in BigFloat.cpp, e_value_as_string().\n\n"
+		<< "\nAssertion occured in BigFloat.cpp, e_value_as_string().\n\n"
 		;
+*/
 	return eVal;
 }
 
@@ -940,24 +1070,25 @@ size_t BigFloat::e_sign_position() const
 			break;
 		}
 	}
-/**/
+/*
 	std::cout
 		<< "The E sign position is: "
 		<< eSignPos
-		<< ". Assertion occured in BigFloat.cpp, e_sign_position().\n\n"
+		<< "\nAssertion occured in BigFloat.cpp, e_sign_position().\n\n"
 		;
-
+*/
 	return eSignPos;
 }
 
 char BigFloat::e_sign() const
 {
-/**/
+/*
 	std::cout
 		<< "The E sign is: "
 		<< get_number()[e_sign_position()]
-		<< ". Assertion occured in BigFloat.cpp, e_sign().\n\n"
+		<< "\nAssertion occured in BigFloat.cpp, e_sign().\n\n"
 		;
+*/
 	return get_number()[e_sign_position()];
 }
 
@@ -982,35 +1113,37 @@ size_t BigFloat::last_digit_position() const
 	return lastDigitPos;
 */
 
-/**/
+/*
 	std::cout
 		<< "The last digit position is: "
 		<< position_before(space_position())
-		<< ". Assertion occured in BigFloat.cpp, last_digit_position().\n\n"
+		<< "\nAssertion occured in BigFloat.cpp, last_digit_position().\n\n"
 		;
-
+*/
 	return position_before(space_position());
 }
 
 size_t BigFloat::last_digit_value() const
 {
-/**/
+/*
 	std::cout
 		<< "The last digit value is: "
 		<< get_number()[last_digit_position()]
-		<< ". Assertion occured in BigFloat.cpp, last_digit_value().\n\n"
+		<< "\nAssertion occured in BigFloat.cpp, last_digit_value().\n\n"
 		;
+*/
 	return get_number()[last_digit_position()];
 }
 
 size_t BigFloat::space_position() const
 {
-/**/
+/*
 	std::cout
 		<< "The space position is: "
 		<< char_position(get_number(), ' ')
-		<< ". Assertion occured in BigFloat.cpp, space_position().\n\n"
+		<< "\nAssertion occured in BigFloat.cpp, space_position().\n\n"
 		;
+*/
 	return char_position(get_number(), ' ');
 }
 
@@ -1028,13 +1161,13 @@ std::string BigFloat::mantissa() const
 		erase_part_of(mantissa, e_position(), mantissa.size() - 1);
 	}
 
-/**/
+/*
 	std::cout
 		<< "The mantissa is: "
 		<< mantissa
-		<< ". Assertion occured in BigFloat.cpp, mantissa().\n\n"
+		<< "\nAssertion occured in BigFloat.cpp, mantissa().\n\n"
 		;
-
+*/
 	return mantissa;
 }
 
@@ -1044,7 +1177,7 @@ BigFloat::Notation BigFloat::notation() const
 	std::cout
 		<< "The notation is: "
 		<< ((notation_ == DECIMAL) ? "DECIMAL" : (notation_ == SCIENTIFIC ? "SCIENTIFIC" : "DEFAULT"))
-		<< ". Assertion occured in BigFloat.cpp, mantissa().\n\n"
+		<< "\nAssertion occured in BigFloat.cpp, mantissa().\n\n"
 		;
 */
 	return notation_;
@@ -1080,22 +1213,53 @@ void BigFloat::set_number(const std::string& num)
 {	
 	BigNumber::set_number(num);
 
+/**/
+	// #setn(str) 1
+	std::cout
+		<< "ctor(str) has been called."
+		<< "\nAssertion occured in BigFloat.cpp, #setn(str) 1.\n\n"
+		;
+
 	if (is_correct(SCIENTIFIC))
 	{
+/**/
+		// #setn(str) 2
+		std::cout
+			<< "is_correct(SCIENTIFIC) has been called."
+			<< "\nAssertion occured in BigFloat.cpp, #setn(str) 2.\n\n"
+			;
+
 		convert_to(DECIMAL);
+/**/
+		// #setn(str) 3
+		std::cout
+			<< "convert_to(DECIMAL) has been called."
+			<< "\nAssertion occured in BigFloat.cpp, #setn(str) 3.\n\n"
+			;
+
 	}
 	else if (is_correct(DECIMAL))
 	{
+/**/
+		// #setn(str) 4
+		std::cout
+			<< "is_correct(DECIMAL) has been called."
+			<< "\nAssertion occured in BigFloat.cpp, #setn(str) 4.\n\n"
+			;
+
 		// do nothing
 	}
 	else
 	{
 		reset();
-	}
 /**/
-	std::cout
-		<< "Assertion occured in BigFloat.cpp, set_number(const std::string& num).\n\n"
-		;
+		// #setn(str) 5
+		std::cout
+			<< "reset() has been called."
+			<< "\nAssertion occured in BigFloat.cpp, #setn(str) 5.\n\n"
+			;
+
+	}
 }
 
 void BigFloat::reset()
@@ -1565,20 +1729,67 @@ std::ostream& operator<<(std::ostream& os, const BigFloat& bf) // #op<<(bf)
 	BigFloat temp = bf;
 	if (temp.is_correct(BigFloat::DECIMAL))
 	{
+/**/
+		// #op<< 1
+		std::cout
+			<< "is_correct(DECIMAL) has been called.\n"
+			<< "Assertion occured in BigFloat.cpp, #op<< 1.\n\n"
+			;
+
 		temp.convert_to(BigFloat::SCIENTIFIC);
+/**/
+		// #op<< 2
+		std::cout
+			<< "convert_to(SCIENTIFIC) has been called.\n"
+			<< "Assertion occured in BigFloat.cpp, #op<< 2.\n\n"
+			;
+
 	}
 	else if (temp.is_correct(BigFloat::SCIENTIFIC))
 	{
+/**/
+		// #op<< 3
+		std::cout
+			<< "is_correct(SCIENTIFIC) has been called.\n"
+			<< "Assertion occured in BigFloat.cpp, #op<< 3.\n\n"
+			;
+
 		// do nothing
 	}
 	else
 	{
 		temp.reset();
+/**/
+		// #op<< 4
+		std::cout
+			<< "reset() has been called.\n"
+			<< "Assertion occured in BigFloat.cpp, #op<< 4.\n\n"
+			;
 	}
 
-	temp.pop_front_extra_zeros();
+	temp.has_extra_leading_zeros();
+/**/
+	// #op<< 5
+	std::cout
+		<< "has_extra_leading_zeros() has been called.\n"
+		<< "Assertion occured in BigFloat.cpp, #op<< 5.\n\n"
+		;
 
 	os << temp.get_sign() << temp.get_number();
+
+/**/
+	// #op<< 6
+	std::cout
+		<< "\n\nget_sign() has been called.\n"
+		<< "Assertion occured in BigFloat.cpp, #op<< 6.\n\n"
+		;
+
+/**/
+	// #op<< 7
+	std::cout
+		<< "get_number() has been called.\n"
+		<< "Assertion occured in BigFloat.cpp, #op<< 7.\n\n"
+		;
 
 	return os;
 } // endof // #op<<(bf)
