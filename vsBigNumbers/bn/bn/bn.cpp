@@ -75,8 +75,8 @@ int main()
 	std::cout << "x + y = " << (x + y) << "\n\n";
 */
 	
-	
-	BigFloat a("+12345.6 E+5"); // 123456.0
+	std::cout << "The number before all is: +1.23456 E+5\n\n";
+	BigFloat a("+1.23456 E+5"); // 123456.0
 	std::cout << a << "\n\n";
 
 	return 0;
