@@ -70,9 +70,19 @@ int main()
 /**/
 	BigFloat x;
 	BigFloat y;
-	std::cout << "Enter two big floating point numbers one by one:\n";
-	std::cin >> x >> y;
-	std::cout << "x + y = " << (x + y) << "\n\n";
+	std::string choice = "y";
+
+	while (choice[0] == 'y' || choice[0] == 'Y')
+	{
+		std::cout << "Enter two big floating point numbers one by one:\n";
+		std::cin >> x >> y;
+		std::cout
+			<< "x + y = " << (x + y) << "\n\n"
+			<< "Do you want proceed? (y/n)";
+		std::cin >> choice;
+		std::cout << "\n\n";
+	}
+
 
 /*	
 	std::cout << "The number a before all is: +1.23456 E+5\n\n";
