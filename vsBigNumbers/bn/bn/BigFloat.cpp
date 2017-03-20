@@ -91,6 +91,7 @@ BigFloat::BigFloat(const std::string& num)
 	else if (contains_digits_only(num))
 	{
 		push_back_elem(".0");
+		notation_ = DECIMAL;
 	}
 	else
 	{
@@ -131,6 +132,17 @@ BigFloat::BigFloat(const BigInt& bi)
 	: BigNumber(bi.get_sign() + bi.get_number())
 {
 	push_back_elem(".0");
+	notation_ = DECIMAL;
+
+	if (has_extra_leading_zeros())
+	{
+		pop_front_extra_leading_zeros();
+	}
+
+	if (has_trailing_zeros())
+	{
+		pop_back_trailing_zeros();
+	}
 }
 
 BigFloat::BigFloat(const BigFloat& bf)
@@ -1274,7 +1286,9 @@ BigFloat::Notation BigFloat::notation() const
 void BigFloat::set_number(const BigFloat& bf)
 {
 	BigNumber::set_number(bf.get_number());
-
+/*
+// It's have to be correct to this moment (function argument is BigFloat
+// what means, that ctor checked bf correctness already).
 	if (is_correct(SCIENTIFIC))
 	{
 		convert_to(DECIMAL);
@@ -1287,7 +1301,7 @@ void BigFloat::set_number(const BigFloat& bf)
 	{
 		reset();
 	}
-
+*/
 /*
 	std::cout
 		<< "Assertion occured in BigFloat.cpp, set_number(const BigFloat& bf).\n\n"
@@ -1335,6 +1349,10 @@ void BigFloat::set_number(const std::string& num)
 */
 		// do nothing
 	}
+	else if (contains_digits_only(num))
+	{
+		push_back_elem(".0");
+	}
 	else
 	{
 		reset();
@@ -1346,6 +1364,17 @@ void BigFloat::set_number(const std::string& num)
 			;
 */
 	}
+
+	if (has_extra_leading_zeros())
+	{
+		pop_front_extra_leading_zeros();
+	}
+
+	if (has_trailing_zeros())
+	{
+		pop_back_trailing_zeros();
+	}
+	notation_ = DECIMAL;
 }
 
 void BigFloat::reset()
