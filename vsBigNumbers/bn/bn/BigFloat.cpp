@@ -116,6 +116,15 @@ BigFloat::BigFloat(const std::string& num)
 		<< "Assertion occured in BigFloat.cpp, ctor(str) 8.\n\n"
 		;
 */
+	if (has_extra_leading_zeros())
+	{
+		pop_front_extra_leading_zeros();
+	}
+
+	if (has_trailing_zeros())
+	{
+		pop_back_trailing_zeros();
+	}
 }
 
 BigFloat::BigFloat(const BigInt& bi)
@@ -167,7 +176,9 @@ bool BigFloat::has_leading_zeros() const
 
 bool BigFloat::has_trailing_zeros() const
 {
-	return last_digit_value() == 0;
+	return
+		digits_after_dot() > 1 &&
+		last_digit_value() == 0;
 }
 
 bool BigFloat::is_correct(Notation notation) const
@@ -755,7 +766,7 @@ void BigFloat::convert_to(Notation notation)
 			;
 */
 		// TODO: проверить как именно удаляются лидирующие нули:
-		pop_back_extra_zeros();
+		pop_back_trailing_zeros();
 
 /*
 		// #conv(arg) 20
@@ -1013,7 +1024,7 @@ size_t BigFloat::trailing_zeros() const
 
 	for (size_t i = last_digit_position(); i > dot_position(); --i)
 	{
-		if (elem_value() == 0)
+		if (elem_value(i) == 0)
 		{
 			++trailingZeros;
 		}
