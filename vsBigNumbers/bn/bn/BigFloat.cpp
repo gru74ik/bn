@@ -904,69 +904,26 @@ void BigFloat::convert_to(Notation notation)
 
 void BigFloat::pop_front_leading_zeros()
 {
+/* Old version:
 	size_t limit = last_digit_position();
-/*
-		// #pflz() 1
-		std::cout
-			<< "BigFloat::last_digit_position() has been called by BigFloat::pop_front_leading_zeros().\n"
-			<< "Last digit position is: "
-			<< limit
-			<< "\nAssertion occured in BigFloat.cpp, #pflz() 1.\n\n"
-			;
-*/
+
 	for (size_t i = 0; i < limit; ++i)
 	{
 		if (get_number()[0] == '0')
 		{
-/*
-			// #pflz() 2
-			std::cout
-				<< "Current content of number is: " << get_number()
-				<< "\nCurrent index of digit is: " << i << " and this element will be erased."
-				<< "\nCurrent digit of number is: " << get_number()[i]
-				<< "\nAssertion occured in BigFloat.cpp, #pflz() 2.\n\n"
-				;
-*/
 			erase_elem(0);
-/*
-			// #pflz() 3
-			std::cout
-				<< "BigNumber::erase_elem() has been called by BigFloat::pop_front_leading_zeros()."
-				<< "\nThe element with index: " << i << " has been erased."
-				<< "\nCurrent content of number is: " << get_number()
-				<< "\nAssertion occured in BigFloat.cpp, #pflz() 3.\n\n"
-				;
-*/
 		}
 		else if (get_number()[0] == '.')
 		{
-/*
-			// #pflz() 4
-			std::cout
-				<< "BigNumber::pop_front_elem() has been skipped by BigFloat::pop_front_leading_zeros()."
-				<< "\nCurrent content of number is: " << get_number()
-				<< "\nCurrent index of digit is: " << i
-				<< "\nCurrent digit of number is: " << get_number()[i]
-				<< "\nAssertion occured in BigFloat.cpp, #pflz() 4.\n\n"
-				;
-*/
 			continue;
 		}
 		else
 		{
-/*
-			// #pflz() 5
-			std::cout
-				<< "BigNumber::pop_front_elem() has been skipped by BigFloat::pop_front_leading_zeros()."
-				<< "\nCurrent content of number is: " << get_number()
-				<< "\nCurrent index of digit is: " << i
-				<< "\nCurrent digit of number is: " << get_number()[i]
-				<< "\nAssertion occured in BigFloat.cpp, #pflz() 5.\n\n"
-				;
-*/
 			break;
 		}
 	}
+*/
+	pop_front_elem(leading_zeros());
 }
 
 void BigFloat::pop_front_extra_leading_zeros()
@@ -982,6 +939,8 @@ void BigFloat::push_back_additional_zeros(const size_t quantity)
 
 void BigFloat::pop_back_trailing_zeros()
 {
+/*
+Old version:
 	size_t lastDigitPos = last_digit_position();
 
 	while
@@ -992,6 +951,8 @@ void BigFloat::pop_back_trailing_zeros()
 	{
 		erase_elem(lastDigitPos, lastDigitPos);
 	}
+*/
+	pop_back_elem(trailing_zeros());
 }
 
 
@@ -1050,7 +1011,17 @@ size_t BigFloat::trailing_zeros() const
 {
 	size_t trailingZeros = 0;
 
-	// TODO: implement this function
+	for (size_t i = last_digit_position(); i > dot_position(); --i)
+	{
+		if (elem_value() == 0)
+		{
+			++trailingZeros;
+		}
+		else
+		{
+			break;
+		}
+	}
 
 	return trailingZeros;
 }
