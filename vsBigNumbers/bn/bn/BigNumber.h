@@ -47,7 +47,10 @@ public:
 	void push_front_elem(const std::string& str);
 
 	void pop_back_elem();
+	void pop_back_elem(const size_t quantity);
+
 	void pop_front_elem();
+	void pop_front_elem(const size_t quantity);
 
 	void clear_number();
 	

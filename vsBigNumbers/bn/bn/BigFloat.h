@@ -45,8 +45,9 @@ public:
 	//void reverse();
 
 	void pop_front_leading_zeros();
+	void pop_front_extra_leading_zeros();
 	void push_back_additional_zeros(const size_t quantity);
-	void pop_back_extra_zeros();
+	void pop_back_trailing_zeros();
 
 	// getters =====================================================================
 	size_t extra_leading_zeros() const;

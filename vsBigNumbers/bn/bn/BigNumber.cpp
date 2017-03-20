@@ -199,9 +199,19 @@ void BigNumber::pop_back_elem()
 	pop_back(number_);
 }
 
+void BigNumber::pop_back_elem(const size_t quantity)
+{
+	erase_part_of(number_, number_.size() - quantity, number_.size() - 1);
+}
+
 void BigNumber::pop_front_elem()
 {
 	pop_front(number_);
+}
+
+void BigNumber::pop_front_elem(const size_t quantity)
+{
+	erase_part_of(number_, 0, quantity - 1);
 }
 
 void BigNumber::clear_number()

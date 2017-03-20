@@ -969,13 +969,18 @@ void BigFloat::pop_front_leading_zeros()
 	}
 }
 
+void BigFloat::pop_front_extra_leading_zeros()
+{
+	pop_front_elem(extra_leading_zeros());
+}
+
 void BigFloat::push_back_additional_zeros(const size_t quantity)
 {
 	std::string additionalZeros(quantity, '0');
 	insert_elem(additionalZeros, space_position());
 }
 
-void BigFloat::pop_back_extra_zeros()
+void BigFloat::pop_back_trailing_zeros()
 {
 	size_t lastDigitPos = last_digit_position();
 
