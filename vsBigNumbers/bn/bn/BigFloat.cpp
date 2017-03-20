@@ -1181,71 +1181,81 @@ void BigFloat::set_number(const BigFloat& bf)
 
 void BigFloat::set_number(const std::string& num)
 {	
-	if (has_extra_leading_zeros())
-	{
-		pop_front_extra_leading_zeros();
-	}
-
-	BigNumber::set_number(num);
-
 	if (contains_digits_only(num))
 	{
-		push_back_elem(".0");
+		BigNumber::set_number(num + ".0");
+
+		if (BigNumber::has_leading_zeros())
+		{
+			BigNumber::pop_front_extra_zeros();
+		}
+				
 		notation_ = DECIMAL;
-	}
-
-	if (has_trailing_zeros())
-	{
-		pop_back_trailing_zeros();
-	}
-
-/*
-	// #setn(str) 1
-	std::cout
-		<< "ctor(str) has been called."
-		<< "\nAssertion occured in BigFloat.cpp, #setn(str) 1.\n\n"
-		;
-*/
-	if (is_correct(SCIENTIFIC))
-	{
-/*
-		// #setn(str) 2
-		std::cout
-			<< "is_correct(SCIENTIFIC) has been called."
-			<< "\nAssertion occured in BigFloat.cpp, #setn(str) 2.\n\n"
-			;
-*/
-		convert_to(DECIMAL);
-/*
-		// #setn(str) 3
-		std::cout
-			<< "convert_to(DECIMAL) has been called."
-			<< "\nAssertion occured in BigFloat.cpp, #setn(str) 3.\n\n"
-			;
-*/
-	}
-	else if (is_correct(DECIMAL))
-	{
-/*
-		// #setn(str) 4
-		std::cout
-			<< "is_correct(DECIMAL) has been called."
-			<< "\nAssertion occured in BigFloat.cpp, #setn(str) 4.\n\n"
-			;
-*/
-		// do nothing
 	}
 	else
 	{
-		reset();
-/*
-		// #setn(str) 5
+		BigNumber::set_number(num);
+
+		if (has_extra_leading_zeros())
+		{
+			pop_front_extra_leading_zeros();
+		}
+
+		if (has_trailing_zeros())
+		{
+			pop_back_trailing_zeros();
+		}
+
+	/*
+		// #setn(str) 1
 		std::cout
-			<< "reset() has been called."
-			<< "\nAssertion occured in BigFloat.cpp, #setn(str) 5.\n\n"
+			<< "ctor(str) has been called."
+			<< "\nAssertion occured in BigFloat.cpp, #setn(str) 1.\n\n"
 			;
-*/
-	}	
+	*/
+		if (is_correct(SCIENTIFIC))
+		{
+	/*
+			// #setn(str) 2
+			std::cout
+				<< "is_correct(SCIENTIFIC) has been called."
+				<< "\nAssertion occured in BigFloat.cpp, #setn(str) 2.\n\n"
+				;
+	*/
+			convert_to(DECIMAL);
+	/*
+			// #setn(str) 3
+			std::cout
+				<< "convert_to(DECIMAL) has been called."
+				<< "\nAssertion occured in BigFloat.cpp, #setn(str) 3.\n\n"
+				;
+	*/
+		}
+		else if (is_correct(DECIMAL))
+		{
+	/*
+			// #setn(str) 4
+			std::cout
+				<< "is_correct(DECIMAL) has been called."
+				<< "\nAssertion occured in BigFloat.cpp, #setn(str) 4.\n\n"
+				;
+	*/
+			// do nothing
+		}
+		else
+		{
+			reset();
+	/*
+			// #setn(str) 5
+			std::cout
+				<< "reset() has been called."
+				<< "\nAssertion occured in BigFloat.cpp, #setn(str) 5.\n\n"
+				;
+	*/
+		}	
+	}
+
+
 }
 
 void BigFloat::reset()
