@@ -148,19 +148,10 @@ BigFloat::BigFloat(const BigFloat& bf)
 
 // checkers ====================================================================
 bool BigFloat::has_extra_leading_zeros() const
-{
-	bool result = false;
-
-	if (digits_before_dot() > 1)
-	{
-		if (first_digit_value() == 0)
-		{
-			if (is_digit(get_number()[1]))
-				result = true;
-		}
-	}
-	
-	return result;
+{	
+	return
+		digits_before_dot() > 1 &&
+		first_digit_value() == 0;
 }
 
 bool BigFloat::has_leading_zeros() const
