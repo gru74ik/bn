@@ -7,161 +7,47 @@
 
 // ctors =======================================================================
 BigFloat::BigFloat()
-	: BigNumber()
+	:
+		BigNumber("0.0"),
+		notation_(DEFAULT)
 {
-	//std::cout << "\nDefault constructor has been used.\n";
-	notation_ = DEFAULT;
-	set_number("0.0  E+0");
+/*
+	std::cout << "Default ctor BigFloat::BigFloat() has been used.\n";
+*/
 }
 
 BigFloat::BigFloat(const std::string& num)
-	: BigNumber(num)
+	:
+		BigNumber(num)
 {
+	set_number(num);
 /*
-// #ctor(str) 1
-	std::cout
-		<< "The constructor BigFloat::BigFloat(const std::string& num) has been called."
-		<< "\nAssertion occured in BigFloat.cpp, #ctor(str) 1.\n\n"
-		;
+	std::cout << "Ctor BigFloat::BigFloat(const std::string& num) has been used.\n";
 */
-	if (is_correct(DEFAULT))
-	{
-/*
-// #ctor(str) 2
-		std::cout
-			<< "is_correct(DEFAULT) has been called.\n"
-			<< "Assertion occured in BigFloat.cpp, #ctor(str) 2.\n\n"
-			;
-*/
-		reset();
-/*
-		// #ctor(str) 3
-		std::cout
-			<< "reset() has been called.\n"
-			<< "Assertion occured in BigFloat.cpp, ctor(str) 3.\n\n"
-			;
-*/
-/*
-		std::cout
-			<< "\nConstructor will try create object from string"
-			<< "\nthat represent number equals to zero.\n";
-*/
-	}
-	else if (is_correct(DECIMAL))
-	{
-/*
-// #ctor(str) 4
-		std::cout
-			<< "is_correct(DECIMAL) has been called.\n"
-			<< "Assertion occured in BigFloat.cpp, #ctor(str) 4.\n\n"
-			;
-*/
-		// do nothing
-/*
-		std::cout
-			<< "\nConstructor will try create object from string"
-			<< "\nthat represent number in decimal notation.\n";
-*/
-	}
-	else if (is_correct(SCIENTIFIC))
-	{
-/*
-// #ctor(str) 5
-		std::cout
-			<< "is_correct(SCIENTIFIC) has been called.\n"
-			<< "Assertion occured in BigFloat.cpp, #ctor(str) 5.\n\n"
-			;
-*/
-		convert_to(DECIMAL);
-/*
-// #ctor(str) 6
-		std::cout
-			<< "convert_to(DECIMAL) has been called.\n"
-			<< "The number after converting from scientific to decimal: "
-			<< get_sign() << get_number()
-			<< "\nAssertion occured in BigFloat.cpp, #ctor(str) 6.\n\n"
-			;
-*/
-/*
-		std::cout
-			<< "\nConstructor will try create object from string"
-			<< "\nthat represent number in scientific notation.\n";
-*/
-	}
-	else if (contains_digits_only(num))
-	{
-		push_back_elem(".0");
-		notation_ = DECIMAL;
-	}
-	else
-	{
-		reset();
-/*
-// #ctor(str) 7
-		std::cout
-			<< "reset() has been called.\n"
-			<< "Assertion occured in BigFloat.cpp, ctor(str) 7.\n\n"
-			;
-*/
-/*
-		std::cout
-			<< "\nConstructor tried create object from string\n"
-			<< "but failed, because string is incorrect.\n"
-			<< "The number you have entered set to zero.\n";
-*/
-	}
-/*
-// #ctor(str) 8
-	std::cout
-		<< "After all number() in ctor: " << get_number() << "\n\n"
-		<< "Assertion occured in BigFloat.cpp, ctor(str) 8.\n\n"
-		;
-*/
-	if (has_extra_leading_zeros())
-	{
-		pop_front_extra_leading_zeros();
-	}
-
-	if (has_trailing_zeros())
-	{
-		pop_back_trailing_zeros();
-	}
 }
 
 BigFloat::BigFloat(const BigInt& bi)
-	: BigNumber(bi.get_sign() + bi.get_number())
+	:
+		BigNumber(bi.get_sign() + bi.get_number() + ".0"),
+		notation_(DECIMAL)
 {
-	push_back_elem(".0");
-	notation_ = DECIMAL;
-
 	if (has_extra_leading_zeros())
 	{
 		pop_front_extra_leading_zeros();
 	}
-
-	if (has_trailing_zeros())
-	{
-		pop_back_trailing_zeros();
-	}
+/*
+	std::cout << "Ctor BigFloat::BigFloat(const BigInt& bi) has been used.\n";
+*/
 }
 
 BigFloat::BigFloat(const BigFloat& bf)
-	: BigNumber(bf.get_sign() + bf.get_number())
+	: 
+		BigNumber(bf.get_sign() + bf.get_number()),
+		notation_(bf.notation_)
 {
+	set_number(bf.get_sign() + bf.get_number());
 /*
-// #cpy ctor() 1
-	std::cout
-		<< "The copy constructor BigFloat::BigFloat(const BigFloat& bf) has been called."
-		<< "\nAssertion occured in BigFloat.cpp, #cpy ctor() 1.\n\n"
-		;
-*/
-	set_number(bf.get_number());
-/*
-// #cpy ctor() 2
-	std::cout
-		<< "set_number(str) has been called.\n"
-		<< "Assertion occured in BigFloat.cpp, #cpy ctor() 2.\n\n"
-		;
+	std::cout << "Copy ctor BigFloat::BigFloat(const BigFloat& bf) has been used.\n";
 */
 }
 
@@ -1285,23 +1171,7 @@ BigFloat::Notation BigFloat::notation() const
 // setters =====================================================================
 void BigFloat::set_number(const BigFloat& bf)
 {
-	BigNumber::set_number(bf.get_number());
-/*
-// It's have to be correct to this moment (function argument is BigFloat
-// what means, that ctor checked bf correctness already).
-	if (is_correct(SCIENTIFIC))
-	{
-		convert_to(DECIMAL);
-	}
-	else if (is_correct(DECIMAL))
-	{
-		// do nothing
-	}
-	else
-	{
-		reset();
-	}
-*/
+	set_number(bf.get_sign() + bf.get_number());
 /*
 	std::cout
 		<< "Assertion occured in BigFloat.cpp, set_number(const BigFloat& bf).\n\n"
@@ -1311,7 +1181,23 @@ void BigFloat::set_number(const BigFloat& bf)
 
 void BigFloat::set_number(const std::string& num)
 {	
+	if (has_extra_leading_zeros())
+	{
+		pop_front_extra_leading_zeros();
+	}
+
 	BigNumber::set_number(num);
+
+	if (contains_digits_only(num))
+	{
+		push_back_elem(".0");
+		notation_ = DECIMAL;
+	}
+
+	if (has_trailing_zeros())
+	{
+		pop_back_trailing_zeros();
+	}
 
 /*
 	// #setn(str) 1
@@ -1349,10 +1235,6 @@ void BigFloat::set_number(const std::string& num)
 */
 		// do nothing
 	}
-	else if (contains_digits_only(num))
-	{
-		push_back_elem(".0");
-	}
 	else
 	{
 		reset();
@@ -1363,18 +1245,7 @@ void BigFloat::set_number(const std::string& num)
 			<< "\nAssertion occured in BigFloat.cpp, #setn(str) 5.\n\n"
 			;
 */
-	}
-
-	if (has_extra_leading_zeros())
-	{
-		pop_front_extra_leading_zeros();
-	}
-
-	if (has_trailing_zeros())
-	{
-		pop_back_trailing_zeros();
-	}
-	notation_ = DECIMAL;
+	}	
 }
 
 void BigFloat::reset()
