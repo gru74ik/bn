@@ -176,7 +176,7 @@ bool BigFloat::has_leading_zeros() const
 
 bool BigFloat::has_trailing_zeros() const
 {
-	return char_position(get_number(), '0') != get_number().size();
+	return last_digit_value() == 0;
 }
 
 bool BigFloat::is_correct(Notation notation) const
