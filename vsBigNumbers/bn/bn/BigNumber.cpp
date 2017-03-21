@@ -7,8 +7,7 @@
 BigNumber::BigNumber()
 {
 	number_ = "0";
-	sign_ = define_sign();
-	discard_sign();
+	sign_ = '+';
 /*
 	std::cout << "Ctor BigNumber::BigNumber() has been called.\n";
 */
@@ -19,12 +18,6 @@ BigNumber::BigNumber(const std::string& num)
 	number_ = num;
 	sign_ = define_sign();
 	discard_sign();
-
-	if (has_leading_zeros())
-	{
-		pop_front_extra_zeros();
-	}
-
 /*
 	std::cout << "Ctor BigNumber::BigNumber(const std::string& num) has been called.\n";
 */

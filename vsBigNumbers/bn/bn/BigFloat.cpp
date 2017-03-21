@@ -20,7 +20,7 @@ BigFloat::BigFloat(const std::string& num)
 	:
 		BigNumber(num)
 {
-	set_number(num);
+	set_number(get_number());
 /*
 	std::cout << "Ctor BigFloat::BigFloat(const std::string& num) has been used.\n";
 */
@@ -31,10 +31,12 @@ BigFloat::BigFloat(const BigInt& bi)
 		BigNumber(bi.get_sign() + bi.get_number() + ".0"),
 		notation_(DECIMAL)
 {
+/*
 	if (has_extra_leading_zeros())
 	{
 		pop_front_extra_leading_zeros();
 	}
+*/
 /*
 	std::cout << "Ctor BigFloat::BigFloat(const BigInt& bi) has been used.\n";
 */
@@ -45,7 +47,7 @@ BigFloat::BigFloat(const BigFloat& bf)
 		BigNumber(bf.get_sign() + bf.get_number()),
 		notation_(bf.notation_)
 {
-	set_number(bf.get_sign() + bf.get_number());
+	set_number(bf.get_number()); // without sign deliberately!
 /*
 	std::cout << "Copy ctor BigFloat::BigFloat(const BigFloat& bf) has been used.\n";
 */
@@ -1254,14 +1256,12 @@ void BigFloat::set_number(const std::string& num)
 	*/
 		}	
 	}
-
-
 }
 
 void BigFloat::reset()
 {
 	//clear_number();
-	BigNumber::set_number("0.0  E+0");
+	BigNumber::set_number("0.0");
 	notation_ = DEFAULT;
 /*
 	std::cout

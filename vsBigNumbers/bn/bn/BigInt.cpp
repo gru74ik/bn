@@ -15,46 +15,26 @@ BigInt::BigInt()
 BigInt::BigInt(const std::string& num) // #ctor(arg)
 	: BigNumber(num)
 {
+	if (has_leading_zeros())
+	{
+		pop_front_extra_zeros();
+	}
+
 	if (!is_correct(num))
 	{
 		reset();
 	}
-
-	if (has_leading_zeros())
-	{
-/*
-		std::cout
-			<< "The object has_leading_zeros(). "
-			<< "Assertion occured in BigInt.cpp, #ctor(arg)\n"
-			;
-*/
-		pop_front_extra_zeros();
-	}
 /*
 	std::cout << "Ctor BigInt::BigInt(const std::string& num) has been called.\n";
 */
-
-	//std::cout << "Num after all: " << get_number() << "\n";
+/*
+	std::cout << "Num after all: " << get_number() << "\n";
+*/
 }
 
 BigInt::BigInt(const BigInt& bi) // #copy ctor
-	: BigNumber(bi.get_number())
+	: BigNumber(bi.get_sign() + bi.get_number())
 {
-	if (!bi.is_correct())
-	{
-		reset();
-	}
-
-	if (has_leading_zeros())
-	{
-/*
-		std::cout
-			<< "The object has_leading_zeros()\n"
-			<< "Assertion occured in BigInt.cpp, ##copy ctor\n"
-			;
-*/
-		pop_front_extra_zeros();
-	}
 /*
 	std::cout << "Ctor BigInt::BigInt(const BigInt& bi) has been called.\n";
 */
