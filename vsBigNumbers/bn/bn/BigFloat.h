@@ -15,6 +15,8 @@ public:
 private:
 	enum Direction { LEFT, RIGHT };
 	Notation notation_;
+	char eSign_;
+	std::string eValue_;
 
 public:
 	// ctors =======================================================================

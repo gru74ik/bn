@@ -9,7 +9,9 @@
 BigFloat::BigFloat()
 	:
 		BigNumber("0.0"),
-		notation_(DEFAULT)
+		notation_(DEFAULT),
+		eSign_('+'),
+		eValue_("0")
 {
 /*
 	std::cout << "Default ctor BigFloat::BigFloat() has been used.\n";
@@ -20,7 +22,7 @@ BigFloat::BigFloat(const std::string& num)
 	:
 		BigNumber(num)
 {
-	set_number(get_number());
+	set_number(num);
 /*
 	std::cout << "Ctor BigFloat::BigFloat(const std::string& num) has been used.\n";
 */
@@ -29,14 +31,10 @@ BigFloat::BigFloat(const std::string& num)
 BigFloat::BigFloat(const BigInt& bi)
 	:
 		BigNumber(bi.get_sign() + bi.get_number() + ".0"),
-		notation_(DECIMAL)
+		notation_(DECIMAL),
+		eSign_('+'),
+		eValue_("0")
 {
-/*
-	if (has_extra_leading_zeros())
-	{
-		pop_front_extra_leading_zeros();
-	}
-*/
 /*
 	std::cout << "Ctor BigFloat::BigFloat(const BigInt& bi) has been used.\n";
 */
