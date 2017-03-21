@@ -15,9 +15,18 @@ BigNumber::BigNumber()
 
 BigNumber::BigNumber(const std::string& num)
 {
-	number_ = num;
-	sign_ = define_sign();
-	discard_sign();
+	if (num.size() == 0)
+	{
+		reset();
+	}	
+	else
+	{ 
+		number_ = num;
+		sign_ = define_sign();
+		discard_sign();	
+	}
+	
+
 /*
 	std::cout << "Ctor BigNumber::BigNumber(const std::string& num) has been called.\n";
 */

@@ -16,7 +16,7 @@ private:
 	enum Direction { LEFT, RIGHT };
 	Notation notation_;
 	char eSign_;
-	std::string eValue_;
+	std::string eValueAsString_;
 
 public:
 	// ctors =======================================================================
@@ -42,6 +42,7 @@ public:
 	virtual bool is_zero() const;
 
 	// changers ====================================================================
+	void discard_e_tail();
 	void move_floating_point(Direction dir, size_t shiftSize);
 	void convert_to(Notation notation);
 	//void reverse();
@@ -68,6 +69,8 @@ public:
 
 	size_t e_sign_position() const;
 	char e_sign() const;
+
+	std::string e_tail() const;
 
 	virtual size_t last_digit_position() const;
 	virtual size_t last_digit_value() const;
