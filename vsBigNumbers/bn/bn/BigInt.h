@@ -18,12 +18,16 @@ public:
 	// dtors =======================================================================
 	virtual ~BigInt() {}				// is done
 
-	// checkers ====================================================================	
+	// checkers ====================================================================
+	bool has_leading_zeros() const;						// is done
 	bool is_correct(const std::string& num) const;		// is done
 	bool is_correct() const;							// is done
 	virtual bool is_greater_than_zero() const;			// is done
 	virtual bool is_less_than_zero() const;				// is done
 	virtual bool is_zero() const;						// is done
+
+	// changers ====================================================================
+	void pop_front_extra_zeros();
 
 	// getters =====================================================================
 	virtual size_t last_digit_position() const;			// is done

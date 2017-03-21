@@ -41,33 +41,7 @@
 	DONE: ñheck out if they works properly
 
 15. BigFloat total testing:
-	DONE: ñheck out if all functions calling by constructors works properly
+	TODO:: ñheck out if all functions calling by constructors works properly
 
-	Default ctor BigFloat::BigFloat():
-			void BigFloat::set_number(const std::string& num);
-
-	Ctor BigFloat::BigFloat(const std::string& num):
-			BigFloat::set_number(const std::string& num);
-			BigFloat::is_correct(Notation notation) const;
-
-			BigFloat::convert_to(SCIENTIFIC):
-				BigNumber::get_number() const;
-				BigFloat::dot_position() const;
-				BigFloat::e_position() const;
-				BigFloat::e_value_as_number() const;
-				BigNumber::position_before(size_t pos)
-				BigFloat::move_floating_point(LEFT, arg);
-				BigFloat::set_number(const std::string& num);
-				::number_to_string(size_t number);
-				BigNumber::leading_zeros() const;
-				move_floating_point(RIGHT, arg)
-				BigFloat::pop_front_extra_zeros();
-				BigNumber::push_back_elem(const std::string & str)
-				BigFloat::pop_back_extra_zeros();
-
-			BigFloat::convert_to(DECIMAL):
-				BigFloat::e_sign();
-				move_floating_point(RIGHT, arg);
-				BigNumber::erase_elem(first, last);
-
-			void BigFloat::reset()
+16. BigFloat size_t BigFloat::extra_leading_zeros() const:
+	TODO:: check out implementation (bugs)

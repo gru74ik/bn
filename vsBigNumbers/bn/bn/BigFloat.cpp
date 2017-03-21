@@ -59,8 +59,8 @@ BigFloat::BigFloat(const BigFloat& bf)
 bool BigFloat::has_extra_leading_zeros() const
 {	
 	return
-		digits_before_dot() > 1 &&
-		first_digit_value() == 0;
+		elem_value(0) == 0 &&
+		elem_value(1) == 0;
 }
 
 bool BigFloat::has_leading_zeros() const
@@ -877,7 +877,23 @@ size_t BigFloat::extra_leading_zeros() const
 
 	size_t extraLeadingZeros = 0;
 
-	// TODO: implement this function
+	for (size_t i = 0; i < dot_position(); ++i)
+	{
+		if (get_number()[i] == '0')
+		{
+			++extraLeadingZeros;
+		}
+		else if ((get_number()[i] == '.') || i == last_digit_position())
+		{
+			--extraLeadingZeros;
+			break;
+		}
+		else
+		{
+			break;
+		}
+
+	}
 
 	return extraLeadingZeros;
 }
@@ -1187,9 +1203,9 @@ void BigFloat::set_number(const std::string& num)
 	{
 		BigNumber::set_number(num + ".0");
 
-		if (BigNumber::has_leading_zeros())
+		if (has_extra_leading_zeros())
 		{
-			BigNumber::pop_front_extra_zeros();
+			pop_front_extra_leading_zeros();
 		}
 				
 		notation_ = DECIMAL;

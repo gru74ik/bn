@@ -21,7 +21,6 @@ public:
 	virtual ~BigNumber() {}
 
 	// checkers ====================================================================
-	bool has_leading_zeros() const;
 	virtual bool is_greater_than_zero() const = 0;
 	virtual bool is_less_than_zero() const = 0;
 	virtual bool is_zero() const = 0;
@@ -29,7 +28,6 @@ public:
 	// changers ====================================================================
 	void discard_sign();
 
-	void pop_front_extra_zeros();
 	void push_front_additional_zeros(const size_t quantity);
 
 	void reverse_number();

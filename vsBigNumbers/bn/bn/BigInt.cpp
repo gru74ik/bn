@@ -43,13 +43,20 @@ BigInt::BigInt(const BigInt& bi) // #copy ctor
 
 
 // checkers ====================================================================
+bool BigInt::has_leading_zeros() const
+{
+	// for example: the number 0001234 has three leading zeros
+
+	return get_number().size() > 1 && first_digit_value() == 0;
+} //endof has_leading_zeros() const
+
 bool BigInt::is_correct(const std::string& num) const
 {
 	bool correct = true;
 
 	if (num.size() == 0)
 	{
-		std::cout << "BigInt is incorrect because num.size() == 0.\n";
+		std::cout << "BigInt is incorrect because arg size is 0.\n";
 		correct = false;
 	}
 	else
@@ -59,7 +66,7 @@ bool BigInt::is_correct(const std::string& num) const
 			if (!is_digit(num[0])) // bi.number().at(0)
 			{
 				std::cout <<
-					"BigInt is incorrect because num.size() == 1 "
+					"BigInt is incorrect because arg size is 1 "
 					"and the character is not a digit.\n";
 				correct = false;
 			}
@@ -125,6 +132,34 @@ bool BigInt::is_zero() const
 
 	return num.get_number() == "0";
 } // endof is_zero()
+
+
+
+  // changers ====================================================================
+
+  // вытолкнуть спереди (отбросить) лишние нули
+void BigInt::pop_front_extra_zeros() // #pfez
+{
+	/*
+	std::cout << "Function member BigNumber::pop_front_extra_zeros() has been called.\n\n";
+	*/
+	size_t fromPos = 0, toPos = 0;
+	for (size_t i = 0; i < last_digit_position(); ++i)
+	{
+		if (elem_value(i) == 0)
+		{
+			++toPos;
+		}
+		else
+		{
+			break;
+		}
+	}
+	if (has_leading_zeros())
+	{
+		erase_elem(fromPos, toPos - 1);
+	}
+}
 
 
 
