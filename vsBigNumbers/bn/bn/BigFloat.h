@@ -8,12 +8,12 @@
 class BigFloat
 	: public BigNumber
 {
-private:
-	enum Direction { LEFT, RIGHT };
 
 public:
 	enum Notation { DEFAULT = 0, DECIMAL, SCIENTIFIC };
 
+private:
+	enum Direction { LEFT, RIGHT };
 	Notation notation_;
 
 public:

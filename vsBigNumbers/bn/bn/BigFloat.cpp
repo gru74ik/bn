@@ -863,7 +863,11 @@ Old version:
 		erase_elem(lastDigitPos, lastDigitPos);
 	}
 */
-	pop_back_elem(trailing_zeros());
+
+	for (size_t i = 0; i < trailing_zeros(); ++i)
+	{
+		erase_elem(last_digit_position());
+	}
 }
 
 
@@ -877,16 +881,11 @@ size_t BigFloat::extra_leading_zeros() const
 
 	size_t extraLeadingZeros = 0;
 
-	for (size_t i = 0; i < dot_position(); ++i)
+	for (size_t i = 0; i < position_before(dot_position()); ++i)
 	{
 		if (get_number()[i] == '0')
 		{
 			++extraLeadingZeros;
-		}
-		else if ((get_number()[i] == '.') || i == last_digit_position())
-		{
-			--extraLeadingZeros;
-			break;
 		}
 		else
 		{
@@ -949,7 +948,7 @@ size_t BigFloat::trailing_zeros() const
 			break;
 		}
 	}
-
+	//std::cout << "\ntrailingZeros: " << trailingZeros << "\n";
 	return trailingZeros;
 }
 
