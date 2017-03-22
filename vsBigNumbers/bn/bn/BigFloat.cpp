@@ -437,12 +437,18 @@ void BigFloat::move_floating_point(Direction dir, size_t shiftSize)
 				<< "\nshiftSize: " << shiftSize << "\n";
 */
 			size_t additionalZeros = shiftSize - digitsAfterDot;
+			size_t posToInsertingAdditionalZeros = position_after(lastDigitPos);
 			for (size_t i = 0; i < additionalZeros; ++i)
 			{
 				//std::cout << "\nI insert zeros, man!\n";
-				insert_elem('0', position_after(lastDigitPos));
+				insert_elem('0', posToInsertingAdditionalZeros);
 			}
-			insert_elem(".0", position_after(lastDigitPos));
+
+			insert_elem
+				(
+					".0",
+					position_after(last_digit_position())	// This is so on purpose! 
+				);											// Do not change this parameter!
 		}
 
 		erase_elem(dotPos);
