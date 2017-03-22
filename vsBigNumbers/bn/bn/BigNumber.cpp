@@ -244,10 +244,18 @@ void BigNumber::reset()
 	number_ = "0";
 }
 
-// установить значения полей в соответствии с переданным аргументом
+// установить знак
+void BigNumber::set_sign(const char sign)
+{
+	sign_ = sign;
+}
+
+// установить значение полей в соответствии с переданным аргументом
 void BigNumber::set_number(const std::string & num)
 {
 	number_ = num;
 	sign_ = define_sign();
 	discard_sign();
 }
+
+

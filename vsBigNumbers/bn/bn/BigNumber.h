@@ -74,6 +74,7 @@ public:
 	// setters =====================================================================
 	void reset();	// TODO: implement for BigFloat his own version
 	void set_number(const std::string & num);
+	void set_sign(const char sign);
 };
 
 #endif // BIGNUMBER_H

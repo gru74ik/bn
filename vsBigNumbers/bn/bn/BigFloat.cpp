@@ -13,9 +13,13 @@ BigFloat::BigFloat()
 		eSign_('+'),
 		eValueAsString_("0")
 {
-/*
-	std::cout << "Default ctor BigFloat::BigFloat() has been used.\n";
-*/
+/**/
+	std::cout
+		<< "Default ctor BigFloat::BigFloat() has been used.\n"
+		<< "The number after ctor finished his work: "
+		<< get_number() << "\n\n"
+		;
+
 }
 
 BigFloat::BigFloat(const std::string& num)
@@ -23,9 +27,13 @@ BigFloat::BigFloat(const std::string& num)
 		BigNumber(num)
 {
 	set_number(get_number());
-/*
-	std::cout << "Ctor BigFloat::BigFloat(const std::string& num) has been used.\n";
-*/
+/**/
+	std::cout
+		<< "Ctor BigFloat::BigFloat(const std::string& num) has been used.\n"
+		<< "The number after ctor finished his work: "
+		<< get_number() << "\n\n"
+		;
+
 }
 
 BigFloat::BigFloat(const BigInt& bi)
@@ -33,9 +41,13 @@ BigFloat::BigFloat(const BigInt& bi)
 		BigNumber(bi.get_sign() + bi.get_number())
 {
 	set_number(bi.get_number());
-/*
-	std::cout << "Ctor BigFloat::BigFloat(const BigInt& bi) has been used.\n";
-*/
+/**/
+	std::cout
+		<< "Ctor BigFloat::BigFloat(const BigInt& bi) has been used.\n"
+		<< "The number after ctor finished his work: "
+		<< get_number() << "\n\n"
+		;
+
 }
 
 BigFloat::BigFloat(const BigFloat& bf)
@@ -45,9 +57,13 @@ BigFloat::BigFloat(const BigFloat& bf)
 		eSign_(bf.eSign_),
 		eValueAsString_(bf.eValueAsString_)
 {
-/*
-	std::cout << "Copy ctor BigFloat::BigFloat(const BigFloat& bf) has been used.\n";
-*/
+/**/
+	std::cout
+		<< "Copy ctor BigFloat::BigFloat(const BigFloat& bf) has been used.\n"
+		<< "The number after ctor finished his work: "
+		<< get_number() << "\n\n";
+		;
+
 }
 
 
@@ -1065,7 +1081,8 @@ char BigFloat::e_sign() const
 
 std::string BigFloat::e_tail() const
 {
-	std::string eTail = " E" + eSign_ + eValueAsString_;
+	std::string eTail;
+	eTail = eTail + " E" + eSign_ + eValueAsString_;
 	return eTail;
 }
 
@@ -1170,7 +1187,12 @@ void BigFloat::set_number(const BigFloat& bf)
 	eValueAsString_ = bf.eValueAsString_;
 /*
 	std::cout
-		<< "Assertion occured in BigFloat.cpp, set_number(const BigFloat& bf).\n\n"
+		<< "Assertion occured in BigFloat.cpp, set_number(const BigFloat& bf)."
+		<< "\nData members after setter finished his work:"
+		<< "\nsign_: " << get_sign()
+		<< "\nnumber_: " << get_number()
+		<< "\neSign_: " << eSign_
+		<< "\neValueAsString_" << eValueAsString_ << "\n\n"
 		;
 */
 }
@@ -1280,6 +1302,16 @@ void BigFloat::set_number(const std::string& num)
 	*/
 		}	
 	}
+/**/
+	// #setn(str) 6
+	std::cout
+		<< "Assertion occured in BigFloat.cpp, set_number(const std::string& num), #setn(str) 6."
+		<< "\nData members after setter finished his work:"
+		<< "\nsign_: " << get_sign()
+		<< "\nnumber_: " << get_number()
+		<< "\neSign_: " << eSign_
+		<< "\neValueAsString_" << eValueAsString_ << "\n\n"
+		;
 }
 
 void BigFloat::reset()
