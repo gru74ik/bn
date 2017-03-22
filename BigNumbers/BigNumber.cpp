@@ -7,8 +7,7 @@
 BigNumber::BigNumber()
 {
     number_ = "0";
-    sign_ = define_sign();
-    discard_sign();
+    sign_ = '+';
 /*
     std::cout << "Ctor BigNumber::BigNumber() has been called.\n";
 */
@@ -16,14 +15,17 @@ BigNumber::BigNumber()
 
 BigNumber::BigNumber(const std::string& num)
 {
-    number_ = num;
-    sign_ = define_sign();
-    discard_sign();
-
-    if (has_leading_zeros())
+    if (num.size() == 0)
     {
-        pop_front_extra_zeros();
+        reset();
     }
+    else
+    {
+        number_ = num;
+        sign_ = define_sign();
+        discard_sign();
+    }
+
 
 /*
     std::cout << "Ctor BigNumber::BigNumber(const std::string& num) has been called.\n";
@@ -31,78 +33,6 @@ BigNumber::BigNumber(const std::string& num)
 }
 
 
-
-// checkers ====================================================================
-bool BigNumber::has_leading_zeros() const
-{
-    size_t dotPos = char_position(number_, '.');
-    bool result = false;
-
-    if (dotPos != number_.size())
-    {
-/*
-        // #hlz() 1
-        std::cout
-            << "The number is float pointing because "
-            << "condition (dotPos != number_.size()) is true.\n"
-            << "dotPos is : " << dotPos << ", "
-            << "number_.size() is: " << number_.size() << ". "
-            << "Discarding of extra zeros is not necessary.\n"
-            << "Assertion occured in BigNumber.cpp, has_leading_zeros(), #hlz() 3\n\n"
-            ;
-*/
-        if (dotPos > 1)
-        {
-/*
-            // #hlz() 2
-            std::cout
-                << "The number has leading zeros "
-                << "because condition (dotPos > 1) is true.\n"
-                << "dotPos is : " << dotPos << "\n"
-                << "\nand number_.size() is: " << number_.size() << "\n"
-                << "Assertion occured in BigNumber.cpp, has_leading_zeros(), #hlz() 4\n\n"
-                ;
-*/
-            result = true;
-        }
-    }
-    else
-    {
-/*
-        // #hlz() 3
-        std::cout
-            << "The number is integer because "
-            << "condition (dotPos != number_.size()) is false.\n"
-            << "dotPos is : " << dotPos << "\n"
-            << "\nand number_.size() is: " << number_.size() << "\n"
-            << "Assertion occured in BigNumber.cpp, has_leading_zeros(), #hlz() 4\n\n"
-            ;
-*/
-        if (number_.size() > 1 && first_digit_value() == 0)
-        {
-/*
-            // #hlz() 4
-            std::cout
-                << "Condition (number_.size() > 1 && first_digit_value() == 0) is true because:\n"
-                << "number_.size(): " << number_.size() << "\n"
-                << "first_digit_value(): " << first_digit_value() << "\n"
-                << "Assertion occured in BigNumber.cpp, has_leading_zeros(), #hlz() 1\n\n"
-                ;
-*/
-/*
-            // #hlz() 5
-            std::cout
-                << "size_t dotPos = char_position(number_, '.'): "
-                << dotPos
-                << ". Assertion occured in BigNumber.cpp, has_leading_zeros(), #hlz() 2\n\n"
-                ;
-*/
-            result = true;
-        }
-    }
-
-    return result;
-}
 
 // changers ====================================================================
 
@@ -112,30 +42,6 @@ void BigNumber::discard_sign()
     if (is_sign(number_[0]))
     {
         erase_part_of(number_, 0, 0);
-    }
-}
-
-// вытолкнуть спереди (отбросить) лишние нули
-void BigNumber::pop_front_extra_zeros() // #pfez
-{	// TODO: implement for BigFloat his own version
-/*
-    std::cout << "Function member BigNumber::pop_front_extra_zeros() has been called.\n\n";
-*/
-    size_t fromPos = 0, toPos = 0;
-    for (size_t i = 0; i < number_.size() - 1; ++i)
-    {
-        if (number_[i] == '0')
-        {
-            ++toPos;
-        }
-        else
-        {
-            break;
-        }
-    }
-    if (has_leading_zeros())
-    {
-        erase_elem(fromPos, toPos-1);
     }
 }
 
@@ -199,9 +105,19 @@ void BigNumber::pop_back_elem()
     pop_back(number_);
 }
 
+void BigNumber::pop_back_elem(const size_t quantity)
+{
+    erase_part_of(number_, number_.size() - quantity, number_.size() - 1);
+}
+
 void BigNumber::pop_front_elem()
 {
     pop_front(number_);
+}
+
+void BigNumber::pop_front_elem(const size_t quantity)
+{
+    erase_part_of(number_, 0, quantity - 1);
 }
 
 void BigNumber::clear_number()
@@ -328,10 +244,18 @@ void BigNumber::reset()
     number_ = "0";
 }
 
-// установить значения полей в соответствии с переданным аргументом
+// установить знак
+void BigNumber::set_sign(const char sign)
+{
+    sign_ = sign;
+}
+
+// установить значение полей в соответствии с переданным аргументом
 void BigNumber::set_number(const std::string & num)
 {
     number_ = num;
     sign_ = define_sign();
     discard_sign();
 }
+
+

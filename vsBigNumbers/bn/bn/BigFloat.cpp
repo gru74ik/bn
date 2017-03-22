@@ -1199,23 +1199,55 @@ void BigFloat::set_number(const BigFloat& bf)
 
 void BigFloat::set_number(const std::string& num)
 {	
+	/**/
+	// #setn(str) 1
+	std::cout
+		<< "BigFloat::set_number(const std::string& num) began his work."
+		<< "\nAssertion occured in BigFloat.cpp, #setn(str) 1.\n\n"
+		;
+
 	size_t numSize = get_number().size();
 
 	if ( num == "0.0")
 	{
 		reset();
+
+		/**/
+		// #setn(str) 2
+		std::cout
+			<< "BigFloat::reset() has been called."
+			<< "\nAssertion occured in BigFloat.cpp, #setn(str) 2.\n\n"
+			;
 	}
 	else if (contains_digits_only(num))
 	{
+		/**/
+		// #setn(str) 3
+		std::cout
+			<< "Global function contains_digits_only(const std::string& num) has been called."
+			<< "\nAssertion occured in BigFloat.cpp, #setn(str) 3.\n\n"
+			;
 		if (numSize == 0)
 		{
 			reset();
+			/**/
+			// #setn(str) 4
+			std::cout
+				<< "BigFloat::reset() has been called."
+				<< "\nAssertion occured in BigFloat.cpp, #setn(str) 4.\n\n"
+				;
 		}
 		else if (numSize == 1)
 		{
 			if (num == "0")
 			{
 				reset();
+				/**/
+				// #setn(str) 5
+				std::cout
+					<< "BigFloat::reset() has been called."
+					<< "\nAssertion occured in BigFloat.cpp, #setn(str) 5.\n\n"
+					;
 			}
 			else
 			{				
@@ -1223,94 +1255,153 @@ void BigFloat::set_number(const std::string& num)
 				eSign_ = '+';				
 				eValueAsString_ = "0";
 				insert_elem(".0", numSize);
+				/**/
+				// #setn(str) 6
+				std::cout
+					<< "BigNumber::insert_elem(const std::string & str, const size_t pos) has been called."
+					<< "\nAssertion occured in BigFloat.cpp, #setn(str) 6.\n\n"
+					;
 			}
 		}
 		else
 		{
 			BigNumber::set_number(num);
+			/**/
+			// #setn(str) 7
+			std::cout
+				<< "BigNumber::set_number(num) has been called."
+				<< "\nAssertion occured in BigFloat.cpp, #setn(str) 7.\n\n"
+				;
 
 			if (has_extra_leading_zeros())
 			{
+				/**/
+				// #setn(str) 8
+				std::cout
+					<< "BigFloat::has_extra_leading_zeros() has been called."
+					<< "\nAssertion occured in BigFloat.cpp, #setn(str) 8.\n\n"
+					;
 				pop_front_extra_leading_zeros();
+				pop_front_extra_leading_zeros();
+				/**/
+				// #setn(str) 9
+				std::cout
+					<< "BigFloat::pop_front_extra_leading_zeros() has been called."
+					<< "\nAssertion occured in BigFloat.cpp, #setn(str) 9.\n\n"
+					;
 			}
 
 			notation_ = DECIMAL;
 			eSign_ = '+';
 			eValueAsString_ = number_to_string(numSize - 1);
 			insert_elem('.', 1);
+			/**/
+			// #setn(str) 10
+			std::cout
+				<< "BigNumber::insert_elem(const char ch, const size_t pos) has been called."
+				<< "\nAssertion occured in BigFloat.cpp, #setn(str) 10.\n\n"
+				;
 		}		
 	}
 	else
 	{
 		BigNumber::set_number(num);
+		/**/
+		// #setn(str) 21
+		std::cout
+			<< "BigNumber::set_number(num) has been called."
+			<< "\nAssertion occured in BigFloat.cpp, #setn(str) 21.\n\n"
+			;
 
 		if (has_extra_leading_zeros())
 		{
+			/**/
+			// #setn(str) 22
+			std::cout
+				<< "BigFloat::has_extra_leading_zeros() has been called."
+				<< "\nAssertion occured in BigFloat.cpp, #setn(str) 22.\n\n"
+				;
+
 			pop_front_extra_leading_zeros();
+			/**/
+			// #setn(str) 23
+			std::cout
+				<< "BigFloat::pop_front_extra_leading_zeros() has been called."
+				<< "\nAssertion occured in BigFloat.cpp, #setn(str) 23.\n\n"
+				;
+
 		}
 
 		if (has_trailing_zeros())
 		{
+			/**/
+			// #setn(str) 24
+			std::cout
+				<< "BigFloat::has_trailing_zeros() has been called."
+				<< "\nAssertion occured in BigFloat.cpp, #setn(str) 24.\n\n"
+				;
+
 			pop_back_trailing_zeros();
+			/**/
+			// #setn(str) 25
+			std::cout
+				<< "BigFloat::pop_back_trailing_zeros() has been called."
+				<< "\nAssertion occured in BigFloat.cpp, #setn(str) 25.\n\n"
+				;
+
 		}
 
-	/*
-		// #setn(str) 1
-		std::cout
-			<< "ctor(str) has been called."
-			<< "\nAssertion occured in BigFloat.cpp, #setn(str) 1.\n\n"
-			;
-	*/
 		if (is_correct(SCIENTIFIC))
 		{
-	/*
-			// #setn(str) 2
+			/**/
+			// #setn(str) 26
 			std::cout
 				<< "is_correct(SCIENTIFIC) has been called."
-				<< "\nAssertion occured in BigFloat.cpp, #setn(str) 2.\n\n"
+				<< "\nAssertion occured in BigFloat.cpp, #setn(str) 26.\n\n"
 				;
-	*/
+
 			convert_to(DECIMAL);
-	/*
-			// #setn(str) 3
+			/**/
+			// #setn(str) 27
 			std::cout
 				<< "convert_to(DECIMAL) has been called."
-				<< "\nAssertion occured in BigFloat.cpp, #setn(str) 3.\n\n"
+				<< "\nAssertion occured in BigFloat.cpp, #setn(str) 27.\n\n"
 				;
-	*/
+
 		}
 		else if (is_correct(DECIMAL))
 		{
-	/*
-			// #setn(str) 4
+			/**/
+			// #setn(str) 28
 			std::cout
 				<< "is_correct(DECIMAL) has been called."
-				<< "\nAssertion occured in BigFloat.cpp, #setn(str) 4.\n\n"
+				<< "\nAssertion occured in BigFloat.cpp, #setn(str) 28.\n\n"
 				;
-	*/
+
 			// do nothing
 		}
 		else
 		{
 			reset();
-	/*
-			// #setn(str) 5
+			/**/
+			// #setn(str) 29
 			std::cout
 				<< "reset() has been called."
-				<< "\nAssertion occured in BigFloat.cpp, #setn(str) 5.\n\n"
+				<< "\nAssertion occured in BigFloat.cpp, #setn(str) 29.\n\n"
 				;
-	*/
-		}	
+
+		}
 	}
+
 /**/
-	// #setn(str) 6
+	// #setn(str) 30
 	std::cout
-		<< "Assertion occured in BigFloat.cpp, set_number(const std::string& num), #setn(str) 6."
 		<< "\nData members after setter finished his work:"
 		<< "\nsign_: " << get_sign()
 		<< "\nnumber_: " << get_number()
 		<< "\neSign_: " << eSign_
-		<< "\neValueAsString_" << eValueAsString_ << "\n\n"
+		<< "\neValueAsString_" << eValueAsString_
+		<< "Assertion occured in BigFloat.cpp, set_number(const std::string& num), #setn(str) 30.\n\n"
 		;
 }
 

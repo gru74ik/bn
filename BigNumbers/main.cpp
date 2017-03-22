@@ -25,65 +25,12 @@ N mzn 10 *. 0) ( . Например, число 2.5 можно записать 
 
 int main()
 {
-/*
-    BigFloat c("123.45");
-    // число: 123.45
-    // на выходе должно быть: +1.2347 Е+2
-    std::cout
-        << "c: "
-        << c
-        << "\n\n"
-        ;
-*/
-/*
-    BigFloat d("0.089");
-    // число: 0.089
-    // на выходе должно быть: +8.9 Е-2
-    std::cout
-        << "d: "
-        << d
-        << "\n\n"
-        ;
-*/
-/*
-    std::cout
-        << "c + d = "
-        << (c + d)
-        << "\n\n"
-        ;
-*/
-/*
-    BigInt x("0000000000000000000000000000000000001984");
-    BigInt y("02000");
-    BigInt z("000000000000007770000000000999");
-    x.insert_elem("777", 0);
-    y.insert_elem('6', y.last_digit_position());
-    z.insert_elem('4', z.get_number().size());
+
+    BigFloat a("+1.2345 E+5");
 
     std::cout
-        << "\n\n"
-        << "x: " << x << "\n\n"
-        << "y: " << y << "\n\n"
-        << "z: " << z << "\n\n"
+        << "a(+1234.5): " << a << "\n"
         ;
-*/
-/**/
-    BigFloat x;
-    BigFloat y;
-    std::cout << "Enter two big floating point numbers one by one:\n";
-    std::cin >> x >> y;
-    std::cout << "x + y = " << (x + y) << "\n\n";
 
-/*
-    std::cout << "The number a before all is: +1.23456 E+5\n\n";
-    BigFloat a("+2.95638 E+3"); // 2956.38
-    std::cout << "a: " << a << "\n\n";
-
-    std::cout << "The number b before all is: +1.23456 E+5\n\n";
-    BigFloat b("+4.9799 E+1"); // 49.799
-    std::cout << "b: " << b << "\n\n";
-
-    std::cout << "a - b: " << (a - b) << "\n\n";
-*/
     return 0;
 }

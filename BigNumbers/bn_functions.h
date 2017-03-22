@@ -8,10 +8,11 @@
 // Or use standard functions from cctype header.
 
 // checkers ====================================================================
-bool contains_one_dot_only(const std::string& number);
+bool contains_digits_only(const std::string& num);
+bool contains_one_dot_only(const std::string& num);
 bool is_digit(const char ch);
 bool is_dot(const char ch);
-bool is_one_char(const std::string& number);
+bool is_one_char(const std::string& num);
 bool is_sign(const char ch);
 bool is_space(const char ch);
 
@@ -58,7 +59,7 @@ void reverse(std::string& str);
 // converters ==================================================================
 size_t char_to_digit(const char ch);
 char digit_to_char(const size_t num);
-std::string number_to_string(size_t number);
+std::string number_to_string(size_t num);
 size_t string_to_number(const std::string& str);
 
 

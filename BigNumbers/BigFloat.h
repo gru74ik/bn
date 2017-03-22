@@ -8,13 +8,15 @@
 class BigFloat
     : public BigNumber
 {
-private:
-    enum Direction { LEFT, RIGHT };
 
 public:
     enum Notation { DEFAULT = 0, DECIMAL, SCIENTIFIC };
 
+private:
+    enum Direction { LEFT, RIGHT };
     Notation notation_;
+    char eSign_;
+    std::string eValueAsString_;
 
 public:
     // ctors =======================================================================
@@ -29,6 +31,8 @@ public:
     // checkers ====================================================================
     bool has_extra_leading_zeros() const;
     bool has_leading_zeros() const;
+    bool has_trailing_zeros() const;
+
     bool is_correct(Notation notation) const;
     bool is_decimal() const;
     bool is_scientific() const;
@@ -38,16 +42,20 @@ public:
     virtual bool is_zero() const;
 
     // changers ====================================================================
+    void discard_e_tail();
     void move_floating_point(Direction dir, size_t shiftSize);
     void convert_to(Notation notation);
     //void reverse();
 
     void pop_front_leading_zeros();
+    void pop_front_extra_leading_zeros();
     void push_back_additional_zeros(const size_t quantity);
-    void pop_back_extra_zeros();
+    void pop_back_trailing_zeros();
 
     // getters =====================================================================
+    size_t extra_leading_zeros() const;
     size_t leading_zeros() const;
+    size_t trailing_zeros() const;
 
     size_t digits_before_dot() const;
     size_t dot_position() const;
@@ -61,6 +69,8 @@ public:
 
     size_t e_sign_position() const;
     char e_sign() const;
+
+    std::string e_tail() const;
 
     virtual size_t last_digit_position() const;
     virtual size_t last_digit_value() const;

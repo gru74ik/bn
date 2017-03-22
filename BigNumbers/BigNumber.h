@@ -21,7 +21,6 @@ public:
     virtual ~BigNumber() {}
 
     // checkers ====================================================================
-    bool has_leading_zeros() const;
     virtual bool is_greater_than_zero() const = 0;
     virtual bool is_less_than_zero() const = 0;
     virtual bool is_zero() const = 0;
@@ -29,7 +28,6 @@ public:
     // changers ====================================================================
     void discard_sign();
 
-    void pop_front_extra_zeros();
     void push_front_additional_zeros(const size_t quantity);
 
     void reverse_number();
@@ -47,7 +45,10 @@ public:
     void push_front_elem(const std::string& str);
 
     void pop_back_elem();
+    void pop_back_elem(const size_t quantity);
+
     void pop_front_elem();
+    void pop_front_elem(const size_t quantity);
 
     void clear_number();
 
@@ -73,6 +74,7 @@ public:
     // setters =====================================================================
     void reset();	// TODO: implement for BigFloat his own version
     void set_number(const std::string & num);
+    void set_sign(const char sign);
 };
 
 #endif // BIGNUMBER_H
