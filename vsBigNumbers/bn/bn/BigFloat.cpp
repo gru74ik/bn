@@ -447,8 +447,9 @@ void BigFloat::move_floating_point(Direction dir, size_t shiftSize)
 			insert_elem
 				(
 					".0",
-					position_after(last_digit_position())	// This is so on purpose! 
-				);											// Do not change this parameter!
+					position_after(last_digit_position())	 
+				);	// This is so on purpose! Do not change the 2nd
+					// arg of function insert_elem() in this case.
 		}
 
 		erase_elem(dotPos);
