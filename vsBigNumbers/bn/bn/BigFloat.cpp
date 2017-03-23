@@ -2168,28 +2168,28 @@ std::ostream& operator<<(std::ostream& os, const BigFloat& bf) // #op<<(bf)
 	if (temp.is_decimal())
 	{
 /*
-		// #op<< 1
+		// #op<<(bf) 1
 		std::cout
 			<< "is_correct(DECIMAL) has been called.\n"
-			<< "Assertion occured in BigFloat.cpp, #op<< 1.\n\n"
+			<< "Assertion occured in BigFloat.cpp, #op<<(bf) 1.\n\n"
 			;
 */
 		temp.convert_to(BigFloat::SCIENTIFIC);
 /*
-		// #op<< 2
+		// #op<<(bf) 2
 		std::cout
 			<< "convert_to(SCIENTIFIC) has been called.\n"
-			<< "Assertion occured in BigFloat.cpp, #op<< 2.\n\n"
+			<< "Assertion occured in BigFloat.cpp, #op<<(bf) 2.\n\n"
 			;
 */
 	}
 	else if (temp.is_scientific())
 	{
 /*
-		// #op<< 3
+		// #op<<(bf) 3
 		std::cout
 			<< "is_correct(SCIENTIFIC) has been called.\n"
-			<< "Assertion occured in BigFloat.cpp, #op<< 3.\n\n"
+			<< "Assertion occured in BigFloat.cpp, #op<<(bf) 3.\n\n"
 			;
 */
 		// do nothing
@@ -2197,13 +2197,20 @@ std::ostream& operator<<(std::ostream& os, const BigFloat& bf) // #op<<(bf)
 	else
 	{
 		temp.reset();
-		temp.push_back_elem(temp.e_tail());
 /*
-		// #op<< 4
+		// #op<<(bf) 4
 		std::cout
 			<< "reset() has been called.\n"
-			<< "Assertion occured in BigFloat.cpp, #op<< 4.\n\n"
+			<< "Assertion occured in BigFloat.cpp, #op<<(bf) 4.\n\n"
 			;
+*/
+		temp.push_back_elem(temp.e_tail());
+/*
+		// #op<<(bf) 5
+		std::cout
+		<< "push_back_elem(e_tail()) has been called.\n"
+		<< "Assertion occured in BigFloat.cpp, #op<<(bf) 5.\n\n"
+		;
 */
 	}
 
