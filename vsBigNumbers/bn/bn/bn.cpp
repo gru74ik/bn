@@ -35,7 +35,7 @@ int main()
 	std::cout
 		<< "b(+1.2345 E-3): " << b << "\n\n"
 		;
-*/
+
 	BigFloat x;
 	BigFloat y;
 	std::cout << "Enter two big floating numbers one by one:\n";
@@ -44,6 +44,17 @@ int main()
 		<< "\nx: " << x
 		<< "\ny: " << y
 		<< "\n\n";
-	
+*/
+
+	BigFloat m("0");
+	std::cout
+		<< "m(0): " << m << "\n\n"
+		;
+
+	BigFloat n("0.0");
+	std::cout
+		<< "n(0.0): " << n << "\n\n"
+		;
+
 	return 0;
 }

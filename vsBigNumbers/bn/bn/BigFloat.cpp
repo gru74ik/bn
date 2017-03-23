@@ -399,6 +399,20 @@ void BigFloat::discard_e_tail()
 
 void BigFloat::move_floating_point(Direction dir, size_t shiftSize)
 {
+	if (is_zero())
+	{
+		/**/
+		// #mfp(r) 0
+		std::cout
+		<< "BigFloat::move_floating_point(args) has been called."
+		<< "\nThe number is zero: "
+		<< get_number()
+		<< "\nAssertion occured in BigFloat.cpp, #mfp(r) 0.\n\n"
+		;
+
+		return;	
+	}
+
 	size_t dotPos = dot_position();
 	size_t digitsAfterDot = digits_after_dot();
 	size_t lastDigitPos = last_digit_position();
@@ -550,6 +564,19 @@ void BigFloat::move_floating_point(Direction dir, size_t shiftSize)
 
 void BigFloat::convert_to(Notation notation)
 {
+	if (is_zero())
+	{
+		/**/
+		// #conv(arg) 0
+		std::cout
+			<< "BigFloat::move_floating_point(args) has been called."
+			<< "\nThe number is zero: "
+			<< get_number()
+			<< "\nAssertion occured in BigFloat.cpp, // #conv(arg) 0.\n\n"
+			;
+
+		return;
+	}
 	size_t numSize = get_number().size();	
 	size_t dotShift = 0;
 
@@ -2170,6 +2197,7 @@ std::ostream& operator<<(std::ostream& os, const BigFloat& bf) // #op<<(bf)
 	else
 	{
 		temp.reset();
+		temp.push_back_elem(temp.e_tail());
 /*
 		// #op<< 4
 		std::cout
