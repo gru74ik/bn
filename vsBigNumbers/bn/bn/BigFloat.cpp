@@ -385,7 +385,9 @@ bool BigFloat::is_less_than_zero() const
 
 bool BigFloat::is_zero() const
 {
-	return get_number() == "0.0" || get_number() == "0";
+	return
+		mantissa() == "0" ||
+		mantissa() == "0.0";
 }
 
 
@@ -399,17 +401,18 @@ void BigFloat::discard_e_tail()
 
 void BigFloat::move_floating_point(Direction dir, size_t shiftSize)
 {
+/**/
 	if (is_zero())
 	{
-		/**/
+/*
 		// #mfp(r) 0
 		std::cout
-		<< "BigFloat::move_floating_point(args) has been called."
-		<< "\nThe number is zero: "
-		<< get_number()
-		<< "\nAssertion occured in BigFloat.cpp, #mfp(r) 0.\n\n"
-		;
-
+			<< "BigFloat::move_floating_point(args) has been called."
+			<< "\nThe number is zero: "
+			<< get_number()
+			<< "\nAssertion occured in BigFloat.cpp, #mfp(r) 0.\n\n"
+			;
+*/
 		return;	
 	}
 
@@ -564,9 +567,10 @@ void BigFloat::move_floating_point(Direction dir, size_t shiftSize)
 
 void BigFloat::convert_to(Notation notation)
 {
+/**/
 	if (is_zero())
 	{
-		/**/
+/*
 		// #conv(arg) 0
 		std::cout
 			<< "BigFloat::move_floating_point(args) has been called."
@@ -574,9 +578,10 @@ void BigFloat::convert_to(Notation notation)
 			<< get_number()
 			<< "\nAssertion occured in BigFloat.cpp, // #conv(arg) 0.\n\n"
 			;
-
+*/
 		return;
 	}
+
 	size_t numSize = get_number().size();	
 	size_t dotShift = 0;
 
@@ -2129,14 +2134,14 @@ std::istream& operator >> (std::istream& is, BigFloat& bf)
 	std::getline(std::cin, num);
 
 	bf.set_number(num);
-
+/*
 	std::cout
 		<< "The sign of the number after std::cin finished his work: "
 		<< bf.get_sign()
 		<< "\nand the number itself: "
 		<< bf.get_number()
 		<< "\n\n";
-
+*/
 	return is;
 } // endof // #op>>(bf)
 
@@ -2175,33 +2180,41 @@ std::ostream& operator<<(std::ostream& os, const BigFloat& bf) // #op<<(bf)
 	}
 	else if (temp.is_zero())
 	{
-		temp.push_back_elem(" E+0");
-/*
+		temp.reset();
+/**/
 		// #op<<(bf) 3a
 		std::cout
-		<< "push_back_elem(e_tail()) has been called.\n"
+		<< "reset() has been called.\n"
 		<< "Assertion occured in BigFloat.cpp, #op<<(bf) 3a.\n\n"
 		;
-*/
+
+		temp.push_back_elem(" E+0");
+/**/
+		// #op<<(bf) 3b
+		std::cout
+		<< "push_back_elem(e_tail()) has been called.\n"
+		<< "Assertion occured in BigFloat.cpp, #op<<(bf) 3b.\n\n"
+		;
+
 	}
 	else
 	{
 		temp.reset();
-/*
+/**/
 		// #op<<(bf) 4
 		std::cout
 			<< "reset() has been called.\n"
 			<< "Assertion occured in BigFloat.cpp, #op<<(bf) 4.\n\n"
 			;
-*/
-		temp.push_back_elem(temp.e_tail());
-/*
+
+		temp.push_back_elem(" E+0");
+/**/
 		// #op<<(bf) 5
 		std::cout
 		<< "push_back_elem(e_tail()) has been called.\n"
 		<< "Assertion occured in BigFloat.cpp, #op<<(bf) 5.\n\n"
 		;
-*/
+
 	}
 
 	os << temp.get_sign() << temp.get_number();

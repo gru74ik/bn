@@ -60,10 +60,7 @@ int main()
 		std::cout
 			<< "\nx: " << x
 			<< "\ny: " << y
-			<< "\nx + y: " << (x + y)
-			<< "\nx - y: " << (x - y)
-			<< "\nx * y: " << (x * y)
-			<< "\nx / y: " << (x / y)
+			<< "\nx + y: " << x + y
 			<< "\n\nDo you want proceed? (y/n) ";
 		std::cin >> choice;
 		std::cout << "\n\n";
