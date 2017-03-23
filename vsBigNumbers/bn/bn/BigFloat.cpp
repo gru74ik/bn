@@ -577,9 +577,27 @@ void BigFloat::convert_to(Notation notation)
 				<< get_number()
 				<< "\nAssertion occured in BigFloat.cpp, #conv(arg) 5\n\n"
 				;
+
 			if (has_trailing_zeros())
 			{
+				/**/
+				// #conv(arg) 5a
+				std::cout
+					<< "has_trailing_zeros() has been called."
+					<< "\nAssertion occured in BigFloat.cpp, #conv(arg) 5a\n\n"
+					;
+
 				pop_back_trailing_zeros();
+
+				/**/
+				// #conv(arg) 5b
+				std::cout
+					<< "pop_back_trailing_zeros() has been called."
+					<< "\nThe number after pop_back_trailing_zeros(): "
+					<< get_number()
+					<< "\nAssertion occured in BigFloat.cpp, #conv(arg) 5b\n\n"
+					;
+
 			}
 
 
@@ -597,7 +615,7 @@ void BigFloat::convert_to(Notation notation)
 /**/
 			// #conv(arg) 7
 			std::cout
-				<< "e_tail() has been called and it is:"
+				<< "e_tail() has been called and it is: "
 				<< e_tail()
 				<< "\nAssertion occured in BigFloat.cpp, #conv(arg) 7\n\n"
 				;
@@ -1433,14 +1451,14 @@ void BigFloat::set_number(const std::string& num)
 			if (has_leading_zeros())
 			{
 				eSign_ = '-';
-				eValueAsString_ = leading_zeros();
+				eValueAsString_ = number_to_string(leading_zeros());
 			}
 			else
 			{
 				if (dot_position() != 1)
 				{
 					eSign_ = '+';
-					eValueAsString_ = dot_position() - 1;
+					eValueAsString_ = number_to_string(dot_position() - 1);
 				}
 				else
 				{
@@ -1471,15 +1489,53 @@ void BigFloat::set_number(const std::string& num)
 		}
 	}
 
+	if (has_extra_leading_zeros())
+	{
+		/**/
+		// #setn(str) 30
+		std::cout
+			<< "BigFloat::has_extra_leading_zeros() has been called."
+			<< "\nAssertion occured in BigFloat.cpp, #setn(str) 30.\n\n"
+			;
+
+		pop_front_extra_leading_zeros();
+		/**/
+		// #setn(str) 31
+		std::cout
+			<< "BigFloat::pop_front_extra_leading_zeros() has been called."
+			<< "\nAssertion occured in BigFloat.cpp, #setn(str) 31.\n\n"
+			;
+
+	}
+
+	if (has_trailing_zeros())
+	{
+		/**/
+		// #setn(str) 32
+		std::cout
+			<< "BigFloat::has_trailing_zeros() has been called."
+			<< "\nAssertion occured in BigFloat.cpp, #setn(str) 32.\n\n"
+			;
+
+		pop_back_trailing_zeros();
+		/**/
+		// #setn(str) 33
+		std::cout
+			<< "BigFloat::pop_back_trailing_zeros() has been called."
+			<< "\nAssertion occured in BigFloat.cpp, #setn(str) 33.\n\n"
+			;
+
+	}
+
 /**/
-	// #setn(str) 30
+	// #setn(str) 34
 	std::cout
 		<< "\nData members after setter finished his work:"
 		<< "\nsign_: " << get_sign()
 		<< "\nnumber_: " << get_number()
 		<< "\neSign_: " << eSign_
-		<< "\neValueAsString_" << eValueAsString_
-		<< "\nAssertion occured in BigFloat.cpp, set_number(const std::string& num), #setn(str) 30.\n\n"
+		<< "\neValueAsString_: " << eValueAsString_
+		<< "\nAssertion occured in BigFloat.cpp, set_number(const std::string& num), #setn(str) 34.\n\n"
 		;
 }
 
