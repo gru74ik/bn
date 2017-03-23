@@ -74,8 +74,8 @@ bool BigFloat::has_extra_leading_zeros() const
 	// for example: the number 0000.01234 has three extra leading zeros
 
 	return
-		elem_value(0) == 0 &&
-		elem_value(1) == 0;
+		elem_value_as_digit(0) == 0 &&
+		elem_value_as_digit(1) == 0;
 }
 
 bool BigFloat::has_leading_zeros() const
@@ -725,7 +725,23 @@ void BigFloat::convert_to(Notation notation)
 	case DECIMAL:
 	{
 		size_t ePos = e_position();
+		/**/
+		// #conv(arg) 18
+		std::cout
+		<< "BigFloat::e_position() has been called."
+		<< "\nePos: " << ePos
+		<< "\nAssertion occured in BigFloat.cpp, #conv(arg) 18\n\n"
+		;
+		
 		size_t eValAsNum = e_value_as_number();
+
+		/**/
+		// #conv(arg) 19
+		std::cout
+			<< "BigFloat::e_value_as_number() has been called."
+			<< "\neValAsNum: " << eValAsNum
+			<< "\nAssertion occured in BigFloat.cpp, #conv(arg) 19\n\n"
+			;
 
 		if (e_sign() == '+')
 		{
@@ -999,7 +1015,7 @@ size_t BigFloat::trailing_zeros() const
 
 	for (size_t i = last_digit_position(); i > dotPos; --i)
 	{
-		if (elem_value(i) == 0)
+		if (elem_value_as_digit(i) == 0)
 		{
 			++trailingZeros;
 		}
@@ -1055,20 +1071,27 @@ size_t BigFloat::e_position() const
 
 	for (size_t i = 0; i < numSize; ++i)
 	{
-		if (get_number()[i] == 'e' || get_number()[i] == 'E')
+		if (elem_value_as_char(i) == 'e' || elem_value_as_char(i) == 'E')
 		{
 			ePos = i;
 			break;
 		}
 	}
 
-/*
+	/**/
+	// #epos() 1
 	std::cout
 		<< "The E position is: "
 		<< ePos
-		<< "\nAssertion occured in BigFloat.cpp, e_position().\n\n"
+		<< "\nAssertion occured in BigFloat.cpp, e_position(), #epos() 1.\n\n"
 		;
-*/
+	/**/
+	// #epos() 2
+	std::cout
+		<< "The number: "
+		<< get_number()
+		<< "\nAssertion occured in BigFloat.cpp, e_position(), #epos() 2.\n\n"
+		;
 	return ePos;
 }
 
@@ -1106,15 +1129,16 @@ std::string BigFloat::e_value_as_string() const
 	{
 		for (size_t i = posAfterESignPos; i < numSize; ++i)
 		{
-			eVal = eVal + get_number()[i];
+			eVal = eVal + elem_value_as_char(i);
 		}
 	}
 
 /**/
+	// #evas() 77
 	std::cout
-		<< "The E value as string is: "
-		<< eVal
-		<< "\nAssertion occured in BigFloat.cpp, e_value_as_string().\n\n"
+		<< "The E value as string is: " << eVal
+		<< "\nIn number: " << get_number()
+		<< "\nAssertion occured in BigFloat.cpp, e_value_as_string(), #evas() 77.\n\n"
 		;
 
 	return eVal;
@@ -1201,7 +1225,7 @@ size_t BigFloat::last_digit_value() const
 		<< "\nAssertion occured in BigFloat.cpp, last_digit_value().\n\n"
 		;
 */
-	return elem_value(last_digit_position());
+	return elem_value_as_digit(last_digit_position());
 }
 
 size_t BigFloat::space_position() const
@@ -1947,8 +1971,8 @@ BigFloat BigFloat::operator-(const BigFloat& subtrahend) const // #op-(bf)
 	// занимать единичку из старшего разряда будем, складывая её в переменную borrowed:
 	for (size_t i = 0, borrowed = 0; i < limit; ++i)
 	{
-		minuendDigit = a.elem_value(i);
-		subTrahendDigit = b.elem_value(i);
+		minuendDigit = a.elem_value_as_digit(i);
+		subTrahendDigit = b.elem_value_as_digit(i);
 		minuendDigit -= borrowed;
 
 		if (minuendDigit < subTrahendDigit)

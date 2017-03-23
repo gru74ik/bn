@@ -53,10 +53,10 @@ public:
 	void clear_number();
 	
 	// getters =====================================================================
-	size_t leading_zeros() const;		// TODO: implement for BigFloat his own version
-	//size_t trailing_zeros() const;	// I changed my mind - this function member have to be in BigFloat only.
+	size_t leading_zeros() const;
 
-	size_t elem_value(size_t index) const;
+	size_t elem_value_as_digit(size_t index) const;
+	char elem_value_as_char(size_t index) const;
 
 	size_t first_digit_position() const;
 	virtual size_t last_digit_position() const = 0;

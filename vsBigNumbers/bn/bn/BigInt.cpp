@@ -146,7 +146,7 @@ void BigInt::pop_front_extra_zeros() // #pfez
 	size_t fromPos = 0, toPos = 0;
 	for (size_t i = 0; i < last_digit_position(); ++i)
 	{
-		if (elem_value(i) == 0)
+		if (elem_value_as_digit(i) == 0)
 		{
 			++toPos;
 		}
