@@ -1365,11 +1365,13 @@ void BigFloat::set_number(const std::string& num)
 */
 			}
 			else
-			{				
+			{
+				BigNumber::set_number(num);
 				notation_ = DECIMAL;
 				eSign_ = '+';				
 				eValueAsString_ = "0";
 				insert_elem(".0", numSize);
+				
 /*
 				// #setn(str) 6
 				std::cout
@@ -1492,6 +1494,7 @@ void BigFloat::set_number(const std::string& num)
 		}
 		else if (is_correct(DECIMAL))
 		{
+			notation_ = DECIMAL;
 			if (has_leading_zeros())
 			{
 				eSign_ = '-';
@@ -2120,6 +2123,13 @@ std::istream& operator >> (std::istream& is, BigFloat& bf)
 	std::getline(std::cin, num);
 
 	bf.set_number(num);
+
+	std::cout
+		<< "The sign of the number after std::cin finished his work: "
+		<< bf.get_sign()
+		<< "\nand the number itself: "
+		<< bf.get_number()
+		<< "\n\n";
 
 	return is;
 } // endof // #op>>(bf)
