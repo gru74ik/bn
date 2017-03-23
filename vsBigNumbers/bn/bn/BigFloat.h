@@ -39,7 +39,7 @@ public:
 
 	virtual bool is_greater_than_zero() const;
 	virtual bool is_less_than_zero() const;
-	virtual bool is_zero() const;
+	virtual bool is_zero() const;	// may be is_default() would be more logical?
 
 	// changers ====================================================================
 	void discard_e_tail();

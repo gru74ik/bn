@@ -36,15 +36,8 @@ int main()
 		<< "b(+1.2345 E-3): " << b << "\n\n"
 		;
 
-	BigFloat x;
-	BigFloat y;
-	std::cout << "Enter two big floating numbers one by one:\n";
-	std::cin >> x >> y;
-	std::cout
-		<< "\nx: " << x
-		<< "\ny: " << y
-		<< "\n\n";
-*/
+
+
 
 	BigFloat m("0");
 	std::cout
@@ -55,6 +48,26 @@ int main()
 	std::cout
 		<< "n(0.0): " << n << "\n\n"
 		;
+*/
+	BigFloat x("+1.2345 E-3");
+	BigFloat y("-1.2345 E+3");
+
+	std::string choice = "y";
+	while (choice[0] == 'y' || choice[0] == 'Y')
+	{
+		std::cout << "Enter two big floating numbers one by one:\n";
+		std::cin >> x >> y;
+		std::cout
+			<< "\nx: " << x
+			<< "\ny: " << y
+			<< "\nx + y: " << (x + y)
+			<< "\nx - y: " << (x - y)
+			<< "\nx * y: " << (x * y)
+			<< "\nx / y: " << (x / y)
+			<< "\n\nDo you want proceed? (y/n) ";
+		std::cin >> choice;
+		std::cout << "\n\n";
+	}
 
 	return 0;
 }

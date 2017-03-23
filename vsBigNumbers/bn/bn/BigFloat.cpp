@@ -1346,17 +1346,19 @@ void BigFloat::set_number(const std::string& num)
 */
 	size_t numSize = get_number().size();
 
-	if ( num == "0.0")
+	if (num == "0.0" || num == "0" || numSize == 0)
 	{
 		reset();
 
-/*
+/**/
 		// #setn(str) 2
 		std::cout
-			<< "BigFloat::reset() has been called."
+			<< "BigFloat::reset() has been called, "
+			<< "because the number is zero: "
+			<< num
 			<< "\nAssertion occured in BigFloat.cpp, #setn(str) 2.\n\n"
 			;
-*/
+
 	}
 	else if (contains_digits_only(num))
 	{
@@ -1367,37 +1369,14 @@ void BigFloat::set_number(const std::string& num)
 			<< "\nAssertion occured in BigFloat.cpp, #setn(str) 3.\n\n"
 			;
 */
-		if (numSize == 0)
+		if (numSize == 1)
 		{
-			reset();
-/*
-			// #setn(str) 4
-			std::cout
-				<< "BigFloat::reset() has been called."
-				<< "\nAssertion occured in BigFloat.cpp, #setn(str) 4.\n\n"
-				;
-*/
-		}
-		else if (numSize == 1)
-		{
-			if (num == "0")
-			{
-				reset();
-/*
-				// #setn(str) 5
-				std::cout
-					<< "BigFloat::reset() has been called."
-					<< "\nAssertion occured in BigFloat.cpp, #setn(str) 5.\n\n"
-					;
-*/
-			}
-			else
-			{
-				BigNumber::set_number(num);
-				notation_ = DECIMAL;
-				eSign_ = '+';				
-				eValueAsString_ = "0";
-				insert_elem(".0", numSize);
+
+			BigNumber::set_number(num);
+			notation_ = DECIMAL;
+			eSign_ = '+';				
+			eValueAsString_ = "0";
+			insert_elem(".0", numSize);
 				
 /*
 				// #setn(str) 6
@@ -1406,7 +1385,7 @@ void BigFloat::set_number(const std::string& num)
 					<< "\nAssertion occured in BigFloat.cpp, #setn(str) 6.\n\n"
 					;
 */
-			}
+
 		}
 		else
 		{
@@ -2193,6 +2172,17 @@ std::ostream& operator<<(std::ostream& os, const BigFloat& bf) // #op<<(bf)
 			;
 */
 		// do nothing
+	}
+	else if (temp.is_zero())
+	{
+		temp.push_back_elem(" E+0");
+/*
+		// #op<<(bf) 3a
+		std::cout
+		<< "push_back_elem(e_tail()) has been called.\n"
+		<< "Assertion occured in BigFloat.cpp, #op<<(bf) 3a.\n\n"
+		;
+*/
 	}
 	else
 	{
