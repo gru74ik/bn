@@ -1201,7 +1201,7 @@ size_t BigFloat::last_digit_value() const
 		<< "\nAssertion occured in BigFloat.cpp, last_digit_value().\n\n"
 		;
 */
-	return get_number()[last_digit_position()];
+	return elem_value(last_digit_position());
 }
 
 size_t BigFloat::space_position() const
