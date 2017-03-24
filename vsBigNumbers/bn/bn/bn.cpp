@@ -49,8 +49,13 @@ int main()
 		<< "n(0.0): " << n << "\n\n"
 		;
 */
-	//BigFloat x("+1.2345 E-3");
+	BigFloat x("+1.2345 E-3");
 	BigFloat y("-1.2345 E-3");
+	std::cout
+		<< "\nx: " << x
+		<< "\ny: " << y
+		<< "\n\n"
+		;
 /*
 	std::string choice = "y";
 	while (choice[0] == 'y' || choice[0] == 'Y')
