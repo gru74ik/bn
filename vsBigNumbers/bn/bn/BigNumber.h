@@ -3,6 +3,12 @@
 
 #include "stdafx.h"
 
+// лютый временный костыль (см. определение следующих функций:
+// BigNumber::discard_sign()
+// BigNumber::BigNumber(const std::string& num)
+// BigNumber::set_number(const std::string & num) 
+static bool signAlreadyDefined = false; 
+
 class BigNumber
 {
 private:
@@ -16,7 +22,7 @@ public:
 	// ctors =======================================================================
 	BigNumber();
 	BigNumber(const std::string& num);
-
+	BigNumber(const BigNumber&);
 	// dtors =======================================================================
 	virtual ~BigNumber() {}
 

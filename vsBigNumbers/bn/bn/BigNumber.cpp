@@ -5,31 +5,78 @@
 
 // ctors =======================================================================
 BigNumber::BigNumber()
+	:
+		number_("0"),
+		sign_('+')
 {
-	number_ = "0";
-	sign_ = '+';
-/*
-	std::cout << "Ctor BigNumber::BigNumber() has been called.\n";
-*/
+/**/
+	std::cout
+		<< "Default ctor BigNumber::BigNumber() has been called."
+		;
+
+/**/
+	std::cout
+		<< "\nThe sign of the number after ctor finished his work: "
+		<< sign_
+		<< "\nThe number after ctor finished his work: "
+		<< number_ << "\n\n"
+		;
+
 }
 
 BigNumber::BigNumber(const std::string& num)
 {
+/**/
+	// #bnctor(str) 1
+	std::cout
+		<< "Ctor BigNumber::BigNumber(const std::string& num) has been called."
+		<< "\nAssertion occured in BigNumber.cpp, #bnctor(str) 1.\n\n"
+		;
+
 	if (num.size() == 0)
 	{
 		reset();
 	}	
 	else
-	{ 
+	{
+/**/
+		// #bnctor(str) 2
+		std::cout
+			<< "signAlreadyDefined is " << std::boolalpha
+			<< signAlreadyDefined << std::noboolalpha
+			<< "\nAssertion occured in BigNumber.cpp, #bnctor(str) 2.\n\n"
+			;
+
 		number_ = num;
-		sign_ = define_sign();
-		discard_sign();	
+
+		if (!signAlreadyDefined)
+		{ 
+			sign_ = define_sign();
+		}
+
+		discard_sign();
 	}
 	
 
-/*
-	std::cout << "Ctor BigNumber::BigNumber(const std::string& num) has been called.\n";
-*/
+/**/
+	std::cout
+		<< "\nThe sign of the number after ctor finished his work: "
+		<< sign_
+		<< "\nThe number after ctor finished his work: "
+		<< number_ << "\n\n"
+		;
+
+}
+
+BigNumber::BigNumber(const BigNumber &)
+{
+	/**/
+	std::cout << "Copy ctor BigNumber::BigNumber(const BigNumber &) has been called."
+		<< "\nThe sign of the number after ctor finished his work: "
+		<< sign_
+		<< "\nThe number after ctor finished his work: "
+		<< number_ << "\n\n"
+		;
 }
 
 
@@ -39,10 +86,19 @@ BigNumber::BigNumber(const std::string& num)
 // отбросить знак
 void BigNumber::discard_sign()
 {
+	signAlreadyDefined = true;
 	if (is_sign(number_[0]))
 	{
-		erase_part_of(number_, 0, 0);
+		erase_elem(0);
 	}
+	/**/
+	// #dissn() 666
+	std::cout
+		<< "\nData members after discard_sign() finished his work:"
+		<< "\nsign_: " << get_sign()
+		<< "\nnumber_: " << get_number()
+		<< "\nAssertion occured in BigNumber.cpp, BigNumber::discard_sign(), ##dissn() 666.\n\n"
+		;
 }
 
 // затолкать вперёд добавочные нули
@@ -217,6 +273,14 @@ size_t BigNumber::position_after(size_t pos) const
 char BigNumber::define_sign() const
 {
 	return number_[0] == '-' ? '-' : '+';
+	/**/
+	// #defsn() 444
+	std::cout
+		<< "\nData members after define_sign() finished his work:"
+		<< "\nsign_: " << get_sign()
+		<< "\nnumber_: " << get_number()
+		<< "\nAssertion occured in BigNumber.cpp, BigNumber::define_sign(), #defsn() 444.\n\n"
+		;
 }
 
 // получить знак числа
@@ -259,7 +323,13 @@ void BigNumber::set_sign(const char sign)
 void BigNumber::set_number(const std::string & num)
 {
 	number_ = num;
-	sign_ = define_sign();
+
+	if (!signAlreadyDefined)
+	{
+		sign_ = define_sign();
+		
+	}
+
 	discard_sign();
 }
 

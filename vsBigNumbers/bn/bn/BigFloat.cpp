@@ -13,41 +13,57 @@ BigFloat::BigFloat()
 		eSign_('+'),
 		eValueAsString_("0")
 {
-/*
+/**/
 	std::cout
-		<< "Default ctor BigFloat::BigFloat() has been used.\n"
+		<< "Default ctor BigFloat::BigFloat() has been called.\n"
+		<< "\nThe sign of the number after ctor finished his work: "
+		<< get_sign()
 		<< "The number after ctor finished his work: "
 		<< get_number() << "\n\n"
 		;
-*/
+
 }
 
 BigFloat::BigFloat(const std::string& num)
 	:
 		BigNumber(num)
 {
-	set_number(get_number());
-/*
+	/**/
 	std::cout
-		<< "Ctor BigFloat::BigFloat(const std::string& num) has been used.\n"
+		<< "Ctor BigFloat::BigFloat(const std::string& num) has been called.\n"
+		;
+
+	set_number(num);
+/**/
+	std::cout
+		<< "Ctor BigFloat::set_number(get_number()) has been called.\n"
+		<< "\nThe sign of the number after ctor finished his work: "
+		<< get_sign()
 		<< "The number after ctor finished his work: "
 		<< get_number() << "\n\n"
 		;
-*/
+
 }
 
 BigFloat::BigFloat(const BigInt& bi)
 	:
 		BigNumber(bi.get_sign() + bi.get_number())
 {
-	set_number(bi.get_number());
-/*
+/**/
 	std::cout
 		<< "Ctor BigFloat::BigFloat(const BigInt& bi) has been used.\n"
+		;
+
+	set_number(bi.get_sign() + bi.get_number());
+/**/
+	std::cout
+		<< "Ctor BigFloat::set_number(bi.get_number()) has been used.\n"
+		<< "\nThe sign of the number after ctor finished his work: "
+		<< get_sign()
 		<< "The number after ctor finished his work: "
 		<< get_number() << "\n\n"
 		;
-*/
+
 }
 
 BigFloat::BigFloat(const BigFloat& bf)
@@ -57,13 +73,15 @@ BigFloat::BigFloat(const BigFloat& bf)
 		eSign_(bf.eSign_),
 		eValueAsString_(bf.eValueAsString_)
 {
-/*
+/**/
 	std::cout
 		<< "Copy ctor BigFloat::BigFloat(const BigFloat& bf) has been used.\n"
+		<< "\nThe sign of the number after ctor finished his work: "
+		<< get_sign()
 		<< "The number after ctor finished his work: "
 		<< get_number() << "\n\n";
 		;
-*/
+
 }
 
 
@@ -1355,7 +1373,7 @@ void BigFloat::set_number(const std::string& num)
 	{
 		reset();
 
-/**/
+/*
 		// #setn(str) 2
 		std::cout
 			<< "BigFloat::reset() has been called, "
@@ -1363,7 +1381,7 @@ void BigFloat::set_number(const std::string& num)
 			<< num
 			<< "\nAssertion occured in BigFloat.cpp, #setn(str) 2.\n\n"
 			;
-
+*/
 	}
 	else if (contains_digits_only(num))
 	{
@@ -1585,7 +1603,7 @@ void BigFloat::set_number(const std::string& num)
 */
 	}
 
-/*
+/**/
 	// #setn(str) 34
 	std::cout
 		<< "\nData members after setter finished his work:"
@@ -1595,7 +1613,7 @@ void BigFloat::set_number(const std::string& num)
 		<< "\neValueAsString_: " << eValueAsString_
 		<< "\nAssertion occured in BigFloat.cpp, set_number(const std::string& num), #setn(str) 34.\n\n"
 		;
-*/
+
 }
 
 void BigFloat::reset()
