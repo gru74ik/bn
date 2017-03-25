@@ -1986,6 +1986,14 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 BigFloat BigFloat::operator-(const BigFloat& subtrahend) const // #op-(bf)
 {
 	BigFloat diff;
+
+/*
+	// #op-(bf) 1
+	std::cout
+		<< "diff in beginning: " << diff
+		<< "\nAssertion occured in BigFloat.cpp, #op-(bf) 1.\n\n"
+		;
+*/
 	diff.clear_number();
 	BigFloat a(*this);
 	BigFloat b(subtrahend);
@@ -2038,6 +2046,15 @@ BigFloat BigFloat::operator-(const BigFloat& subtrahend) const // #op-(bf)
 		//std::cout << "string bStr after pushing back zeros: " << bStr << "\n";
 	}
 
+/*
+	// #op-(bf) 50
+	std::cout
+	<< "Data members after #op-(bf) finished align numbers:"
+	<< "\na (without sign): " << a.get_number()
+	<< "\nb (without sign): " << b.get_number()
+	<< "\nAssertion occured in BigFloat.cpp, #op-(bf) 50.\n\n"
+	;
+*/	
 	// запомним позицию плавающей точки:
 	size_t aDotPos = a.dot_position();
 	size_t bDotPos = b.dot_position();
@@ -2046,35 +2063,244 @@ BigFloat BigFloat::operator-(const BigFloat& subtrahend) const // #op-(bf)
 	a.erase_elem(aDotPos);
 	b.erase_elem(bDotPos);
 
-	// промежуточный итог сложения двух цифр одинакового разряда будем складывать в переменную subtotal:
+	// считать будем с младших разрядов, поэтому "перевернём" оба числа:
+	a.reverse_number();
+	b.reverse_number();
+
+/*
+	// #op-(bf) 51
+	std::cout
+		<< "Data members after #op-(bf) finished erase dots from numbers:"
+		<< "\na (without sign): " << a.get_number()
+		<< "\nb (without sign): " << b.get_number()
+		<< "\nAssertion occured in BigFloat.cpp, #op-(bf) 51.\n\n"
+		;
+*/
+	// промежуточный итог сложения двух цифр одинакового
+	// разряда будем складывать в переменную subtotal:
 	size_t subtotal = 0;
 
-	size_t limit = aSize > bSize ? aSize : bSize;
+	// уменьшаемая цифра:
 	size_t minuendDigit = 0;
-	size_t subTrahendDigit = 0;
 
-	// занимать единичку из старшего разряда будем, складывая её в переменную borrowed:
-	for (size_t i = 0, borrowed = 0; i < limit; ++i)
+	// вычитаемая цифра:
+	size_t subtrahendDigit = 0;
+
+	// занимать единичку из старшего разряда будем,
+	// складывая её в переменную borrowed:
+	size_t borrowed = 0;
+
+	// "долги" с предыдущего витка цикла:
+	size_t prevBorrowed = 0;
+
+	size_t limit = aSize > bSize ? aSize : bSize;
+	for (size_t i = 0; i < limit; ++i)
 	{
 		minuendDigit = a.elem_value_as_digit(i);
-		subTrahendDigit = b.elem_value_as_digit(i);
-		minuendDigit -= borrowed;
-
-		if (minuendDigit < subTrahendDigit)
-		{
+		subtrahendDigit = b.elem_value_as_digit(i) + prevBorrowed;
+		if (minuendDigit < subtrahendDigit)
+		{	// если уменьшаемая цифра меньше, чем вычитаемая,
+			// значит занимаем из старшего разряда единицу:
 			borrowed = 1;
 		}
 		else
-		{
+		{	// иначе, ничего не занимаем:
 			borrowed = 0;
 		}
-		subtotal = (minuendDigit + borrowed * 10) - subTrahendDigit;
+		minuendDigit = minuendDigit + borrowed * 10;
+		subtotal = minuendDigit - subtrahendDigit;
+/*
+		// #op-(bf) 52
+		std::cout
+			<< "Data on " << i + 1 << " step:"
+			<< "\nminuendDigit: " << minuendDigit
+			<< "\nsubtrahendDigit: " << subtrahendDigit
+			<< "\nsubtotal: " << subtotal
+			<< "\nAssertion occured in BigFloat.cpp, #op-(bf) 52.\n\n"
+			;
+*/
 		diff.push_back_elem(digit_to_char(subtotal));
+		prevBorrowed = borrowed;
+
+/*
+		// #op-(bf) 53
+		std::cout
+			<< "Diff on " << i + 1 << " step: " << diff.get_number()
+			<< "\nAssertion occured in BigFloat.cpp, #op-(bf) 53.\n\n"
+			;
+*/
 	}
 
-	diff.reverse_number();
+/*
+	_	49310,120
+		07025,891
+	-------------
+*/
+/*
+	===================== 1 виток: =====================
+	prevBorrowed = 0
+	minuendDigit = a.elem_value_as_digit(i) = 0
+	subtrahendDigit = b.elem_value_as_digit(i) + prevBorrowed = 1 + 0 = 1
+	subtrahendDigit = 1
+	is else -> (minuendDigit < subtrahendDigit) -> true, because (0 < 1) -> borrowed = 1
+	borrowed = 1
+	minuendDigit = minuendDigit + borrowed * 10 = 0 + 1*10 = 0 + 10 = 10
+	minuendDigit = 10
+	subtotal = minuendDigit - subtrahendDigit = 10 - 1 = 9
+	subtotal = 9, значит:
+	_	49310,120
+		07025,891
+	-------------
+				9
+	prevBorrowed = borrowed;
+	prevBorrowed = 1
+*/
+/*
+	===================== 2 виток: =====================
+	prevBorrowed = 1
+	minuendDigit = a.elem_value_as_digit(i) = 2
+	subtrahendDigit = b.elem_value_as_digit(i) + prevBorrowed = 9 + 1 = 10
+	subtrahendDigit = 10
+	is else -> (minuendDigit < subtrahendDigit) -> true, because (2 < 10) -> borrowed = 1
+	borrowed = 1
+	minuendDigit = minuendDigit + borrowed * 10 = 2 + 1*10 = 2 + 10 = 12
+	minuendDigit = 12
+	subtotal = minuendDigit - subtrahendDigit = 12 - 10 = 2
+	subtotal = 2, значит:
+	_	49310,120
+		07025,891
+	-------------
+			   29
+	prevBorrowed = borrowed;
+	prevBorrowed = 1
+*/
+/*
+	===================== 3 виток: =====================
+	prevBorrowed = 1
+	minuendDigit = a.elem_value_as_digit(i) = 1
+	subtrahendDigit = b.elem_value_as_digit(i) + prevBorrowed = 8 + 1 = 9
+	subtrahendDigit = 9
+	is else -> (minuendDigit < subtrahendDigit) -> true, because (1 < 9) -> borrowed = 1
+	borrowed = 1
+	minuendDigit = minuendDigit + borrowed * 10 = 1 + 1*10 = 1 + 10 = 11
+	minuendDigit = 11
+	subtotal = minuendDigit - subtrahendDigit = 11 - 9 = 2
+	subtotal = 2, значит:
+	_	49310,120
+		07025,891
+	-------------
+			  229
+	prevBorrowed = borrowed;
+	prevBorrowed = 1
+*/
+/*
+	===================== 4 виток: =====================
+	prevBorrowed = 1
+	minuendDigit = a.elem_value_as_digit(i) = 0
+	subtrahendDigit = b.elem_value_as_digit(i) + prevBorrowed = 5 + 1 = 6
+	subtrahendDigit = 6
+	is else -> (minuendDigit < subtrahendDigit) -> true, because (0 < 6) -> borrowed = 1
+	borrowed = 1
+	minuendDigit = minuendDigit + borrowed * 10 = 0 + 1*10 = 0 + 10 = 10
+	minuendDigit = 10
+	subtotal = minuendDigit - subtrahendDigit = 10 - 6 = 4
+	subtotal = 2, значит:
+	_	49310,120
+		07025,891
+	-------------
+			4,229
+	prevBorrowed = borrowed;
+	prevBorrowed = 1
+*/
+/*
+	===================== 5 виток: =====================
+	prevBorrowed = 1
+	minuendDigit = a.elem_value_as_digit(i) = 1
+	subtrahendDigit = b.elem_value_as_digit(i) + prevBorrowed = 2 + 1 = 3
+	subtrahendDigit = 3
+	is else -> (minuendDigit < subtrahendDigit) -> true, because (1 < 3) -> borrowed = 1
+	borrowed = 1
+	minuendDigit = minuendDigit + borrowed * 10 = 1 + 1*10 = 1 + 10 = 11
+	minuendDigit = 11
+	subtotal = minuendDigit - subtrahendDigit = 11 - 3 = 8
+	subtotal = 8, значит:
+	_	49310,120
+		07025,891
+	-------------
+		   84,229
+	prevBorrowed = borrowed;
+	prevBorrowed = 1
+*/
+/*
+	===================== 6 виток: =====================
+	prevBorrowed = 1
+	minuendDigit = a.elem_value_as_digit(i) = 3
+	subtrahendDigit = b.elem_value_as_digit(i) + prevBorrowed = 0 + 1 = 1
+	subtrahendDigit = 3
+	is else -> (minuendDigit < subtrahendDigit) -> false, because (3 > 1) -> borrowed = 0
+	borrowed = 0
+	minuendDigit = minuendDigit + borrowed * 10 = 3 + 0*10 = 3 + 0 = 3
+	minuendDigit = 3
+	subtotal = minuendDigit - subtrahendDigit = 3 - 1 = 2
+	subtotal = 2, значит:
+	_	49310,120
+		07025,891
+	-------------
+		  284,229
+	prevBorrowed = borrowed;
+	prevBorrowed = 0
+*/
+/*
+	===================== 7 виток: =====================
+	prevBorrowed = 0
+	minuendDigit = a.elem_value_as_digit(i) = 9
+	subtrahendDigit = b.elem_value_as_digit(i) + prevBorrowed = 7 + 0 = 7
+	subtrahendDigit = 7
+	is else -> (minuendDigit < subtrahendDigit) -> false, because (9 > 7) -> borrowed = 0
+	borrowed = 0
+	minuendDigit = minuendDigit + borrowed * 10 = 9 + 0*10 = 9 + 0 = 9
+	minuendDigit = 9
+	subtotal = minuendDigit - subtrahendDigit = 9 - 7 = 2
+	subtotal = 2, значит:
+	_	49310,120
+		07025,891
+	-------------
+		 2284,229
+	prevBorrowed = borrowed;
+	prevBorrowed = 0
+*/
+/*
+	===================== 8 виток: =====================
+	prevBorrowed = 0
+	minuendDigit = a.elem_value_as_digit(i) = 4
+	subtrahendDigit = b.elem_value_as_digit(i) + prevBorrowed = 0 + 0 = 0
+	subtrahendDigit = 0
+	is else -> (minuendDigit < subtrahendDigit) -> false, because (4 > 0) -> borrowed = 0
+	borrowed = 0
+	minuendDigit = minuendDigit + borrowed * 10 = 4 + 0*10 = 4 + 0 = 4
+	minuendDigit = 4
+	subtotal = minuendDigit - subtrahendDigit = 4 - 0 = 4
+	subtotal = 4, значит:
+	_	49310,120
+		07025,891
+	-------------
+		42284,229
+	prevBorrowed = borrowed;
+	prevBorrowed = 0
+*/
 
-	return diff;
+	diff.reverse_number();
+	diff.insert_elem('.', aDotPos);
+	BigFloat result(diff.get_number()); // костыль
+	// TODO: разобраться, почему инфа не сохраняется в diff
+/*
+	// #op-(bf) 54
+	std::cout
+		<< "Diff after all: " << result
+		<< "\nAssertion occured in BigFloat.cpp, #op-(bf) 54.\n\n"
+		;
+*/
+	return result;
 } // endof // #op-(bf)
 
 BigFloat BigFloat::operator*(const BigFloat& multiplier) const // #op*(bf)
