@@ -49,7 +49,8 @@ int main()
 		<< "n(0.0): " << n << "\n\n"
 		;
 */
-	BigFloat x("+1.2345 E-3");
+	BigInt z("-123450");
+	BigFloat x(z); // +1.2345 E+5
 	BigFloat y("-1.2345 E-3");
 	std::cout
 		<< "\nx: " << x

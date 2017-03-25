@@ -51,13 +51,16 @@ BigFloat::BigFloat(const BigInt& bi)
 	:
 		BigNumber(bi.get_sign() + bi.get_number())
 {
-	char temporaryCrutch = get_sign();
+	char temporaryCrutch = bi.get_sign();
 /*
 	std::cout
 		<< "Ctor BigFloat::BigFloat(const BigInt& bi) has been used.\n"
 		;
 */
-	set_number(bi.get_sign() + bi.get_number());
+	std::string tempNumber(bi.get_number());
+	tempNumber = tempNumber + ".0";
+
+	set_number(tempNumber);
 /*
 	std::cout
 		<< "Ctor BigFloat::set_number(bi.get_number()) has been used.\n"
