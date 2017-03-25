@@ -2231,40 +2231,40 @@ std::ostream& operator<<(std::ostream& os, const BigFloat& bf) // #op<<(bf)
 	else if (temp.is_zero())
 	{
 		temp.reset();
-/**/
+/*
 		// #op<<(bf) 3a
 		std::cout
 		<< "reset() has been called.\n"
 		<< "Assertion occured in BigFloat.cpp, #op<<(bf) 3a.\n\n"
 		;
-
+*/
 		temp.push_back_elem(" E+0");
-/**/
+/*
 		// #op<<(bf) 3b
 		std::cout
 		<< "push_back_elem(e_tail()) has been called.\n"
 		<< "Assertion occured in BigFloat.cpp, #op<<(bf) 3b.\n\n"
 		;
-
+*/
 	}
 	else
 	{
 		temp.reset();
-/**/
+/*
 		// #op<<(bf) 4
 		std::cout
 			<< "reset() has been called.\n"
 			<< "Assertion occured in BigFloat.cpp, #op<<(bf) 4.\n\n"
 			;
-
+*/
 		temp.push_back_elem(" E+0");
-/**/
+/*
 		// #op<<(bf) 5
 		std::cout
 		<< "push_back_elem(e_tail()) has been called.\n"
 		<< "Assertion occured in BigFloat.cpp, #op<<(bf) 5.\n\n"
 		;
-
+*/
 	}
 
 	os << temp.get_sign() << temp.get_number();
