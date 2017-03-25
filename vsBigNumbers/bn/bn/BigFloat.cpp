@@ -419,6 +419,11 @@ bool BigFloat::is_zero() const
 
 
 // changers ====================================================================
+BigFloat BigFloat::abs_value()
+{
+	return get_number();
+}
+
 void BigFloat::discard_e_tail()
 {
 	set_number(mantissa());
@@ -1783,177 +1788,197 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 {
 	BigFloat a(*this);
 	BigFloat b(addendum);
+	BigFloat sum;
 
-	std::string aStr = this->get_number();
-	std::string bStr = addendum.get_number();
-
-	size_t diff; // разница между количеством разрядов
-
-	// уравниваем количество разрядов обоих чисел до плавающей точки:
-	if (a.digits_before_dot() < b.digits_before_dot()) // #op+1
+	if (a.get_sign() == b.get_sign())
 	{
-/*
-		std::cout << "\n#1\n";
-		std::cout << "we are here because a.digits_before_dot() < b.digits_before_dot():\n";
-		std::cout << "a.digits_before_dot(): " << a.digits_before_dot() << "\n";
-		std::cout << "b.digits_before_dot(): " << b.digits_before_dot() << "\n";
-		std::cout << "current content of number a: " << a.number() << "\n";
-		std::cout << "current content of number b: " << b.number() << "\n";
-		std::cout << "current content of string aStr: " << aStr << "\n";
-		std::cout << "current content of number bStr: " << bStr << "\n\n";
-*/
-		diff = b.digits_before_dot() - a.digits_before_dot();
-		for (size_t i = 0; i < diff; ++i)
+		std::string aStr = this->get_number();
+		std::string bStr = addendum.get_number();
+
+		size_t diff; // разница между количеством разрядов
+
+		// уравниваем количество разрядов обоих чисел до плавающей точки:
+		if (a.digits_before_dot() < b.digits_before_dot()) // #op+1
 		{
-			push_front(aStr, "0");
+	/*
+			std::cout << "\n#1\n";
+			std::cout << "we are here because a.digits_before_dot() < b.digits_before_dot():\n";
+			std::cout << "a.digits_before_dot(): " << a.digits_before_dot() << "\n";
+			std::cout << "b.digits_before_dot(): " << b.digits_before_dot() << "\n";
+			std::cout << "current content of number a: " << a.number() << "\n";
+			std::cout << "current content of number b: " << b.number() << "\n";
+			std::cout << "current content of string aStr: " << aStr << "\n";
+			std::cout << "current content of number bStr: " << bStr << "\n\n";
+	*/
+			diff = b.digits_before_dot() - a.digits_before_dot();
+			for (size_t i = 0; i < diff; ++i)
+			{
+				push_front(aStr, "0");
+			}
+			//std::cout << "string aStr after pushing front zeros: " << aStr << "\n";
 		}
-		//std::cout << "string aStr after pushing front zeros: " << aStr << "\n";
-	}
-	else if (b.digits_before_dot() < a.digits_before_dot()) // #op+2
-	{
-/*
-		std::cout << "\n#2\n";
-		std::cout << "we are here because b.digits_before_dot() < a.digits_before_dot():\n";
-		std::cout << "a.digits_before_dot(): " << a.digits_before_dot() << "\n";
-		std::cout << "b.digits_before_dot(): " << b.digits_before_dot() << "\n";
-		std::cout << "current content of number a: " << a.number() << "\n";
-		std::cout << "current content of number b: " << b.number() << "\n";
-		std::cout << "current content of string aStr: " << aStr << "\n";
-		std::cout << "current content of number bStr: " << bStr << "\n\n";
-*/
-		diff = a.digits_before_dot() - b.digits_before_dot();
-		for (size_t i = 0; i < diff; ++i)
+		else if (b.digits_before_dot() < a.digits_before_dot()) // #op+2
 		{
-			push_front(bStr, "0");
+	/*
+			std::cout << "\n#2\n";
+			std::cout << "we are here because b.digits_before_dot() < a.digits_before_dot():\n";
+			std::cout << "a.digits_before_dot(): " << a.digits_before_dot() << "\n";
+			std::cout << "b.digits_before_dot(): " << b.digits_before_dot() << "\n";
+			std::cout << "current content of number a: " << a.number() << "\n";
+			std::cout << "current content of number b: " << b.number() << "\n";
+			std::cout << "current content of string aStr: " << aStr << "\n";
+			std::cout << "current content of number bStr: " << bStr << "\n\n";
+	*/
+			diff = a.digits_before_dot() - b.digits_before_dot();
+			for (size_t i = 0; i < diff; ++i)
+			{
+				push_front(bStr, "0");
+			}
+			//std::cout << "string bStr after pushing front zeros: " << bStr << "\n";
 		}
-		//std::cout << "string bStr after pushing front zeros: " << bStr << "\n";
-	}
 
-	// уравниваем количество разрядов обоих чисел после плавающей точки:
-	if (a.digits_after_dot() < b.digits_after_dot()) // #op+3
-	{
-/*
-		std::cout << "\n#3\n";
-		std::cout << "we are here because a.digits_after_dot() < b.digits_after_dot():\n";
-		std::cout << "a.digits_after_dot(): " << a.digits_after_dot() << "\n";
-		std::cout << "b.digits_after_dot(): " << b.digits_after_dot() << "\n\n";
-		std::cout << "current content of number a: " << a.number() << "\n";
-		std::cout << "current content of number b: " << b.number() << "\n";
-		std::cout << "current content of string aStr: " << aStr << "\n";
-		std::cout << "current content of number bStr: " << bStr << "\n\n";
-*/
-		diff = b.digits_after_dot() - a.digits_after_dot();
-		for (size_t i = 0; i < diff; ++i)
+		// уравниваем количество разрядов обоих чисел после плавающей точки:
+		if (a.digits_after_dot() < b.digits_after_dot()) // #op+3
 		{
-			push_back(aStr, "0");
+	/*
+			std::cout << "\n#3\n";
+			std::cout << "we are here because a.digits_after_dot() < b.digits_after_dot():\n";
+			std::cout << "a.digits_after_dot(): " << a.digits_after_dot() << "\n";
+			std::cout << "b.digits_after_dot(): " << b.digits_after_dot() << "\n\n";
+			std::cout << "current content of number a: " << a.number() << "\n";
+			std::cout << "current content of number b: " << b.number() << "\n";
+			std::cout << "current content of string aStr: " << aStr << "\n";
+			std::cout << "current content of number bStr: " << bStr << "\n\n";
+	*/
+			diff = b.digits_after_dot() - a.digits_after_dot();
+			for (size_t i = 0; i < diff; ++i)
+			{
+				push_back(aStr, "0");
+			}
+			//std::cout << "string aStr after pushing back zeros: " << aStr << "\n";
 		}
-		//std::cout << "string aStr after pushing back zeros: " << aStr << "\n";
-	}
-	else if (b.digits_after_dot() < a.digits_after_dot()) // #op+4
-	{
-/*
-		auto a_it = std::find(a.number().begin(), a.number().end(), '.');
-		auto a_dad = std::distance(a_it + 1, a.number().end());
-
-		auto b_it = std::find(b.number().begin(), b.number().end(), '.');
-		auto b_dad = std::distance(b_it + 1, b.number().end());
-
-		std::cout << "\n#4\n";
-		std::cout << "we are here because b.digits_after_dot() < a.digits_after_dot():\n";
-
-		std::cout << "a.digits_after_dot(): " << a.digits_after_dot() << "\n";
-		std::cout << "b.digits_after_dot(): " << b.digits_after_dot() << "\n";
-
-		std::cout << "real quantity digits after dot in number a: " << a_dad << "\n";
-		std::cout << "real quantity digits after dot in number b: " << b_dad << "\n";
-
-		std::cout << "current content of number a: " << a.number() << "\n";
-		std::cout << "current content of number b: " << b.number() << "\n";
-
-		std::cout << "current content of string aStr: " << aStr << "\n";
-		std::cout << "current content of string bStr: " << bStr << "\n\n";
-*/
-		diff = a.digits_after_dot() - b.digits_after_dot();
-		for (size_t i = 0; i < diff; ++i)
+		else if (b.digits_after_dot() < a.digits_after_dot()) // #op+4
 		{
-			push_back(bStr, "0");
+	/*
+			auto a_it = std::find(a.number().begin(), a.number().end(), '.');
+			auto a_dad = std::distance(a_it + 1, a.number().end());
+
+			auto b_it = std::find(b.number().begin(), b.number().end(), '.');
+			auto b_dad = std::distance(b_it + 1, b.number().end());
+
+			std::cout << "\n#4\n";
+			std::cout << "we are here because b.digits_after_dot() < a.digits_after_dot():\n";
+
+			std::cout << "a.digits_after_dot(): " << a.digits_after_dot() << "\n";
+			std::cout << "b.digits_after_dot(): " << b.digits_after_dot() << "\n";
+
+			std::cout << "real quantity digits after dot in number a: " << a_dad << "\n";
+			std::cout << "real quantity digits after dot in number b: " << b_dad << "\n";
+
+			std::cout << "current content of number a: " << a.number() << "\n";
+			std::cout << "current content of number b: " << b.number() << "\n";
+
+			std::cout << "current content of string aStr: " << aStr << "\n";
+			std::cout << "current content of string bStr: " << bStr << "\n\n";
+	*/
+			diff = a.digits_after_dot() - b.digits_after_dot();
+			for (size_t i = 0; i < diff; ++i)
+			{
+				push_back(bStr, "0");
+			}
+			//std::cout << "string bStr after pushing back zeros: " << bStr << "\n";
 		}
-		//std::cout << "string bStr after pushing back zeros: " << bStr << "\n";
-	}
 
-	// запомним позицию плавающей точки:
-	size_t dot_pos_a = char_position(aStr, '.');
-	size_t dot_pos_b = char_position(bStr, '.');
+		// запомним позицию плавающей точки:
+		size_t dot_pos_a = char_position(aStr, '.');
+		size_t dot_pos_b = char_position(bStr, '.');
 
-	// уберём из обоих чисел плавающую точку, чтобы не мешала при вычислениях:
-	erase_part_of(aStr, dot_pos_a, dot_pos_a);
-	erase_part_of(bStr, dot_pos_b, dot_pos_b);
+		// уберём из обоих чисел плавающую точку, чтобы не мешала при вычислениях:
+		erase_part_of(aStr, dot_pos_a, dot_pos_a);
+		erase_part_of(bStr, dot_pos_b, dot_pos_b);
 
-	// будем складывать, начиная с млаших разрядов, для этого перевернём числа:
-	reverse(aStr);
-	reverse(bStr);
+		// будем складывать, начиная с млаших разрядов, для этого перевернём числа:
+		reverse(aStr);
+		reverse(bStr);
 
-	// излишки (то, что обычно при сложении в столбик "пишем в уме") будем складывать в переменную extra;
-	size_t extra = 0;
-	// промежуточный итог сложения двух цифр одинакового разряда будем складывать в переменную subtotal:
-	size_t subtotal = 0;
+		// излишки (то, что обычно при сложении в столбик "пишем в уме") будем складывать в переменную extra;
+		size_t extra = 0;
+		// промежуточный итог сложения двух цифр одинакового разряда будем складывать в переменную subtotal:
+		size_t subtotal = 0;
 
-	std::string sumStr;
-	std::string curRes;
-	for (size_t i = 0; i < aStr.size(); ++i)
-	{
-		subtotal = char_to_digit(aStr[i]) + char_to_digit(bStr[i]) + extra;
-/*
-		std::cout
-		<< "\n"
-		<< char_to_digit(aStr[i])
-		<< " + "
-		<< char_to_digit(bStr[i])
-		<< " + number we keep in mind (it's "
-		<< extra
-		<< ") = "
-		<< subtotal;
-*/
-		if (subtotal > BigInt::MAX_DIGIT) // десятичная система, поэтому последняя цифра в разряде 9
+		std::string sumStr;
+		std::string curRes;
+		for (size_t i = 0; i < aStr.size(); ++i)
 		{
-			extra = subtotal / BigInt::BASE;
-			subtotal = subtotal % BigInt::BASE;
+			subtotal = char_to_digit(aStr[i]) + char_to_digit(bStr[i]) + extra;
+	/*
+			std::cout
+			<< "\n"
+			<< char_to_digit(aStr[i])
+			<< " + "
+			<< char_to_digit(bStr[i])
+			<< " + number we keep in mind (it's "
+			<< extra
+			<< ") = "
+			<< subtotal;
+	*/
+			if (subtotal > BigInt::MAX_DIGIT) // десятичная система, поэтому последняя цифра в разряде 9
+			{
+				extra = subtotal / BigInt::BASE;
+				subtotal = subtotal % BigInt::BASE;
+			}
+			else
+			{
+				extra = 0;
+			}
+
+			//std::cout << "\n" << subtotal << " we write, and " << extra << " we keep in mind.\n";
+			push_back(sumStr, digit_to_char(subtotal));
+			curRes = sumStr;
+			reverse(curRes);
+			//std::cout << "current result (without floating point ofc) is " << curRes << "\n";
+		}
+
+		size_t extra_dot_shift = 0;
+		if (extra)
+		{
+			push_back(sumStr, digit_to_char(extra));
+	/*
+			std::cout
+				<< "\nwe add the number we keep in mind (it's "
+				<< extra
+				<< ") to out result and ";
+	*/
+			curRes = sumStr;
+			reverse(curRes);
+			extra_dot_shift = 1;
+		}
+
+		reverse(sumStr);
+		insert_to(sumStr, ".", dot_pos_a + extra_dot_shift);
+
+		//std::cout << "\nfinal result in decimal notation: " << sumStr << "\n";
+
+		sum.set_number(sumStr);
+		sum.set_sign(a.get_sign());
+
+		//std::cout << "And in exponent notation final result is\n";
+	}
+	else
+	{
+		if (a.abs_value() > b.abs_value())
+		{
+			sum = a - b;
+		}
+		else if (b.abs_value() > a.abs_value())
+		{
+			sum = b - a;
 		}
 		else
 		{
-			extra = 0;
+			sum = "0.0";
 		}
-
-		//std::cout << "\n" << subtotal << " we write, and " << extra << " we keep in mind.\n";
-		push_back(sumStr, digit_to_char(subtotal));
-		curRes = sumStr;
-		reverse(curRes);
-		//std::cout << "current result (without floating point ofc) is " << curRes << "\n";
 	}
-
-	size_t extra_dot_shift = 0;
-	if (extra)
-	{
-		push_back(sumStr, digit_to_char(extra));
-/*
-		std::cout
-			<< "\nwe add the number we keep in mind (it's "
-			<< extra
-			<< ") to out result and ";
-*/
-		curRes = sumStr;
-		reverse(curRes);
-		extra_dot_shift = 1;
-	}
-
-	reverse(sumStr);
-	insert_to(sumStr, ".", dot_pos_a + extra_dot_shift);
-
-	//std::cout << "\nfinal result in decimal notation: " << sumStr << "\n";
-
-	BigFloat sum(sumStr);
-
-	//std::cout << "And in exponent notation final result is\n";
 
 	return sum;
 } // endof #op+(bf)

@@ -50,13 +50,22 @@ int main()
 		;
 */
 	BigInt z("-123450");
-	BigFloat x(z); // +1.2345 E+5
-	BigFloat y("-1.2345 E-3");
+
+	BigFloat x(z);				// -1.2345 E+5
+	BigFloat y("-1.2345 E-3");	// -0.0012345
 	std::cout
 		<< "\nx: " << x
 		<< "\ny: " << y
 		<< "\n\n"
 		;
+
+	std::cout
+		<< "\nx.abs_value(): " << x.abs_value()
+		<< "\ny.abs_value(): " << y.abs_value()
+		<< "\n\n"
+		;
+
+	std::cout << "x + y = " << (x + y) << "\n\n";
 /*
 	std::string choice = "y";
 	while (choice[0] == 'y' || choice[0] == 'Y')

@@ -42,6 +42,7 @@ public:
 	virtual bool is_zero() const;	// may be is_default() would be more logical?
 
 	// changers ====================================================================
+	BigFloat abs_value();
 	void discard_e_tail();
 	void move_floating_point(Direction dir, size_t shiftSize);
 	void convert_to(Notation notation);
