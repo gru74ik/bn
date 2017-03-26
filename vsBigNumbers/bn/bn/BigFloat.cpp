@@ -645,7 +645,7 @@ void BigFloat::convert_to(Notation notation)
 */
 			if (has_trailing_zeros())
 			{
-/**/
+/*
 				// #conv(sci) 5a
 				std::cout
 					<< "\nhas_trailing_zeros() has been called,"
@@ -653,10 +653,10 @@ void BigFloat::convert_to(Notation notation)
 					<< get_number()
 					<< "\nAssertion occured in BigFloat.cpp, #conv(sci) 5a\n\n"
 					;
-
+*/
 				pop_back_trailing_zeros();
 
-/**/
+/*
 				// #conv(sci) 5b
 				std::cout
 					<< "pop_back_trailing_zeros() has been called."
@@ -664,7 +664,7 @@ void BigFloat::convert_to(Notation notation)
 					<< get_number()
 					<< "\nAssertion occured in BigFloat.cpp, #conv(sci) 5b\n\n"
 					;
-
+*/
 			}
 
 
@@ -1137,9 +1137,9 @@ size_t BigFloat::leading_zeros() const
 size_t BigFloat::trailing_zeros() const
 {
 	size_t trailingZeros = 0;
-	size_t dotPos = dot_position();
+	size_t limit = position_after(dot_position());
 
-	for (size_t i = last_digit_position(); i > dotPos; --i)
+	for (size_t i = last_digit_position(); i > limit; --i)
 	{
 		if (elem_value_as_digit(i) == 0)
 		{
@@ -1997,12 +1997,12 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 		if (extra)
 		{
 			push_back(sumStr, digit_to_char(extra));
-	/*
+/*
 			std::cout
 				<< "\nwe add the number we keep in mind (it's "
 				<< extra
 				<< ") to out result and ";
-	*/
+*/
 			curRes = sumStr;
 			reverse(curRes);
 			extra_dot_shift = 1;
@@ -2011,17 +2011,17 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 		reverse(sumStr);
 		insert_to(sumStr, ".", dot_pos_a + extra_dot_shift);
 
-		/**/
+/*
 		// #op+(bf) 75
 		std::cout
 			<< "sumStr after all: " << sumStr
 			<< "\nAssertion occured in BigFloat.cpp, #op+(bf) 75.\n\n"
 			;
-
+*/
 		sum.set_number(sumStr);
 		sum.set_sign(a.get_sign());
 
-		/**/
+/*
 		// #op+(bf) 76
 		std::cout
 			<< "sum.get_sign() and sum.get_number() after all: "
@@ -2029,6 +2029,7 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 			<< "\nSum after all: " << sum
 			<< "\nAssertion occured in BigFloat.cpp, #op+(bf) 76.\n\n"
 			;
+*/
 	}
 	else
 	{
@@ -2036,7 +2037,7 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 		{
 			sum = a - b;
 			sum.set_sign(a.get_sign());
-			/**/
+/*
 			// #op+(bf) 77
 			std::cout
 				<< "sum.get_sign() and sum.get_number() after all: "
@@ -2044,12 +2045,13 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 				<< "\nSum after all: " << sum
 				<< "\nAssertion occured in BigFloat.cpp, #op+(bf) 77.\n\n"
 				;
+*/
 		}
 		else if (b.abs_value() > a.abs_value())
 		{
 			sum = b - a;
 			sum.set_sign(b.get_sign());
-			/**/
+/*
 			// #op+(bf) 78
 			std::cout
 				<< "sum.get_sign() and sum.get_number() after all: "
@@ -2057,13 +2059,13 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 				<< "\nSum after all: " << sum
 				<< "\nAssertion occured in BigFloat.cpp, #op+(bf) 78.\n\n"
 				;
-
+*/
 		}
 		else
 		{
 			sum = "0.0";
 			sum.set_sign('+');
-			/**/
+/*
 			// #op+(bf) 79
 			std::cout
 				<< "sum.get_sign() and sum.get_number() after all: "
@@ -2071,7 +2073,7 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 				<< "\nSum after all: " << sum
 				<< "\nAssertion occured in BigFloat.cpp, #op+(bf) 79.\n\n"
 				;
-
+*/
 		}
 	}
 	
