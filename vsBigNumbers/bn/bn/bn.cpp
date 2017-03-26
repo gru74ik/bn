@@ -62,6 +62,8 @@ int main()
 			<< "\nx: " << x
 			<< "\ny: " << y
 			<< "\nx + y: " << x + y
+			<< "\nx - y: " << x - y
+			<< "\ny - x: " << y - x
 			<< "\n\nDo you want proceed? (y/n) ";
 		std::cin >> choice;
 		std::cout << "\n\n";

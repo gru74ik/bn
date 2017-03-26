@@ -2674,6 +2674,10 @@ std::istream& operator >> (std::istream& is, BigFloat& bf)
 		<< bf.get_number()
 		<< "\n\n";
 */
+	
+	char sign = num[0] == '-' ? '-' : '+'; // костыль
+	bf.set_sign(sign); // костыль
+
 	return is;
 } // endof // #op>>(bf)
 
