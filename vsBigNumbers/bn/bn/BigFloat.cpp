@@ -1986,7 +1986,7 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 		// уберЄм из обоих чисел плавающую точку, чтобы не мешала при вычислени€х:
 		a.erase_elem(aDotPos);
 		b.erase_elem(bDotPos);
-/**/
+/*
 		// #op+(bf) 11
 		std::cout
 			<< "The numbers after erasing dot: "
@@ -1994,11 +1994,11 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 			<< "\nb.get_number(): " << b.get_number()
 			<< "\nAssertion occured in BigFloat.cpp, #op+(bf) 11.\n\n"
 			;
-
+*/
 		// будем складывать, начина€ с млаших разр€дов, дл€ этого перевернЄм числа:
 		a.reverse_number();
 		b.reverse_number();
-/**/
+/*
 		// #op+(bf) 12
 		std::cout
 			<< "The numbers after reversing: "
@@ -2006,7 +2006,7 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 			<< "\nb.get_number(): " << b.get_number()
 			<< "\nAssertion occured in BigFloat.cpp, #op+(bf) 12.\n\n"
 			;
-
+*/
 		// излишки (то, что обычно при сложении в столбик "пишем в уме") будем складывать в переменную extra;
 		size_t extra = 0;
 		// промежуточный итог сложени€ двух цифр одинакового разр€да будем складывать в переменную subtotal:
@@ -2015,7 +2015,7 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 		size_t limit = aSize > bSize ? aSize - 1 : bSize - 1;
 		for (size_t i = 0; i < limit; ++i)
 		{
-			/**/
+/*
 			// #op+(bf) 65
 			std::cout
 				<< i + 1 << " iteration begins: "
@@ -2024,9 +2024,9 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 				<< "\nextra: " << extra
 				<< "\nAssertion occured in BigFloat.cpp, #op+(bf) 65.\n\n"
 				;
-
+*/
 			subtotal = a.elem_value_as_digit(i) + b.elem_value_as_digit(i) + extra;
-			/**/
+/*
 			// #op+(bf) 66
 			std::cout
 				<< "subtotal after compute according to formula"
@@ -2034,20 +2034,20 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 				<< "\nsubtotal: " << subtotal
 				<< "\nAssertion occured in BigFloat.cpp, #op+(bf) 66.\n\n"
 				;
-
-			/**/
+*/
+/*
 			// #op+(bf) 67
 			std::cout
 				<< "\nsubtotal: " << subtotal
 				<< "\nBigInt::MAX_DIGIT: " << BigInt::MAX_DIGIT
 				<< "\nAssertion occured in BigFloat.cpp, #op+(bf) 67.\n\n"
 				;
-
+*/
 			if (subtotal > BigInt::MAX_DIGIT) // дес€тична€ система, поэтому последн€€ цифра в разр€де 9
 			{
 				extra = subtotal / BigInt::BASE;
 				subtotal = subtotal % BigInt::BASE;
-				/**/
+/*
 				// #op+(bf) 68
 				std::cout
 					<< "subtotal > BigInt::MAX_DIGIT, hence"
@@ -2055,11 +2055,12 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 					<< "\nextra = subtotal / BigInt::BASE: " << extra
 					<< "\nAssertion occured in BigFloat.cpp, #op+(bf) 68.\n\n"
 					;
+*/
 			}
 			else
 			{
 				extra = 0;
-				/**/
+/*
 				// #op+(bf) 69
 				std::cout
 					<< "subtotal < BigInt::MAX_DIGIT, hence"
@@ -2067,88 +2068,90 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 					<< "\nextra = " << extra
 					<< "\nAssertion occured in BigFloat.cpp, #op+(bf) 69.\n\n"
 					;
+*/
 			}
 
-			/**/
+/*
 			// #op+(bf) 70
 			std::cout
 				<< subtotal << " we write, and "
 				<< extra << " we keep in mind."
 				<< "\nAssertion occured in BigFloat.cpp, #op+(bf) 70.\n\n"
 				;
-
+*/
 			sum.push_back_elem(digit_to_char(subtotal));
 
-			/**/
+/*
 			// #op+(bf) 71
 			std::cout
 				<< "The sum after sum.push_back_elem(digit_to_char(subtotal)): "
 				<< "\nsum.get_number(): " << sum.get_number()
 				<< "\nAssertion occured in BigFloat.cpp, #op+(bf) 71.\n\n"
 				;
+*/
 		}
 
 		size_t extraDotShift = 0;
 		if (extra)
 		{
 			sum.push_back_elem(digit_to_char(extra));
-/**/
+/*
 			// #op+(bf) 72
 			std::cout
 				<< "The sum after sum.push_back_elem(digit_to_char(extra)): "
 				<< "\nsum.get_number(): " << sum.get_number()
 				<< "\nAssertion occured in BigFloat.cpp, #op+(bf) 72.\n\n"
 				;
-
+*/
 			extraDotShift = 1;
 		}
 
 		sum.reverse_number();
-/**/
+/*
 		// #op+(bf) 73
 		std::cout
 			<< "The sum after reversing: "
 			<< "\nsum.get_number(): " << sum.get_number()
 			<< "\nAssertion occured in BigFloat.cpp, #op+(bf) 73.\n\n"
 			;
-
+*/
 		sum.insert_elem('.', aDotPos + extraDotShift);
-/**/
+/*
 		// #op+(bf) 74
 		std::cout
 			<< "The sum after dot inserting: "
 			<< "\nsum.get_number(): " << sum.get_number()
 			<< "\nAssertion occured in BigFloat.cpp, #op+(bf) 74.\n\n"
 			;
-
+*/
 
 
 		sum.set_number(sum.get_number());
-/**/
+/*
 		// #op+(bf) 75
 		std::cout
 			<< "The sum after sum.set_number(sum.get_number()): "
 			<< "\nsum.get_number(): " << sum.get_number()
 			<< "\nAssertion occured in BigFloat.cpp, #op+(bf) 75.\n\n"
 			;
-
+*/
 		sum.set_sign(a.get_sign());
 
-/**/
+/*
 		// #op+(bf) 76
 		std::cout
 			<< "The sign after sum.set_sign(a.get_sign()): "
 			<< "sum.get_sign(): " << sum.get_sign()
 			<< "\nAssertion occured in BigFloat.cpp, #op+(bf) 76.\n\n"
 			;
-
-/**/
+*/
+/*
 		// #op+(bf) 77
 		std::cout
 			<< "The sum itself after all: " << sum
 			<< "\nAssertion occured in BigFloat.cpp, #op+(bf) 77.\n\n"
 			;
-
+*/
 	}
 	else
 	{

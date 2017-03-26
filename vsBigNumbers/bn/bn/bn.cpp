@@ -50,23 +50,9 @@ int main()
 		;
 */
 
-	BigFloat x("+7.0 E+0");
-	BigFloat y("+3.0 E+0");
+	BigFloat x;
+	BigFloat y;
 
-	std::cout
-		<< "\nx = " << x
-		<< "\ny = " << y
-		<< "\nx + y = " << (x + y)
-		<< "\n\n"
-		;
-/*
-	std::cout
-		<< "x + y = " << (x + y)
-		<< "\n\n"
-		;
-*/
-
-/*
 	std::string choice = "y";
 	while (choice[0] == 'y' || choice[0] == 'Y')
 	{
@@ -80,6 +66,6 @@ int main()
 		std::cin >> choice;
 		std::cout << "\n\n";
 	}
-*/
+
 	return 0;
 }
