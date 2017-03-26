@@ -50,7 +50,7 @@ int main()
 		;
 */
 
-	BigFloat x("-7.0 E+0");
+	BigFloat x("+7.0 E+0");
 	BigFloat y("+3.0 E+0");
 
 	std::cout
