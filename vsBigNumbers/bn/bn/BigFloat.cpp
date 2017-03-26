@@ -100,7 +100,7 @@ bool BigFloat::has_extra_leading_zeros() const
 
 	return
 		elem_value_as_char(0) == '0' &&
-		elem_value_as_char(1) == '0';
+		is_digit(elem_value_as_char(1));
 }
 
 bool BigFloat::has_leading_zeros() const
