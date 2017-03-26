@@ -49,22 +49,20 @@ int main()
 		<< "n(0.0): " << n << "\n\n"
 		;
 */
-	//BigInt z("-23455");
 
-	
-	BigFloat x("+4.931012 E+4");	// +4.931012 E+4 or	+49310,120
-	BigFloat y("-7.025891 E+3");	// -7.025891 E+3 or  -7025,891
+	BigFloat x("-0.4");
 
 	std::cout
 		<< "\nx: " << x
-		<< "\ny: " << y
 		<< "\n\n"
 		;
-
+/*
 	std::cout
-		<< "x - y = " << (x - y) // +4.2284229 E+4 or 42284.229
+		<< "x + y = " << (x + y)
 		<< "\n\n"
 		;
+*/
+
 /*
 	std::string choice = "y";
 	while (choice[0] == 'y' || choice[0] == 'Y')

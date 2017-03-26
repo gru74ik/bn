@@ -483,7 +483,7 @@ void BigFloat::move_floating_point(Direction dir, size_t shiftSize)
 				<< "shiftSize: " << shiftSize << "\n";
 */
 			insert_elem(".0", position_after(lastDigitPos));
-			/**/
+/*
 			// #mfp(r) 2
 			std::cout
 				<< "BigFloat::move_floating_point(args) has been called."
@@ -491,6 +491,7 @@ void BigFloat::move_floating_point(Direction dir, size_t shiftSize)
 				<< get_number()
 				<< "\nAssertion occured in BigFloat.cpp, #mfp(r) 2.\n\n"
 				;
+*/
 		}
 		else
 		{
@@ -697,17 +698,17 @@ void BigFloat::convert_to(Notation notation)
 		{
 			if (has_leading_zeros())
 			{
-/*
+/**/
 				// #conv(sci) 9
 				std::cout
 					<< "has_leading_zeros() has been called, "
-					<< "beacuase the number has leading zeros: "
+					<< "because the number has leading zeros: "
 					<< get_number()
 					<< "\nAssertion occured in BigFloat.cpp, #conv(sci) 9\n\n"
 					;
-*/
+
 				dotShift = leading_zeros();
-/*
+/**/
 				// #conv(sci) 10
 				std::cout
 					<< "leading_zeros() has been called. "
@@ -715,62 +716,58 @@ void BigFloat::convert_to(Notation notation)
 					<< dotShift
 					<< "\nAssertion occured in BigFloat.cpp, #conv(sci) 10\n\n"
 					;
-*/
-/*
+
+/**/
 				// #conv(sci) 11
 				std::cout
 					<< "number before move_floating_point(RIGHT, dotShift): "
 					<< get_number()
 					<< "\nAssertion occured in BigFloat.cpp, #conv(sci) 11\n\n"
 					;
-*/
+
 				move_floating_point(RIGHT, dotShift);
-
-				if (has_extra_leading_zeros())
-				{
-					pop_front_extra_leading_zeros();
-				}
-
-/*
+/**/
 				// #conv(sci) 12
 				std::cout
 					<< "number after move_floating_point(RIGHT, dotShift): "
 					<< get_number()
 					<< "\nAssertion occured in BigFloat.cpp, #conv(sci) 12\n\n"
 					;
-*/
+
+				if (has_extra_leading_zeros())
+				{
+					// #conv(sci) 13
+					std::cout
+						<< "has_extra_leading_zeros() has been called, "
+						<< "because the number has extra leading zeros: "
+						<< get_number()
+						<< "\nAssertion occured in BigFloat.cpp, #conv(sci) 13\n\n"
+						;
+
+					pop_front_extra_leading_zeros();
+					// #conv(sci) 14
+					std::cout
+						<< "pop_front_extra_leading_zeros() has been called."
+						<< "\nThe number after extra leading zeros was erased: "
+						<< get_number()
+						<< "\nAssertion occured in BigFloat.cpp, #conv(sci) 14\n\n"
+						;
+
+				}
+				else
+				{
+					// #conv(sci) 15
+					std::cout
+						<< "has_extra_leading_zeros() wasn't called, "
+						<< "because the number has not extra leading zeros: "
+						<< get_number()
+						<< "\nAssertion occured in BigFloat.cpp, #conv(sci) 15\n\n"
+						;
+				}
+
+
 				eSign_ = '-';
 				eValueAsString_ = number_to_string(dotShift);
-/*
-				// #conv(sci) 13
-				std::cout
-					<< "number before push_back_elem(e_tail()): "
-					<< get_number()
-					<< "\nAssertion occured in BigFloat.cpp, #conv(sci) 13\n\n"
-					;
-*/
-				push_back_elem(e_tail());
-/*
-				// #conv(sci) 14
-				std::cout
-					<< "e_tail() has been called and it is:"
-					<< e_tail()
-					<< "\nAssertion occured in BigFloat.cpp, #conv(sci) 14\n\n"
-					;
-*/
-/*
-				// #conv(sci) 15
-				std::cout
-					<< "number after push_back_elem(e_tail()): "
-					<< get_number()
-					<< "\nAssertion occured in BigFloat.cpp, #conv(sci) 15\n\n"
-					;
-*/
-			}
-			else
-			{
-				eSign_ = '+';
-				eValueAsString_ = "0";
 /*
 				// #conv(sci) 16
 				std::cout
@@ -783,9 +780,39 @@ void BigFloat::convert_to(Notation notation)
 /*
 				// #conv(sci) 17
 				std::cout
+					<< "e_tail() has been called and it is:"
+					<< e_tail()
+					<< "\nAssertion occured in BigFloat.cpp, #conv(sci) 17\n\n"
+					;
+*/
+/*
+				// #conv(sci) 18
+				std::cout
 					<< "number after push_back_elem(e_tail()): "
 					<< get_number()
-					<< "\nAssertion occured in BigFloat.cpp, #conv(sci) 17\n\n"
+					<< "\nAssertion occured in BigFloat.cpp, #conv(sci) 18\n\n"
+					;
+*/
+			}
+			else
+			{
+				eSign_ = '+';
+				eValueAsString_ = "0";
+/*
+				// #conv(sci) 19
+				std::cout
+					<< "number before push_back_elem(e_tail()): "
+					<< get_number()
+					<< "\nAssertion occured in BigFloat.cpp, #conv(sci) 19\n\n"
+					;
+*/
+				push_back_elem(e_tail());
+/*
+				// #conv(sci) 20
+				std::cout
+					<< "number after push_back_elem(e_tail()): "
+					<< get_number()
+					<< "\nAssertion occured in BigFloat.cpp, #conv(sci) 20\n\n"
 					;
 */
 			}
@@ -1957,29 +1984,70 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 		reverse(sumStr);
 		insert_to(sumStr, ".", dot_pos_a + extra_dot_shift);
 
-		//std::cout << "\nfinal result in decimal notation: " << sumStr << "\n";
+		/**/
+		// #op+(bf) 75
+		std::cout
+			<< "sumStr after all: " << sumStr
+			<< "\nAssertion occured in BigFloat.cpp, #op+(bf) 75.\n\n"
+			;
 
 		sum.set_number(sumStr);
 		sum.set_sign(a.get_sign());
 
-		//std::cout << "And in exponent notation final result is\n";
+		/**/
+		// #op+(bf) 76
+		std::cout
+			<< "sum.get_sign() and sum.get_number() after all: "
+			<< sum.get_sign() << sum.get_number()
+			<< "\nSum after all: " << sum
+			<< "\nAssertion occured in BigFloat.cpp, #op+(bf) 76.\n\n"
+			;
 	}
 	else
 	{
 		if (a.abs_value() > b.abs_value())
 		{
 			sum = a - b;
+			sum.set_sign(a.get_sign());
+			/**/
+			// #op+(bf) 77
+			std::cout
+				<< "sum.get_sign() and sum.get_number() after all: "
+				<< sum.get_sign() << sum.get_number()
+				<< "\nSum after all: " << sum
+				<< "\nAssertion occured in BigFloat.cpp, #op+(bf) 77.\n\n"
+				;
 		}
 		else if (b.abs_value() > a.abs_value())
 		{
 			sum = b - a;
+			sum.set_sign(b.get_sign());
+			/**/
+			// #op+(bf) 78
+			std::cout
+				<< "sum.get_sign() and sum.get_number() after all: "
+				<< sum.get_sign() << sum.get_number()
+				<< "\nSum after all: " << sum
+				<< "\nAssertion occured in BigFloat.cpp, #op+(bf) 78.\n\n"
+				;
+
 		}
 		else
 		{
 			sum = "0.0";
+			sum.set_sign('+');
+			/**/
+			// #op+(bf) 79
+			std::cout
+				<< "sum.get_sign() and sum.get_number() after all: "
+				<< sum.get_sign() << sum.get_number()
+				<< "\nSum after all: " << sum
+				<< "\nAssertion occured in BigFloat.cpp, #op+(bf) 79.\n\n"
+				;
+
 		}
 	}
-
+	
 	return sum;
 } // endof #op+(bf)
 
