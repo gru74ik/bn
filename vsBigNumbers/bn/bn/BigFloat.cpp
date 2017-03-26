@@ -645,16 +645,18 @@ void BigFloat::convert_to(Notation notation)
 */
 			if (has_trailing_zeros())
 			{
-/*
+/**/
 				// #conv(sci) 5a
 				std::cout
-					<< "has_trailing_zeros() has been called."
+					<< "\nhas_trailing_zeros() has been called,"
+					<< "\nbecause the number has trailing zeros: "
+					<< get_number()
 					<< "\nAssertion occured in BigFloat.cpp, #conv(sci) 5a\n\n"
 					;
-*/
+
 				pop_back_trailing_zeros();
 
-/*
+/**/
 				// #conv(sci) 5b
 				std::cout
 					<< "pop_back_trailing_zeros() has been called."
@@ -662,7 +664,7 @@ void BigFloat::convert_to(Notation notation)
 					<< get_number()
 					<< "\nAssertion occured in BigFloat.cpp, #conv(sci) 5b\n\n"
 					;
-*/
+
 			}
 
 
@@ -698,7 +700,7 @@ void BigFloat::convert_to(Notation notation)
 		{
 			if (has_leading_zeros())
 			{
-/**/
+/*
 				// #conv(sci) 9
 				std::cout
 					<< "has_leading_zeros() has been called, "
@@ -706,9 +708,9 @@ void BigFloat::convert_to(Notation notation)
 					<< get_number()
 					<< "\nAssertion occured in BigFloat.cpp, #conv(sci) 9\n\n"
 					;
-
+*/
 				dotShift = leading_zeros();
-/**/
+/*
 				// #conv(sci) 10
 				std::cout
 					<< "leading_zeros() has been called. "
@@ -716,26 +718,27 @@ void BigFloat::convert_to(Notation notation)
 					<< dotShift
 					<< "\nAssertion occured in BigFloat.cpp, #conv(sci) 10\n\n"
 					;
-
-/**/
+*/
+/*
 				// #conv(sci) 11
 				std::cout
 					<< "number before move_floating_point(RIGHT, dotShift): "
 					<< get_number()
 					<< "\nAssertion occured in BigFloat.cpp, #conv(sci) 11\n\n"
 					;
-
+*/
 				move_floating_point(RIGHT, dotShift);
-/**/
+/*
 				// #conv(sci) 12
 				std::cout
 					<< "number after move_floating_point(RIGHT, dotShift): "
 					<< get_number()
 					<< "\nAssertion occured in BigFloat.cpp, #conv(sci) 12\n\n"
 					;
-
+*/
 				if (has_extra_leading_zeros())
 				{
+/*
 					// #conv(sci) 13
 					std::cout
 						<< "has_extra_leading_zeros() has been called, "
@@ -743,8 +746,9 @@ void BigFloat::convert_to(Notation notation)
 						<< get_number()
 						<< "\nAssertion occured in BigFloat.cpp, #conv(sci) 13\n\n"
 						;
-
+*/
 					pop_front_extra_leading_zeros();
+/*
 					// #conv(sci) 14
 					std::cout
 						<< "pop_front_extra_leading_zeros() has been called."
@@ -752,10 +756,11 @@ void BigFloat::convert_to(Notation notation)
 						<< get_number()
 						<< "\nAssertion occured in BigFloat.cpp, #conv(sci) 14\n\n"
 						;
-
+*/
 				}
 				else
 				{
+/*
 					// #conv(sci) 15
 					std::cout
 						<< "has_extra_leading_zeros() wasn't called, "
@@ -763,8 +768,8 @@ void BigFloat::convert_to(Notation notation)
 						<< get_number()
 						<< "\nAssertion occured in BigFloat.cpp, #conv(sci) 15\n\n"
 						;
+*/
 				}
-
 
 				eSign_ = '-';
 				eValueAsString_ = number_to_string(dotShift);
@@ -1037,10 +1042,32 @@ Old version:
 */
 	size_t lastDigitPos = last_digit_position();
 	size_t from_pos_inclusive = position_after(lastDigitPos - trailing_zeros());
+/*
+	// #pbtz() 49
+	std::cout
+		<< "pop_back_trailing_zeros() compute from_pos_inclusive according to formula:"
+		<< "\nfrom_pos_inclusive = position_after(lastDigitPos - trailing_zeros())"
+		<< "\nAll elements of formula are:"
+		<< "\nThe number itself: " << get_number()
+		<< "\nlastDigitPos: " << lastDigitPos
+		<< "\ntrailing_zeros(): " << trailing_zeros()
+		<< "\nlastDigitPos - trailing_zeros(): " << lastDigitPos - trailing_zeros()
+		<< "\nposition_after(lastDigitPos - trailing_zeros()): " << position_after(lastDigitPos - trailing_zeros())
+		<< "\nAssertion occured in BigFloat.cpp, #pbtz() 49\n\n"
+		;
+*/
 	size_t to_pos_inclusive = lastDigitPos;
-
+/*
+	// #pbtz() 50
+	std::cout
+		<< "pop_back_trailing_zeros() will erase elements"
+		<< "\nfrom element with index " << from_pos_inclusive
+		<< "\nto element with index " << to_pos_inclusive
+		<< "\nin number: " << get_number()
+		<< "\nAssertion occured in BigFloat.cpp, #pbtz() 50\n\n"
+		;
+*/
 	erase_elem(from_pos_inclusive, to_pos_inclusive);
-
 }
 
 
