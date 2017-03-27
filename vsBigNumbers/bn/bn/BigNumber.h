@@ -35,6 +35,7 @@ public:
 	void discard_sign();
 
 	void push_front_additional_zeros(const size_t quantity);
+	void push_back_additional_zeros(const size_t quantity);
 
 	void reverse_number();
 

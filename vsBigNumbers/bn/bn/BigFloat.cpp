@@ -1915,7 +1915,7 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 			<< "\nAssertion occured in BigFloat.cpp, #op+(bf) 6.\n\n"
 			;
 */
-		if (aDigitsBeforeDot < bDigitsBeforeDot) // #op+1
+		if (aDigitsBeforeDot < bDigitsBeforeDot)
 		{
 			diff = bDigitsBeforeDot - aDigitsBeforeDot;
 			for (size_t i = 0; i < diff; ++i)
@@ -1923,7 +1923,7 @@ BigFloat BigFloat::operator+(const BigFloat& addendum) const // #op+(bf)
 				a.push_front_elem('0');
 			}
 		}
-		else if (bDigitsBeforeDot < aDigitsBeforeDot) // #op+2
+		else if (bDigitsBeforeDot < aDigitsBeforeDot)
 		{
 			diff = aDigitsBeforeDot - bDigitsBeforeDot;
 			for (size_t i = 0; i < diff; ++i)
@@ -2630,25 +2630,148 @@ BigFloat BigFloat::operator-(const BigFloat& subtrahend) const // #op-(bf)
 
 BigFloat BigFloat::operator*(const BigFloat& multiplier) const // #op*(bf)
 {
-	BigFloat product(*this);
-	BigFloat addition(*this);
-	BigFloat mult(multiplier);
+	BigFloat product;
+/*
+	// #op*(bf) 1
+		std::cout
+		<< "product in beginning: " << product.get_number()
+		<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 1.\n\n"
+		;
+*/
+	product.clear_number();
+/*
+	// #op*(bf) 2
+		std::cout
+		<< "sproduct after cleaning: " << product.clear_number()
+		<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 2.\n\n"
+		;
+*/
+	BigFloat a(*this);
+	BigFloat b(multiplier);
 
-	size_t curMultDotPos = mult.dot_position();
-	size_t curProdDotPos = product.digits_after_dot();
-	size_t finProdDotPos = product.digits_after_dot() + mult.digits_after_dot();
+/*
+	// #op*(bf) 3
+	std::cout
+		<< "Data of temporary objects a and b in beginning: "
+		<< "\na.get_sign() and a.get_number(): " << a.get_sign() << a.get_number()
+		<< "\na itself: " << a
+		<< "\nb.get_sign() and b.get_number(): " << b.get_sign() << b.get_number()
+		<< "\nb itself: " << b
+		<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 3.\n\n"
+		;
+*/
+	size_t aSize = a.get_number().size();
+	size_t bSize = b.get_number().size();
+/*
+	// #op*(bf) 4
+	std::cout
+		<< "Size of temporary objects a and b in beginning: "
+		<< "\naSize: " << aSize
+		<< "\nbSize: " << bSize
+		<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 4.\n\n"
+		;
+*/
+
+	// запомним размер сдвига плавающей точки для будущего результата:
+	size_t shift = a.digits_after_dot() + b.digits_after_dot();
+
+	// запомним позицию плавающей точки объектов a и b:
+	size_t aDotPos = a.dot_position();
+	size_t bDotPos = b.dot_position();
+
+	/*
+	// #op*(bf) 10
+	std::cout
+	<< "The dot position: "
+	<< "\naDotPos: " << aDotPos
+	<< "\nbDotPos: " << bDotPos
+	<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 10.\n\n"
+	;
+	*/
 
 	// уберём из обоих чисел плавающую точку, чтобы не мешала при вычислениях:
-	product.erase_elem(curProdDotPos);
-	mult.erase_elem(curMultDotPos);
+	a.erase_elem(aDotPos);
+	b.erase_elem(bDotPos);
+	/*
+	// #op*(bf) 11
+	std::cout
+	<< "The numbers after erasing dot: "
+	<< "\na.get_number(): " << a.get_number()
+	<< "\nb.get_number(): " << b.get_number()
+	<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 11.\n\n"
+	;
+	*/
 
-	BigInt limit(mult.get_number());
-	for (BigInt i("0"); i < limit; ++i)
+	// будем умножать, начиная с млаших разрядов, для этого перевернём числа:
+	a.reverse_number();
+	b.reverse_number();
+	/*
+	// #op*(bf) 12
+	std::cout
+	<< "The numbers after reversing: "
+	<< "\na.get_number(): " << a.get_number()
+	<< "\nb.get_number(): " << b.get_number()
+	<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 12.\n\n"
+	;
+	*/
+
+	// излишки (то, что обычно при умножении в столбик "пишем в уме")
+	// будем складывать в переменную extra;
+	size_t extra = 0;
+
+	// итог умножения двух цифр одинакового разряда
+	// будем складывать в переменную digitsProd:
+	size_t digitsProd = 0;
+
+	// итог умножения цифры текущего разряда на число
+	// будем складывать в переменную subtotalProd:
+	BigInt subtotalProd("0");
+
+	// сумму промежуточных результатов умножения
+	// будем складывать в переменную sumOfSubtotals:
+	BigInt sumOfSubtotals("0");
+
+	for (size_t i = 0; i < bSize; ++i)
 	{
-		product = product + addition;
+		for (size_t j = 0; j < aSize; ++j)
+		{
+			digitsProd = b.elem_value_as_digit(i) * a.elem_value_as_digit(j) + extra;
+			subtotalProd.push_back_elem(digit_to_char(digitsProd % BigNumber::BASE));
+			extra = digitsProd / BigNumber::BASE;
+		}
+
+		if (extra)
+		{
+			subtotalProd.push_back_elem(digit_to_char(extra));
+		}
+
+		if (i)
+		{
+			subtotalProd.push_back_additional_zeros(i);
+		}
+
+		sumOfSubtotals = sumOfSubtotals + subtotalProd;
 	}
 
-	product.insert_elem('.', finProdDotPos);
+	product.set_number(sumOfSubtotals.get_number());
+	product.move_floating_point(LEFT, shift);
+	product.pop_back_trailing_zeros();
+
+	if (a.get_sign() == b.get_sign())
+	{
+		if (a.get_sign() == '+')
+		{
+			product.set_sign('+');
+		}
+		else
+		{
+			product.set_sign('-');
+		}
+	}
+	else
+	{
+		product.set_sign('-');
+	}
 
 	return product;
 } // endof // #op*(bf)

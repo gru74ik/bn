@@ -106,6 +106,14 @@ void BigNumber::push_front_additional_zeros(const size_t quantity)
 	}
 }
 
+void BigNumber::push_back_additional_zeros(const size_t quantity)
+{
+	for (size_t i = 0; i < quantity; ++i)
+	{
+		push_back(number_, '0');
+	}
+}
+
 // "перевернуть" число (поменять местами старшие разряды и младшие)
 void BigNumber::reverse_number()
 {
