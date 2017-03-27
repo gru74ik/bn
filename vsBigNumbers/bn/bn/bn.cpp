@@ -50,20 +50,19 @@ int main()
 		;
 */
 
-	BigFloat x;
-	BigFloat y;
+	BigFloat a;
+	BigFloat b;
 
 	std::string choice = "y";
 	while (choice[0] == 'y' || choice[0] == 'Y')
 	{
 		std::cout << "Enter two big floating numbers one by one:\n";
-		std::cin >> x >> y;
+		std::cin >> a >> b;
 		std::cout
-			<< "\nx: " << x
-			<< "\ny: " << y
-			<< "\nx + y: " << x + y
-			<< "\nx - y: " << x - y
-			<< "\ny - x: " << y - x
+			<< "\nx: " << a
+			<< "\ny: " << b
+			<< "\nx + y: " << a + b
+			<< "\nx - y: " << a - b
 			<< "\n\nDo you want proceed? (y/n) ";
 		std::cin >> choice;
 		std::cout << "\n\n";

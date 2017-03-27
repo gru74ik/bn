@@ -1801,6 +1801,14 @@ bool BigFloat::operator==(const BigFloat& bf) const // #op==
 	return !(a < b) && !(a > b);
 } // endof operator==
 
+bool BigFloat::operator!=(const BigFloat & bf) const
+{
+	BigFloat a(*this);
+	BigFloat b(bf);
+
+	return (a < b) || (a > b);
+} // endof operator!=
+
 
 
 // assignment operators ========================================================
@@ -2580,30 +2588,18 @@ BigFloat BigFloat::operator-(const BigFloat& subtrahend) const // #op-(bf)
 			<< "\nAssertion occured in BigFloat.cpp, #op-(bf) 70.\n\n"
 			;
 		
-		if (a.abs_value() == b.abs_value())
-		{
-			diff.reset();
-			diff.set_sign('+');
-/**/
-			// #op-(bf) 71
-			std::cout
-				<< "a.abs_value() == b.abs_value()"
-				<< "\nDiff equals to zero:"
-				<< "\ndiff.get_number(): " << diff.get_number()
-				<< "\nAssertion occured in BigFloat.cpp, #op-(bf) 71.\n\n"
-				;
-		}
-		else 
+		if (a.abs_value() != b.abs_value())
 		{
 			diff = a.abs_value() + b.abs_value();
-			/**/
-			// #op-(bf) 72
+			/*
+			// #op-(bf) 71
 			std::cout
-				<< "a.abs_value() != b.abs_value()"
-				<< "\ndiff.get_number(): " << diff.get_number()
-				<< "\nAssertion occured in BigFloat.cpp, #op-(bf) 72.\n\n"
-				;
-
+			<< "a.abs_value() != b.abs_value()"
+			<< "\ndiff.get_number(): " << diff.get_number()
+			<< "\nAssertion occured in BigFloat.cpp, #op-(bf) 71.\n\n"
+			;
+			*/
+			diff.set_number(diff.get_number());
 			if (a.get_sign() == '-')
 			{
 				diff.set_sign('-');
@@ -2613,7 +2609,20 @@ BigFloat BigFloat::operator-(const BigFloat& subtrahend) const // #op-(bf)
 				diff.set_sign('+');
 			}
 		}
-		diff.set_number(diff.get_number());
+		else 
+		{
+			diff.reset();
+			diff.set_number(diff.get_number());
+			diff.set_sign('+');
+			/**/
+			// #op-(bf) 72
+			std::cout
+				<< "a.abs_value() == b.abs_value()"
+				<< "\nDiff equals to zero:"
+				<< "\ndiff.get_number(): " << diff.get_number()
+				<< "\nAssertion occured in BigFloat.cpp, #op-(bf) 72.\n\n"
+				;
+		}
 	}
 
 	return diff;

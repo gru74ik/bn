@@ -92,6 +92,7 @@ public:
 	bool operator>(const BigFloat& bf) const;
 	bool operator>=(const BigFloat& bf) const;
 	bool operator==(const BigFloat& bf) const;
+	bool operator!=(const BigFloat& bf) const;
 
 	// assignment operators ========================================================
 	BigFloat operator=(const BigFloat& bf);
