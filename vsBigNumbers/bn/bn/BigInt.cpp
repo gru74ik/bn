@@ -24,12 +24,12 @@ BigInt::BigInt(const std::string& num) // #ctor(arg)
 	{
 		reset();
 	}
-/*
+/**/
 	std::cout << "Ctor BigInt::BigInt(const std::string& num) has been called.\n";
-*/
-/*
+
+/**/
 	std::cout << "Num after all: " << get_number() << "\n";
-*/
+
 }
 
 BigInt::BigInt(const BigInt& bi) // #copy ctor
@@ -181,10 +181,25 @@ void BigInt::set_number(const BigInt& bi)
 {
 	if (is_correct(bi.get_number()))
 	{
+/**/
+		// #setn(bi) 1
+		std::cout
+			<< "The BigInt is correct."
+			<< "\nbi.get_number(): " << bi.get_number()
+			<< "\nAssertion occured in BigNumber.cpp, #setn(bi) 1.\n\n"
+			;
+
 		BigNumber::set_number(bi.get_number());
 	}
 	else
 	{
+/**/
+		// #setn(bi) 2
+		std::cout
+			<< "The BigInt is incorrect."
+			<< "\nbi.get_number(): " << bi.get_number()
+			<< "\nAssertion occured in BigNumber.cpp, #setn(bi) 2.\n\n"
+			;
 		reset();
 	}
 } // endof set_number(const std::string & num)
@@ -193,10 +208,24 @@ void BigInt::set_number(const std::string & num)
 {
 	if (is_correct(num))
 	{
+/**/
+		// #setn(str) 1
+		std::cout
+			<< "The BigInt is correct."
+			<< "\nnum: " << num
+			<< "\nAssertion occured in BigNumber.cpp, #setn(str) 1.\n\n"
+			;
 		BigNumber::set_number(num);
 	}
 	else
 	{
+/**/
+		// #setn(str) 2
+		std::cout
+			<< "The BigInt is incorrect."
+			<< "\nnum: " << num
+			<< "\nAssertion occured in BigNumber.cpp, #setn(str) 2.\n\n"
+			;
 		reset();
 	}
 } // endof set_number(const std::string & num)
