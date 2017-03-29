@@ -25,31 +25,6 @@ N mzn 10 *. 0) ( . Ќапример, число 2.5 можно записать в виде: +0.25 E+1.
 
 int main()
 {	
-/*	
-	BigFloat a("+1.2345 E+5"); // 123450
-	std::cout
-		<< "a(+1.2345 E+5): " << a << "\n\n"
-		;
-
-	BigFloat b("+1.2345 E-3"); // 0.0012345
-	std::cout
-		<< "b(+1.2345 E-3): " << b << "\n\n"
-		;
-
-
-
-
-	BigFloat m("0");
-	std::cout
-		<< "m(0): " << m << "\n\n"
-		;
-
-	BigFloat n("0.0");
-	std::cout
-		<< "n(0.0): " << n << "\n\n"
-		;
-*/
-
 	BigFloat a;
 	BigFloat b;
 

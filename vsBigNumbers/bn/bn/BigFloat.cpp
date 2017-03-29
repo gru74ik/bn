@@ -2877,7 +2877,7 @@ BigFloat BigFloat::operator*(const BigFloat& multiplier) const // #op*(bf)
 		<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 31.\n\n"
 		;
 
-	product.set_number(sumOfSubtotals.get_number());
+	product.set_number(sumOfSubtotals);
 
 /**/
 	// #op*(bf) 32
