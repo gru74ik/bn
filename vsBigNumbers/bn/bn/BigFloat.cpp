@@ -2679,41 +2679,41 @@ BigFloat BigFloat::operator*(const BigFloat& multiplier) const // #op*(bf)
 	size_t aDotPos = a.dot_position();
 	size_t bDotPos = b.dot_position();
 
-	/*
+/*
 	// #op*(bf) 10
 	std::cout
-	<< "The dot position: "
-	<< "\naDotPos: " << aDotPos
-	<< "\nbDotPos: " << bDotPos
-	<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 10.\n\n"
-	;
-	*/
+		<< "The dot position: "
+		<< "\naDotPos: " << aDotPos
+		<< "\nbDotPos: " << bDotPos
+		<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 10.\n\n"
+		;
+*/
 
 	// уберЄм из обоих чисел плавающую точку, чтобы не мешала при вычислени€х:
 	a.erase_elem(aDotPos);
 	b.erase_elem(bDotPos);
-	/*
+/*
 	// #op*(bf) 11
 	std::cout
-	<< "The numbers after erasing dot: "
-	<< "\na.get_number(): " << a.get_number()
-	<< "\nb.get_number(): " << b.get_number()
-	<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 11.\n\n"
-	;
-	*/
+		<< "The numbers after erasing dot: "
+		<< "\na.get_number(): " << a.get_number()
+		<< "\nb.get_number(): " << b.get_number()
+		<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 11.\n\n"
+		;
+*/
 
 	// будем умножать, начина€ с млаших разр€дов, дл€ этого перевернЄм числа:
 	a.reverse_number();
 	b.reverse_number();
-	/*
+/*
 	// #op*(bf) 12
 	std::cout
-	<< "The numbers after reversing: "
-	<< "\na.get_number(): " << a.get_number()
-	<< "\nb.get_number(): " << b.get_number()
-	<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 12.\n\n"
-	;
-	*/
+		<< "The numbers after reversing: "
+		<< "\na.get_number(): " << a.get_number()
+		<< "\nb.get_number(): " << b.get_number()
+		<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 12.\n\n"
+		;
+*/
 
 	// излишки (то, что обычно при умножении в столбик "пишем в уме")
 	// будем складывать в переменную extra;
@@ -2726,31 +2726,126 @@ BigFloat BigFloat::operator*(const BigFloat& multiplier) const // #op*(bf)
 	// итог умножени€ цифры текущего разр€да на число
 	// будем складывать в переменную subtotalProd:
 	BigInt subtotalProd("0");
+/*
+	// #op*(bf) 13
+	std::cout
+		<< "The number named subtotalProd of type BigInt has been created."
+		<< "\nsubtotalProd.get_number(): " << subtotalProd.get_number()
+		<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 13.\n\n"
+		;
+*/
 
 	// сумму промежуточных результатов умножени€
 	// будем складывать в переменную sumOfSubtotals:
 	BigInt sumOfSubtotals("0");
-
+/*
+	// #op*(bf) 14
+	std::cout
+		<< "The number named sumOfSubtotals of type BigInt has been created."
+		<< "\nsumOfSubtotals.get_number(): " << sumOfSubtotals.get_number()
+		<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 14.\n\n"
+		;
+*/
 	for (size_t i = 0; i < bSize; ++i)
 	{
+/**/
+		// #op*(bf) 15
+		std::cout
+			<< "Outer for loop: iteration " << i + 1
+			<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 15.\n\n"
+			;
 		for (size_t j = 0; j < aSize; ++j)
 		{
-			digitsProd = b.elem_value_as_digit(i) * a.elem_value_as_digit(j) + extra;
-			subtotalProd.push_back_elem(digit_to_char(digitsProd % BigNumber::BASE));
-			extra = digitsProd / BigNumber::BASE;
-		}
+/**/
+			// #op*(bf) 16
+			std::cout
+				<< "Inner for loop: iteration " << j + 1
+				<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 16.\n\n"
+				;
 
-		if (extra)
-		{
-			subtotalProd.push_back_elem(digit_to_char(extra));
+/**/
+			// #op*(bf) 17
+			std::cout
+				<< "digitsProd before assignment: " << digitsProd
+				<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 17.\n\n"
+				;
+
+/**/
+			// #op*(bf) 18
+			std::cout
+				<< "b.elem_value_as_digit(i): " << b.elem_value_as_digit(i)
+				<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 18.\n\n"
+				;
+
+/**/
+			// #op*(bf) 19
+			std::cout
+				<< "a.elem_value_as_digit(i): " << a.elem_value_as_digit(i)
+				<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 19.\n\n"
+				;
+
+/**/
+			// #op*(bf) 20
+			std::cout
+				<< "extra: " << extra
+				<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 20.\n\n"
+				;
+
+			digitsProd = b.elem_value_as_digit(i) * a.elem_value_as_digit(j) + extra;
+/**/
+			// #op*(bf) 21
+			std::cout
+				<< "digitsProd after assignment: " << digitsProd
+				<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 21.\n\n"
+				;
+			subtotalProd.push_back_elem(digit_to_char(digitsProd % BigNumber::BASE));
+/*
+			// #op*(bf) 27
+			std::cout
+				<< "subtotalProd after calling push_back_elem: "
+				<< "\nsubtotalProd.get_number(): " << subtotalProd.get_number()
+				<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 27.\n\n"
+				;
+*/
+			extra = digitsProd / BigNumber::BASE;
 		}
 
 		if (i)
 		{
 			subtotalProd.push_back_additional_zeros(i);
+/*
+			// #op*(bf) 28
+			std::cout
+				<< "subtotalProd after pushing back additional zeros: "
+				<< "\nsubtotalProd.get_number(): " << subtotalProd.get_number()
+				<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 28.\n\n"
+				;
+*/
+		}
+
+		if (extra)
+		{
+			subtotalProd.push_back_elem(digit_to_char(extra));
+/*
+			// #op*(bf) 29
+			std::cout
+				<< "subtotalProd after pushing back remaining extra: "
+				<< "\nsubtotalProd.get_number(): " << subtotalProd.get_number()
+				<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 29.\n\n"
+				;
+*/
 		}
 
 		sumOfSubtotals = sumOfSubtotals + subtotalProd;
+/*
+		// #op*(bf) 30
+		std::cout
+			<< "sumOfSubtotals after assignment"
+			<< "\nsumOfSubtotals = sumOfSubtotals + subtotalProd: "
+			<< "\nsumOfSubtotals.get_number(): " << sumOfSubtotals.get_number()
+			<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 30.\n\n"
+			;
+*/
 	}
 
 	product.set_number(sumOfSubtotals.get_number());
