@@ -2819,11 +2819,11 @@ BigFloat BigFloat::operator*(const BigFloat& multiplier) const // #op*(bf)
 				;
 
 			extra = digitsProd / BigNumber::BASE;
-		}
+		} // endof inner for
 
 		if (i)
 		{
-			subtotalProd.push_back_additional_zeros(i);
+			subtotalProd.push_front_additional_zeros(i);
 /**/
 			// #op*(bf) 28
 			std::cout
@@ -2847,21 +2847,67 @@ BigFloat BigFloat::operator*(const BigFloat& multiplier) const // #op*(bf)
 
 		}
 
+		sumOfSubtotals.reverse_number();
+		subtotalProd.reverse_number();
+
 		sumOfSubtotals = sumOfSubtotals + subtotalProd;
-/*
+
+		sumOfSubtotals.reverse_number();
+
+		subtotalProd.clear_number();
+/**/
 		// #op*(bf) 30
 		std::cout
-			<< "sumOfSubtotals after assignment"
-			<< "\nsumOfSubtotals = sumOfSubtotals + subtotalProd: "
+			<< "sumOfSubtotals at " << i + 1 << " iteration: "
 			<< "\nsumOfSubtotals.get_number(): " << sumOfSubtotals.get_number()
+			<< " ======================================"
 			<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 30.\n\n"
 			;
-*/
-	}
+
+	} // endof outer for
+
+	sumOfSubtotals.reverse_number();
+
+/**/
+	  // #op*(bf) 31
+	std::cout
+		<< "sumOfSubtotals at the end: "
+		<< "\nsumOfSubtotals.get_number(): " << sumOfSubtotals.get_number()
+		<< " ======================================"
+		<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 31.\n\n"
+		;
 
 	product.set_number(sumOfSubtotals.get_number());
+
+/**/
+	// #op*(bf) 32
+	std::cout
+		<< "Product after product.set_number(sumOfSubtotals.get_number()): "
+		<< "\nproduct.get_number(): " << product.get_number()
+		<< " ======================================"
+		<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 32.\n\n"
+		;
+
 	product.move_floating_point(LEFT, shift);
+
+/**/
+	// #op*(bf) 33
+	std::cout
+		<< "Product after inserting floating point: "
+		<< "\nproduct.get_number(): " << product.get_number()
+		<< " ======================================"
+		<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 33.\n\n"
+		;
+
 	product.pop_back_trailing_zeros();
+/**/
+	// #op*(bf) 34
+	std::cout
+		<< "Product after erasing trailing zeros: "
+		<< "\nproduct.get_number(): " << product.get_number()
+		<< " ======================================"
+		<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 34.\n\n"
+		;
 
 	if (a.get_sign() == b.get_sign())
 	{
