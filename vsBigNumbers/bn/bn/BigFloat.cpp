@@ -2660,17 +2660,6 @@ BigFloat BigFloat::operator*(const BigFloat& multiplier) const // #op*(bf)
 		<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 3.\n\n"
 		;
 */
-	size_t aSize = a.get_number().size();
-	size_t bSize = b.get_number().size();
-/*
-	// #op*(bf) 4
-	std::cout
-		<< "Size of temporary objects a and b in beginning: "
-		<< "\naSize: " << aSize
-		<< "\nbSize: " << bSize
-		<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 4.\n\n"
-		;
-*/
 
 	// запомним размер сдвига плавающей точки для будущего результата:
 	size_t shift = a.digits_after_dot() + b.digits_after_dot();
@@ -2702,6 +2691,18 @@ BigFloat BigFloat::operator*(const BigFloat& multiplier) const // #op*(bf)
 		;
 */
 
+	size_t aSize = a.get_number().size();
+	size_t bSize = b.get_number().size();
+/*
+	// #op*(bf) 4
+	std::cout
+		<< "Size of temporary objects a and b in beginning: "
+		<< "\naSize: " << aSize
+		<< "\nbSize: " << bSize
+		<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 4.\n\n"
+		;
+*/
+
 	// будем умножать, начиная с млаших разрядов, для этого перевернём числа:
 	a.reverse_number();
 	b.reverse_number();
@@ -2725,7 +2726,8 @@ BigFloat BigFloat::operator*(const BigFloat& multiplier) const // #op*(bf)
 
 	// итог умножения цифры текущего разряда на число
 	// будем складывать в переменную subtotalProd:
-	BigInt subtotalProd("0");
+	BigInt subtotalProd;
+	subtotalProd.clear_number();
 /*
 	// #op*(bf) 13
 	std::cout
@@ -2737,7 +2739,8 @@ BigFloat BigFloat::operator*(const BigFloat& multiplier) const // #op*(bf)
 
 	// сумму промежуточных результатов умножения
 	// будем складывать в переменную sumOfSubtotals:
-	BigInt sumOfSubtotals("0");
+	BigInt sumOfSubtotals;
+	sumOfSubtotals.clear_number();
 /*
 	// #op*(bf) 14
 	std::cout
@@ -2748,42 +2751,49 @@ BigFloat BigFloat::operator*(const BigFloat& multiplier) const // #op*(bf)
 */
 	for (size_t i = 0; i < bSize; ++i)
 	{
-/**/
+/*
 		// #op*(bf) 15
 		std::cout
 			<< "Outer for loop: iteration " << i + 1
 			<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 15.\n\n"
 			;
+*/
 		for (size_t j = 0; j < aSize; ++j)
 		{
-/**/
+/*
 			// #op*(bf) 16
 			std::cout
 				<< "Inner for loop: iteration " << j + 1
 				<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 16.\n\n"
 				;
-
-/**/
+*/
+/*
 			// #op*(bf) 17
 			std::cout
 				<< "digitsProd before assignment: " << digitsProd
 				<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 17.\n\n"
 				;
-
-/**/
+*/
+/*
 			// #op*(bf) 18
 			std::cout
-				<< "b.elem_value_as_digit(i): " << b.elem_value_as_digit(i)
+				<< "b.get_number(): " << b.get_number()
+				<< "\nb.elem_value_as_digit(i): " << b.elem_value_as_digit(i)
+				<< "\nindex i: " << i
+				<< "\nbSize: " << bSize
 				<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 18.\n\n"
 				;
-
-/**/
+*/
+/*
 			// #op*(bf) 19
 			std::cout
-				<< "a.elem_value_as_digit(i): " << a.elem_value_as_digit(i)
+				<< "a.get_number(): " << a.get_number()
+				<< "\na.elem_value_as_digit(j): " << a.elem_value_as_digit(j)
+				<< "\nindex j: " << j
+				<< "\naSize: " << aSize
 				<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 19.\n\n"
 				;
-
+*/
 /**/
 			// #op*(bf) 20
 			std::cout
@@ -2798,42 +2808,43 @@ BigFloat BigFloat::operator*(const BigFloat& multiplier) const // #op*(bf)
 				<< "digitsProd after assignment: " << digitsProd
 				<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 21.\n\n"
 				;
+
 			subtotalProd.push_back_elem(digit_to_char(digitsProd % BigNumber::BASE));
-/*
+/**/
 			// #op*(bf) 27
 			std::cout
 				<< "subtotalProd after calling push_back_elem: "
 				<< "\nsubtotalProd.get_number(): " << subtotalProd.get_number()
 				<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 27.\n\n"
 				;
-*/
+
 			extra = digitsProd / BigNumber::BASE;
 		}
 
 		if (i)
 		{
 			subtotalProd.push_back_additional_zeros(i);
-/*
+/**/
 			// #op*(bf) 28
 			std::cout
 				<< "subtotalProd after pushing back additional zeros: "
 				<< "\nsubtotalProd.get_number(): " << subtotalProd.get_number()
 				<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 28.\n\n"
 				;
-*/
+
 		}
 
 		if (extra)
 		{
 			subtotalProd.push_back_elem(digit_to_char(extra));
-/*
+/**/
 			// #op*(bf) 29
 			std::cout
 				<< "subtotalProd after pushing back remaining extra: "
 				<< "\nsubtotalProd.get_number(): " << subtotalProd.get_number()
 				<< "\nAssertion occured in BigFloat.cpp, #op*(bf) 29.\n\n"
 				;
-*/
+
 		}
 
 		sumOfSubtotals = sumOfSubtotals + subtotalProd;
