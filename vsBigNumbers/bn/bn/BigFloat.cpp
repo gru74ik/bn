@@ -2935,38 +2935,7 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 	BigFloat result;
 	BigFloat dividend(*this);
 	BigFloat divisor(divider);
-	if (dividend.notation() == SCIENTIFIC)
-	{
-		dividend.convert_to(DECIMAL);
-	}
-
-	if (divisor.notation() == SCIENTIFIC)
-	{
-		divisor.convert_to(DECIMAL);
-	}
-
-	if (dividend.is_correct(DEFAULT))
-	{
-		// do nothing (result already equal to zero)
-	}
-	else if (divisor.is_correct(DEFAULT))
-	{
-		result.set_number("1.0");
-		std::cout <<
-			"\nYou can not divide by zero! The result is "
-			"equated to 1, but it is a wrong result.\n";
-	}
-	else
-	{
-		size_t digitsAfterDot = divisor.digits_after_dot();
-		for (size_t i = digitsAfterDot; i > 0; --i)
-		{
-			divisor.move_floating_point(RIGHT, 1);
-			dividend.move_floating_point(RIGHT, 1);
-		}
-
-		// TODO: закончить
-	}
+	
 
 	return result;
 } // endof #op/(bf)
