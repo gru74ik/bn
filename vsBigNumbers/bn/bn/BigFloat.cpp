@@ -2691,6 +2691,7 @@ BigFloat BigFloat::operator*(const BigFloat& multiplier) const // #op*(bf)
 		;
 */
 
+	// запомним размер обоих чисел (уже без плавающей точки):
 	size_t aSize = a.get_number().size();
 	size_t bSize = b.get_number().size();
 /*
@@ -2811,7 +2812,7 @@ BigFloat BigFloat::operator*(const BigFloat& multiplier) const // #op*(bf)
 
 			subtotalProd.push_back_elem(digit_to_char(digitsProd % BigNumber::BASE));
 /**/
-			// #op*(bf) 27
+			// #op*(bf) 22
 			std::cout
 				<< "subtotalProd after calling push_back_elem: "
 				<< "\nsubtotalProd.get_number(): " << subtotalProd.get_number()
@@ -2855,6 +2856,7 @@ BigFloat BigFloat::operator*(const BigFloat& multiplier) const // #op*(bf)
 		sumOfSubtotals.reverse_number();
 
 		subtotalProd.clear_number();
+		extra = 0;
 /**/
 		// #op*(bf) 30
 		std::cout
