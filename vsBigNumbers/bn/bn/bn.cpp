@@ -36,9 +36,7 @@ int main()
 		std::cout
 			<< "\nx: " << a
 			<< "\ny: " << b
-			<< "\nx + y: " << a + b
 			<< "\nx - y: " << a - b
-			<< "\nx * y: " << a * b
 			<< "\n\nDo you want proceed? (y/n) ";
 		std::cin >> choice;
 		std::cout << "\n\n";

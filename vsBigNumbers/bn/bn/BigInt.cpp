@@ -629,9 +629,9 @@ BigInt BigInt::operator-(const BigInt& subtrahend) const
 /*
 	// #op-(bi) 2
 	std::cout
-	<< "diff after cleaning: " << diff.get_number()
-	<< "\nAssertion occured in BigInt.cpp, #op-(bi) 2.\n\n"
-	;
+		<< "diff after cleaning: " << diff.get_number()
+		<< "\nAssertion occured in BigInt.cpp, #op-(bi) 2.\n\n"
+		;
 */
 	BigInt a(*this);
 	BigInt b(subtrahend);
@@ -651,7 +651,7 @@ BigInt BigInt::operator-(const BigInt& subtrahend) const
 		quantity = b.quantity_of_digits() - a.quantity_of_digits();
 		a.push_front_additional_zeros(quantity);
 	}
-/*
+/**/
 	// #op-(bi) 10
 	std::cout
 		<< "Data members after #op-(bf) finished align numbers:"
@@ -659,7 +659,7 @@ BigInt BigInt::operator-(const BigInt& subtrahend) const
 		<< "\nb (without sign): " << b.get_number()
 		<< "\nAssertion occured in BigInt.cpp, #op-(bi) 10.\n\n"
 		;
-*/
+
 
 	if (a.get_sign() == b.get_sign())
 	{
@@ -667,7 +667,7 @@ BigInt BigInt::operator-(const BigInt& subtrahend) const
 		a.reverse_number();
 		b.reverse_number();
 
-/*
+/**/
 		// #op-(bf) 11
 		std::cout
 			<< "Data members after #op-(bi) finished reverse numbers:"
@@ -675,7 +675,7 @@ BigInt BigInt::operator-(const BigInt& subtrahend) const
 			<< "\nb (without sign): " << b.get_number()
 			<< "\nAssertion occured in BigInt.cpp, #op-(bi) 11.\n\n"
 			;
-*/
+
 		// промежуточный итог сложени€ двух цифр одинакового
 		// разр€да будем складывать в переменную subtotal:
 		size_t subtotal = 0;
@@ -709,7 +709,7 @@ BigInt BigInt::operator-(const BigInt& subtrahend) const
 			}
 			minuendDigit = minuendDigit + borrowed * 10;
 			subtotal = minuendDigit - subtrahendDigit;
-/*
+/**/
 			// #op-(bi) 20
 			std::cout
 				<< "Data on " << i + 1 << " step:"
@@ -718,17 +718,17 @@ BigInt BigInt::operator-(const BigInt& subtrahend) const
 				<< "\nsubtotal: " << subtotal
 				<< "\nAssertion occured in BigInt.cpp, #op-(bi) 20.\n\n"
 				;
-*/
+
 			diff.push_back_elem(digit_to_char(subtotal));
 			prevBorrowed = borrowed;
 
-/*
+/**/
 			// #op-(bi) 21
 			std::cout
 				<< "Diff on " << i + 1 << " step: " << diff.get_number()
 				<< "\nAssertion occured in BigInt.cpp, #op-(bi) 21.\n\n"
 				;
-*/
+
 		}
 
 /*
