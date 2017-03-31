@@ -416,68 +416,10 @@ bool BigInt::operator<=(const BigInt& bi) const
 
 bool BigInt::operator>(const BigInt& bi) const
 {
-	bool result = true;
+	BigInt a = *this;
+	BigInt b = bi;
 
-	BigInt a(*this);
-	BigInt b(bi);
-
-	size_t aNumSize = a.get_number().size();
-	size_t bNumSize = b.get_number().size();
-
-	if (bNumSize > aNumSize) // #op>(bi) 1
-	{
-/*
-		std::cout << 
-			"\nbNumSize > aNumSize\n"
-			"occured in #op>(bi) in branch 1\n";
-*/
-		result = false;
-	}
-	else if (aNumSize > bNumSize) // #op>(bi) 2
-	{
-/*
-		std::cout <<
-			"\naNumSize > bNumSize\n"
-			"occured in #op>(bi) in branch 2\n";
-*/
-		// do nothing (object a indeed greater than b and result is true already)
-	}
-	else if (aNumSize == bNumSize) // #op>(bi) 3
-	{
-/*
-		std::cout <<
-			"\naNumSize == bNumSize\n"
-			"occured in #op>(bi) in branch 3\n";
-*/
-		bool bothNumbersAreTheSame = true;
-
-		for (size_t i = 0; i < aNumSize; ++i)
-		{
-			if (a.get_number()[i] > b.get_number()[i])
-			{
-				bothNumbersAreTheSame = false;
-				result = true;
-				continue;
-			}
-			else if (a.get_number()[i] == b.get_number()[i])
-			{
-				continue;
-			}
-			else
-			{
-				bothNumbersAreTheSame = false;
-				result = false;
-				break;
-			}
-		}
-
-		if (bothNumbersAreTheSame)
-		{
-			result = false;
-		}
-	}
-
-	return result;
+	return b < a;
 }	// endof operator>(const BigInt& bi) const
 
 bool BigInt::operator>=(const BigInt& bi) const

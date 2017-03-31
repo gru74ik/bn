@@ -1751,38 +1751,7 @@ bool BigFloat::operator>(const BigFloat& bf) const // #op>
 	BigFloat a = *this;
 	BigFloat b = bf;
 
-	bool result = true;
-
-	if (a.get_sign() == '-' && b.get_sign() == '+')
-	{
-		result = false;
-	}
-	else if (a.notation_ == DEFAULT && b.notation_ == DEFAULT)
-	{
-		result = false;
-	}
-	else if (a.is_less_than_zero() && b.notation_ == DEFAULT)
-	{
-		result = false;
-	}
-	else if (a.notation_ == DEFAULT && b.is_greater_than_zero())
-	{
-		result = false;
-	}
-
-	if (!a.is_decimal())
-	{
-		a.convert_to(DECIMAL);
-	}
-
-	if (!b.is_decimal())
-	{
-		b.convert_to(DECIMAL);
-	}
-
-	// TODO: сравнивать поразрядно
-
-	return result;
+	return b < a;
 } // endof operator>
 
 bool BigFloat::operator>=(const BigFloat& bf) const // #op>=
