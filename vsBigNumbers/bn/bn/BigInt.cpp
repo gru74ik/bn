@@ -636,9 +636,6 @@ BigInt BigInt::operator-(const BigInt& subtrahend) const
 	BigInt a(*this);
 	BigInt b(subtrahend);
 
-	size_t aSize = a.get_number().size();
-	size_t bSize = b.get_number().size();
-
 	// уравниваем количество разрядов обоих чисел:
 	size_t quantity = 0;
 	if (a.quantity_of_digits() > b.quantity_of_digits())
@@ -651,6 +648,9 @@ BigInt BigInt::operator-(const BigInt& subtrahend) const
 		quantity = b.quantity_of_digits() - a.quantity_of_digits();
 		a.push_front_additional_zeros(quantity);
 	}
+
+	size_t aSize = a.get_number().size();
+	size_t bSize = b.get_number().size();
 /**/
 	// #op-(bi) 10
 	std::cout
@@ -693,8 +693,7 @@ BigInt BigInt::operator-(const BigInt& subtrahend) const
 		// "долги" с предыдущего витка цикла:
 		size_t prevBorrowed = 0;
 
-		size_t limit = aSize > bSize ? aSize - 1 : bSize - 1;
-		for (size_t i = 0; i < limit; ++i)
+		for (size_t i = 0; i < aSize; ++i)
 		{
 			minuendDigit = a.elem_value_as_digit(i);
 			subtrahendDigit = b.elem_value_as_digit(i) + prevBorrowed;
