@@ -3,7 +3,7 @@
 #include "bn_functions.h"
 // #include <cmath> // можно использовать std::pow()
 
-
+const size_t PRECISION = 30;
 
 // ctors =======================================================================
 BigFloat::BigFloat()
@@ -1406,12 +1406,16 @@ BigFloat::Notation BigFloat::notation() const
 BigInt BigFloat::intermediate_dividend
 	(
 		const BigInt& dividend,
-		const BigInt& divisor
+		const BigInt& divisor,
+		size_t& leadingZeros
 	) const
 {
-	BigInt intermediateDividend(dividend.elem_value_as_char(0));
+	BigInt intermediateDividend;
+
 	if (dividend > divisor)
 	{		
+		intermediateDividend.clear_number();
+		intermediateDividend.push_back_elem(dividend.elem_value_as_char(0));
 		for
 			(
 				size_t i = 1;
@@ -1423,6 +1427,20 @@ BigInt BigFloat::intermediate_dividend
 			intermediateDividend.pop_back_elem(i);
 		}
 	}
+	else if (dividend < divisor)
+	{
+		intermediateDividend.clear_number();
+		while (dividend < divisor)
+		{
+			intermediateDividend.push_back_elem('0');
+			++leadingZeros;
+		}
+	}
+	else
+	{
+		intermediateDividend = dividend;
+	}
+
 	return intermediateDividend;
 }
 
@@ -2950,29 +2968,46 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 	dividend.erase_elem(dividend.last_digit_position());
 	divisor.erase_elem(divisor.last_digit_position());
 
-	BigInt a(dividend.get_number());
-	BigInt b(divisor.get_number());
+	BigInt dividendInt(dividend.get_number());
+	BigInt divisorInt(divisor.get_number());
 
-	size_t leadingZeros = 0;
-	while (a < b)
-	{
-		a.push_back_elem('0');
-		++leadingZeros;
-	}
-
+	shift = 0;
 	BigInt intermediateDividend =
-		intermediate_dividend(a, b);
-
-
+		intermediate_dividend(dividendInt, divisorInt, shift);
 
 	BigInt prevAttempt;
-	prevAttempt.clear_number();
+	BigInt curAttempt(divisorInt);
 
-	BigInt curAttempt(b);
-	for (BigInt i("2"); a < curAttempt; ++i)
+	BigInt prevMultiplier;
+	BigInt subtotal("1");
+
+	while
+		(
+			result.get_number().size() < PRECISION ||
+			subtotal.get_number() != "0"
+		)
 	{
-		curAttempt = curAttempt * i;
+		for
+			(
+				BigInt curMultiplier("2");
+				intermediateDividend < curAttempt;
+				++curMultiplier
+			)
+		{
+			prevAttempt = curAttempt;
+			curAttempt = curAttempt * curMultiplier;
+			prevMultiplier = curMultiplier;
+		}
+
+		result.push_back_elem(prevMultiplier.get_number());
+
+		size_t fakeArg = 0;
+		subtotal = intermediateDividend - prevAttempt;
+		intermediateDividend =
+			intermediate_dividend(subtotal, divisorInt, fakeArg);
 	}
+
+	result.move_floating_point(LEFT, shift);
 
 
 
