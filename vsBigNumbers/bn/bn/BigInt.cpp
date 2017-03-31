@@ -234,24 +234,26 @@ void BigInt::set_number(const std::string & num)
 {
 	if (is_correct(num))
 	{
-/**/
+/*
 		// #setn(str) 1
 		std::cout
 			<< "BigInt::is_correct() has been called and the number is correct."
 			<< "\nnum: " << num
 			<< "\nAssertion occured in BigInt.cpp, #setn(str) 1.\n\n"
 			;
+*/
 		BigNumber::set_number(num);
 	}
 	else
 	{
-/**/
+/*
 		// #setn(str) 2
 		std::cout
 			<< "BigInt::is_correct() has been called and the number is incorrect."
 			<< "\nnum: " << num
 			<< "\nAssertion occured in BigInt.cpp, #setn(str) 2.\n\n"
 			;
+*/
 		reset();
 	}
 } // endof set_number(const std::string & num)
@@ -602,8 +604,251 @@ BigInt BigInt::operator-(const BigInt& subtrahend) const
 } // endof operator-(const BigInt& subtrahend) const
 
 BigInt BigInt::operator*(const BigInt& multiplier) const
-{	// TODO: implement this function member!
-	BigInt product(multiplier); // temporary solution to avoid compiler warning
+{
+	BigInt product;
+/*
+	// #op*(bi) 1
+	std::cout
+		<< "product in beginning: " << product.get_number()
+		<< "\nAssertion occured in BigInt.cpp, #op*(bi) 1.\n\n"
+		;
+*/
+	product.clear_number();
+	/*
+	// #op*(bi) 2
+	std::cout
+	<< "sproduct after cleaning: " << product.clear_number()
+	<< "\nAssertion occured in BigInt.cpp, #op*(bi) 2.\n\n"
+	;
+	*/
+	BigInt a(*this);
+	BigInt b(multiplier);
+
+	/*
+	// #op*(bi) 3
+	std::cout
+	<< "Data of temporary objects a and b in beginning: "
+	<< "\na.get_sign() and a.get_number(): " << a.get_sign() << a.get_number()
+	<< "\na itself: " << a
+	<< "\nb.get_sign() and b.get_number(): " << b.get_sign() << b.get_number()
+	<< "\nb itself: " << b
+	<< "\nAssertion occured in BigInt.cpp, #op*(bi) 3.\n\n"
+	;
+	*/
+
+	size_t aSize = a.get_number().size();
+	size_t bSize = b.get_number().size();
+	/*
+	// #op*(bi) 4
+	std::cout
+	<< "Size of temporary objects a and b in beginning: "
+	<< "\naSize: " << aSize
+	<< "\nbSize: " << bSize
+	<< "\nAssertion occured in BigInt.cpp, #op*(bi) 4.\n\n"
+	;
+	*/
+
+	// будем умножать, начиная с млаших разрядов, для этого перевернём числа:
+	a.reverse_number();
+	b.reverse_number();
+	/*
+	// #op*(bi) 12
+	std::cout
+	<< "The numbers after reversing: "
+	<< "\na.get_number(): " << a.get_number()
+	<< "\nb.get_number(): " << b.get_number()
+	<< "\nAssertion occured in BigInt.cpp, #op*(bi) 12.\n\n"
+	;
+	*/
+
+	// излишки (то, что обычно при умножении в столбик "пишем в уме")
+	// будем складывать в переменную extra;
+	size_t extra = 0;
+
+	// итог умножения двух цифр одинакового разряда
+	// будем складывать в переменную digitsProd:
+	size_t digitsProd = 0;
+
+	// итог умножения цифры текущего разряда на число
+	// будем складывать в переменную subtotalProd:
+	BigInt subtotalProd;
+	subtotalProd.clear_number();
+	/*
+	// #op*(bi) 13
+	std::cout
+	<< "The number named subtotalProd of type BigInt has been created."
+	<< "\nsubtotalProd.get_number(): " << subtotalProd.get_number()
+	<< "\nAssertion occured in BigInt.cpp, #op*(bi) 13.\n\n"
+	;
+	*/
+
+	// сумму промежуточных результатов умножения
+	// будем складывать в переменную sumOfSubtotals:
+	BigInt sumOfSubtotals;
+	sumOfSubtotals.clear_number();
+	/*
+	// #op*(bi) 14
+	std::cout
+	<< "The number named sumOfSubtotals of type BigInt has been created."
+	<< "\nsumOfSubtotals.get_number(): " << sumOfSubtotals.get_number()
+	<< "\nAssertion occured in BigInt.cpp, #op*(bi) 14.\n\n"
+	;
+	*/
+	for (size_t i = 0; i < bSize; ++i)
+	{
+		/*
+		// #op*(bi) 15
+		std::cout
+		<< "Outer for loop: iteration " << i + 1
+		<< "\nAssertion occured in BigInt.cpp, #op*(bi) 15.\n\n"
+		;
+		*/
+		for (size_t j = 0; j < aSize; ++j)
+		{
+			/*
+			// #op*(bi) 16
+			std::cout
+			<< "Inner for loop: iteration " << j + 1
+			<< "\nAssertion occured in BigInt.cpp, #op*(bi) 16.\n\n"
+			;
+			*/
+			/*
+			// #op*(bi) 17
+			std::cout
+			<< "digitsProd before assignment: " << digitsProd
+			<< "\nAssertion occured in BigInt.cpp, #op*(bi) 17.\n\n"
+			;
+			*/
+			/*
+			// #op*(bi) 18
+			std::cout
+			<< "b.get_number(): " << b.get_number()
+			<< "\nb.elem_value_as_digit(i): " << b.elem_value_as_digit(i)
+			<< "\nindex i: " << i
+			<< "\nbSize: " << bSize
+			<< "\nAssertion occured in BigInt.cpp, #op*(bi) 18.\n\n"
+			;
+			*/
+			/*
+			// #op*(bi) 19
+			std::cout
+			<< "a.get_number(): " << a.get_number()
+			<< "\na.elem_value_as_digit(j): " << a.elem_value_as_digit(j)
+			<< "\nindex j: " << j
+			<< "\naSize: " << aSize
+			<< "\nAssertion occured in BigInt.cpp, #op*(bi) 19.\n\n"
+			;
+			*/
+			/**/
+			// #op*(bi) 20
+			std::cout
+				<< "extra: " << extra
+				<< "\nAssertion occured in BigInt.cpp, #op*(bi) 20.\n\n"
+				;
+
+			digitsProd = b.elem_value_as_digit(i) * a.elem_value_as_digit(j) + extra;
+			/**/
+			// #op*(bi) 21
+			std::cout
+				<< "digitsProd after assignment: " << digitsProd
+				<< "\nAssertion occured in BigInt.cpp, #op*(bi) 21.\n\n"
+				;
+
+			subtotalProd.push_back_elem(digit_to_char(digitsProd % BigNumber::BASE));
+			/**/
+			// #op*(bi) 22
+			std::cout
+				<< "subtotalProd after calling push_back_elem: "
+				<< "\nsubtotalProd.get_number(): " << subtotalProd.get_number()
+				<< "\nAssertion occured in BigInt.cpp, #op*(bi) 27.\n\n"
+				;
+
+			extra = digitsProd / BigNumber::BASE;
+		} // endof inner for
+
+		if (i)
+		{
+			subtotalProd.push_front_additional_zeros(i);
+			/**/
+			// #op*(bi) 28
+			std::cout
+				<< "subtotalProd after pushing back additional zeros: "
+				<< "\nsubtotalProd.get_number(): " << subtotalProd.get_number()
+				<< "\nAssertion occured in BigInt.cpp, #op*(bi) 28.\n\n"
+				;
+
+		}
+
+		if (extra)
+		{
+			subtotalProd.push_back_elem(digit_to_char(extra));
+			/**/
+			// #op*(bi) 29
+			std::cout
+				<< "subtotalProd after pushing back remaining extra: "
+				<< "\nsubtotalProd.get_number(): " << subtotalProd.get_number()
+				<< "\nAssertion occured in BigInt.cpp, #op*(bi) 29.\n\n"
+				;
+
+		}
+
+		sumOfSubtotals.reverse_number();
+		subtotalProd.reverse_number();
+
+		sumOfSubtotals = sumOfSubtotals + subtotalProd;
+
+		sumOfSubtotals.reverse_number();
+
+		subtotalProd.clear_number();
+		extra = 0;
+		/**/
+		// #op*(bi) 30
+		std::cout
+			<< "sumOfSubtotals at " << i + 1 << " iteration: "
+			<< "\nsumOfSubtotals.get_number(): " << sumOfSubtotals.get_number()
+			<< " ======================================"
+			<< "\nAssertion occured in BigInt.cpp, #op*(bi) 30.\n\n"
+			;
+
+	} // endof outer for
+
+	sumOfSubtotals.reverse_number();
+
+	/**/
+	// #op*(bi) 31
+	std::cout
+		<< "sumOfSubtotals at the end: "
+		<< "\nsumOfSubtotals.get_number(): " << sumOfSubtotals.get_number()
+		<< " ======================================"
+		<< "\nAssertion occured in BigInt.cpp, #op*(bi) 31.\n\n"
+		;
+
+	product.set_number(sumOfSubtotals);
+
+	/**/
+	// #op*(bi) 32
+	std::cout
+		<< "Product after product.set_number(sumOfSubtotals.get_number()): "
+		<< "\nproduct.get_number(): " << product.get_number()
+		<< " ======================================"
+		<< "\nAssertion occured in BigInt.cpp, #op*(bi) 32.\n\n"
+		;
+
+	if (a.get_sign() == b.get_sign())
+	{
+		if (a.get_sign() == '+')
+		{
+			product.set_sign('+');
+		}
+		else
+		{
+			product.set_sign('-');
+		}
+	}
+	else
+	{
+		product.set_sign('-');
+	}
 
 	return product;
 } // endof operator*(const BigInt& multiplier) const
