@@ -302,53 +302,104 @@ bool BigInt::operator<(const BigInt& bi) const
 	size_t aNumSize = a.get_number().size();
 	size_t bNumSize = b.get_number().size();
 
-	if (bNumSize < aNumSize) // #op<(bi) 3
+	if (a.get_sign() == '+' && b.get_sign() == '-')
 	{
-/*
-		std::cout
+		result = false;
+	}
+	else if (a.get_sign() == '-' && b.get_sign() == '+')
+	{
+		result = true;
+	}
+	else if (a.get_sign() == '+' && b.get_sign() == '+')
+	{
+		if (b.quantity_of_digits() < a.quantity_of_digits()) // #op<(bi) 3
+		{
+	/*
+			std::cout
+				<< "(bNumSize < aNumSize) is true. "
+				<< "Assertion occured in BigInt.cpp, #op<(bi), branch 3\n"
+				;
+	*/
+			result = false;
+		}
+		else if (a.quantity_of_digits() < b.quantity_of_digits()) // #op<(bi) 4
+		{
+			result = true;
+		}
+		else
+		{
+			bool bothNumbersAreTheSame = true;
+
+			for (size_t i = 0; i < aNumSize; ++i)
+			{
+				if (a.elem_value_as_digit(i) < b.elem_value_as_digit(i))
+				{
+					bothNumbersAreTheSame = false;
+					result = true;
+					break;
+				}
+				else if (a.elem_value_as_digit(i) == b.elem_value_as_digit(i))
+				{
+					continue;
+				}
+				else
+				{
+					bothNumbersAreTheSame = false;
+					result = false;
+					break;
+				}
+			}
+
+			if (bothNumbersAreTheSame)
+			{
+				result = false;
+			}
+		}
+	} // endof else if (a.get_sign() == b.get_sign())
+	else
+	{
+		if (b.quantity_of_digits() < a.quantity_of_digits()) // #op<(bi) 3
+		{
+			/*
+			std::cout
 			<< "(bNumSize < aNumSize) is true. "
 			<< "Assertion occured in BigInt.cpp, #op<(bi), branch 3\n"
 			;
-*/
-		result = false;
-	}
-	else if (aNumSize < bNumSize) // #op<(bi) 4
-	{
-/*
-		std::cout
-			<< "(aNumSize < bNumSize) is true. "
-			<< "Assertion occured in BigInt.cpp, #op<(bi), branch 4\n"
-			;
-*/
-		// do nothing (object a indeed less than b and result is true already)
-	}
-	else
-	{
-		bool bothNumbersAreTheSame = true;
-
-		for (size_t i = 0; i < aNumSize; ++i)
-		{
-			if (a.get_number()[i] < b.get_number()[i])
-			{
-				bothNumbersAreTheSame = false;
-				result = true;
-				continue;
-			}
-			else if (a.get_number()[i] == b.get_number()[i])
-			{
-				continue;
-			}
-			else
-			{
-				bothNumbersAreTheSame = false;
-				result = false;
-				break;
-			}
+			*/
+			result = true;
 		}
-
-		if (bothNumbersAreTheSame)
+		else if (a.quantity_of_digits() < b.quantity_of_digits()) // #op<(bi) 4
 		{
 			result = false;
+		}
+		else
+		{
+			bool bothNumbersAreTheSame = true;
+
+			for (size_t i = 0; i < aNumSize; ++i)
+			{
+				if (a.elem_value_as_digit(i) < b.elem_value_as_digit(i))
+				{
+					bothNumbersAreTheSame = false;
+					result = false;
+					break;
+				}
+				else if (a.elem_value_as_digit(i) == b.elem_value_as_digit(i))
+				{
+					continue;
+				}
+				else
+				{
+					bothNumbersAreTheSame = false;
+					result = true;
+					break;
+				}
+			}
+
+			if (bothNumbersAreTheSame)
+			{
+				result = false;
+			}
 		}
 	}
 

@@ -27,20 +27,22 @@ int main()
 {	
 	BigInt a;
 	BigInt b;
-
+/**/
 	std::string choice = "y";
 	while (choice[0] == 'y' || choice[0] == 'Y')
 	{
 		std::cout << "Enter two big integer numbers one by one:\n";
 		std::cin >> a >> b;
 		std::cout
-			<< "\nx: " << a
-			<< "\ny: " << b
-			<< "\nx - y: " << a - b
+			<< "\na: " << a
+			<< "\nb: " << b
+			<< "\na - b: " << a - b
 			<< "\n\nDo you want proceed? (y/n) ";
 		std::cin >> choice;
 		std::cout << "\n\n";
 	}
 
+	
+	
 	return 0;
 }
