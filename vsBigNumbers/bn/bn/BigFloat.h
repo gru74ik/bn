@@ -81,6 +81,8 @@ public:
 	std::string mantissa() const;
 	Notation notation() const;
 
+	BigInt intermediate_dividend(const BigInt& dividend, const BigInt& divisor) const;
+
 	// setters =====================================================================
 	void set_number(const BigFloat& bf);
 	void set_number(const std::string& num);

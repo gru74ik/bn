@@ -12,6 +12,7 @@ class BigInt
 public:
 	// ctors =======================================================================
 	BigInt();							// is done
+	BigInt(const char num);
 	BigInt(const std::string& num);		// is done
 	BigInt(const BigInt& bi);			// is done
 

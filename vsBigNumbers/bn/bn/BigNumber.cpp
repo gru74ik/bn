@@ -24,6 +24,38 @@ BigNumber::BigNumber()
 */
 }
 
+BigNumber::BigNumber(const char num)
+{
+/*
+	// #bnctor(ch) 1
+	std::cout
+		<< "Ctor BigNumber::BigNumber(const char num) has been called."
+		<< "\nAssertion occured in BigNumber.cpp, #bnctor(ch) 1.\n\n"
+		;
+*/
+	if (num == '0')
+	{
+		reset();
+	}
+	else
+	{
+		number_ = "";
+		number_ = number_ + num;
+		sign_ = define_sign();
+		discard_sign();
+	}
+
+
+/*
+	std::cout
+		<< "\nThe sign of the number after ctor finished his work: "
+		<< sign_
+		<< "\nThe number after ctor finished his work: "
+		<< number_ << "\n\n"
+		;
+*/
+}
+
 BigNumber::BigNumber(const std::string& num)
 {
 /*

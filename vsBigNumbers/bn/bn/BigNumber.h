@@ -21,6 +21,7 @@ public:
 
 	// ctors =======================================================================
 	BigNumber();
+	BigNumber(const char num);
 	BigNumber(const std::string& num);
 	BigNumber(const BigNumber&);
 	// dtors =======================================================================

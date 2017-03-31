@@ -1403,6 +1403,29 @@ BigFloat::Notation BigFloat::notation() const
 	return notation_;
 }
 
+BigInt BigFloat::intermediate_dividend
+	(
+		const BigInt& dividend,
+		const BigInt& divisor
+	) const
+{
+	BigInt intermediateDividend(dividend.elem_value_as_char(0));
+	if (dividend > divisor)
+	{		
+		for
+			(
+				size_t i = 1;
+				intermediateDividend < dividend &&
+				i < dividend.quantity_of_digits();
+				++i
+			)
+		{
+			intermediateDividend.pop_back_elem(i);
+		}
+	}
+	return intermediateDividend;
+}
+
 
 
 // setters =====================================================================
@@ -2902,9 +2925,56 @@ BigFloat BigFloat::operator*(const BigFloat& multiplier) const // #op*(bf)
 BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 {
 	BigFloat result;
+	result.clear_number();
+
 	BigFloat dividend(*this);
 	BigFloat divisor(divider);
 	
+	size_t shift = 0;
+
+	if (dividend.digits_after_dot >= divisor.digits_after_dot)
+	{
+		shift = dividend.digits_after_dot;
+	}
+	else
+	{
+		shift = divisor.digits_after_dot;
+	}
+
+	dividend.move_floating_point(RIGHT, shift);
+	divisor.move_floating_point(RIGHT, shift);
+
+	dividend.erase_elem(dividend.dot_position());
+	divisor.erase_elem(divisor.dot_position());
+
+	dividend.erase_elem(dividend.last_digit_position());
+	divisor.erase_elem(divisor.last_digit_position());
+
+	BigInt a(dividend.get_number());
+	BigInt b(divisor.get_number());
+
+	size_t leadingZeros = 0;
+	while (a < b)
+	{
+		a.push_back_elem('0');
+		++leadingZeros;
+	}
+
+	BigInt intermediateDividend =
+		intermediate_dividend(a, b);
+
+
+
+	BigInt prevAttempt;
+	prevAttempt.clear_number();
+
+	BigInt curAttempt(b);
+	for (BigInt i("2"); a < curAttempt; ++i)
+	{
+		curAttempt = curAttempt * i;
+	}
+
+
 
 	return result;
 } // endof #op/(bf)

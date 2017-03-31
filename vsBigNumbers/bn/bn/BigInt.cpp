@@ -12,6 +12,26 @@ BigInt::BigInt()
 */
 }
 
+BigInt::BigInt(const char num)
+	: BigNumber(num)
+{
+	std::string numAsStr;
+	numAsStr = numAsStr + num;
+	if (!is_correct(numAsStr))
+	{
+		reset();
+/**/
+		// #ctor(numAsStr) 1
+		std::cout
+			<< "BigInt::is_correct(numAsStr) has been called and the number is incorrect."
+			<< "reset() has been called."
+			<< "\nget_number(): " << get_number()
+			<< "\nAssertion occured in BigInt.cpp, #ctor(numAsStr) 1.\n\n"
+			;
+
+	}
+}
+
 BigInt::BigInt(const std::string& num) // #ctor(str)
 	: BigNumber(num)
 {
