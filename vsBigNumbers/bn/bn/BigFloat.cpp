@@ -2950,13 +2950,13 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 	
 	size_t shift = 0;
 
-	if (dividend.digits_after_dot >= divisor.digits_after_dot)
+	if (dividend.digits_after_dot() >= divisor.digits_after_dot())
 	{
-		shift = dividend.digits_after_dot;
+		shift = dividend.digits_after_dot();
 	}
 	else
 	{
-		shift = divisor.digits_after_dot;
+		shift = divisor.digits_after_dot();
 	}
 
 	dividend.move_floating_point(RIGHT, shift);
@@ -3009,7 +3009,21 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 
 	result.move_floating_point(LEFT, shift);
 
-
+	if (dividend.get_sign() == divisor.get_sign())
+	{
+		if (dividend.get_sign() == '+')
+		{
+			result.set_sign('+');
+		}
+		else
+		{
+			result.set_sign('-');
+		}
+	}
+	else
+	{
+		result.set_sign('-');
+	}
 
 	return result;
 } // endof #op/(bf)
