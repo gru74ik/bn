@@ -161,9 +161,9 @@ bool BigInt::is_zero() const
 
 
 
-  // changers ====================================================================
+// changers ====================================================================
 
-  // вытолкнуть спереди (отбросить) лишние нули
+// вытолкнуть спереди (отбросить) лишние нули
 void BigInt::pop_front_extra_zeros() // #pfez
 {
 	/*
@@ -190,6 +190,16 @@ void BigInt::pop_front_extra_zeros() // #pfez
 
 
 // getters =====================================================================
+BigInt BigInt::abs_value()
+{
+	return get_number();
+}
+
+size_t BigInt::quantity_of_digits() const
+{
+	return get_number().size();
+}
+
 size_t BigInt::last_digit_position() const
 {
 	return get_number().size() - 1;
@@ -435,6 +445,14 @@ bool BigInt::operator==(const BigInt& bi) const
 	return !(a < b) && !(a > b);
 } // endof operator==(const BigInt& bi) const
 
+bool BigInt::operator!=(const BigInt & bi) const
+{
+	BigInt a(*this);
+	BigInt b(bi);
+
+	return (a < b) || (a > b);
+}
+
 
 
 // arithmetic operators (both operands are same type) ===========================
@@ -597,8 +615,197 @@ BigInt BigInt::operator+(const BigInt& addendum) const
 } // endof operator+(const BigInt& addendum) const
 
 BigInt BigInt::operator-(const BigInt& subtrahend) const
-{	// TODO: implement this function member!
-	BigInt diff(subtrahend); // temporary solution to avoid compiler warning
+{
+	BigInt diff;
+
+/*
+	// #op-(bi) 1
+	std::cout
+		<< "diff in beginning: " << diff.get_number()
+		<< "\nAssertion occured in BigInt.cpp, #op-(bi) 1.\n\n"
+		;
+*/
+	diff.clear_number();
+/*
+	// #op-(bi) 2
+	std::cout
+	<< "diff after cleaning: " << diff.get_number()
+	<< "\nAssertion occured in BigInt.cpp, #op-(bi) 2.\n\n"
+	;
+*/
+	BigInt a(*this);
+	BigInt b(subtrahend);
+
+	size_t aSize = a.get_number().size();
+	size_t bSize = b.get_number().size();
+
+	// уравниваем количество разрядов обоих чисел:
+	size_t quantity = 0;
+	if (a.quantity_of_digits() > b.quantity_of_digits())
+	{
+		quantity = a.quantity_of_digits() - b.quantity_of_digits();
+		b.push_front_additional_zeros(quantity);
+	}
+	else if (b.quantity_of_digits() > a.quantity_of_digits())
+	{
+		quantity = b.quantity_of_digits() - a.quantity_of_digits();
+		a.push_front_additional_zeros(quantity);
+	}
+/*
+	// #op-(bi) 10
+	std::cout
+		<< "Data members after #op-(bf) finished align numbers:"
+		<< "\na (without sign): " << a.get_number()
+		<< "\nb (without sign): " << b.get_number()
+		<< "\nAssertion occured in BigInt.cpp, #op-(bi) 10.\n\n"
+		;
+*/
+
+	if (a.get_sign() == b.get_sign())
+	{
+		// считать будем с младших разрядов, поэтому "перевернём" оба числа:
+		a.reverse_number();
+		b.reverse_number();
+
+/*
+		// #op-(bf) 11
+		std::cout
+			<< "Data members after #op-(bi) finished reverse numbers:"
+			<< "\na (without sign): " << a.get_number()
+			<< "\nb (without sign): " << b.get_number()
+			<< "\nAssertion occured in BigInt.cpp, #op-(bi) 11.\n\n"
+			;
+*/
+		// промежуточный итог сложения двух цифр одинакового
+		// разряда будем складывать в переменную subtotal:
+		size_t subtotal = 0;
+
+		// уменьшаемая цифра:
+		size_t minuendDigit = 0;
+
+		// вычитаемая цифра:
+		size_t subtrahendDigit = 0;
+
+		// занимать единичку из старшего разряда будем,
+		// складывая её в переменную borrowed:
+		size_t borrowed = 0;
+
+		// "долги" с предыдущего витка цикла:
+		size_t prevBorrowed = 0;
+
+		size_t limit = aSize > bSize ? aSize - 1 : bSize - 1;
+		for (size_t i = 0; i < limit; ++i)
+		{
+			minuendDigit = a.elem_value_as_digit(i);
+			subtrahendDigit = b.elem_value_as_digit(i) + prevBorrowed;
+			if (minuendDigit < subtrahendDigit)
+			{	// если уменьшаемая цифра меньше, чем вычитаемая,
+				// значит занимаем из старшего разряда единицу:
+				borrowed = 1;
+			}
+			else
+			{	// иначе, ничего не занимаем:
+				borrowed = 0;
+			}
+			minuendDigit = minuendDigit + borrowed * 10;
+			subtotal = minuendDigit - subtrahendDigit;
+/*
+			// #op-(bi) 20
+			std::cout
+				<< "Data on " << i + 1 << " step:"
+				<< "\nminuendDigit: " << minuendDigit
+				<< "\nsubtrahendDigit: " << subtrahendDigit
+				<< "\nsubtotal: " << subtotal
+				<< "\nAssertion occured in BigInt.cpp, #op-(bi) 20.\n\n"
+				;
+*/
+			diff.push_back_elem(digit_to_char(subtotal));
+			prevBorrowed = borrowed;
+
+/*
+			// #op-(bi) 21
+			std::cout
+				<< "Diff on " << i + 1 << " step: " << diff.get_number()
+				<< "\nAssertion occured in BigInt.cpp, #op-(bi) 21.\n\n"
+				;
+*/
+		}
+
+/*
+		// #op-(bi) 22
+		std::cout
+			<< "Diff before reversing: " << diff.get_number()
+			<< "\nAssertion occured in BigInt.cpp, #op-(bi) 22.\n\n"
+			;
+*/
+		diff.reverse_number();
+/*
+		// #op-(bi) 55
+		std::cout
+			<< "Diff after reversing: " << diff.get_number()
+			<< "\nAssertion occured in BigInt.cpp, #op-(bi) 55.\n\n"
+			;
+*/
+
+		diff.set_number(diff.get_number());
+/*
+		// #op-(bi) 57
+		std::cout
+			<< "\nDiff after all: " << diff.get_sign() << diff.get_number()
+			<< "\nAssertion occured in BigInt.cpp, #op-(bi) 57.\n\n"
+			;
+*/
+		diff.set_sign(a.get_sign());
+	}
+	else
+	{
+/**/
+		// #op-(bi) 70
+		std::cout
+			<< "Signs of the minuend a and subtrahend b are different: "
+			<< "\n<< a.get_sign(): " << a.get_sign()
+			<< "\n<< b.get_sign(): " << b.get_sign()
+			<< "\nAssertion occured in BigInt.cpp, #op-(bi) 70.\n\n"
+			;
+
+		if (a.abs_value() != b.abs_value())
+		{
+			diff = a.abs_value() + b.abs_value();
+/*
+			// #op-(bi) 71
+			std::cout
+				<< "a.abs_value() != b.abs_value()"
+				<< "\ndiff.get_number(): " << diff.get_number()
+				<< "\nAssertion occured in BigInt.cpp, #op-(bi) 71.\n\n"
+				;
+*/
+			diff.set_number(diff.get_number());
+			if (a.get_sign() == '-')
+			{
+				diff.set_sign('-');
+			}
+			else if (b.get_sign() == '-')
+			{
+				diff.set_sign('+');
+			}
+		}
+		else
+		{
+			diff.reset();
+			diff.set_number(diff.get_number());
+			diff.set_sign('+');
+/**/
+			// #op-(bi) 72
+			std::cout
+				<< "a.abs_value() == b.abs_value()"
+				<< "\nDiff equals to zero:"
+				<< "\ndiff.get_number(): " << diff.get_number()
+				<< "\nAssertion occured in BigInt.cpp, #op-(bi) 72.\n\n"
+				;
+		}
+	}
+
+	return diff;
 
 	return diff;
 } // endof operator-(const BigInt& subtrahend) const

@@ -42,7 +42,6 @@ public:
 	virtual bool is_zero() const;	// may be is_default() would be more logical?
 
 	// changers ====================================================================
-	BigFloat abs_value();
 	void discard_e_tail();
 	void move_floating_point(Direction dir, size_t shiftSize);
 	void convert_to(Notation notation);
@@ -54,6 +53,7 @@ public:
 	void pop_back_trailing_zeros();
 
 	// getters =====================================================================
+	BigFloat abs_value();
 	size_t extra_leading_zeros() const;
 	size_t leading_zeros() const;
 	size_t trailing_zeros() const;

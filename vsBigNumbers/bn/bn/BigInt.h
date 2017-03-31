@@ -30,6 +30,8 @@ public:
 	void pop_front_extra_zeros();
 
 	// getters =====================================================================
+	BigInt abs_value();
+	size_t quantity_of_digits() const;
 	virtual size_t last_digit_position() const;			// is done
 	virtual size_t last_digit_value() const;			// is done
 
@@ -47,6 +49,7 @@ public:
 	bool operator>(const BigInt& bi) const;		// TODO: implement it right!
 	bool operator>=(const BigInt& bi) const;	// TODO: implement it right!
 	bool operator==(const BigInt& bi) const;
+	bool operator!=(const BigInt& bi) const;
 
 	// arithmetic operators (both operands are same type) ===========================
 	BigInt operator+(const BigInt& addendum) const;		// TODO: implement it right!

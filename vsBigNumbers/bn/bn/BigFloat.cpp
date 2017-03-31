@@ -419,11 +419,6 @@ bool BigFloat::is_zero() const
 
 
 // changers ====================================================================
-BigFloat BigFloat::abs_value()
-{
-	return get_number();
-}
-
 void BigFloat::discard_e_tail()
 {
 	set_number(mantissa());
@@ -1073,6 +1068,11 @@ Old version:
 
 
 // getters =====================================================================
+BigFloat BigFloat::abs_value()
+{
+	return get_number();
+}
+
 size_t BigFloat::extra_leading_zeros() const
 {	
 	// for example:
