@@ -651,7 +651,7 @@ BigInt BigInt::operator-(const BigInt& subtrahend) const
 
 	size_t aSize = a.get_number().size();
 	size_t bSize = b.get_number().size();
-/**/
+/*
 	// #op-(bi) 10
 	std::cout
 		<< "Data members after #op-(bf) finished align numbers:"
@@ -659,7 +659,7 @@ BigInt BigInt::operator-(const BigInt& subtrahend) const
 		<< "\nb (without sign): " << b.get_number()
 		<< "\nAssertion occured in BigInt.cpp, #op-(bi) 10.\n\n"
 		;
-
+*/
 
 	if (a.get_sign() == b.get_sign())
 	{
@@ -692,119 +692,149 @@ BigInt BigInt::operator-(const BigInt& subtrahend) const
 
 		// "долги" с предыдущего витка цикла:
 		size_t prevBorrowed = 0;
-
-		for (size_t i = 0; i < aSize; ++i)
+		if (a > b)
 		{
-			minuendDigit = a.elem_value_as_digit(i);
-			subtrahendDigit = b.elem_value_as_digit(i) + prevBorrowed;
-			if (minuendDigit < subtrahendDigit)
-			{	// если уменьшаемая цифра меньше, чем вычитаемая,
-				// значит занимаем из старшего разряда единицу:
-				borrowed = 1;
-			}
-			else
-			{	// иначе, ничего не занимаем:
-				borrowed = 0;
-			}
-			minuendDigit = minuendDigit + borrowed * 10;
-			subtotal = minuendDigit - subtrahendDigit;
+			for (size_t i = 0; i < aSize; ++i)
+			{
+				minuendDigit = a.elem_value_as_digit(i);
+				subtrahendDigit = b.elem_value_as_digit(i) + prevBorrowed;
+				if (minuendDigit < subtrahendDigit)
+				{	// если уменьшаемая цифра меньше, чем вычитаемая,
+					// значит занимаем из старшего разряда единицу:
+					borrowed = 1;
+				}
+				else
+				{	// иначе, ничего не занимаем:
+					borrowed = 0;
+				}
+				minuendDigit = minuendDigit + borrowed * 10;
+				subtotal = minuendDigit - subtrahendDigit;
+	/**/
+				// #op-(bi) 20
+				std::cout
+					<< "Data on " << i + 1 << " step:"
+					<< "\nminuendDigit: " << minuendDigit
+					<< "\nsubtrahendDigit: " << subtrahendDigit
+					<< "\nsubtotal: " << subtotal
+					<< "\nAssertion occured in BigInt.cpp, #op-(bi) 20.\n\n"
+					;
+
+				diff.push_back_elem(digit_to_char(subtotal));
+				prevBorrowed = borrowed;
+
+	/**/
+				// #op-(bi) 21
+				std::cout
+					<< "Diff on " << i + 1 << " step: " << diff.get_number()
+					<< "\nAssertion occured in BigInt.cpp, #op-(bi) 21.\n\n"
+					;
+
+			} // endof for (size_t i = 0; i < aSize; ++i)
+			diff.set_sign('+');
 /**/
-			// #op-(bi) 20
+			// #op-(bi) 21a
 			std::cout
-				<< "Data on " << i + 1 << " step:"
-				<< "\nminuendDigit: " << minuendDigit
-				<< "\nsubtrahendDigit: " << subtrahendDigit
-				<< "\nsubtotal: " << subtotal
-				<< "\nAssertion occured in BigInt.cpp, #op-(bi) 20.\n\n"
+				<< "\nDiff after all: " << diff.get_sign() << diff.get_number()
+				<< "\nAssertion occured in BigInt.cpp, #op-(bi) 21a.\n\n"
 				;
 
-			diff.push_back_elem(digit_to_char(subtotal));
-			prevBorrowed = borrowed;
-
-/**/
-			// #op-(bi) 21
-			std::cout
-				<< "Diff on " << i + 1 << " step: " << diff.get_number()
-				<< "\nAssertion occured in BigInt.cpp, #op-(bi) 21.\n\n"
-				;
-
-		}
-
-/*
-		// #op-(bi) 22
-		std::cout
-			<< "Diff before reversing: " << diff.get_number()
-			<< "\nAssertion occured in BigInt.cpp, #op-(bi) 22.\n\n"
-			;
-*/
-		diff.reverse_number();
-/*
-		// #op-(bi) 55
-		std::cout
-			<< "Diff after reversing: " << diff.get_number()
-			<< "\nAssertion occured in BigInt.cpp, #op-(bi) 55.\n\n"
-			;
-*/
-
-		diff.set_number(diff.get_number());
-/*
-		// #op-(bi) 57
-		std::cout
-			<< "\nDiff after all: " << diff.get_sign() << diff.get_number()
-			<< "\nAssertion occured in BigInt.cpp, #op-(bi) 57.\n\n"
-			;
-*/
-		diff.set_sign(a.get_sign());
-	}
-	else
-	{
-/**/
-		// #op-(bi) 70
-		std::cout
-			<< "Signs of the minuend a and subtrahend b are different: "
-			<< "\n<< a.get_sign(): " << a.get_sign()
-			<< "\n<< b.get_sign(): " << b.get_sign()
-			<< "\nAssertion occured in BigInt.cpp, #op-(bi) 70.\n\n"
-			;
-
-		if (a.abs_value() != b.abs_value())
+		} // endof if (a > b)
+		else if (b > a)
 		{
-			diff = a.abs_value() + b.abs_value();
-/*
-			// #op-(bi) 71
+			for (size_t i = 0; i < aSize; ++i)
+			{
+				minuendDigit = b.elem_value_as_digit(i);
+				subtrahendDigit = a.elem_value_as_digit(i) + prevBorrowed;
+				if (minuendDigit < subtrahendDigit)
+				{	// если уменьшаемая цифра меньше, чем вычитаемая,
+					// значит занимаем из старшего разряда единицу:
+					borrowed = 1;
+				}
+				else
+				{	// иначе, ничего не занимаем:
+					borrowed = 0;
+				}
+				minuendDigit = minuendDigit + borrowed * 10;
+				subtotal = minuendDigit - subtrahendDigit;
+				/**/
+				// #op-(bi) 22
+				std::cout
+					<< "Data on " << i + 1 << " step:"
+					<< "\nminuendDigit: " << minuendDigit
+					<< "\nsubtrahendDigit: " << subtrahendDigit
+					<< "\nsubtotal: " << subtotal
+					<< "\nAssertion occured in BigInt.cpp, #op-(bi) 22.\n\n"
+					;
+
+				diff.push_back_elem(digit_to_char(subtotal));
+				prevBorrowed = borrowed;
+
+				/**/
+				// #op-(bi) 23
+				std::cout
+					<< "Diff on " << i + 1 << " step: " << diff.get_number()
+					<< "\nAssertion occured in BigInt.cpp, #op-(bi) 23.\n\n"
+					;
+
+			} // endof for (size_t i = 0; i < aSize; ++i)
+			diff.set_sign('-');
+/**/
+			// #op-(bi) 23a
 			std::cout
-				<< "a.abs_value() != b.abs_value()"
-				<< "\ndiff.get_number(): " << diff.get_number()
-				<< "\nAssertion occured in BigInt.cpp, #op-(bi) 71.\n\n"
+				<< "\nDiff after all: " << diff.get_sign() << diff.get_number()
+				<< "\nAssertion occured in BigInt.cpp, #op-(bi) 23a.\n\n"
 				;
-*/
-			diff.set_number(diff.get_number());
-			if (a.get_sign() == '-')
-			{
-				diff.set_sign('-');
-			}
-			else if (b.get_sign() == '-')
-			{
-				diff.set_sign('+');
-			}
-		}
+			
+		} // endof else if (b > a)
 		else
 		{
 			diff.reset();
-			diff.set_number(diff.get_number());
 			diff.set_sign('+');
 /**/
-			// #op-(bi) 72
+			// #op-(bi) 24
 			std::cout
 				<< "a.abs_value() == b.abs_value()"
 				<< "\nDiff equals to zero:"
 				<< "\ndiff.get_number(): " << diff.get_number()
-				<< "\nAssertion occured in BigInt.cpp, #op-(bi) 72.\n\n"
+				<< "\nAssertion occured in BigInt.cpp, #op-(bi) 24.\n\n"
 				;
 		}
-	}
 
-	return diff;
+
+/*
+		// #op-(bi) 26
+		std::cout
+			<< "Diff before reversing: " << diff.get_number()
+			<< "\nAssertion occured in BigInt.cpp, #op-(bi) 26.\n\n"
+			;
+*/
+		diff.reverse_number();
+/*
+		// #op-(bi) 27
+		std::cout
+			<< "Diff after reversing: " << diff.get_number()
+			<< "\nAssertion occured in BigInt.cpp, #op-(bi) 27.\n\n"
+			;
+*/
+	} // endof if (a.get_sign() == b.get_sign())
+	else
+	{
+		if (a.abs_value() < b.abs_value())
+		{
+			diff = a + b;
+			diff.set_sign('+');
+		}
+		else if (b.abs_value() < a.abs_value())
+		{
+			diff = a + b;
+			diff.set_sign('-');
+		}
+		else
+		{
+			diff.reset();
+			diff.set_sign('+');
+		}		
+	}
 
 	return diff;
 } // endof operator-(const BigInt& subtrahend) const

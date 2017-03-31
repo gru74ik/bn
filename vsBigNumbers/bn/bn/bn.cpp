@@ -31,7 +31,7 @@ int main()
 	std::string choice = "y";
 	while (choice[0] == 'y' || choice[0] == 'Y')
 	{
-		std::cout << "Enter two big floating numbers one by one:\n";
+		std::cout << "Enter two big integer numbers one by one:\n";
 		std::cin >> a >> b;
 		std::cout
 			<< "\nx: " << a
