@@ -1403,48 +1403,6 @@ BigFloat::Notation BigFloat::notation() const
 	return notation_;
 }
 
-BigInt BigFloat::mediate_dividend
-	(
-		const BigInt& dividend,
-		const BigInt& divisor,
-		size_t& leadingZeros
-	)
-	const
-{
-	BigInt mediateDividend;
-
-	if (dividend > divisor)
-	{		
-		mediateDividend.clear_number();
-		mediateDividend.push_back_elem(dividend.elem_value_as_char(0));
-		for
-			(
-				size_t i = 1;
-				mediateDividend < dividend &&
-				i < dividend.quantity_of_digits();
-				++i
-			)
-		{
-			mediateDividend.push_back_elem(dividend.elem_value_as_char(i));
-		}
-	}
-	else if (dividend < divisor)
-	{
-		mediateDividend.clear_number();
-		while (dividend < divisor)
-		{
-			mediateDividend.push_back_elem('0');
-			++leadingZeros;
-		}
-	}
-	else
-	{
-		mediateDividend = dividend;
-	}
-
-	return mediateDividend;
-}
-
 
 
 // setters =====================================================================
@@ -2961,7 +2919,7 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 */
 	BigFloat dividend(*this);
 	BigFloat divisor(divider);
-/**/
+/*
 	// #op/(bf) 3
 	std::cout
 		<< "Data of temporary objects dividend and divisor in beginning: "
@@ -2971,7 +2929,7 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 		<< "\ndivisor itself: " << divisor
 		<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 3.\n\n"
 		;
-
+*/
 	size_t shift = 0;
 
 	if (dividend.digits_after_dot() >= divisor.digits_after_dot())
@@ -2985,7 +2943,7 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 
 	dividend.move_floating_point(RIGHT, shift);
 	divisor.move_floating_point(RIGHT, shift);
-/**/
+/*
 	// #op/(bf) 10
 	std::cout
 		<< "The numbers after moving floating point right: "
@@ -2993,10 +2951,10 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 		<< "\ndivisor.get_number(): " << divisor.get_number()
 		<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 10.\n\n"
 		;
-
+*/
 	dividend.erase_elem(dividend.dot_position());
 	divisor.erase_elem(divisor.dot_position());
-/**/
+/*
 	// #op/(bf) 11
 	std::cout
 		<< "The numbers after erasing dot: "
@@ -3004,10 +2962,10 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 		<< "\ndivisor.get_number(): " << divisor.get_number()
 		<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 11.\n\n"
 		;
-
+*/
 	dividend.erase_elem(dividend.last_digit_position());
 	divisor.erase_elem(divisor.last_digit_position());
-/**/
+/*
 	// #op/(bf) 12
 	std::cout
 		<< "The numbers after erasing extra trailing zero: "
@@ -3015,10 +2973,10 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 		<< "\ndivisor.get_number(): " << divisor.get_number()
 		<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 12.\n\n"
 		;
-
+*/
 	BigInt dividendInt(dividend.get_number());
 	BigInt divisorInt(divisor.get_number());
-/**/
+/*
 	// #op/(bf) 13
 	std::cout
 		<< "The temporary integers dividendInt and divisorInt: "
@@ -3026,174 +2984,181 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 		<< "\ndivisorInt.get_number(): " << divisorInt.get_number()
 		<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 13.\n\n"
 		;
-
+*/
 	shift = 0;
-	BigInt mediateDividend = mediate_dividend(dividendInt, divisorInt, shift);
-
+	DivisionHelper divHelper(dividendInt, divisorInt);
+	BigInt mediateDividend = divHelper.mediate_dividend(shift);
+/*
 	// #op/(bf) 14
 	std::cout
 		<< "mediateDividend in beginning: " << mediateDividend
 		<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 14.\n\n"
 		;
-/*
-	BigInt prevAttempt;
+*/
 
+	BigInt fitSubtrahend;
+/*
 	// #op/(bf) 15
 	std::cout
 		<< "prevAttempt in beginning: " << prevAttempt
 		<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 15.\n\n"
 		;
-
-	BigInt curAttempt(divisorInt);
-
+*/
+	BigInt curSubtrahend;
+/*
 	// #op/(bf) 16
 	std::cout
 		<< "curAttempt in beginning: " << curAttempt
 		<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 16.\n\n"
 		;
-
-	BigInt prevMultiplier;
-
+*/
+	BigInt fitMultiplier("1");
+/*
 	// #op/(bf) 17
 	std::cout
 		<< "prevMultiplier in beginning: " << prevMultiplier
 		<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 17.\n\n"
 		;
-
-	BigInt subtotal("1");
-
+*/
+	BigInt subtotal(divisorInt.get_number());
+/*
 	// #op/(bf) 18
 	std::cout
 		<< "subtotal in beginning: " << subtotal
 		<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 18.\n\n"
 		;
+*/
 
-	size_t quotientSize = quotient.get_number().size();
 	for
 		(
-			size_t i = 1, fakeArg = 0;
-			quotientSize < PRECISION || subtotal.get_number() != "0";
+			size_t i = 1;
+			quotient.get_number().size() < PRECISION ||
+			!divHelper.division_is_finished();
 			++i
 		)
 	{
+		curSubtrahend = divisorInt;
 		for
 			(
-				BigInt curMultiplier("2");
-				mediateDividend < curAttempt;
+				BigInt curMultiplier("1");
+				mediateDividend > curSubtrahend;
 				++curMultiplier
 			)
 		{
-
+/*
 			// #op/(bf) 20
 			std::cout
 				<< "prevAttempt in " << curMultiplier
 				<< " iteration (inner for) before assignment: " << prevAttempt
 				<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 20.\n\n"
 				;
-
-			prevAttempt = curAttempt;
-
+*/
+			fitSubtrahend = curSubtrahend;
+/*
 			// #op/(bf) 21
 			std::cout
 				<< "prevAttempt in " << curMultiplier
 				<< " iteration (inner for) after assignment: " << prevAttempt
 				<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 21.\n\n"
 				;
-
-
-			// #op/(bf) 22
-			std::cout
-				<< "curAttempt in " << curMultiplier
-				<< " iteration (inner for) before assignment: " << curAttempt
-				<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 22.\n\n"
-				;
-
-			curAttempt = curAttempt * curMultiplier;
-
-			// #op/(bf) 23
-			std::cout
-				<< "curAttempt in " << curMultiplier
-				<< " iteration (inner for) after assignment: " << curAttempt
-				<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 23.\n\n"
-				;
-
-			// #op/(bf) 24
-			std::cout
-				<< "prevMultiplier in " << curMultiplier
-				<< " iteration (inner for) before assignment: " << prevMultiplier
-				<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 24.\n\n"
-				;
-
-			prevMultiplier = curMultiplier;
-
+*/
+/*
+// #op/(bf) 24
+std::cout
+<< "prevMultiplier in " << curMultiplier
+<< " iteration (inner for) before assignment: " << prevMultiplier
+<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 24.\n\n"
+;
+*/
+			fitMultiplier = curMultiplier;
+/*
 			// #op/(bf) 25
 			std::cout
 				<< "prevMultiplier in " << curMultiplier
 				<< " iteration (inner for) after assignment: " << prevMultiplier
 				<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 25.\n\n"
 				;
-
-		}
-
+*/
+/*
+			// #op/(bf) 22
+			std::cout
+				<< "curAttempt in " << curMultiplier
+				<< " iteration (inner for) before assignment: " << curAttempt
+				<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 22.\n\n"
+				;
+*/
+			curSubtrahend = curSubtrahend * curMultiplier;
+/*
+			// #op/(bf) 23
+			std::cout
+				<< "curAttempt in " << curMultiplier
+				<< " iteration (inner for) after assignment: " << curAttempt
+				<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 23.\n\n"
+				;
+*/
+		} // endof for that look for prevAttempt (subtrahend)
+/*
 		// #op/(bf) 26
 		std::cout
 			<< "quotient in " << i
 			<< " iteration (outer for) before assignment: " << quotient.get_number()
 			<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 26.\n\n"
 			;
-
-		quotient.push_back_elem(prevMultiplier.get_number());
-
+*/
+		
+		quotient.push_back_elem(fitMultiplier.get_number());
+/*
 		// #op/(bf) 27
 		std::cout
 			<< "quotient in " << i
 			<< " iteration (outer for) after assignment: " << quotient.get_number()
 			<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 27.\n\n"
 			;
-
-
+*/
+/*
 		// #op/(bf) 28
 		std::cout
 			<< "subtotal in " << i
 			<< " iteration (outer for) before assignment: " << subtotal.get_number()
 			<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 28.\n\n"
 			;
-
-		subtotal = mediateDividend - prevAttempt;
-
+*/
+		subtotal = mediateDividend - fitSubtrahend;
+/*
 		// #op/(bf) 29
 		std::cout
 			<< "subtotal in " << i
 			<< " iteration (outer for) after assignment: " << subtotal.get_number()
 			<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 29.\n\n"
 			;
-
-
+*/
+/*
 		// #op/(bf) 30
 		std::cout
 			<< "mediateDividend in " << i
 			<< " iteration (outer for) before assignment: " << mediateDividend.get_number()
 			<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 30.\n\n"
 			;
-
-		mediateDividend = mediate_dividend(subtotal, divisorInt, fakeArg);
-
+*/
+		mediateDividend = mediate_dividend(subtotal, divisorInt);
+/*
 		// #op/(bf) 31
 		std::cout
 			<< "mediateDividend in " << i
 			<< " iteration (outer for) after assignment: " << mediateDividend.get_number()
 			<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 31.\n\n"
 			;
+*/
 	}
 
 	quotient.move_floating_point(LEFT, shift);
-
+/*
 	// #op/(bf) 32
 		std::cout
 		<< "quotient after moving floating point left: " << quotient.get_number()
 		<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 32.\n\n"
 		;
-
+*/
 	if (dividend.get_sign() == divisor.get_sign())
 	{
 		if (dividend.get_sign() == '+')
@@ -3209,19 +3174,20 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 	{
 		quotient.set_sign('-');
 	}
-
+/*
 	// #op/(bf) 33
 	std::cout
 		<< "The quotient's sign is " << quotient.get_sign()
 		<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 33.\n\n"
 		;
-
+*/
+/*
 	// #op/(bf) 34
 	std::cout
 		<< "The quotient in the end: " << quotient.get_number()
 		<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 34.\n\n"
 		;
-*/	
+*/
 	return quotient;
 
 } // endof #op/(bf)
