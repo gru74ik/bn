@@ -33,75 +33,84 @@ quotientInt.push_back_elem('0'); // quotientInt = 0
 
 bool zeroWasPushedBackInSubtotal = false;
 BigInt subtotal = dividendInt; // subtotal = 2760
+// может лучше назвать переменную subtotal другим именем?
+// например, incompleteDividend ?
 */
 
 
 /*
-Первый цикл: сравнение
+Добавляем нули в quotientInt только если quotientInt.quantity_of_digits() < PRECISION
 
-1.
-Сравниваем по модулю subtotal и divisorInt:
+1. Первый цикл: сравнение
 
-if (subtotal.abs_value() < divisorInt.abs_value()) // 2760 меньше, чем 39584, значит добавляем ноль в subtotal
-{
-	subtotal.push_back_elem('0'); 		// ноль добавлен: subtotal = 27600
-	
-	Проверяем флаг:
-	if (zeroWasPushedBackInSubtotal) // false, значит этот этап пропускаем
-		quotientInt.push_back_elem('0');
-	
-	zeroWasPushedBackInSubtotal = true;
-}
-else
-{
-	zeroWasPushedBackInSubtotal = false;
-}
+	1-А.
+	Сравниваем по модулю subtotal и divisorInt:
+
+	if (subtotal.abs_value() < divisorInt.abs_value()) // 2760 меньше, чем 39584, значит добавляем ноль в subtotal
+	{
+		subtotal.push_back_elem('0'); 		// ноль добавлен: subtotal = 27600
+		
+		Проверяем флаг:
+		if (zeroWasPushedBackInSubtotal) // false, значит этот этап пропускаем
+			quotientInt.push_back_elem('0');
+		
+		zeroWasPushedBackInSubtotal = true;
+	}
+	else
+	{
+		zeroWasPushedBackInSubtotal = false;
+	}
 
 
-2.
-Сравниваем по модулю subtotal и divisorInt:
+	1-Б.
+	Сравниваем по модулю subtotal и divisorInt:
 
-if (subtotal.abs_value() < divisorInt.abs_value()) // 27600 меньше, чем 39584, значит добавляем ноль в subtotal
-{
-	subtotal.push_back_elem('0'); 		// ноль добавлен: subtotal = 276000
-	
-	Проверяем флаг:
-	if (zeroWasPushedBackInSubtotal) // true, значит добавляем ноль в ответ
-		quotientInt.push_back_elem('0'); // quotientInt = 00
-	
-	zeroWasPushedBackInSubtotal = true;
-}
-else
-{
-	zeroWasPushedBackInSubtotal = false;
-}
+	if (subtotal.abs_value() < divisorInt.abs_value()) // 27600 меньше, чем 39584, значит добавляем ноль в subtotal
+	{
+		subtotal.push_back_elem('0'); 		// ноль добавлен: subtotal = 276000
+		
+		Проверяем флаг:
+		if (zeroWasPushedBackInSubtotal) // true, значит добавляем ноль в ответ
+			quotientInt.push_back_elem('0'); // quotientInt = 00
+		
+		zeroWasPushedBackInSubtotal = true;
+	}
+	else
+	{
+		zeroWasPushedBackInSubtotal = false;
+	}
 
-3.
-Сравниваем по модулю subtotal и divisorInt:
-276000 больше, чем 39584, значит добавлять ноль в subtotal в этот раз не будем,
-а следовательно, идём в ветку else:
+	1-В.
+	Сравниваем по модулю subtotal и divisorInt:
+	276000 больше, чем 39584, значит добавлять ноль в subtotal в этот раз не будем,
+	а следовательно, идём в ветку else:
 
-if (subtotal.abs_value() < divisorInt.abs_value())
-{
-	subtotal.push_back_elem('0');
-	
-	Проверяем флаг:
-	if (zeroWasPushedBackInSubtotal)
-		quotientInt.push_back_elem('0');
-	
-	zeroWasPushedBackInSubtotal = true;
-}
-else
-{
-	zeroWasPushedBackInSubtotal = false; // мы тут!
-}
+	if (subtotal.abs_value() < divisorInt.abs_value())
+	{
+		subtotal.push_back_elem('0');
+		
+		Проверяем флаг:
+		if (zeroWasPushedBackInSubtotal)
+			quotientInt.push_back_elem('0');
+		
+		zeroWasPushedBackInSubtotal = true;
+	}
+	else
+	{
+		zeroWasPushedBackInSubtotal = false; // мы тут!
+	}
 
-И начинаем деление, то есть, подбор множителя (второй цикл).
+	И начинаем деление, то есть, подбор множителя:
+	char nextDigitOfQoutient = next_digit_of_quotient(subtotal); // nextDigitOfQoutient = 6
 
+	Возможный прототип функции find_next_digit_of_quotient():
+	char next_digit_of_quotient(BigInt& subtotal)
 */
 
 /*
-4. 	Сколько раз divisorInt (то есть, число 39584) содержится в subtotal (то есть, в 276000)?
+2. 	Вот что происходит в функции next_digit_of_quotient():
+
+	Сколько раз divisorInt (то есть, число 39584) содержится в subtotal (то есть, в 276000)?
 	
 		Уж один-то раз точно, ведь мы выяснили, что 276000 больше, чем 39584.
 		Запомним эти значения:
@@ -187,14 +196,39 @@ else
 	Ответ: шесть раз.
 	fitSubtrahend = 237504
 	fitMultiplier = 6
-	quotientInt.push_back_elem('fitMultiplier'); 	// quotientInt = 006
-	
 	subtotal = subtotal - fitSubtrahend;	// subtotal = 276000 - 237504
 											// subtotal = 38496
+	return fitMultiplier.elem_value_as_char(0);
+	
+Конец функции next_digit_of_quotient()
+	
+	Добавляем цифры в quotientInt только если quotientInt.quantity_of_digits() < PRECISION
+	if (quotientInt.quantity_of_digits() < PRECISION)
+	{
+		// nextDigitOfQoutient = 6
+		quotientInt.push_back_elem(nextDigitOfQoutient); 	// quotientInt = 006		
+	}
+	else
+	{
+		Завершить деление. 
+		return finalize_division(quotientInt, quotientDotPos);
+		Возможная реализациия функции finalize_division():
+		BigFloat BigFloat::finalize_division(BigInt quotientInt, size_t quotientDotPos)
+		{
+			BigFloat quotient;
+			quotient.clear_number();
+			quotient.push_back_elem(quotientInt.get_number());
+			quotient.insert_elem('.', quotientDotPos);
+			return quotient;
+		}
+	}
+
+	
+
 	
 */	
 
-/* Возвращаемся в первый цикл: сравнение
+/* 5. Возвращаемся в первый цикл: сравнение
 
 1.
 Сравниваем по модулю subtotal и divisorInt:
@@ -234,9 +268,33 @@ else
 	zeroWasPushedBackInSubtotal = false; // мы тут!
 }
 
-И начинаем деление, то есть, подбор множителя (возвращаемся во второй цикл).
+И начинаем деление, то есть, подбор множителя (вызываем функцию next_digit_of_quotient).
 */	
 	
+/*
+	nextDigitOfQoutient = next_digit_of_quotient(subtotal); // nextDigitOfQoutient = 9
+	
+	Добавляем цифры в quotientInt только если quotientInt.quantity_of_digits() < PRECISION
+	if (quotientInt.quantity_of_digits() < PRECISION)
+	{
+		// nextDigitOfQoutient = 9
+		quotientInt.push_back_elem(nextDigitOfQoutient); 	// quotientInt = 0069	
+	}
+	else
+	{
+		Завершить деление. 
+		return finalize_division(quotientInt, quotientDotPos);
+		Возможная реализациия функции finalize_division():
+		BigFloat BigFloat::finalize_division(BigInt quotientInt, size_t quotientDotPos)
+		{
+			BigFloat quotient;
+			quotient.clear_number();
+			quotient.push_back_elem(quotientInt.get_number());
+			quotient.insert_elem('.', quotientDotPos);
+			return quotient;
+		}
+	}
+*/
 	
 	
 	
