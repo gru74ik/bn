@@ -94,12 +94,21 @@ public:
 		)
 		const;
 
-	void calc_subtotal_and_add_zeros_to_quotient
+	void calc_subtotal_and_add_digits_to_quotient
 		(
 			BigInt & subtotal,
 			const BigInt & divisorInt,
 			bool & zeroWasPushedBackInSubtotalInPrevStep,
 			BigInt & quotientInt
+		)
+		const;
+
+	BigInt BigFloat::calc_subtotal
+		(
+			const BigInt & prevSubtotal,
+			const BigInt & dividendInt,
+			const BigInt & divisorInt,
+			size_t & index
 		)
 		const;
 
@@ -115,6 +124,15 @@ public:
 		(
 			BigInt& quotientInt,
 			const size_t quotientDotPos
+		)
+		const;
+
+	bool division_is_finished
+		(
+			const BigInt& dividendInt,
+			const size_t lastUsedDigitOfDividend,
+			const BigInt & subtotal,
+			const BigInt & qoutientInt
 		)
 		const;
 

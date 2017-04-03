@@ -1723,7 +1723,7 @@ char BigFloat::next_digit_of_quotient
 	return fitMultiplier.elem_value_as_char(0);
 }
 
-void BigFloat::calc_subtotal_and_add_zeros_to_quotient
+void BigFloat::calc_subtotal_and_add_digits_to_quotient
 	(
 		BigInt & subtotal,
 		const BigInt & divisorInt,
@@ -1746,6 +1746,34 @@ void BigFloat::calc_subtotal_and_add_zeros_to_quotient
 		zeroWasPushedBackInSubtotalInPrevStep = true;
 	}
 	zeroWasPushedBackInSubtotalInPrevStep = false;
+}
+
+BigInt BigFloat::calc_subtotal
+	(
+		const BigInt & prevSubtotal,
+		const BigInt & dividendInt,
+		const BigInt & divisorInt,
+		size_t & index
+	)
+	const
+{
+	// TODO: доделать и проверить
+	BigInt subtotal(prevSubtotal);
+	if (index <= dividendInt.last_digit_position)
+	{
+		subtotal.pop_front_extra_zeros();
+		while (subtotal.abs_value() < divisorInt.abs_value())
+		{
+			
+			subtotal.push_back_elem
+				(
+					dividendInt.elem_value_as_char(index)
+				);
+			++index;
+		}
+	}
+	
+	return subtotal;
 }
 
 BigFloat BigFloat::define_quotient_sign
@@ -1786,6 +1814,24 @@ BigFloat BigFloat::finalize_division
 	quotient.insert_elem('.', quotientDotPos);
 
 	return quotient;
+}
+
+bool BigFloat::division_is_finished
+	(
+		const BigInt& dividendInt,
+		const size_t lastUsedDigitOfDividend,
+		const BigInt & subtotal,
+		const BigInt & quotientInt
+	)
+	const
+{
+	return
+		quotientInt.quantity_of_digits() < PRECISION ||
+		(
+			lastUsedDigitOfDividend ==
+				dividendInt.last_digit_position &&
+			subtotal.is_zero()
+		);
 }
 
 
@@ -3083,12 +3129,23 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 	size_t quotientDotPos = 1;
 	BigInt subtotal = dividendInt;
 	static bool zeroWasPushedBackInSubtotalInPrevStep = false;
+	static size_t lastUsedDigitOfDividend = 0;
 
 	if (dividendInt.abs_value() < divisorInt.abs_value())
 	{
-		while (quotientInt.quantity_of_digits() < PRECISION)	//	TODO: или если разряды dividendInt закончились
-		{														//  и последний subtotal равен нулю
-			calc_subtotal_and_add_zeros_to_quotient
+		lastUsedDigitOfDividend = quotientInt.last_digit_position();
+		while
+			(
+				!division_is_finished
+					(
+						dividendInt,
+						lastUsedDigitOfDividend,
+						subtotal,
+						quotientInt
+					)
+			)
+		{
+			calc_subtotal_and_add_digits_to_quotient
 				(
 					subtotal,
 					divisorInt,
@@ -3104,30 +3161,27 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 	}
 	else if (dividendInt.abs_value() > divisorInt.abs_value())
 	{
-		// TODO
+		while
+			(
+				!division_is_finished
+				(
+					dividendInt,
+					lastUsedDigitOfDividend,
+					subtotal,
+					quotientInt
+				)
+				)
+		{
+			//TODO
+		}
 	}
 	else
 	{
 		quotient.push_back_elem("1.0");
 	}
 
-
-
 define_quotient_sign(quotient, dividend, divisor);
-/*
-	// #op/(bf) 33
-	std::cout
-		<< "The quotient's sign is " << quotient.get_sign()
-		<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 33.\n\n"
-		;
-*/
-/*
-	// #op/(bf) 34
-	std::cout
-		<< "The quotient in the end: " << quotient.get_number()
-		<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 34.\n\n"
-		;
-*/
+
 	return quotient;
 
 } // endof #op/(bf)

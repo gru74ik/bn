@@ -1,0 +1,316 @@
+/*
+27.6 / 395.84
+
+ответ в десятичном формате:
+0,06972514147130153597413096200485
+
+ответ в научном формате:
+6,972514147130153597413096200485 e-2
+*/
+
+/*
+0-А. Подготавливаем оба числа:
+разделить
+27.6 : 395.84
+
+это то же, что и:
+2760 : 39584
+
+BigInt dividendInt = 2760;
+BigInt  divisorInt = 39584;
+
+BigInt quotientInt;
+quotientInt.clear_number();
+*/
+
+/*
+0-Б. Сравниваем по модулю dividendInt и divisorInt:
+2760 меньше, чем 39584, значит запоминаем, что позиция плавающей точки будет 1.
+size_t quotientDotPos = 1;
+
+Добавим в результат деления ноль (этот разряд будет обозначать целую часть числа):
+quotientInt.push_back_elem('0'); // quotientInt = 0
+
+bool zeroWasPushedBackInSubtotal = false;
+BigInt subtotal = dividendInt; // subtotal = 2760
+// может лучше назвать переменную subtotal другим именем?
+// например, incompleteDividend ?
+*/
+
+
+/*
+Добавляем нули в quotientInt только если quotientInt.quantity_of_digits() < PRECISION
+
+1. Первый цикл: сравнение
+
+	1-А.
+	Сравниваем по модулю subtotal и divisorInt:
+
+	if (subtotal.abs_value() < divisorInt.abs_value()) // 2760 меньше, чем 39584, значит добавляем ноль в subtotal
+	{
+		subtotal.push_back_elem('0'); 		// ноль добавлен: subtotal = 27600
+		
+		Проверяем флаг:
+		if (zeroWasPushedBackInSubtotal) // false, значит этот этап пропускаем
+			quotientInt.push_back_elem('0');
+		
+		zeroWasPushedBackInSubtotal = true;
+	}
+	else
+	{
+		zeroWasPushedBackInSubtotal = false;
+	}
+
+
+	1-Б.
+	Сравниваем по модулю subtotal и divisorInt:
+
+	if (subtotal.abs_value() < divisorInt.abs_value()) // 27600 меньше, чем 39584, значит добавляем ноль в subtotal
+	{
+		subtotal.push_back_elem('0'); 		// ноль добавлен: subtotal = 276000
+		
+		Проверяем флаг:
+		if (zeroWasPushedBackInSubtotal) // true, значит добавляем ноль в ответ
+			quotientInt.push_back_elem('0'); // quotientInt = 00
+		
+		zeroWasPushedBackInSubtotal = true;
+	}
+	else
+	{
+		zeroWasPushedBackInSubtotal = false;
+	}
+
+	1-В.
+	Сравниваем по модулю subtotal и divisorInt:
+	276000 больше, чем 39584, значит добавлять ноль в subtotal в этот раз не будем,
+	а следовательно, идём в ветку else:
+
+	if (subtotal.abs_value() < divisorInt.abs_value())
+	{
+		subtotal.push_back_elem('0');
+		
+		Проверяем флаг:
+		if (zeroWasPushedBackInSubtotal)
+			quotientInt.push_back_elem('0');
+		
+		zeroWasPushedBackInSubtotal = true;
+	}
+	else
+	{
+		zeroWasPushedBackInSubtotal = false; // мы тут!
+	}
+
+	И начинаем деление, то есть, подбор множителя:
+	char nextDigitOfQoutient = next_digit_of_quotient(subtotal); // nextDigitOfQoutient = 6
+
+	Возможный прототип функции find_next_digit_of_quotient():
+	char next_digit_of_quotient(BigInt& subtotal)
+*/
+
+/*
+2. 	Вот что происходит в функции next_digit_of_quotient():
+
+	Сколько раз divisorInt (то есть, число 39584) содержится в subtotal (то есть, в 276000)?
+	
+		Уж один-то раз точно, ведь мы выяснили, что 276000 больше, чем 39584.
+		Запомним эти значения:
+		BigInt fitSubtrahend = 39584
+		BigInt curSubtrahend = 39584;
+		BigInt fitMultiplier = 1
+		BigInt curMultiplier = 1
+
+	Сколько раз в subtotal (то есть, в 276000) содержится divisorInt (то есть, число 39584)?
+*/
+	
+	while (curSubtrahend <= subtotal) {}
+	/*	
+		Один?
+			Проверим условие цикла: 39584 < 276000
+				true	
+			Запомним предыдущие значения:
+			fitSubtrahend = curSubtrahend; // fitSubtrahend = 39584
+			fitMultiplier = curMultiplier; // fitMultiplier = 1
+			
+			++curMultiplier; // 2
+			39584 * 2 = 79168 // curSubtrahend = 79168
+			Запомним 79168 в curSubtrahend. // curSubtrahend = 79168
+		
+		
+		Два?
+			Проверим условие цикла: 79168 < 276000
+				true	
+			Запомним предыдущие значения:
+			fitSubtrahend = curSubtrahend; // fitSubtrahend = 79168
+			fitMultiplier = curMultiplier; // fitMultiplier = 2
+			
+			++curMultiplier; // 3
+			39584 * 3 = 118752 // curSubtrahend = 118752
+		
+		Три?
+			Проверим условие цикла: 118752 < 276000
+				true	
+			Запомним предыдущие значения:
+			fitSubtrahend = curSubtrahend; // fitSubtrahend = 118752
+			fitMultiplier = curMultiplier; // fitMultiplier = 3
+			
+			++curMultiplier; // 4
+			39584 * 4 = 158336 // curSubtrahend = 158336
+		
+		Четыре?
+			Проверим условие цикла: 158336 < 276000
+				true
+			Запомним предыдущие значения:
+			fitSubtrahend = curSubtrahend; // fitSubtrahend = 158336
+			fitMultiplier = curMultiplier; // fitMultiplier = 4
+			
+			++curMultiplier; // 5
+			39584 * 5 = 197920 // curSubtrahend = 197920
+			
+		Пять?
+			Проверим условие цикла: 197920 < 276000
+				true
+			Запомним предыдущие значения:
+			fitSubtrahend = curSubtrahend; // fitSubtrahend = 197920
+			fitMultiplier = curMultiplier; // fitMultiplier = 5
+			
+			++curMultiplier; // 6
+			39584 * 6 = 237504 // curSubtrahend = 237504
+			
+		Шесть?
+			Проверим условие цикла: 237504 < 276000
+				true
+			Запомним предыдущие значения:
+			fitSubtrahend = curSubtrahend; // fitSubtrahend = 237504
+			fitMultiplier = curMultiplier; // fitMultiplier = 6
+			
+			++curMultiplier; // 7
+			39584 * 7 = 277088 // curSubtrahend = 277088
+			
+		Семь?
+			Проверим условие цикла: 277088 < 276000
+				false
+	Выход из цикла.
+	*/		
+
+/*  
+	Ответ: шесть раз.
+	fitSubtrahend = 237504
+	fitMultiplier = 6
+	subtotal = subtotal - fitSubtrahend;	// subtotal = 276000 - 237504
+											// subtotal = 38496
+	return fitMultiplier.elem_value_as_char(0);
+	
+Конец функции next_digit_of_quotient()
+	
+	Добавляем цифры в quotientInt только если quotientInt.quantity_of_digits() < PRECISION
+	if (quotientInt.quantity_of_digits() < PRECISION)
+	{
+		// nextDigitOfQoutient = 6
+		quotientInt.push_back_elem(nextDigitOfQoutient); 	// quotientInt = 006		
+	}
+	else
+	{
+		Завершить деление. 
+		return finalize_division(quotientInt, quotientDotPos);
+		Возможная реализациия функции finalize_division():
+		BigFloat BigFloat::finalize_division(BigInt quotientInt, size_t quotientDotPos)
+		{
+			BigFloat quotient;
+			quotient.clear_number();
+			quotient.push_back_elem(quotientInt.get_number());
+			quotient.insert_elem('.', quotientDotPos);
+			return quotient;
+		}
+	}
+
+	
+
+	
+*/	
+
+/* 5. Возвращаемся в первый цикл: сравнение
+
+1.
+Сравниваем по модулю subtotal и divisorInt:
+
+if (subtotal.abs_value() < divisorInt.abs_value()) // 38496 меньше, чем 39584, значит добавляем ноль в subtotal
+{
+	subtotal.push_back_elem('0'); 		// ноль добавлен: subtotal = 384960
+	
+	Проверяем флаг:
+	if (zeroWasPushedBackInSubtotal) // false, значит этот этап пропускаем
+		quotientInt.push_back_elem('0');
+	
+	zeroWasPushedBackInSubtotal = true;
+}
+else
+{
+	zeroWasPushedBackInSubtotal = false;
+}
+
+2.
+Сравниваем по модулю subtotal и divisorInt:
+384960 больше, чем 39584, значит добавлять ноль в subtotal в этот раз не будем,
+а следовательно, идём в ветку else:
+
+if (subtotal.abs_value() < divisorInt.abs_value())
+{
+	subtotal.push_back_elem('0');
+	
+	Проверяем флаг:
+	if (zeroWasPushedBackInSubtotal)
+		quotientInt.push_back_elem('0');
+	
+	zeroWasPushedBackInSubtotal = true;
+}
+else
+{
+	zeroWasPushedBackInSubtotal = false; // мы тут!
+}
+
+И начинаем деление, то есть, подбор множителя (вызываем функцию next_digit_of_quotient).
+*/	
+	
+/*
+	nextDigitOfQoutient = next_digit_of_quotient(subtotal); // nextDigitOfQoutient = 9
+	
+	Добавляем цифры в quotientInt только если quotientInt.quantity_of_digits() < PRECISION
+	if (quotientInt.quantity_of_digits() < PRECISION)
+	{
+		// nextDigitOfQoutient = 9
+		quotientInt.push_back_elem(nextDigitOfQoutient); 	// quotientInt = 0069	
+	}
+	else
+	{
+		Завершить деление. 
+		return finalize_division(quotientInt, quotientDotPos);
+		Возможная реализациия функции finalize_division():
+		BigFloat BigFloat::finalize_division(BigInt quotientInt, size_t quotientDotPos)
+		{
+			BigFloat quotient;
+			quotient.clear_number();
+			quotient.push_back_elem(quotientInt.get_number());
+			quotient.insert_elem('.', quotientDotPos);
+			return quotient;
+		}
+	}
+*/
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
