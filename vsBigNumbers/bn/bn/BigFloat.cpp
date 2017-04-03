@@ -3133,6 +3133,15 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 
 	if (dividendInt.abs_value() < divisorInt.abs_value())
 	{
+/**/
+		// #op/(bf) 14
+		std::cout
+			<< "dividendInt.abs_value() < divisorInt.abs_value())"
+			<< "\ndividendInt.get_number(): " << dividendInt.get_number()
+			<< "\ndivisorInt.get_number(): " << divisorInt.get_number()
+			<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 14.\n\n"
+			;
+	
 		curIndexOfDigitOfDividend = quotientInt.last_digit_position();
 		while
 			(
@@ -3155,6 +3164,12 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 
 			char nextDigitOfQoutient =
 				next_digit_of_quotient(subtotal, divisorInt);
+/**/
+			// #op/(bf) 15
+			std::cout
+				<< "nextDigitOfQoutient: " << nextDigitOfQoutient
+				<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 15.\n\n"
+				;
 			quotientInt.push_back_elem(nextDigitOfQoutient);
 		}		
 		quotient = finalize_division(quotientInt, quotientDotPos);		
