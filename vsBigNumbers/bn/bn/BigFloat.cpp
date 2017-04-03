@@ -3129,17 +3129,17 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 	size_t quotientDotPos = 1;
 	BigInt subtotal = dividendInt;
 	static bool zeroWasPushedBackInSubtotalInPrevStep = false;
-	static size_t lastUsedDigitOfDividend = 0;
+	static size_t curIndexOfDigitOfDividend = 0;
 
 	if (dividendInt.abs_value() < divisorInt.abs_value())
 	{
-		lastUsedDigitOfDividend = quotientInt.last_digit_position();
+		curIndexOfDigitOfDividend = quotientInt.last_digit_position();
 		while
 			(
 				!division_is_finished
 					(
 						dividendInt,
-						lastUsedDigitOfDividend,
+						curIndexOfDigitOfDividend,
 						subtotal,
 						quotientInt
 					)
@@ -3166,13 +3166,21 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 				!division_is_finished
 				(
 					dividendInt,
-					lastUsedDigitOfDividend,
+					curIndexOfDigitOfDividend,
 					subtotal,
 					quotientInt
 				)
 				)
 		{
-			//TODO
+			subtotal =
+				calc_subtotal
+				(
+					subtotal,
+					dividendInt,
+					divisorInt,
+					curIndexOfDigitOfDividend
+				);
+			//TODO: Закончить
 		}
 	}
 	else
