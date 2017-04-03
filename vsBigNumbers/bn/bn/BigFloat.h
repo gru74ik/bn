@@ -112,7 +112,7 @@ public:
 		)
 		const;
 
-	BigFloat BigFloat::define_quotient_sign
+	void BigFloat::define_quotient_sign
 		(
 			BigFloat & quotient,
 			BigFloat & dividend,

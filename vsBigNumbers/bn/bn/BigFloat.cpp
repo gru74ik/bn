@@ -1759,7 +1759,7 @@ BigInt BigFloat::calc_subtotal
 {
 	// TODO: доделать и проверить
 	BigInt subtotal(prevSubtotal);
-	if (index <= dividendInt.last_digit_position)
+	if (index <= dividendInt.last_digit_position())
 	{
 		subtotal.pop_front_extra_zeros();
 		while (subtotal.abs_value() < divisorInt.abs_value())
@@ -1776,7 +1776,7 @@ BigInt BigFloat::calc_subtotal
 	return subtotal;
 }
 
-BigFloat BigFloat::define_quotient_sign
+void BigFloat::define_quotient_sign
 	(
 		BigFloat & quotient,
 		BigFloat & dividend,
@@ -1829,7 +1829,7 @@ bool BigFloat::division_is_finished
 		quotientInt.quantity_of_digits() < PRECISION ||
 		(
 			lastUsedDigitOfDividend ==
-				dividendInt.last_digit_position &&
+				dividendInt.last_digit_position() &&
 			subtotal.is_zero()
 		);
 }
