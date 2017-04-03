@@ -210,7 +210,7 @@ void BigInt::pop_front_extra_zeros() // #pfez
 
 
 // getters =====================================================================
-BigInt BigInt::abs_value()
+BigInt BigInt::abs_value() const
 {
 	return get_number();
 }

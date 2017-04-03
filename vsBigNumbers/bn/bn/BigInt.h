@@ -31,8 +31,8 @@ public:
 	void pop_front_extra_zeros();
 
 	// getters =====================================================================
-	BigInt abs_value();
-	size_t quantity_of_digits() const;
+	BigInt abs_value() const;							// is done
+	size_t quantity_of_digits() const;					// is done
 	virtual size_t last_digit_position() const;			// is done
 	virtual size_t last_digit_value() const;			// is done
 

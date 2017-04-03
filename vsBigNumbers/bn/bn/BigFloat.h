@@ -18,170 +18,6 @@ private:
 	char eSign_;
 	std::string eValueAsString_;
 
-	class DivisionHelper
-	{
-	private:
-		BigInt dividend_;
-		BigInt divisor_;
-		static bool divisionIsFinished_;
-
-	public:
-		DivisionHelper(BigInt dividend, BigInt divisor)
-			:
-				dividend_(dividend),
-				divisor_(divisor)
-		{}
-
-		BigInt dividend_itself() const
-		{
-			return dividend_;
-		}
-
-		BigInt divisor_itself() const
-		{
-			return divisor_;
-		}
-
-		BigInt dividend_number() const
-		{
-			return dividend_.get_number();
-		}
-
-		BigInt divisor_number() const
-		{
-			return divisor_.get_number();
-		}
-
-		bool division_is_finished()
-		{
-			return divisionIsFinished_;
-		}
-
-		BigInt mediate_dividend
-			(
-				BigInt subtotal,
-				size_t& indexOfLastUsedDigitOfDividend,
-				size_t& additionalZeros
-			)
-			const
-		{
-			BigInt mediateDividend = subtotal;
-
-			if (subtotal.is_zero())
-			{
-				if (indexOfLastUsedDigitOfDividend == divisor_.last_digit_position())
-				{
-					divisionIsFinished_ = true;
-				}
-				else
-				{
-					mediateDividend.push_back_elem
-					(
-						dividend_.elem_value_as_char(indexOfLastUsedDigitOfDividend)
-					);
-
-					while
-						(
-							mediateDividend.quantity_of_digits() <
-							dividend_.quantity_of_digits() - 1
-							)
-					{
-						++indexOfLastUsedDigitOfDividend;
-						mediateDividend.push_back_elem
-						(
-							dividend_.elem_value_as_char(indexOfLastUsedDigitOfDividend)
-						);
-					}
-				}
-
-			}
-			else if (subtotal > divisor_)
-			{
-				mediateDividend.push_back_elem
-					(
-						dividend_.elem_value_as_char(indexOfLastUsedDigitOfDividend)
-					);
-
-				while
-					(
-						mediateDividend.quantity_of_digits() <
-						dividend_.quantity_of_digits() - 1
-					)
-				{
-					++indexOfLastUsedDigitOfDividend;
-					mediateDividend.push_back_elem
-						(
-							dividend_.elem_value_as_char(indexOfLastUsedDigitOfDividend)
-						);
-				}
-			}
-			else if (subtotal < divisor_ && !subtotal.is_zero())
-			{
-				while (mediateDividend < divisor_)
-				{
-					mediateDividend.push_back_elem('0');
-					++additionalZeros;
-				}
-			}
-			else if (subtotal == divisor_)
-			{
-				// do nothing
-			}
-
-
-			mediateDividend.pop_front_extra_zeros();
-
-			return mediateDividend;
-		}
-
-		BigInt mediate_dividend
-			(
-				size_t& indexOfLastUsedDigitOfDividend,
-				size_t& additionalZeros
-			)
-			const
-		{
-			// this function have be called in first step of division only
-			BigInt mediateDividend;
-			mediateDividend.clear_number();
-
-			if (dividend_ > divisor_)
-			{
-				mediateDividend.push_back_elem
-				(
-					dividend_.elem_value_as_char(indexOfLastUsedDigitOfDividend)
-				);
-
-				while
-					(
-						mediateDividend.quantity_of_digits() <
-						dividend_.quantity_of_digits() - 1
-						)
-				{
-					++indexOfLastUsedDigitOfDividend;
-					mediateDividend.push_back_elem
-					(
-						dividend_.elem_value_as_char(indexOfLastUsedDigitOfDividend)
-					);
-				}
-			}
-			else if (dividend_ < divisor_)
-			{
-				while (mediateDividend < divisor_)
-				{
-					mediateDividend.push_back_elem('0');
-					++additionalZeros;
-				}
-			}
-			else
-			{
-				mediateDividend = dividend_;
-			}
-
-			return mediateDividend;
-		}
-	};
-
 public:
 	// ctors =======================================================================
 	BigFloat();
@@ -249,6 +85,38 @@ public:
 	void set_number(const BigFloat& bf);
 	void set_number(const std::string& num);
 	void reset();
+
+	// division helpers ============================================================
+	char next_digit_of_quotient
+		(
+			BigInt& subtotal,
+			const BigInt& divisorInt
+		)
+		const;
+
+	void calc_subtotal_and_add_zeros_to_quotient
+		(
+			BigInt & subtotal,
+			const BigInt & divisorInt,
+			bool & zeroWasPushedBackInSubtotalInPrevStep,
+			BigInt & quotientInt
+		)
+		const;
+
+	BigFloat BigFloat::define_quotient_sign
+		(
+			BigFloat & quotient,
+			BigFloat & dividend,
+			BigFloat & divisor
+		)
+		const;
+
+	BigFloat finalize_division
+		(
+			BigInt& quotientInt,
+			const size_t quotientDotPos
+		)
+		const;
 
 	// comparison operators ========================================================
 	bool operator<(const BigFloat& bf) const;
