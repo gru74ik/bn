@@ -14,7 +14,7 @@
 56402.5 / 0.05
 
 это то же, что и:
-5640250.0 / 5.0
+5640250 / 5
 
 BigInt dividendInt = 5640250;
 BigInt  divisorInt = 5;
@@ -23,17 +23,33 @@ BigInt quotientInt;
 quotientInt.clear_number();
 */
 
-/*
-1. 	BigFloat::calc_subtotal()
-	Скопируем в subtotal предыдущее значение:
-	BigInt subtotal(prevSubtotal);
-	Если мы находим subtotal впервые, то prevSubtotal равен нулю.
-	Это не страшно, в конце функции мы избавимся от лишних лидирующих нулей.
+/* 
+
+BigInt curSubtotal('0');
+
+
+1. 	BigFloat::calc_subtotal(BigInt prevSubtotal, BigInt dividendInt, BigInt divisorInt, size_t indexOfCurDigitOfDividend)
+
+	BigInt prevSubtotal;
+	BigInt incompleteDividend;
+	incompleteDividend.clear_number();
 	
-	Итак, при первом вызове calc_subtotal()
-	локальная переменная subtotal = 0;
+	BigInt fitMultiplier('1');
+	BigInt curMultiplier('2');
+
+Первый виток цикла
+	prevSubtotal = curSubtotal;
 	
-	Сравним subtotal и divisorInt.
+	incompleteDividend.push_back_elem(prevSubtotal.elem_value_as_char(0)); // incompleteDividend = 0
+	incompleteDividend.push_back_elem(dividendInt.elem_value_as_char(indexOfCurDigitOfDividend++)); // incompleteDividend = 05
+	incompleteDividend.pop_front_extra_zeros(); // incompleteDividend = 5
+	
+	while (incompleteDivivdend <= divisorInt)
+	{
+		incompleteDivivdend.push_back_elem(dividendInt.elem_value_as_char(indexOfCurDigitOfDividend++));
+	}
+	
+	while (incompleteDivivdend <= divisorInt)
 */
 	
 	
