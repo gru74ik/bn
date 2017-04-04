@@ -1733,6 +1733,7 @@ void BigFloat::calc_subtotal_and_add_digits_to_quotient
 	const
 {
 	quotientInt.push_back_elem('0');
+	zeroWasPushedBackInSubtotalInPrevStep = false;
 
 	while (subtotal.abs_value() < divisorInt.abs_value())
 	{

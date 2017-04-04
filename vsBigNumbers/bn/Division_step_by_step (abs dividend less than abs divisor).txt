@@ -42,7 +42,7 @@ BigInt subtotal = dividendInt; // subtotal = 2760
 Добавляем нули в quotientInt только если quotientInt.quantity_of_digits() < PRECISION
 
 1. Первый цикл: сравнение
-
+zeroWasPushedBackInSubtotal = false;
 	1-А.
 	Сравниваем по модулю subtotal и divisorInt:
 
@@ -125,66 +125,66 @@ BigInt subtotal = dividendInt; // subtotal = 2760
 	while (curSubtrahend <= subtotal) {}
 	/*	
 		Один?
-			Проверим условие цикла: 39584 < 276000
+			Проверим условие цикла: 39584 <= 276000
 				true	
 			Запомним предыдущие значения:
 			fitSubtrahend = curSubtrahend; // fitSubtrahend = 39584
 			fitMultiplier = curMultiplier; // fitMultiplier = 1
 			
 			++curMultiplier; // 2
-			39584 * 2 = 79168 // curSubtrahend = 79168
+			curSubtrahend = curSubtrahend * curMultiplier; // 39584 * 2 = 79168 // curSubtrahend = 79168
 			Запомним 79168 в curSubtrahend. // curSubtrahend = 79168
 		
 		
 		Два?
-			Проверим условие цикла: 79168 < 276000
+			Проверим условие цикла: 79168 <= 276000
 				true	
 			Запомним предыдущие значения:
 			fitSubtrahend = curSubtrahend; // fitSubtrahend = 79168
 			fitMultiplier = curMultiplier; // fitMultiplier = 2
 			
 			++curMultiplier; // 3
-			39584 * 3 = 118752 // curSubtrahend = 118752
+			curSubtrahend = curSubtrahend * curMultiplier; // 39584 * 3 = 118752 // curSubtrahend = 118752
 		
 		Три?
-			Проверим условие цикла: 118752 < 276000
+			Проверим условие цикла: 118752 <= 276000
 				true	
 			Запомним предыдущие значения:
 			fitSubtrahend = curSubtrahend; // fitSubtrahend = 118752
 			fitMultiplier = curMultiplier; // fitMultiplier = 3
 			
 			++curMultiplier; // 4
-			39584 * 4 = 158336 // curSubtrahend = 158336
+			curSubtrahend = curSubtrahend * curMultiplier; // 39584 * 4 = 158336 // curSubtrahend = 158336
 		
 		Четыре?
-			Проверим условие цикла: 158336 < 276000
+			Проверим условие цикла: 158336 <= 276000
 				true
 			Запомним предыдущие значения:
 			fitSubtrahend = curSubtrahend; // fitSubtrahend = 158336
 			fitMultiplier = curMultiplier; // fitMultiplier = 4
 			
 			++curMultiplier; // 5
-			39584 * 5 = 197920 // curSubtrahend = 197920
+			curSubtrahend = curSubtrahend * curMultiplier; // 39584 * 5 = 197920 // curSubtrahend = 197920
 			
 		Пять?
-			Проверим условие цикла: 197920 < 276000
+			Проверим условие цикла: 197920 <= 276000
 				true
 			Запомним предыдущие значения:
 			fitSubtrahend = curSubtrahend; // fitSubtrahend = 197920
 			fitMultiplier = curMultiplier; // fitMultiplier = 5
 			
 			++curMultiplier; // 6
-			39584 * 6 = 237504 // curSubtrahend = 237504
+			curSubtrahend = curSubtrahend * curMultiplier; // 39584 * 6 = 237504 // curSubtrahend = 237504
 			
 		Шесть?
-			Проверим условие цикла: 237504 < 276000
+			Проверим условие цикла: 237504 <= 276000
 				true
 			Запомним предыдущие значения:
 			fitSubtrahend = curSubtrahend; // fitSubtrahend = 237504
 			fitMultiplier = curMultiplier; // fitMultiplier = 6
 			
 			++curMultiplier; // 7
-			39584 * 7 = 277088 // curSubtrahend = 277088
+			curSubtrahend = curSubtrahend * curMultiplier; // 39584 * 7 = 277088 // curSubtrahend = 277088
 			
 		Семь?
 			Проверим условие цикла: 277088 < 276000
@@ -232,7 +232,7 @@ BigInt subtotal = dividendInt; // subtotal = 2760
 
 1.
 Сравниваем по модулю subtotal и divisorInt:
-
+zeroWasPushedBackInSubtotal = false;
 if (subtotal.abs_value() < divisorInt.abs_value()) // 38496 меньше, чем 39584, значит добавляем ноль в subtotal
 {
 	subtotal.push_back_elem('0'); 		// ноль добавлен: subtotal = 384960
