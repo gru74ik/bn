@@ -15,18 +15,18 @@ BigInt::BigInt()
 BigInt::BigInt(const char num)
 	: BigNumber(num)
 {
-	std::string numAsStr;
+	std::string numAsStr = "";
 	numAsStr = numAsStr + num;
 	if (!is_correct(numAsStr))
 	{
 		reset();
 /**/
-		// #ctor(numAsStr) 1
+		// #ctor(ch) 1
 		std::cout
 			<< "BigInt::is_correct(numAsStr) has been called and the number is incorrect."
-			<< "reset() has been called."
+			<< "\nreset() has been called."
 			<< "\nget_number(): " << get_number()
-			<< "\nAssertion occured in BigInt.cpp, #ctor(numAsStr) 1.\n\n"
+			<< "\nAssertion occured in BigInt.cpp, #ctor(ch) 1.\n\n"
 			;
 
 	}
@@ -35,20 +35,18 @@ BigInt::BigInt(const char num)
 BigInt::BigInt(const std::string& num) // #ctor(str)
 	: BigNumber(num)
 {
-	/**/
-	std::cout << "Ctor BigInt::BigInt(const std::string& num) has been called.\n\n";
-
 	if (has_leading_zeros())
 	{
-		/**/
+/*
 		// #ctor(str) 1
 		std::cout
 			<< "The number has leading zeros."
 			<< "\nget_number(): " << get_number()
 			<< "\nAssertion occured in BigInt.cpp, #ctor(str) 1.\n\n"
 			;
+*/
 		pop_front_extra_zeros();
-		/**/
+/*
 		// #ctor(str) 2
 		std::cout
 			<< "BigInt::pop_front_extra_zeros() has been called."
@@ -56,6 +54,7 @@ BigInt::BigInt(const std::string& num) // #ctor(str)
 			<< "\nget_number(): " << get_number()
 			<< "\nAssertion occured in BigInt.cpp, #ctor(str) 2.\n\n"
 			;
+*/
 	}
 
 	if (!is_correct(num))
@@ -67,6 +66,7 @@ BigInt::BigInt(const std::string& num) // #ctor(str)
 			<< "\nget_number(): " << get_number()
 			<< "\nAssertion occured in BigInt.cpp, #ctor(str) 3.\n\n"
 			;
+
 		reset();
 		/**/
 		// #ctor(str) 4
@@ -111,9 +111,11 @@ bool BigInt::is_correct(const std::string& num) const
 		{
 			if (!is_digit(num[0])) // bi.number().at(0)
 			{
-				std::cout <<
+				std::cout
+					<<
 					"BigInt is incorrect because arg size is 1 "
-					"and the character is not a digit.\n";
+					"and the character is not a digit."
+					<< "\nThe character is: " << num[0] << "\n\n";
 				correct = false;
 			}
 		}
@@ -988,57 +990,57 @@ BigInt BigInt::operator*(const BigInt& multiplier) const
 			<< "\nAssertion occured in BigInt.cpp, #op*(bi) 19.\n\n"
 			;
 			*/
-			/**/
+/*
 			// #op*(bi) 20
 			std::cout
 				<< "extra: " << extra
 				<< "\nAssertion occured in BigInt.cpp, #op*(bi) 20.\n\n"
 				;
-
+*/
 			digitsProd = b.elem_value_as_digit(i) * a.elem_value_as_digit(j) + extra;
-			/**/
+/*
 			// #op*(bi) 21
 			std::cout
 				<< "digitsProd after assignment: " << digitsProd
 				<< "\nAssertion occured in BigInt.cpp, #op*(bi) 21.\n\n"
 				;
-
+*/
 			subtotalProd.push_back_elem(digit_to_char(digitsProd % BigNumber::BASE));
-			/**/
+/*
 			// #op*(bi) 22
 			std::cout
 				<< "subtotalProd after calling push_back_elem: "
 				<< "\nsubtotalProd.get_number(): " << subtotalProd.get_number()
 				<< "\nAssertion occured in BigInt.cpp, #op*(bi) 27.\n\n"
 				;
-
+*/
 			extra = digitsProd / BigNumber::BASE;
 		} // endof inner for
 
 		if (i)
 		{
 			subtotalProd.push_front_additional_zeros(i);
-			/**/
+/*
 			// #op*(bi) 28
 			std::cout
 				<< "subtotalProd after pushing back additional zeros: "
 				<< "\nsubtotalProd.get_number(): " << subtotalProd.get_number()
 				<< "\nAssertion occured in BigInt.cpp, #op*(bi) 28.\n\n"
 				;
-
+*/
 		}
 
 		if (extra)
 		{
 			subtotalProd.push_back_elem(digit_to_char(extra));
-			/**/
+/*
 			// #op*(bi) 29
 			std::cout
 				<< "subtotalProd after pushing back remaining extra: "
 				<< "\nsubtotalProd.get_number(): " << subtotalProd.get_number()
 				<< "\nAssertion occured in BigInt.cpp, #op*(bi) 29.\n\n"
 				;
-
+*/
 		}
 
 		sumOfSubtotals.reverse_number();
@@ -1050,7 +1052,7 @@ BigInt BigInt::operator*(const BigInt& multiplier) const
 
 		subtotalProd.clear_number();
 		extra = 0;
-		/**/
+/*
 		// #op*(bi) 30
 		std::cout
 			<< "sumOfSubtotals at " << i + 1 << " iteration: "
@@ -1058,12 +1060,12 @@ BigInt BigInt::operator*(const BigInt& multiplier) const
 			<< " ======================================"
 			<< "\nAssertion occured in BigInt.cpp, #op*(bi) 30.\n\n"
 			;
-
+*/
 	} // endof outer for
 
 	sumOfSubtotals.reverse_number();
 
-	/**/
+/*
 	// #op*(bi) 31
 	std::cout
 		<< "sumOfSubtotals at the end: "
@@ -1071,10 +1073,10 @@ BigInt BigInt::operator*(const BigInt& multiplier) const
 		<< " ======================================"
 		<< "\nAssertion occured in BigInt.cpp, #op*(bi) 31.\n\n"
 		;
-
+*/
 	product.set_number(sumOfSubtotals);
 
-	/**/
+/*
 	// #op*(bi) 32
 	std::cout
 		<< "Product after product.set_number(sumOfSubtotals.get_number()): "
@@ -1082,7 +1084,7 @@ BigInt BigInt::operator*(const BigInt& multiplier) const
 		<< " ======================================"
 		<< "\nAssertion occured in BigInt.cpp, #op*(bi) 32.\n\n"
 		;
-
+*/
 	if (a.get_sign() == b.get_sign())
 	{
 		if (a.get_sign() == '+')

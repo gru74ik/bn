@@ -26,7 +26,7 @@ N mzn 10 *. 0) ( . Ќапример, число 2.5 можно записать в виде: +0.25 E+1.
 int main()
 {	
 	BigFloat a;
-	BigFloat b;
+	BigFloat  b;
 /**/
 	std::string choice = "y";
 	while (choice[0] == 'y' || choice[0] == 'Y')
