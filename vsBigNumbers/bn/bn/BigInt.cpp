@@ -239,25 +239,26 @@ void BigInt::set_number(const BigInt& bi)
 {
 	if (is_correct(bi.get_number()))
 	{
-/**/
+/*
 		// #setn(bi) 1
 		std::cout
 			<< "The BigInt is correct."
 			<< "\nbi.get_number(): " << bi.get_number()
 			<< "\nAssertion occured in BigInt.cpp, #setn(bi) 1.\n\n"
 			;
-
+*/
 		BigNumber::set_number(bi.get_number());
 	}
 	else
 	{
-/**/
+/*
 		// #setn(bi) 2
 		std::cout
 			<< "The BigInt is incorrect."
 			<< "\nbi.get_number(): " << bi.get_number()
 			<< "\nAssertion occured in BigInt.cpp, #setn(bi) 2.\n\n"
 			;
+*/
 		reset();
 	}
 } // endof set_number(const std::string & num)

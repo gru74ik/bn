@@ -1707,71 +1707,71 @@ char BigFloat::next_digit_of_quotient
 	const
 {
 	BigInt fitSubtrahend = divisorInt;
-/**/	
+/*	
 	// #nxtdigqnt 1
 	std::cout
 		<< "fitSubtrahend.get_number(): " << fitSubtrahend.get_number()
 		<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 1.\n\n"
 		;
-
+*/
 	BigInt curSubtrahend = divisorInt;
-/**/
+/*
 	// #nxtdigqnt 2
 	std::cout
 		<< "curSubtrahend.get_number(): " << curSubtrahend.get_number()
 		<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 2.\n\n"
 		;
-
+*/
 	BigInt fitMultiplier('1');
-/**/
+/*
 	// #nxtdigqnt 3
 	std::cout
 		<< "fitMultiplier.get_number(): " << fitMultiplier.get_number()
 		<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 3.\n\n"
 		;
-
+*/
 	BigInt curMultiplier('1');
-/**/
+/*
 	// #nxtdigqnt 4
 	std::cout
 		<< "curMultiplier.get_number(): " << curMultiplier.get_number()
 		<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 4.\n\n"
 		;
-
+*/
 	while (curSubtrahend <= subtotal)
 	{
 		fitSubtrahend = curSubtrahend;
-/**/
+/*
 		// #nxtdigqnt 5
 		std::cout
 			<< "fitSubtrahend.get_number(): " << fitSubtrahend.get_number()
 			<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 5.\n\n"
 			;
-
+*/
 		fitMultiplier = curMultiplier;
-/**/
+/*
 		// #nxtdigqnt 6
 		std::cout
 			<< "fitMultiplier.get_number(): " << fitMultiplier.get_number()
 			<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 6.\n\n"
 			;
-
+*/
 		++curMultiplier;
-/**/
+/*
 		// #nxtdigqnt 7
 		std::cout
 			<< "curMultiplier.get_number(): " << curMultiplier.get_number()
 			<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 7.\n\n"
 			;
-
-		curSubtrahend = curSubtrahend * curMultiplier;
-/**/
+*/
+		curSubtrahend = divisorInt * curMultiplier;
+/*
 		// #nxtdigqnt 8
 		std::cout
 			<< "curSubtrahend.get_number(): " << curSubtrahend.get_number()
 			<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 8.\n\n"
 			;
-
+*/
 	}
 /**/
 	// #nxtdigqnt 9
@@ -1799,27 +1799,42 @@ void BigFloat::calc_subtotal_and_add_digits_to_quotient
 	while (subtotal.abs_value() < divisorInt.abs_value())
 	{
 		subtotal.push_back_elem('0');
-/*
+/**/
 		// #calcsubdig 1
 		std::cout
-			<< "subtotal.get_number(): " << subtotal.get_number()
+			<< "subtotal.push_back_elem('0') has been called."
+			<< "\nsubtotal.get_number(): " << subtotal.get_number()
 			<< "\nAssertion occured in BigFloat.cpp, #calcsubdig 1.\n\n"
 			;
-*/
+
 		if (zeroWasPushedBackInSubtotalInPrevStep)
 		{
 			quotientInt.push_back_elem('0');
-/*
+/**/
 			// #calcsubdig 2
 			std::cout
+				<< "quotientInt.push_back_elem('0') has been called."
 				<< "quotientInt.get_number(): " << quotientInt.get_number()
 				<< "\nAssertion occured in BigFloat.cpp, #calcsubdig 2.\n\n"
 				;
-*/
+
 		}
 
 		zeroWasPushedBackInSubtotalInPrevStep = true;
+		/**/
+		// #calcsubdig 3
+		std::cout
+			<< "subtotal before subtotal.pop_front_extra_zeros():" << subtotal.get_number()
+			<< "\nAssertion occured in BigFloat.cpp, #calcsubdig 3.\n\n"
+			;
+
 		subtotal.pop_front_extra_zeros();
+		/**/
+		// #calcsubdig 4
+		std::cout
+			<< "subtotal after subtotal.pop_front_extra_zeros():" << subtotal.get_number()
+			<< "\nAssertion occured in BigFloat.cpp, #calcsubdig 4.\n\n"
+			;
 	}
 	zeroWasPushedBackInSubtotalInPrevStep = false;
 }
@@ -1892,9 +1907,40 @@ BigFloat BigFloat::finalize_division
 	const
 {
 	BigFloat quotient;
+/**/
+	// #findiv 1
+	std::cout
+		<< "Local object BigFloat quotient in beginning:\n"
+		<< quotient.get_number()
+		<< "\nAssertion occured in BigFloat.cpp, #findiv 1.\n\n"
+		;
+
 	quotient.clear_number();
+	/**/
+	// #findiv 2
+	std::cout
+		<< "Local object BigFloat quotient after quotient.clear_number():\n"
+		<< quotient.get_number()
+		<< "\nAssertion occured in BigFloat.cpp, #findiv 2.\n\n"
+		;
+
 	quotient.push_back_elem(quotientInt.get_number());
+	/**/
+	// #findiv 3
+	std::cout
+		<< "Local object BigFloat quotient after quotient.push_back_elem(quotientInt.get_number()):\n"
+		<< quotient.get_number()
+		<< "\nAssertion occured in BigFloat.cpp, #findiv 3.\n\n"
+		;
+
 	quotient.insert_elem('.', quotientDotPos);
+	/**/
+	// #findiv 4
+	std::cout
+		<< "Local object BigFloat quotient after quotient.insert_elem('.', quotientDotPos):\n"
+		<< quotient.get_number()
+		<< "\nAssertion occured in BigFloat.cpp, #findiv 4.\n\n"
+		;
 
 	return quotient;
 }
