@@ -1948,7 +1948,7 @@ BigFloat BigFloat::finalize_division
 bool BigFloat::division_is_finished
 	(
 		const BigInt& dividendInt,
-		const size_t lastUsedDigitOfDividend,
+		const size_t curIndexOfDigitOfDividend,
 		const BigInt & subtotal,
 		const BigInt & quotientInt
 	)
@@ -1957,17 +1957,21 @@ bool BigFloat::division_is_finished
 	bool result =
 		quotientInt.quantity_of_digits() >= PRECISION ||
 		(
-			lastUsedDigitOfDividend >
+			curIndexOfDigitOfDividend >
 			dividendInt.last_digit_position() &&
 			subtotal.is_zero()
 			);
-/*
+	/**/
 	// #divisfin 1
 	std::cout
-		<< "result: " << std::boolalpha << result << std::noboolalpha
+		<< "division_is_finished() has been called."
+		<< "\nquotientInt.quantity_of_digits() >= PRECISION: " << std::boolalpha
+		<< (quotientInt.quantity_of_digits() >= PRECISION) << std::noboolalpha
+		<< "\ncurIndexOfDigitOfDividend > dividendInt.last_digit_position(): " << std::boolalpha
+		<< (curIndexOfDigitOfDividend > dividendInt.last_digit_position()) << std::noboolalpha
+		<< "\nsubtotal.is_zero(): " << std::boolalpha  << subtotal.is_zero() << std::noboolalpha
 		<< "\nAssertion occured in BigFloat.cpp, #divisfin 1.\n\n"
 		;
-*/
 	return result;
 }
 
@@ -3346,24 +3350,39 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 				<< "\nnextDigitOfQoutient: " << nextDigitOfQoutient
 				<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 20.\n\n"
 				;
-
-			quotientInt.push_back_elem(nextDigitOfQoutient);
-			/**/
+/**/
 			// #op/(bf) 21
 			std::cout
-				<< "\nquotientInt.push_back_elem(nextDigitOfQoutient) has been called."
-				<< "\nquotientInt after element pushed back: " << quotientInt.get_number()
+				<< "\nquotientInt.push_back_elem(nextDigitOfQoutient) will be called."
+				<< "\nquotientInt before element pushed back: " << quotientInt.get_number()
 				<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 21.\n\n"
 				;
-			quotientInt.pop_front_extra_zeros();
+			quotientInt.push_back_elem(nextDigitOfQoutient);
 			/**/
 			// #op/(bf) 22
 			std::cout
-				<< "\nquotientInt.pop_front_extra_zeros() has been called."
-				<< "\nquotientInt after zeros popped front: " << quotientInt.get_number()
+				<< "\nquotientInt.push_back_elem(nextDigitOfQoutient) has been called."
+				<< "\nquotientInt after element pushed back: " << quotientInt.get_number()
 				<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 22.\n\n"
 				;
 		}
+		/**/
+		// #op/(bf) 22a
+		std::cout
+			<< "\nquotientInt.pop_front_elem() will be called."
+			<< "\nquotientInt before element popped front: " << quotientInt.get_number()
+			<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 22a.\n\n"
+			;
+
+		quotientInt.pop_front_elem();
+		/**/
+		// #op/(bf) 22b
+		std::cout
+			<< "\nquotientInt.pop_front_elem() has been called."
+			<< "\nquotientInt after element popped front: " << quotientInt.get_number()
+			<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 22b.\n\n"
+			;
+
 		/**/
 		// #op/(bf) 23
 		std::cout
