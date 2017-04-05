@@ -1707,18 +1707,78 @@ char BigFloat::next_digit_of_quotient
 	const
 {
 	BigInt fitSubtrahend = divisorInt;
+/**/	
+	// #nxtdigqnt 1
+	std::cout
+		<< "fitSubtrahend.get_number(): " << fitSubtrahend.get_number()
+		<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 1.\n\n"
+		;
+
 	BigInt curSubtrahend = divisorInt;
-	BigInt fitMultiplier = 1;
-	BigInt curMultiplier = 1;
+/**/
+	// #nxtdigqnt 2
+	std::cout
+		<< "curSubtrahend.get_number(): " << curSubtrahend.get_number()
+		<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 2.\n\n"
+		;
+
+	BigInt fitMultiplier('1');
+/**/
+	// #nxtdigqnt 3
+	std::cout
+		<< "fitMultiplier.get_number(): " << fitMultiplier.get_number()
+		<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 3.\n\n"
+		;
+
+	BigInt curMultiplier('1');
+/**/
+	// #nxtdigqnt 4
+	std::cout
+		<< "curMultiplier.get_number(): " << curMultiplier.get_number()
+		<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 4.\n\n"
+		;
 
 	while (curSubtrahend <= subtotal)
 	{
 		fitSubtrahend = curSubtrahend;
+/**/
+		// #nxtdigqnt 5
+		std::cout
+			<< "fitSubtrahend.get_number(): " << fitSubtrahend.get_number()
+			<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 5.\n\n"
+			;
+
 		fitMultiplier = curMultiplier;
+/**/
+		// #nxtdigqnt 6
+		std::cout
+			<< "fitMultiplier.get_number(): " << fitMultiplier.get_number()
+			<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 6.\n\n"
+			;
 
 		++curMultiplier;
+/**/
+		// #nxtdigqnt 7
+		std::cout
+			<< "curMultiplier.get_number(): " << curMultiplier.get_number()
+			<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 7.\n\n"
+			;
+
 		curSubtrahend = curSubtrahend * curMultiplier;
+/**/
+		// #nxtdigqnt 8
+		std::cout
+			<< "curSubtrahend.get_number(): " << curSubtrahend.get_number()
+			<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 8.\n\n"
+			;
+
 	}
+/**/
+	// #nxtdigqnt 9
+	std::cout
+		<< "fitMultiplier after all: " << fitMultiplier.get_number()
+		<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 9.\n\n"
+		;
 
 	return fitMultiplier.elem_value_as_char(0);
 }
@@ -3173,6 +3233,13 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 			;
 	
 		curIndexOfDigitOfDividend = quotientInt.last_digit_position();
+/**/
+		// #op/(bf) 15
+		std::cout
+			<< "\ncurIndexOfDigitOfDividend: " << curIndexOfDigitOfDividend
+			<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 15.\n\n"
+			;
+
 		while
 			(
 				!division_is_finished
@@ -3184,6 +3251,24 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 					)
 			)
 		{
+/**/
+			// #op/(bf) 16
+			std::cout
+				<< "\nDivision is not finished. We continue."
+				<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 16.\n\n"
+				;
+/**/
+			// #op/(bf) 17
+			std::cout
+				<< "\ncalc_subtotal_and_add_digits_to_quotient() will be called."
+				<< "\nargs passed to the function are:"
+				<< "\nsubtotal: " << subtotal.get_number()
+				<< "\ndivisorInt: " << divisorInt.get_number()
+				<< "\nzeroWasPushedBackInSubtotalInPrevStep: " << std::boolalpha
+				<< zeroWasPushedBackInSubtotalInPrevStep << std::noboolalpha
+				<< "\nquotientInt: " << quotientInt.get_number()
+				<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 17.\n\n"
+				;
 			calc_subtotal_and_add_digits_to_quotient
 				(
 					subtotal,
@@ -3191,19 +3276,65 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 					zeroWasPushedBackInSubtotalInPrevStep,
 					quotientInt
 				);
-
+/**/
+			// #op/(bf) 18
+			std::cout
+				<< "\ncalc_subtotal_and_add_digits_to_quotient() has been called."
+				<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 18.\n\n"
+				;
+/**/
+			// #op/(bf) 19
+			std::cout
+				<< "next_digit_of_quotient(subtotal, divisorInt) will be called."
+				<< "\nargs passed to the function are:"
+				<< "\nsubtotal: " << subtotal.get_number()
+				<< "\ndivisorInt: " << divisorInt.get_number()
+				<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 19.\n\n"
+				;
 			char nextDigitOfQoutient =
 				next_digit_of_quotient(subtotal, divisorInt);
-/**/
-			// #op/(bf) 15
+			/**/
+			// #op/(bf) 20
 			std::cout
-				<< "nextDigitOfQoutient: " << nextDigitOfQoutient
-				<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 15.\n\n"
+				<< "\nnext_digit_of_quotient(subtotal, divisorInt) has been called."
+				<< "\nnextDigitOfQoutient: " << nextDigitOfQoutient
+				<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 20.\n\n"
 				;
+
 			quotientInt.push_back_elem(nextDigitOfQoutient);
+			/**/
+			// #op/(bf) 21
+			std::cout
+				<< "\nquotientInt.push_back_elem(nextDigitOfQoutient) has been called."
+				<< "\nquotientInt after element pushed back: " << quotientInt.get_number()
+				<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 21.\n\n"
+				;
 			quotientInt.pop_front_extra_zeros();
-		}		
-		quotient = finalize_division(quotientInt, quotientDotPos);		
+			/**/
+			// #op/(bf) 22
+			std::cout
+				<< "\nquotientInt.pop_front_extra_zeros() has been called."
+				<< "\nquotientInt after zeros popped front: " << quotientInt.get_number()
+				<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 22.\n\n"
+				;
+		}
+		/**/
+		// #op/(bf) 23
+		std::cout
+			<< "finalize_division(quotientInt, quotientDotPos) will be called."
+			<< "\nargs passed to the function are:"
+			<< "\nquotientInt: " << quotientInt.get_number()
+			<< "\nquotientDotPos: " << quotientDotPos
+			<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 23.\n\n"
+			;
+		quotient = finalize_division(quotientInt, quotientDotPos);
+		/**/
+		// #op/(bf) 24
+		std::cout
+			<< "\nquotient after finalize_division() has been called."
+			<< "\nquotient: " << quotient.get_number()
+			<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 24.\n\n"
+			;
 	}
 	else if (dividendInt.abs_value() > divisorInt.abs_value())
 	{
@@ -3235,7 +3366,12 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 	}
 
 define_quotient_sign(quotient, dividend, divisor);
-
+/**/
+// #op/(bf) 25
+	std::cout
+		<< "\nquotient after all: " << quotient.get_number()
+		<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 25.\n\n"
+		;
 	return quotient;
 
 } // endof #op/(bf)
