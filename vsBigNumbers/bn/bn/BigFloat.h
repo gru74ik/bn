@@ -98,7 +98,6 @@ public:
 		(
 			BigInt & subtotal,
 			const BigInt & divisorInt,
-			bool & zeroWasPushedBackInSubtotalInPrevStep,
 			BigInt & quotientInt
 		)
 		const;
@@ -108,7 +107,7 @@ public:
 			const BigInt & prevSubtotal,
 			const BigInt & dividendInt,
 			const BigInt & divisorInt,
-			size_t & index
+			size_t & curIndexOfDigitOfDividend
 		)
 		const;
 
