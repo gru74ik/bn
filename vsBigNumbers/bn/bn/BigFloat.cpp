@@ -1738,8 +1738,10 @@ char BigFloat::next_digit_of_quotient
 		<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 4.\n\n"
 		;
 */
+	
+	size_t iteration = 1;
 	//while (curSubtrahend <= subtotal)
-	for (size_t i = 1; curSubtrahend <= subtotal || i < 4; ++i) // ÂÐÅÌÅÍÍÀß ÌÅÐÀ ÒÎËÜÊÎ ÄËß ÒÅÑÒÎÂ!!!!!!!!!!!!!!!
+	while(iteration < 2)
 	{
 		/**/
 		// #nxtdigqnt 5
@@ -1748,7 +1750,7 @@ char BigFloat::next_digit_of_quotient
 			<< "\nsubtotal: " << subtotal.get_number()
 			<< "\n(curSubtrahend <= subtotal): " << std::boolalpha << (curSubtrahend <= subtotal) << std::noboolalpha
 			<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 5 "
-			<< " iteration " << i
+			<< " iteration " << iteration++
 			<< " ####################################\n\n"
 			;
 		fitSubtrahend = curSubtrahend;
@@ -1807,9 +1809,8 @@ void BigFloat::calc_subtotal_and_add_digits_to_quotient
 
 	subtotal.pop_front_extra_zeros();
 
-
-	//while (subtotal < divisorInt)
-	for (size_t i = 1; subtotal < divisorInt || i < 4; ++i) // ÂÐÅÌÅÍÍÀß ÌÅÐÀ ÒÎËÜÊÎ ÄËß ÒÅÑÒÎÂ!!!!!!!!!!!!!!!
+	size_t iteration = 1;
+	while (subtotal < divisorInt)
 	{
 		/**/
 		// #calcsubdig 1
@@ -1818,7 +1819,7 @@ void BigFloat::calc_subtotal_and_add_digits_to_quotient
 			<< "\ndivisorInt.abs_value(): " << divisorInt.get_number()
 			<< "\n(subtotal < divisorInt): " << std::boolalpha << (subtotal < divisorInt) << std::noboolalpha
 			<< "\nAssertion occured in BigFloat.cpp, #calcsubdig 1 "
-			<< " iteration " << i
+			<< " iteration " << iteration++
 			<< " ====================================\n\n"
 			;
 		subtotal.push_back_elem('0');
@@ -1881,7 +1882,7 @@ BigInt BigFloat::calc_subtotal
 	if (curIndexOfDigitOfDividend <= dividendInt.last_digit_position())
 	{
 		subtotal.pop_front_extra_zeros();
-		while (subtotal.abs_value() < divisorInt.abs_value())
+		while (subtotal < divisorInt)
 		{
 					
 			subtotal.push_back_elem
@@ -2035,15 +2036,6 @@ bool BigFloat::operator<(const BigFloat& bf) const // #op<
 		result = false;
 	}
 
-	if (!a.is_decimal())
-	{
-		a.convert_to(DECIMAL);
-	}
-
-	if (!b.is_decimal())
-	{
-		b.convert_to(DECIMAL);
-	}
 
 	// TODO: ñðàâíèâàòü ïîðàçðÿäíî
 
@@ -3323,18 +3315,15 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 			<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 15.\n\n"
 			;
 
-		for // ÂÐÅÌÅÍÍÀß ÌÅÐÀ ÒÎËÜÊÎ ÄËß ÒÅÑÒÎÂ!!!!!!!!!!!!!!!
-			(	
-				size_t i = 0;
+		while
+			(
 				!division_is_finished
 					(
 						dividendInt,
 						curIndexOfDigitOfDividend,
 						subtotal,
 						quotientInt
-					) ||
-				i < 4;
-				++i
+					)
 			)
 		{			
 /**/

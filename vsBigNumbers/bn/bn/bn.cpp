@@ -27,22 +27,14 @@ int main()
 {	
 	BigFloat a;
 	BigFloat  b;
-/**/
-	std::string choice = "y";
-	while (choice[0] == 'y' || choice[0] == 'Y')
-	{
+
 		std::cout << "Enter two big float numbers one by one:\n";
 		std::cin >> a >> b;
 		std::cout
 			<< "\na: " << a
 			<< "\nb: " << b
 			<< "\na / b: " << a / b
-			<< "\n\nDo you want proceed? (y/n) ";
-		std::cin >> choice;
-		std::cout << "\n\n";
-	}
+			<< "\n\n";
 
-	
-	
 	return 0;
 }
