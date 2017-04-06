@@ -1738,46 +1738,57 @@ char BigFloat::next_digit_of_quotient
 		<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 4.\n\n"
 		;
 */
-	while (curSubtrahend <= subtotal)
+	//while (curSubtrahend <= subtotal)
+	for (size_t i = 1; curSubtrahend <= subtotal || i < 4; ++i) // ÂÐÅÌÅÍÍÀß ÌÅÐÀ ÒÎËÜÊÎ ÄËß ÒÅÑÒÎÂ!!!!!!!!!!!!!!!
 	{
-		fitSubtrahend = curSubtrahend;
-/*
+		/**/
 		// #nxtdigqnt 5
 		std::cout
+			<< "curSubtrahend: " << curSubtrahend.get_number()
+			<< "\nsubtotal: " << subtotal.get_number()
+			<< "\n(curSubtrahend <= subtotal): " << std::boolalpha << (curSubtrahend <= subtotal) << std::noboolalpha
+			<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 5 "
+			<< " iteration " << i
+			<< " ####################################\n\n"
+			;
+		fitSubtrahend = curSubtrahend;
+/*
+		// #nxtdigqnt 6
+		std::cout
 			<< "fitSubtrahend.get_number(): " << fitSubtrahend.get_number()
-			<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 5.\n\n"
+			<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 6.\n\n"
 			;
 */
 		fitMultiplier = curMultiplier;
 /*
-		// #nxtdigqnt 6
+		// #nxtdigqnt 7
 		std::cout
 			<< "fitMultiplier.get_number(): " << fitMultiplier.get_number()
-			<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 6.\n\n"
+			<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 7.\n\n"
 			;
 */
 		++curMultiplier;
 /*
-		// #nxtdigqnt 7
+		// #nxtdigqnt 8
 		std::cout
 			<< "curMultiplier.get_number(): " << curMultiplier.get_number()
-			<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 7.\n\n"
+			<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 8.\n\n"
 			;
 */
 		curSubtrahend = divisorInt * curMultiplier;
 /*
-		// #nxtdigqnt 8
+		// #nxtdigqnt 9
 		std::cout
 			<< "curSubtrahend.get_number(): " << curSubtrahend.get_number()
-			<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 8.\n\n"
+			<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 9.\n\n"
 			;
 */
 	}
 /**/
-	// #nxtdigqnt 9
+	// #nxtdigqnt 10
 	std::cout
 		<< "fitMultiplier after all: " << fitMultiplier.get_number()
-		<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 9.\n\n"
+		<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 10.\n\n"
 		;
 
 	return fitMultiplier.elem_value_as_char(0);
@@ -1798,14 +1809,14 @@ void BigFloat::calc_subtotal_and_add_digits_to_quotient
 
 
 	//while (subtotal < divisorInt)
-	for (size_t i = 1; subtotal < divisorInt || i < 4; ++i)
+	for (size_t i = 1; subtotal < divisorInt || i < 4; ++i) // ÂÐÅÌÅÍÍÀß ÌÅÐÀ ÒÎËÜÊÎ ÄËß ÒÅÑÒÎÂ!!!!!!!!!!!!!!!
 	{
 		/**/
 		// #calcsubdig 1
 		std::cout
 			<< "subtotal.abs_value(): " << subtotal.get_number()
 			<< "\ndivisorInt.abs_value(): " << divisorInt.get_number()
-			<< "(subtotal < divisorInt): " << std::boolalpha << (subtotal < divisorInt) << std::noboolalpha
+			<< "\n(subtotal < divisorInt): " << std::boolalpha << (subtotal < divisorInt) << std::noboolalpha
 			<< "\nAssertion occured in BigFloat.cpp, #calcsubdig 1 "
 			<< " iteration " << i
 			<< " ====================================\n\n"
@@ -3293,7 +3304,7 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 	static bool zeroWasPushedBackInSubtotalInPrevStep = false;
 	static size_t curIndexOfDigitOfDividend = 0;
 
-	if (dividendInt.abs_value() < divisorInt.abs_value())
+	if (dividendInt < divisorInt)
 	{
 /**/
 		// #op/(bf) 14
@@ -3312,15 +3323,18 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 			<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 15.\n\n"
 			;
 
-		while
-			(
+		for // ÂÐÅÌÅÍÍÀß ÌÅÐÀ ÒÎËÜÊÎ ÄËß ÒÅÑÒÎÂ!!!!!!!!!!!!!!!
+			(	
+				size_t i = 0;
 				!division_is_finished
 					(
 						dividendInt,
 						curIndexOfDigitOfDividend,
 						subtotal,
 						quotientInt
-					)
+					) ||
+				i < 4;
+				++i
 			)
 		{			
 /**/
@@ -3440,7 +3454,7 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 			<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 28.\n\n"
 			;
 	}
-	else if (dividendInt.abs_value() > divisorInt.abs_value())
+	else if (dividendInt > divisorInt)
 	{
 		while
 			(
@@ -3451,7 +3465,7 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 					subtotal,
 					quotientInt
 				)
-				)
+			)
 		{
 			subtotal =
 				calc_subtotal
