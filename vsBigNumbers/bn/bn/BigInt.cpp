@@ -322,6 +322,9 @@ bool BigInt::operator<(const BigInt& bi) const
 	BigInt a(*this);
 	BigInt b(bi);
 
+	a.pop_front_extra_zeros();
+	b.pop_front_extra_zeros();
+
 	size_t aNumSize = a.get_number().size();
 	size_t bNumSize = b.get_number().size();
 

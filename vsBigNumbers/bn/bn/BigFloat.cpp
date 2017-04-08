@@ -1740,8 +1740,8 @@ char BigFloat::next_digit_of_quotient
 */
 	
 	size_t iteration = 1;
-	//while (curSubtrahend <= subtotal)
-	while(iteration < 2)
+	while (curSubtrahend <= subtotal)
+	//while(iteration < 2)
 	{
 		/**/
 		// #nxtdigqnt 5
@@ -1996,14 +1996,14 @@ bool BigFloat::division_is_finished
 		<< "division_is_finished() has been called."
 		<< "\nquotientInt.quantity_of_digits() >= PRECISION: " << std::boolalpha << (quotientInt.quantity_of_digits() >= PRECISION)
 		<< std::noboolalpha
-		<< "\nbeacause quotientInt.quantity_of_digits() is " << quotientInt.quantity_of_digits()
+		<< "\nbecause quotientInt.quantity_of_digits() is " << quotientInt.quantity_of_digits()
 		<< "\ncurIndexOfDigitOfDividend > dividendInt.last_digit_position(): " << std::boolalpha << (curIndexOfDigitOfDividend > dividendInt.last_digit_position())
 		<< std::noboolalpha
-		<< "\nbeacause curIndexOfDigitOfDividend is " << curIndexOfDigitOfDividend
+		<< "\nbecause curIndexOfDigitOfDividend is " << curIndexOfDigitOfDividend
 		<< " and dividendInt.last_digit_position() is " << dividendInt.last_digit_position()
 		<< "\nsubtotal.is_zero(): " << std::boolalpha  << subtotal.is_zero()
 		<< std::noboolalpha
-		<< "\nbeacause subtotal is " << subtotal.get_number()
+		<< "\nbecause subtotal is " << subtotal.get_number()
 		<< "\nAssertion occured in BigFloat.cpp, #divisfin 1.\n\n"
 		;
 	return result;
