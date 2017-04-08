@@ -1740,8 +1740,8 @@ char BigFloat::next_digit_of_quotient
 */
 	
 	size_t iteration = 1;
-	while (curSubtrahend <= subtotal)
-	//while(iteration < 2)
+	//while (curSubtrahend <= subtotal)
+	while(iteration < 5)
 	{
 		/**/
 		// #nxtdigqnt 5
@@ -1749,16 +1749,17 @@ char BigFloat::next_digit_of_quotient
 			<< "curSubtrahend: " << curSubtrahend.get_number()
 			<< "\nsubtotal: " << subtotal.get_number()
 			<< "\n(curSubtrahend <= subtotal): " << std::boolalpha << (curSubtrahend <= subtotal) << std::noboolalpha
-			<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 5 "
-			<< " iteration " << iteration++
+			<< "\nAssertion occured in BigFloat.cpp, #nxtdigqnt 5 "
+			<< " iteration " << iteration
 			<< " ####################################\n\n"
 			;
+		
 		fitSubtrahend = curSubtrahend;
 /*
 		// #nxtdigqnt 6
 		std::cout
 			<< "fitSubtrahend.get_number(): " << fitSubtrahend.get_number()
-			<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 6.\n\n"
+			<< "\nAssertion occured in BigFloat.cpp, #nxtdigqnt 6.\n\n"
 			;
 */
 		fitMultiplier = curMultiplier;
@@ -1766,7 +1767,7 @@ char BigFloat::next_digit_of_quotient
 		// #nxtdigqnt 7
 		std::cout
 			<< "fitMultiplier.get_number(): " << fitMultiplier.get_number()
-			<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 7.\n\n"
+			<< "\nAssertion occured in BigFloat.cpp, #nxtdigqnt 7.\n\n"
 			;
 */
 		++curMultiplier;
@@ -1774,17 +1775,18 @@ char BigFloat::next_digit_of_quotient
 		// #nxtdigqnt 8
 		std::cout
 			<< "curMultiplier.get_number(): " << curMultiplier.get_number()
-			<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 8.\n\n"
+			<< "\nAssertion occured in BigFloat.cpp, #nxtdigqnt 8.\n\n"
 			;
 */
 		curSubtrahend = divisorInt * curMultiplier;
-/*
+/**/
 		// #nxtdigqnt 9
 		std::cout
-			<< "curSubtrahend.get_number(): " << curSubtrahend.get_number()
-			<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 9.\n\n"
+			<< "curSubtrahend in the end of " << iteration << " iteration: " << curSubtrahend.get_number()
+			<< "\nAssertion occured in BigFloat.cpp, #nxtdigqnt 9.\n\n"
 			;
-*/
+
+		iteration++;
 	}
 /**/
 	// #nxtdigqnt 10
@@ -3393,9 +3395,9 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 			// #op/(bf) 23
 			std::cout
 				<< "Statement subtotal = subtotal - (divisorInt * nextDigitOfQoutient); will be executed."
-				<< "subtotal before that is " << subtotal.get_number()
-				<< "divisorInt before that is " << divisorInt.get_number()
-				<< "nextDigitOfQoutient before that is " << nextDigitOfQoutient
+				<< "\nsubtotal before that is " << subtotal.get_number()
+				<< "\ndivisorInt before that is " << divisorInt.get_number()
+				<< "\nnextDigitOfQoutient before that is " << nextDigitOfQoutient
 				<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 23.\n\n"
 				;
 			subtotal = subtotal - (divisorInt * nextDigitOfQoutient);
@@ -3403,7 +3405,7 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 			// #op/(bf) 24
 			std::cout
 				<< "Statement subtotal = subtotal - (divisorInt * nextDigitOfQoutient); has been executed."
-				<< "subtotal after that is " << subtotal.get_number()
+				<< "\nsubtotal after that is " << subtotal.get_number()
 				<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 24.\n\n"
 				;
 		} // endof while (division_is_finished(args))
@@ -3411,7 +3413,7 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 		/**/
 		// #op/(bf) 25
 		std::cout
-			<< "\nquotientInt.pop_front_elem() will be called."
+			<< "quotientInt.pop_front_elem() will be called."
 			<< "\nquotientInt before element popped front: " << quotientInt.get_number()
 			<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 25.\n\n"
 			;
@@ -3420,7 +3422,7 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 		/**/
 		// #op/(bf) 26
 		std::cout
-			<< "\nquotientInt.pop_front_elem() has been called."
+			<< "quotientInt.pop_front_elem() has been called."
 			<< "\nquotientInt after element popped front: " << quotientInt.get_number()
 			<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 26.\n\n"
 			;
@@ -3438,7 +3440,7 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 		/**/
 		// #op/(bf) 28
 		std::cout
-			<< "\nquotient after finalize_division() has been called."
+			<< "quotient after finalize_division() has been called."
 			<< "\nquotient: " << quotient.get_number()
 			<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 28.\n\n"
 			;
