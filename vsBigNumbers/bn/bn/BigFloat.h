@@ -98,7 +98,8 @@ public:
 		(
 			BigInt & subtotal,
 			const BigInt & divisorInt,
-			BigInt & quotientInt
+			BigInt & quotientInt,
+			size_t & curIndexOfDigitOfDividend
 		)
 		const;
 

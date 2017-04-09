@@ -1740,8 +1740,8 @@ char BigFloat::next_digit_of_quotient
 */
 	
 	size_t iteration = 1;
-	//while (curSubtrahend <= subtotal)
-	while(iteration < 5)
+	while (curSubtrahend <= subtotal)
+	//while(iteration < 5)
 	{
 		/**/
 		// #nxtdigqnt 5
@@ -1802,7 +1802,8 @@ void BigFloat::calc_subtotal_and_add_digits_to_quotient
 	(
 		BigInt & subtotal,
 		const BigInt & divisorInt,
-		BigInt & quotientInt
+		BigInt & quotientInt,
+		size_t & curIndexOfDigitOfDividend
 	)
 	const
 {
@@ -1868,7 +1869,9 @@ void BigFloat::calc_subtotal_and_add_digits_to_quotient
 		<< "subtotal after all: " << subtotal.get_number()
 		<< "\nAssertion occured in BigFloat.cpp, #calcsubdig 6.\n\n"
 		;
-}
+
+	curIndexOfDigitOfDividend = divisorInt.quantity_of_digits() + 1;
+} // endof calc_subtotal_and_add_digits_to_quotient(args)
 
 BigInt BigFloat::calc_subtotal
 	(
@@ -3350,7 +3353,8 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 				(
 					subtotal,
 					divisorInt,
-					quotientInt
+					quotientInt,
+					curIndexOfDigitOfDividend
 				);
 /**/
 			// #op/(bf) 18
@@ -3474,6 +3478,7 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 		quotient.push_back_elem("1.0");
 	}
 
+quotient.set_number(quotient.get_number());
 define_quotient_sign(quotient, dividend, divisor);
 /**/
 // #op/(bf) 29
@@ -3481,6 +3486,7 @@ define_quotient_sign(quotient, dividend, divisor);
 		<< "\nquotient after all: " << quotient.get_number()
 		<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 29.\n\n"
 		;
+
 	return quotient;
 
 } // endof #op/(bf)
