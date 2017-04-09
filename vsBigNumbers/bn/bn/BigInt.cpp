@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "BigNumber.h"
 #include "BigInt.h"
+#include "BigFloat.h"
 #include "bn_functions.h"
 
 // ctors =======================================================================
@@ -1119,39 +1120,41 @@ BigInt BigInt::operator/(const BigInt& divider) const
 
 
 // arithmetic operators (each operand is different type) =======================
-/*
-BigFloat BigInt::operator+(const BigInt& a, const BigFloat& b)
+BigFloat BigInt::operator+(const BigFloat& b) const
 {
-	BigFloat x(a);
+	BigFloat x(*this);
 	BigFloat y(b);
 
 	return x + y;
 } // endof operator+(const BigFloat& addendum) const
 
-BigFloat BigInt::operator-(const BigInt& a, const BigFloat& b)
+BigFloat BigInt::operator-(const BigFloat& b) const
 {
-	BigFloat x(a);
+	BigFloat x(*this);
 	BigFloat y(b);
 
 	return x - y;
 } // endof operator-(const BigFloat& subtrahend) const
 
-BigFloat BigInt::operator*(const BigInt& a, const BigFloat& b)
+BigFloat BigInt::operator*(const BigFloat& b) const
 {
-	BigFloat x(a);
+	BigFloat x(*this);
 	BigFloat y(b);
 
 	return x * y;
 } // endof operator*(const BigFloat& multiplier) const
 
-BigFloat BigInt::operator/(const BigInt& a, const BigFloat& b)
+BigFloat BigInt::operator/(const BigFloat& b) const
 {
-	BigFloat x(a);
+	BigFloat x(*this);
 	BigFloat y(b);
 
 	return x / y;
 } // endof operator/(const BigFloat& divider) const
-*/
+
+
+
+// increment operators =========================================================
 //префиксная версия возвращает значение после инкремента
 const BigInt& operator++(BigInt& bi)
 {

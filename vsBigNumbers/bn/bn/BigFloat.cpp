@@ -1873,39 +1873,63 @@ void BigFloat::calc_subtotal_and_add_digits_to_quotient
 	curIndexOfDigitOfDividend = divisorInt.quantity_of_digits() + 1;
 } // endof calc_subtotal_and_add_digits_to_quotient(args)
 
-BigInt BigFloat::calc_subtotal
+void BigFloat::calc_subtotal_and_add_digits_to_quotient
 	(
 		const BigInt & prevSubtotal,
 		const BigInt & dividendInt,
 		const BigInt & divisorInt,
+		BigInt & quotientInt,
 		size_t & curIndexOfDigitOfDividend
 	)
 	const
 {
 	// TODO: доделать и проверить
 	BigInt subtotal(prevSubtotal);
-	if (curIndexOfDigitOfDividend <= dividendInt.last_digit_position())
+
+	subtotal.pop_front_extra_zeros();
+
+	while
+		(
+			subtotal <= divisorInt &&
+			curIndexOfDigitOfDividend <= dividendInt.last_digit_position()
+		)
 	{
-		subtotal.pop_front_extra_zeros();
-		while (subtotal < divisorInt)
-		{
-					
-			subtotal.push_back_elem
-				(
-					dividendInt.elem_value_as_char(curIndexOfDigitOfDividend++)
-				);
+				
+		subtotal.push_back_elem
+			(
+				dividendInt.elem_value_as_char(curIndexOfDigitOfDividend)
+			);
+		++curIndexOfDigitOfDividend;
 /*
-			// #calcsub 1
-			std::cout
-				<< "subtotal.get_number(): " << subtotal.get_number()
-				<< "\nAssertion occured in BigFloat.cpp, #calcsub 1.\n\n"
-				;
+		// #calcsub 1
+		std::cout
+			<< "subtotal.get_number(): " << subtotal.get_number()
+			<< "\nAssertion occured in BigFloat.cpp, #calcsub 1.\n\n"
+			;
 */
-			subtotal.pop_front_extra_zeros();	
-		}
+		subtotal.pop_front_extra_zeros();
 	}
-	
-	return subtotal;
+	if
+		(
+			!division_is_finished
+				(
+					dividendInt,
+					curIndexOfDigitOfDividend,
+					subtotal,
+					quotientInt
+				)
+		)
+	{
+		calc_subtotal_and_add_digits_to_quotient
+			(
+				subtotal,
+				dividendInt,
+				divisorInt,
+				quotientInt,
+				curIndexOfDigitOfDividend
+			);
+	}
+
 }
 
 void BigFloat::define_quotient_sign
@@ -3462,12 +3486,12 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 				)
 			)
 		{
-			subtotal =
-				calc_subtotal
+				calc_subtotal_and_add_digits_to_quotient
 				(
 					subtotal,
 					dividendInt,
 					divisorInt,
+					quotientInt,
 					curIndexOfDigitOfDividend
 				);
 			//TODO: Закончить

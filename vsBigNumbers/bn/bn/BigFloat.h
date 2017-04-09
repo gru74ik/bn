@@ -103,11 +103,12 @@ public:
 		)
 		const;
 
-	BigInt BigFloat::calc_subtotal
+	void calc_subtotal_and_add_digits_to_quotient
 		(
 			const BigInt & prevSubtotal,
 			const BigInt & dividendInt,
 			const BigInt & divisorInt,
+			BigInt & quotientInt,
 			size_t & curIndexOfDigitOfDividend
 		)
 		const;

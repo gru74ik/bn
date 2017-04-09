@@ -53,17 +53,17 @@ public:
 	bool operator!=(const BigInt& bi) const;
 
 	// arithmetic operators (both operands are same type) ===========================
-	BigInt operator+(const BigInt& addendum) const;		// TODO: implement it right!
-	BigInt operator-(const BigInt& subtrahend) const;	// TODO: implement this function member!
-	BigInt operator*(const BigInt& multiplier) const;	// TODO: implement this function member!
-	BigInt operator/(const BigInt& divider) const;		// TODO: implement this function member!
-/*
-	// Some temporary unresolved troubles here
-	friend BigFloat operator+(const BigInt& a, const BigFloat& b);	// TODO: implement this function member!
-	friend BigFloat operator-(const BigInt& a, const BigFloat& b);	// TODO: implement this function member!
-	friend BigFloat operator*(const BigInt& a, const BigFloat& b);	// TODO: implement this function member!
-	friend BigFloat operator/(const BigInt& a, const BigFloat& b);	// TODO: implement this function member!
-*/
+	BigInt operator+(const BigInt& addendum) const;
+	BigInt operator-(const BigInt& subtrahend) const;
+	BigInt operator*(const BigInt& multiplier) const;
+	BigInt operator/(const BigInt& divider) const;
+
+	BigFloat operator+(const BigFloat& b) const;
+	BigFloat operator-(const BigFloat& b) const;	// TODO: implement this function member!
+	BigFloat operator*(const BigFloat& b) const;	// TODO: implement this function member!
+	BigFloat operator/(const BigFloat& b) const;	// TODO: implement this function member!
+
+	// increment operators =========================================================
 	// prefix increment:
 	friend const BigInt& operator++(BigInt& i);
 	// postfix increment:

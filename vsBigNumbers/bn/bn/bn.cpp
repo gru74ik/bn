@@ -25,15 +25,19 @@ N mzn 10 *. 0) ( . Ќапример, число 2.5 можно записать в виде: +0.25 E+1.
 
 int main()
 {	
-	BigFloat a;
-	BigFloat  b;
+	BigInt bi;
+	BigFloat  bf;
 
-		std::cout << "Enter two big float numbers one by one:\n";
-		std::cin >> a >> b;
+		std::cout << "Enter big integer number:\n";
+		std::cin >> bi;
+
+		std::cout << "Enter big float number:\n";
+		std::cin >> bf;
+
 		std::cout
-			<< "\na: " << a
-			<< "\nb: " << b
-			<< "\na / b: " << a / b
+			<< "\na: " << bi
+			<< "\nb: " << bf
+			<< "\na / b: " << bi / bf
 			<< "\n\n";
 
 	return 0;
