@@ -89,7 +89,6 @@ public:
 	// division helpers ============================================================
 	struct DivisionMembers
 	{
-		BigInt prevSubtotal;
 		BigInt subtotal;
 		BigInt dividendInt;
 		BigInt divisorInt;
@@ -101,7 +100,7 @@ public:
 
 	void calc_subtotal_and_add_digits_to_quotient() const;
 
-	void calc_subtotal_and_add_zeros_to_quotient() const;
+	void calc_subtotal_and_add_digits_to_quotient(const BigInt & prevSubtotal) const;
 
 	void BigFloat::define_quotient_sign
 		(
