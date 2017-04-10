@@ -8,7 +8,6 @@
 class BigFloat
 	: public BigNumber
 {
-
 public:
 	enum Notation { DEFAULT = 0, DECIMAL, SCIENTIFIC };
 
@@ -17,6 +16,7 @@ private:
 	Notation notation_;
 	char eSign_;
 	std::string eValueAsString_;
+	
 
 public:
 	// ctors =======================================================================
@@ -87,31 +87,21 @@ public:
 	void reset();
 
 	// division helpers ============================================================
-	char next_digit_of_quotient
-		(
-			BigInt& subtotal,
-			const BigInt& divisorInt
-		)
-		const;
+	struct DivisionMembers
+	{
+		BigInt prevSubtotal;
+		BigInt subtotal;
+		BigInt dividendInt;
+		BigInt divisorInt;
+		BigInt quotientInt;
+		size_t curIndexOfDigitOfDividend;
+	};
 
-	void calc_subtotal_and_add_digits_to_quotient
-		(
-			BigInt & subtotal,
-			const BigInt & divisorInt,
-			BigInt & quotientInt,
-			size_t & curIndexOfDigitOfDividend
-		)
-		const;
+	char next_digit_of_quotient() const;
 
-	void calc_subtotal_and_add_digits_to_quotient
-		(
-			const BigInt & prevSubtotal,
-			const BigInt & dividendInt,
-			const BigInt & divisorInt,
-			BigInt & quotientInt,
-			size_t & curIndexOfDigitOfDividend
-		)
-		const;
+	void calc_subtotal_and_add_digits_to_quotient() const;
+
+	void calc_subtotal_and_add_zeros_to_quotient() const;
 
 	void BigFloat::define_quotient_sign
 		(
@@ -121,21 +111,9 @@ public:
 		)
 		const;
 
-	BigFloat finalize_division
-		(
-			BigInt& quotientInt,
-			const size_t quotientDotPos
-		)
-		const;
+	BigFloat finalize_division(const size_t quotientDotPos)const;
 
-	bool division_is_finished
-		(
-			const BigInt& dividendInt,
-			const size_t lastUsedDigitOfDividend,
-			const BigInt & subtotal,
-			const BigInt & qoutientInt
-		)
-		const;
+	bool division_is_finished() const;
 
 	// comparison operators ========================================================
 	bool operator<(const BigFloat& bf) const;
