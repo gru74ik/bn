@@ -1876,8 +1876,8 @@ void BigFloat::calc_subtotal_and_add_digits_to_quotient(const BigInt & prevSubto
 	while
 		(
 			dm.subtotal <= dm.divisorInt &&
-			dm.curIndexOfDigitOfDividend <= dm.dividendInt.last_digit_position()
-			)
+			dm.curIndexOfDigitOfDividend < dm.dividendInt.last_digit_position()
+		)
 	{
 		/**/
 		// #calcsubdig(bi) 1
@@ -1891,10 +1891,12 @@ void BigFloat::calc_subtotal_and_add_digits_to_quotient(const BigInt & prevSubto
 			<< "\nand dividendInt.last_digit_position() is " << dm.dividendInt.last_digit_position()
 			<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 1\n\n"
 			;
+
 		dm.subtotal.push_back_elem
 		(
 			dm.dividendInt.elem_value_as_char(dm.curIndexOfDigitOfDividend)
 		);
+		dm.subtotal.pop_front_extra_zeros();
 		++dm.curIndexOfDigitOfDividend;
 		/**/
 		// #calcsubdig(bi) 2
@@ -1903,7 +1905,6 @@ void BigFloat::calc_subtotal_and_add_digits_to_quotient(const BigInt & prevSubto
 			<< "\nand curIndexOfDigitOfDividend after increment is " << dm.curIndexOfDigitOfDividend
 			<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 2\n\n"
 			;
-		dm.subtotal.pop_front_extra_zeros();
 		++iteration;
 	}
 }

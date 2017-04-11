@@ -1,57 +1,87 @@
-/*
-56402.5 / 0.05
+576842208 / 0,0023 = 250800960000
 
-ответ в десятичном формате:
-1128050.0
+BigInt dm.quotientInt;
+BigInt dm.dividendInt("5768422080000");
+BigInt dm.divisorInt ("23");
+size_t dm.curIndexOfDigitOfDividend = 0;
 
-ответ в научном формате:
-1,12805 e+6
-*/
+1. 	BigInt BigFloat::incomplete_dividend() const;
 
-/*
-0-А. Подготавливаем оба числа:
-разделить
-56402.5 / 0.05
+BigInt incompleteDividend = 0;
 
-это то же, что и:
-5640250 / 5
-
-BigInt dividendInt = 5640250;
-BigInt  divisorInt = 5;
-
-BigInt quotientInt;
-quotientInt.clear_number();
-*/
-
-/* 
-
-BigInt curSubtotal('0');
-
-
-1. 	BigFloat::calc_subtotal(BigInt prevSubtotal, BigInt dividendInt, BigInt divisorInt, size_t indexOfCurDigitOfDividend)
-
-	BigInt prevSubtotal;
-	BigInt incompleteDividend;
-	incompleteDividend.clear_number();
+	1. 	incompleteDividend < dm.divisorInt ? То есть, 0 < 23 ? Да. Не подходит.
+		В dm.dividendInt есть ещё цифры? То есть, dm.curIndexOfDigitOfDividend < dm.dividendInt.last_digit_position() ?
+		То есть, 0 < 8 ? Да. Значит, берём цифру (на этот раз первую, то есть, с индексом 0) из dm.dividendInt и
+		помещаем её в конец числа incompleteDividend:
+		
+		incompleteDividend.push_back_elem
+		(
+			dm.dividendInt.elem_value_as_char(dm.curIndexOfDigitOfDividend)
+		); // incompleteDividend = 05
+		
+		incompleteDividend.pop_front_extra_zeros(); // incompleteDividend = 5
+		
+		++dm.curIndexOfDigitOfDividend; // curIndexOfDigitOfDividend = 1
+		
+	2.  incompleteDividend < dm.divisorInt ? То есть, 5 < 23 ? Да. Не подходит.
+		В dm.dividendInt есть ещё цифры? То есть, dm.curIndexOfDigitOfDividend < dm.dividendInt.last_digit_position() ?
+		То есть, 1 < 8 ? Да. Значит, берём цифру (на этот раз вторую, то есть, с индексом 1) из dm.dividendInt:
+		
+		incompleteDividend.push_back_elem
+		(
+			dm.dividendInt.elem_value_as_char(dm.curIndexOfDigitOfDividend)
+		); // incompleteDividend = 57
+		
+		incompleteDividend.pop_front_extra_zeros(); // incompleteDividend = 57
+		
+		++dm.curIndexOfDigitOfDividend; // curIndexOfDigitOfDividend = 2
+		
+	3.	incompleteDividend < dm.divisorInt ? То есть, 57 < 23 ? Да. Подходит!
 	
-	BigInt fitMultiplier('1');
-	BigInt curMultiplier('2');
+return incompleteDividend;
 
-Первый виток цикла
-	prevSubtotal = curSubtotal;
+
+
+2.	BigInt BigFloat::next_digit_of_quotient(const BigInt & incompleteDividend) const; // в вызове будет так: next_digit_of_quotient(incomplete_dividend());
+
+BigInt prevMultiplier('1');
+BigInt currMultiplier('1');
+BigInt prevSubtotal;
+BigInt currSubtotal = dm.divisorInt;
+
+	Сколько раз в dm.incompleteDividend содержится dm.divisorInt ? То есть, сколько раз в 57 содержится 23 ?
+		1. 	1 раз?
+		prevSubtotal = currSubtotal; 				// prevSubtotal = 23		
+		currSubtotal = divisorInt * currMultiplier; // 23*1 = 23
+		
+		dm.incompleteDividend <= currSubtotal ? То есть, 57 <= 23 ? Нет.
+		
+			prevMultiplier = currMultiplier; 	// prevMultiplier = 1
+			prevSubtotal = currSubtotal; 		// prevSubtotal = 23
+			++currMultiplier; 					// currMultiplier = 2
+			
+		2. 	2 раза?
+		prevSubtotal = currSubtotal; 				// prevSubtotal = 23
+		currSubtotal = divisorInt * currMultiplier; // 23*2 = 46
+		
+		dm.incompleteDividend <= currSubtotal ? То есть, 57 <= 46 ? Нет.
+		
+			prevMultiplier = currMultiplier; 	// prevMultiplier = 2
+			++currMultiplier; 					// currMultiplier = 3	
+
+		3. 	3 раза?
+		prevSubtotal = currSubtotal; 				// prevSubtotal = 46
+		currSubtotal = divisorInt * currMultiplier; // 23*3 = 69
+		
+		dm.incompleteDividend <= currSubtotal ? То есть, 57 <= 69 ? Да!
+		
+			prevMultiplier = currMultiplier; 	// prevMultiplier = 3
+			++currMultiplier; 					// currMultiplier = 4
 	
-	incompleteDividend.push_back_elem(prevSubtotal.elem_value_as_char(0)); // incompleteDividend = 0
-	incompleteDividend.push_back_elem(dividendInt.elem_value_as_char(indexOfCurDigitOfDividend++)); // incompleteDividend = 05
-	incompleteDividend.pop_front_extra_zeros(); // incompleteDividend = 5
-	
-	while (incompleteDivivdend <= divisorInt)
-	{
-		incompleteDivivdend.push_back_elem(dividendInt.elem_value_as_char(indexOfCurDigitOfDividend++));
-	}
-	
-	while (incompleteDivivdend <= divisorInt)
-*/
-	
+return prevMultiplier;
+
+3. 	void BigFloat::add_next_digit_to_quotient(const BigInt & nextDigitOfQuotient); // в вызове будет так: add_next_digit_to_quotient(next_digit_of_quotient(incomplete_dividend()));
+
 	
 	
 	
