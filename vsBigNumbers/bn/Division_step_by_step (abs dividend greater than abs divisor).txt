@@ -4,93 +4,91 @@ BigInt dm.quotientInt;
 BigInt dm.dividendInt("5768422080000");
 BigInt dm.divisorInt ("23");
 size_t dm.curIndexOfDigitOfDividend = 0;
+BigInt dm.subtotal = 0;
 
-1. 	BigInt BigFloat::incomplete_dividend() const;
+1. 	BigInt BigFloat::calc_subtotal() const;
 
-BigInt incompleteDividend = 0;
-
-	1. 	incompleteDividend < dm.divisorInt ? То есть, 0 < 23 ? Да. Не подходит.
+	1. 	dm.subtotal < dm.divisorInt ? То есть, 0 < 23 ? Да. Не подходит.
 		В dm.dividendInt есть ещё цифры? То есть, dm.curIndexOfDigitOfDividend < dm.dividendInt.last_digit_position() ?
 		То есть, 0 < 8 ? Да. Значит, берём цифру (на этот раз первую, то есть, с индексом 0) из dm.dividendInt и
-		помещаем её в конец числа incompleteDividend:
+		помещаем её в конец числа dm.subtotal:
 		
-		incompleteDividend.push_back_elem
+		dm.subtotal.push_back_elem
 		(
 			dm.dividendInt.elem_value_as_char(dm.curIndexOfDigitOfDividend)
-		); // incompleteDividend = 05
+		); // dm.subtotal = 05
 		
-		incompleteDividend.pop_front_extra_zeros(); // incompleteDividend = 5
+		dm.subtotal.pop_front_extra_zeros(); // dm.subtotal = 5
 		
 		++dm.curIndexOfDigitOfDividend; // curIndexOfDigitOfDividend = 1
 		
-	2.  incompleteDividend < dm.divisorInt ? То есть, 5 < 23 ? Да. Не подходит.
+	2.  dm.subtotal < dm.divisorInt ? То есть, 5 < 23 ? Да. Не подходит.
 		В dm.dividendInt есть ещё цифры? То есть, dm.curIndexOfDigitOfDividend < dm.dividendInt.last_digit_position() ?
 		То есть, 1 < 8 ? Да. Значит, берём цифру (на этот раз вторую, то есть, с индексом 1) из dm.dividendInt:
 		
-		incompleteDividend.push_back_elem
+		dm.subtotal.push_back_elem
 		(
 			dm.dividendInt.elem_value_as_char(dm.curIndexOfDigitOfDividend)
-		); // incompleteDividend = 57
+		); // dm.subtotal = 57
 		
-		incompleteDividend.pop_front_extra_zeros(); // incompleteDividend = 57
+		dm.subtotal.pop_front_extra_zeros(); // dm.subtotal = 57
 		
 		++dm.curIndexOfDigitOfDividend; // curIndexOfDigitOfDividend = 2
 		
-	3.	incompleteDividend < dm.divisorInt ? То есть, 57 < 23 ? Да. Подходит!
-	
-return incompleteDividend;
+	3.	dm.subtotal < dm.divisorInt ? То есть, 57 < 23 ? Нет. Подходит!
 
 
-
-2.	BigInt BigFloat::next_digit_of_quotient(const BigInt & incompleteDividend) const; // в вызове будет так: next_digit_of_quotient(incomplete_dividend());
+2.	BigInt BigFloat::next_digit_of_quotient() const;
 
 BigInt prevMultiplier('1');
 BigInt currMultiplier('1');
 BigInt prevSubtotal;
 BigInt currSubtotal = dm.divisorInt;
 
-	Сколько раз в dm.incompleteDividend содержится dm.divisorInt ? То есть, сколько раз в 57 содержится 23 ?
-		1. 	1 раз?
-		prevSubtotal = currSubtotal; 				// prevSubtotal = 23		
-		currSubtotal = divisorInt * currMultiplier; // 23*1 = 23
-		
-		dm.incompleteDividend <= currSubtotal ? То есть, 57 <= 23 ? Нет.
-		
-			prevMultiplier = currMultiplier; 	// prevMultiplier = 1
-			prevSubtotal = currSubtotal; 		// prevSubtotal = 23
-			++currMultiplier; 					// currMultiplier = 2
-			
-		2. 	2 раза?
+	Сколько раз в dm.subtotal содержится dm.divisorInt ? То есть, сколько раз в 57 содержится 23 ?
+		1. 	2 раза?
 		prevSubtotal = currSubtotal; 				// prevSubtotal = 23
+		prevMultiplier = currMultiplier; 	// prevMultiplier = 1
+		
+		++currMultiplier; 					// currMultiplier = 2
 		currSubtotal = divisorInt * currMultiplier; // 23*2 = 46
 		
-		dm.incompleteDividend <= currSubtotal ? То есть, 57 <= 46 ? Нет.
-		
-			prevMultiplier = currMultiplier; 	// prevMultiplier = 2
-			++currMultiplier; 					// currMultiplier = 3	
+		dm.subtotal <= currSubtotal ? То есть, 57 <= 46 ? Нет.	
 
-		3. 	3 раза?
+		2. 	3 раза?
 		prevSubtotal = currSubtotal; 				// prevSubtotal = 46
+		prevMultiplier = currMultiplier; 	// prevMultiplier = 2
+		
+		++currMultiplier; 					// currMultiplier = 3
 		currSubtotal = divisorInt * currMultiplier; // 23*3 = 69
 		
-		dm.incompleteDividend <= currSubtotal ? То есть, 57 <= 69 ? Да!
+		dm.subtotal <= currSubtotal ? То есть, 57 <= 69 ? Да!
 		
-			prevMultiplier = currMultiplier; 	// prevMultiplier = 3
-			++currMultiplier; 					// currMultiplier = 4
+		dm.subtotal = dm.subtotal - prevSubtotal; // dm.subtotal = 11
 	
-return prevMultiplier;
+return prevMultiplier.elem_value_as_char(0); // возвращаемое значение - символ '2'
 
-3. 	void BigFloat::add_next_digit_to_quotient(const BigInt & nextDigitOfQuotient); // в вызове будет так: add_next_digit_to_quotient(next_digit_of_quotient(incomplete_dividend()));
 
+
+3.	dm.quotientInt.push_back_elem(nextDigitOfQuotient); // quotientInt = 2
 	
 	
+4. (1.)	BigInt BigFloat::calc_subtotal() const;
+	1. 	dm.subtotal < dm.divisorInt ? То есть, 11 < 23 ? Да. Не подходит.
+		В dm.dividendInt есть ещё цифры? То есть, dm.curIndexOfDigitOfDividend < dm.dividendInt.last_digit_position() ?
+		То есть, 2 < 8 ? Да. Значит, берём цифру (на этот раз третью, то есть, с индексом 2) из dm.dividendInt и
+		помещаем её в конец числа dm.subtotal:
+		
+		dm.subtotal.push_back_elem
+		(
+			dm.dividendInt.elem_value_as_char(dm.curIndexOfDigitOfDividend)
+		); // dm.subtotal = 116
 	
+		dm.subtotal.pop_front_extra_zeros(); // dm.subtotal = 116
+		
+		++dm.curIndexOfDigitOfDividend; // curIndexOfDigitOfDividend = 3
 	
-	
-	
-	
-	
-	
+	2.  dm.subtotal < dm.divisorInt ? То есть, 116 < 23 ? Нет. Подходит!
 	
 	
 	
