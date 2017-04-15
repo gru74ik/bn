@@ -102,9 +102,9 @@ public:
 
 	void calc_subtotal_and_add_digits_to_quotient() const;
 
-	void calc_subtotal(const BigInt & prevSubtotal) const;
+	void calc_subtotal_and_add_digits_to_quotient(const BigInt & prevSubtotal) const;
 
-	void add_digits_to_quotient() const;
+	void add_zeros_to_quotient() const;
 
 	void BigFloat::define_quotient_sign
 		(
