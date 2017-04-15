@@ -114,6 +114,16 @@ public:
 
 	bool division_is_finished() const;
 
+	void divide_abs_greater_by_less() const;
+
+	void divide_abs_less_by_greater() const;
+
+	void align_divident_and_divisor(BigFloat& dividend, BigFloat& divisor) const;
+
+	void prepare_divident_and_divisor(BigFloat& dividend, BigFloat& divisor) const;
+
+	size_t find_quotient_dot_pos() const;
+
 	// comparison operators ========================================================
 	bool operator<(const BigFloat& bf) const;
 	bool operator<=(const BigFloat& bf) const;
