@@ -94,13 +94,17 @@ public:
 		BigInt divisorInt;
 		BigInt quotientInt;
 		size_t curIndexOfDigitOfDividend;
+		size_t quotientDotPos;
+		size_t divisorDigitsAfterDot;
 	};
 
 	char next_digit_of_quotient() const;
 
 	void calc_subtotal_and_add_digits_to_quotient() const;
 
-	void calc_subtotal_and_add_digits_to_quotient(const BigInt & prevSubtotal) const;
+	void calc_subtotal(const BigInt & prevSubtotal) const;
+
+	void add_digits_to_quotient() const;
 
 	void BigFloat::define_quotient_sign
 		(
@@ -110,7 +114,7 @@ public:
 		)
 		const;
 
-	BigFloat finalize_division(const size_t quotientDotPos)const;
+	BigFloat finalize_division()const;
 
 	bool division_is_finished() const;
 
@@ -122,11 +126,7 @@ public:
 
 	void prepare_divident_and_divisor(BigFloat& dividend, BigFloat& divisor) const;
 
-	size_t find_quotient_dot_pos() const;
-
 	bool all_remaining_digits_of_dividend_are_zeros() const;
-
-	size_t amount_of_remaining_digits_of_dividend() const;
 
 	// comparison operators ========================================================
 	bool operator<(const BigFloat& bf) const;
