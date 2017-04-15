@@ -331,30 +331,82 @@ bool BigInt::operator<(const BigInt& bi) const
 
 	if (a.get_sign() == '+' && b.get_sign() == '-')
 	{
+/*
+		// #op<(bi) 1
+		std::cout
+			<< "Minuend is positive, subtrahend is negative."
+			<< "\na < b is false."
+			<< "\nAssertion occured in BigInt.cpp, #op<(bi) 1\n\n"
+			;
+*/
 		result = false;
 	}
 	else if (a.get_sign() == '-' && b.get_sign() == '+')
 	{
+/**/
+		// #op<(bi) 2
+		std::cout
+			<< "Minuend is negative, subtrahend is positive."
+			<< "\na < b is true."
+			<< "\nAssertion occured in BigInt.cpp, #op<(bi) 2\n\n"
+			;
+
 		result = true;
 	}
 	else if (a.get_sign() == '+' && b.get_sign() == '+')
 	{
-		if (b.quantity_of_digits() < a.quantity_of_digits()) // #op<(bi) 3
+/*
+		// #op<(bi) 3
+		std::cout
+			<< "Minuend is positive and subtrahend is also positive."
+			<< "\nAssertion occured in BigInt.cpp, #op<(bi) 3\n\n"
+			;
+*/
+		if (b.quantity_of_digits() < a.quantity_of_digits())
 		{
-	/*
+/*
+			// #op<(bi) 4
 			std::cout
-				<< "(bNumSize < aNumSize) is true. "
-				<< "Assertion occured in BigInt.cpp, #op<(bi), branch 3\n"
+				<< "b.quantity_of_digits() < a.quantity_of_digits() is true, because:"
+				<< "\nb.quantity_of_digits() is " << b.quantity_of_digits()
+				<< "\na.quantity_of_digits() is " << a.quantity_of_digits()
+				<< "\nb is " << b
+				<< "\na is " << a
+				<< "\na < b is false."
+				<< "\nAssertion occured in BigInt.cpp, #op<(bi) 4\n\n"
 				;
-	*/
+*/
 			result = false;
 		}
-		else if (a.quantity_of_digits() < b.quantity_of_digits()) // #op<(bi) 4
+		else if (a.quantity_of_digits() < b.quantity_of_digits())
 		{
+/*
+			// #op<(bi) 5
+			std::cout
+				<< "a.quantity_of_digits() < b.quantity_of_digits() is true, because:"
+				<< "\nb.quantity_of_digits() is " << b.quantity_of_digits()
+				<< "\na.quantity_of_digits() is " << a.quantity_of_digits()
+				<< "\nb is " << b
+				<< "\na is " << a
+				<< "\na < b is true."
+				<< "\nAssertion occured in BigInt.cpp, #op<(bi) 5\n\n"
+				;
+*/
 			result = true;
 		}
 		else
 		{
+/*
+			// #op<(bi) 6
+			std::cout
+				<< "a.quantity_of_digits() == b.quantity_of_digits() is true, because:"
+				<< "\nb.quantity_of_digits() is " << b.quantity_of_digits()
+				<< "\na.quantity_of_digits() is " << a.quantity_of_digits()
+				<< "\nb is " << b
+				<< "\na is " << a
+				<< "\nAssertion occured in BigInt.cpp, #op<(bi) 6\n\n"
+				;
+*/
 			bool bothNumbersAreTheSame = true;
 
 			for (size_t i = 0; i < aNumSize; ++i)
@@ -363,6 +415,16 @@ bool BigInt::operator<(const BigInt& bi) const
 				{
 					bothNumbersAreTheSame = false;
 					result = true;
+/*
+					// #op<(bi) 7
+					std::cout
+						<< "a.elem_value_as_digit(" << i << ") < b.elem_value_as_digit(" << i << ") is true, because:"
+						<< "\na.elem_value_as_digit(" << i << ")" << a.elem_value_as_digit(i)
+						<< "\nb.elem_value_as_digit(" << i << ")" << b.elem_value_as_digit(i)
+						<< "\na < b is true."
+						<< "\nAssertion occured in BigInt.cpp, #op<(bi) 7\n\n"
+						;
+*/
 					break;
 				}
 				else if (a.elem_value_as_digit(i) == b.elem_value_as_digit(i))
@@ -380,27 +442,59 @@ bool BigInt::operator<(const BigInt& bi) const
 			if (bothNumbersAreTheSame)
 			{
 				result = false;
+/*
+				// #op<(bi) 10
+				std::cout
+					<< "bothNumbersAreTheSame is true."
+					<< "\na < b is false."
+					<< "\nAssertion occured in BigInt.cpp, #op<(bi) 10\n\n"
+					;
+*/
 			}
 		}
 	} // endof else if (a.get_sign() == b.get_sign())
 	else
 	{
-		if (b.quantity_of_digits() < a.quantity_of_digits()) // #op<(bi) 3
-		{
-			/*
-			std::cout
-			<< "(bNumSize < aNumSize) is true. "
-			<< "Assertion occured in BigInt.cpp, #op<(bi), branch 3\n"
+/*
+		// #op<(bi) 11
+		std::cout
+			<< "Minuend is negative and subtrahend is also negative."
+			<< "\nAssertion occured in BigInt.cpp, #op<(bi) 11\n\n"
 			;
-			*/
+*/
+		if (b.quantity_of_digits() < a.quantity_of_digits())
+		{
 			result = true;
+/*
+			// #op<(bi) 12
+			std::cout
+				<< "b.quantity_of_digits() < a.quantity_of_digits() is true. "
+				<< "\na < b is true."
+				<< "\nAssertion occured in BigInt.cpp, // #op<(bi) 12\n\n"
+				;
+*/
 		}
-		else if (a.quantity_of_digits() < b.quantity_of_digits()) // #op<(bi) 4
+		else if (a.quantity_of_digits() < b.quantity_of_digits())
 		{
 			result = false;
+/*
+			// #op<(bi) 13
+			std::cout
+				<< "a.quantity_of_digits() < b.quantity_of_digits() is true. "
+				<< "\na < b is false."
+				<< "\nAssertion occured in BigInt.cpp, // #op<(bi) 13\n\n"
+				;
+*/
 		}
 		else
 		{
+/*
+			// #op<(bi) 14
+			std::cout
+				<< "a.quantity_of_digits() == b.quantity_of_digits() is true. "
+				<< "\nAssertion occured in BigInt.cpp, // #op<(bi) 14\n\n"
+				;
+*/
 			bool bothNumbersAreTheSame = true;
 
 			for (size_t i = 0; i < aNumSize; ++i)
@@ -445,7 +539,16 @@ bool BigInt::operator>(const BigInt& bi) const
 {
 	BigInt a = *this;
 	BigInt b = bi;
-
+/*
+	// #op<(bi) 1
+	std::cout
+		<< "\na > b is true, because:"
+		<< "\na: " << a
+		<< "\nb: " << b
+		<< "\noperator<() will be called."
+		<< "\nAssertion occured in BigInt.cpp, #op<(bi) 1\n\n"
+		;
+*/
 	return b < a;
 }	// endof operator>(const BigInt& bi) const
 
@@ -683,6 +786,9 @@ BigInt BigInt::operator-(const BigInt& subtrahend) const
 
 	if (a.get_sign() == b.get_sign())
 	{
+		BigInt minuendNonReversed(a);
+		BigInt subtrahendNonReversed(b);
+
 		// считать будем с младших разрядов, поэтому "перевернём" оба числа:
 		a.reverse_number();
 		b.reverse_number();
@@ -712,8 +818,17 @@ BigInt BigInt::operator-(const BigInt& subtrahend) const
 
 		// "долги" с предыдущего витка цикла:
 		size_t prevBorrowed = 0;
-		if (a > b)
+		if (minuendNonReversed > subtrahendNonReversed)
 		{
+/*
+			// #op-(bi) 19
+			std::cout
+				<< "minuend > subtrahend: "
+				<< "\na: " << minuendNonReversed
+				<< "\nb: " << subtrahendNonReversed
+				<< "\nAssertion occured in BigInt.cpp, #op-(bi) 19.\n\n"
+				;
+*/
 			for (size_t i = 0; i < aSize; ++i)
 			{
 				minuendDigit = a.elem_value_as_digit(i);
@@ -752,15 +867,24 @@ BigInt BigInt::operator-(const BigInt& subtrahend) const
 			} // endof for (size_t i = 0; i < aSize; ++i)
 			diff.set_sign('+');
 /*
-			// #op-(bi) 21a
+			// #op-(bi) 22
 			std::cout
 				<< "\nDiff after all: " << diff.get_sign() << diff.get_number()
-				<< "\nAssertion occured in BigInt.cpp, #op-(bi) 21a.\n\n"
+				<< "\nAssertion occured in BigInt.cpp, #op-(bi) 22.\n\n"
 				;
 */
 		} // endof if (a > b)
-		else if (b > a)
+		else if (subtrahendNonReversed > minuendNonReversed)
 		{
+/*
+			// #op-(bi) 23
+			std::cout
+				<< "minuend < subtrahend: "
+				<< "\na: " << minuendNonReversed
+				<< "\nb: " << subtrahendNonReversed
+				<< "\nAssertion occured in BigInt.cpp, #op-(bi) 23.\n\n"
+				;
+*/
 			for (size_t i = 0; i < aSize; ++i)
 			{
 				minuendDigit = b.elem_value_as_digit(i);
@@ -777,32 +901,32 @@ BigInt BigInt::operator-(const BigInt& subtrahend) const
 				minuendDigit = minuendDigit + borrowed * 10;
 				subtotal = minuendDigit - subtrahendDigit;
 /*
-				// #op-(bi) 22
+				// #op-(bi) 24
 				std::cout
 					<< "Data on " << i + 1 << " step:"
 					<< "\nminuendDigit: " << minuendDigit
 					<< "\nsubtrahendDigit: " << subtrahendDigit
 					<< "\nsubtotal: " << subtotal
-					<< "\nAssertion occured in BigInt.cpp, #op-(bi) 22.\n\n"
+					<< "\nAssertion occured in BigInt.cpp, #op-(bi) 24.\n\n"
 					;
 */
 				diff.push_back_elem(digit_to_char(subtotal));
 				prevBorrowed = borrowed;
 
 /*
-				// #op-(bi) 23
+				// #op-(bi) 25
 				std::cout
 					<< "Diff on " << i + 1 << " step: " << diff.get_number()
-					<< "\nAssertion occured in BigInt.cpp, #op-(bi) 23.\n\n"
+					<< "\nAssertion occured in BigInt.cpp, #op-(bi) 25.\n\n"
 					;
 */
 			} // endof for (size_t i = 0; i < aSize; ++i)
 			diff.set_sign('-');
 /*
-			// #op-(bi) 23a
+			// #op-(bi) 26
 			std::cout
 				<< "\nDiff after all: " << diff.get_sign() << diff.get_number()
-				<< "\nAssertion occured in BigInt.cpp, #op-(bi) 23a.\n\n"
+				<< "\nAssertion occured in BigInt.cpp, #op-(bi) 26.\n\n"
 				;
 */			
 		} // endof else if (b > a)
@@ -811,30 +935,28 @@ BigInt BigInt::operator-(const BigInt& subtrahend) const
 			diff.reset();
 			diff.set_sign('+');
 /*
-			// #op-(bi) 24
+			// #op-(bi) 27
 			std::cout
 				<< "a.abs_value() == b.abs_value()"
 				<< "\nDiff equals to zero:"
 				<< "\ndiff.get_number(): " << diff.get_number()
-				<< "\nAssertion occured in BigInt.cpp, #op-(bi) 24.\n\n"
+				<< "\nAssertion occured in BigInt.cpp, #op-(bi) 27.\n\n"
 				;
 */
 		}
-
-
 /*
-		// #op-(bi) 26
+		// #op-(bi) 28
 		std::cout
 			<< "Diff before reversing: " << diff.get_number()
-			<< "\nAssertion occured in BigInt.cpp, #op-(bi) 26.\n\n"
+			<< "\nAssertion occured in BigInt.cpp, #op-(bi) 28.\n\n"
 			;
 */
 		diff.reverse_number();
 /*
-		// #op-(bi) 27
+		// #op-(bi) 29
 		std::cout
 			<< "Diff after reversing: " << diff.get_number()
-			<< "\nAssertion occured in BigInt.cpp, #op-(bi) 27.\n\n"
+			<< "\nAssertion occured in BigInt.cpp, #op-(bi) 29.\n\n"
 			;
 */
 	} // endof if (a.get_sign() == b.get_sign())
@@ -856,6 +978,8 @@ BigInt BigInt::operator-(const BigInt& subtrahend) const
 			diff.set_sign('+');
 		}		
 	}
+	
+	diff.pop_front_extra_zeros();
 
 	return diff;
 } // endof operator-(const BigInt& subtrahend) const
