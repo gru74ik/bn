@@ -25,7 +25,6 @@ N mzn 10 *. 0) ( . Ќапример, число 2.5 можно записать в виде: +0.25 E+1.
 
 int main()
 {
-/*
 	BigInt bi;
 	BigFloat  bf;
 
@@ -40,14 +39,6 @@ int main()
 			<< "\nb: " << bf
 			<< "\na / b: " << bi / bf
 			<< "\n\n";
-*/
-	BigInt a("1234567890000");
-	BigInt b("987654321321");
-	std::cout
-		<< "\na: " << a
-		<< "\nb: " << b
-		<< "\na - b: " << (a - b)
-		<< "\n\n";
 
 	return 0;
 }

@@ -124,6 +124,10 @@ public:
 
 	size_t find_quotient_dot_pos() const;
 
+	bool all_remaining_digits_of_dividend_are_zeros() const;
+
+	size_t amount_of_remaining_digits_of_dividend() const;
+
 	// comparison operators ========================================================
 	bool operator<(const BigFloat& bf) const;
 	bool operator<=(const BigFloat& bf) const;
