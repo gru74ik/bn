@@ -1874,8 +1874,8 @@ void BigFloat::calc_subtotal(const BigInt & prevSubtotal) const
 	size_t iteration = 1;
 	while
 		(
-			dm.subtotal <= dm.divisorInt &&
-			dm.curIndexOfDigitOfDividend < dm.dividendInt.last_digit_position()
+			dm.subtotal < dm.divisorInt &&
+			dm.curIndexOfDigitOfDividend <= dm.dividendInt.last_digit_position()
 		)
 	{
 		/**/
@@ -1905,6 +1905,17 @@ void BigFloat::calc_subtotal(const BigInt & prevSubtotal) const
 			<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 2\n\n"
 			;
 		++iteration;
+	}
+	/**/
+	// #calcsubdig(bi) 3
+	std::cout
+		<< "subtotal before second phase is " << dm.subtotal.get_number()
+		<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 3\n\n"
+		;
+
+	if (!dm.subtotal.is_zero() && dm.subtotal < dm.divisorInt)
+	{
+		calc_subtotal_and_add_digits_to_quotient();
 	}
 }
 
