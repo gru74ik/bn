@@ -1920,20 +1920,27 @@ void BigFloat::calc_subtotal_and_add_digits_to_quotient(const BigInt & prevSubto
 		{
 			if (!is_first_time_add_digits_to_subtotal)
 			{
+/*
+				// #calcsubdig(bi) 3
+				std::cout
+				<< "!is_first_time_add_digits_to_subtotal is " << std::boolalpha << !is_first_time_add_digits_to_subtotal
+				<< "\ndm.quotientInt.push_back_elem('0') will be called."
+				<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 3\n\n"
+				;
+*/				
 				dm.quotientInt.push_back_elem('0');
 			}
 		}
 
 /*
-		// #calcsubdig(bi) 3
+		// #calcsubdig(bi) 4
 		std::cout
 			<< "subtotal after next digit was pushed back is " << dm.subtotal.get_number()
 			<< "\nand curIndexOfDigitOfDividend after increment is " << dm.curIndexOfDigitOfDividend
-			<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 3\n\n"
+			<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 4\n\n"
 			;
 */
 		is_first_time_add_digits_to_subtotal = false;
-		is_first_time_add_digits_to_subtotal = true;
 		++iteration;
 	}
 
@@ -1953,29 +1960,29 @@ void BigFloat::calc_subtotal_and_add_digits_to_quotient(const BigInt & prevSubto
 		}
 		
 /**/
-		// #calcsubdig(bi) 4
+		// #calcsubdig(bi) 5
 		std::cout
 		<< "dm.quotientDotPos is " << dm.quotientDotPos << " .................................."
 		<< "\nbecause dm.subtotal.quantity_of_digits() is " << dm.subtotal.quantity_of_digits()
 		<< "\nbecause dm.subtotal is " << dm.subtotal.get_number()
-		<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 4\n\n"
+		<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 5\n\n"
 		;
 		
 
 /*
-		// #calcsubdig(bi) 5
+		// #calcsubdig(bi) 6
 		std::cout
 			<< "subtotal before second phase is " << dm.subtotal.get_number()
-			<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 5\n\n"
+			<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 6\n\n"
 			;
 */
 		if (addition_was_already_done)
 		{
 /*
-		// #calcsubdig(bi) 6
+		// #calcsubdig(bi) 7
 		std::cout
 			<< dm.subtotal.quantity_of_digits() << " zeros will pushed back to dm.quotientInt."
-			<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 6"
+			<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 7"
 			<< " @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n\n"
 			;
 */
@@ -1987,10 +1994,10 @@ void BigFloat::calc_subtotal_and_add_digits_to_quotient(const BigInt & prevSubto
 		}
 
 /*
-		// #calcsubdig(bi) 7
+		// #calcsubdig(bi) 8
 		std::cout
 			<< "dm.quotientInt after zeros has been pushed back: " << dm.quotientInt.get_number()
-			<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 7"
+			<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 8"
 			<< " @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n\n"
 			;
 */
@@ -1998,12 +2005,13 @@ void BigFloat::calc_subtotal_and_add_digits_to_quotient(const BigInt & prevSubto
 	}
 
 	is_first_time_calc_subtotal = false;
+	is_first_time_add_digits_to_subtotal = true;
 	/**/
-	// #calcsubdig(bi) 8
+	// #calcsubdig(bi) 9
 	std::cout
 		<< "calc_subtotal_and_add_digits_to_quotient(const BigInt & prevSubtotal) is done."
 		<< "\ndm.subtotal after that is " << dm.subtotal.get_number()
-		<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 8\n\n"
+		<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 9\n\n"
 		;
 } // endof calc_subtotal_and_add_digits_to_quotient(const BigInt & prevSubtotal) const
 
