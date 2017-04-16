@@ -34,11 +34,12 @@ int main()
 		std::cout << "Enter big float number:\n";
 		std::cin >> bf;
 
+		std::cout << "\n\n";
+
 		std::cout
-			<< "\na: " << bi
-			<< "\nb: " << bf
-			<< "\na / b: " << bi / bf
-			<< "\n\n";
+			<< "a: " << bi << "\n"
+			<< "b: " << bf << "\n"
+			<< "a / b: " << bi / bf << "\n\n";
 
 	return 0;
 }

@@ -1738,9 +1738,8 @@ char BigFloat::next_digit_of_quotient() const
 	
 	size_t iteration = 1;
 	while (curSubtrahend <= dm.subtotal)
-	//while(iteration < 5)
 	{
-		/**/
+/*
 		// #nxtdigqnt 5
 		std::cout
 			<< " iteration " << iteration << " ####################################"
@@ -1749,7 +1748,7 @@ char BigFloat::next_digit_of_quotient() const
 			<< "\n(curSubtrahend <= subtotal): " << std::boolalpha << (curSubtrahend <= dm.subtotal) << std::noboolalpha
 			<< "\nAssertion occured in BigFloat.cpp, #nxtdigqnt 5\n\n"
 			;
-		
+*/		
 		fitSubtrahend = curSubtrahend;
 /*
 		// #nxtdigqnt 6
@@ -1775,20 +1774,27 @@ char BigFloat::next_digit_of_quotient() const
 			;
 */
 		curSubtrahend = dm.divisorInt * curMultiplier;
-/**/
+/*
 		// #nxtdigqnt 9
 		std::cout
 			<< "curSubtrahend in the end of " << iteration << " iteration: " << curSubtrahend.get_number()
 			<< "\nAssertion occured in BigFloat.cpp, #nxtdigqnt 9.\n\n"
 			;
-
+*/
 		iteration++;
 	}
 /**/
 	// #nxtdigqnt 10
 	std::cout
-		<< "fitMultiplier after all: " << fitMultiplier.get_number()
-		<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 10.\n\n"
+		<< "fitSubtrahend is " << fitSubtrahend.get_number()
+		<< "\nAssertion occured in BigFloat.cpp, #nxtdigqnt 10.\n\n"
+		;
+
+/**/
+	// #nxtdigqnt 11
+	std::cout
+		<< "fitMultiplier (digit, that goes to dm.quotientInt) is " << fitMultiplier.get_number() << " *****************************"
+		<< "\nAssertion occured in BigFloat.cpp, ##nxtdigqnt 11.\n\n"
 		;
 
 	return fitMultiplier.elem_value_as_char(0);
@@ -1869,9 +1875,19 @@ void BigFloat::calc_subtotal_and_add_digits_to_quotient() const
   // для деления большего числа на меньшее:
 void BigFloat::calc_subtotal_and_add_digits_to_quotient(const BigInt & prevSubtotal) const
 {
+/**/
+	// #calcsubdig(bi) 1
+	std::cout
+		<< "prevSubtotal is " << prevSubtotal.get_number()
+		<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 1\n\n"
+		;
+
 	dm.subtotal = prevSubtotal;
 	dm.subtotal.pop_front_extra_zeros();
-	bool first_inserting_of_next_digit = true;
+
+	static bool is_first_time_calc_subtotal = true;
+	static bool is_first_time_add_digits_to_subtotal = true;
+
 	size_t iteration = 1;
 	while
 		(
@@ -1879,61 +1895,74 @@ void BigFloat::calc_subtotal_and_add_digits_to_quotient(const BigInt & prevSubto
 			dm.curIndexOfDigitOfDividend <= dm.dividendInt.last_digit_position()
 		)
 	{
-		/**/
-		// #calcsubdig(bi) 1
+/*
+		// #calcsubdig(bi) 2
 		std::cout
-			<< " iteration " << iteration << " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+			<< "calc_subtotal_and_add_digits_to_quotient(const BigInt & prevSubtotal) iteration " << iteration << " ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 			<< "\n(subtotal < divisorInt): " << std::boolalpha << (dm.subtotal <= dm.divisorInt) << std::noboolalpha
 			<< "\nbecause subtotal (before next digit was pushed back) is " << dm.subtotal.get_number()
 			<< " and divisorInt is " << dm.divisorInt.get_number()
 			<< "\n&& (curIndexOfDigitOfDividend <= dividendInt.last_digit_position()): " << std::boolalpha << (dm.curIndexOfDigitOfDividend <= dm.dividendInt.last_digit_position()) << std::noboolalpha
 			<< "\nbecause curIndexOfDigitOfDividend is " << dm.curIndexOfDigitOfDividend
 			<< "\nand dividendInt.last_digit_position() is " << dm.dividendInt.last_digit_position()
-			<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 1\n\n"
+			<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 2\n\n"
 			;
-		
+*/		
 		dm.subtotal.push_back_elem
 		(
 			dm.dividendInt.elem_value_as_char(dm.curIndexOfDigitOfDividend)
 		);
-
-		if (!first_inserting_of_next_digit)
-		{
-			dm.quotientInt.push_back_elem('0');
-		}
-
+		
 		dm.subtotal.pop_front_extra_zeros();
 		++dm.curIndexOfDigitOfDividend;
-		first_inserting_of_next_digit = false;
-		/**/
-		// #calcsubdig(bi) 2
+
+		if (!is_first_time_calc_subtotal)
+		{
+			if (!is_first_time_add_digits_to_subtotal)
+			{
+				dm.quotientInt.push_back_elem('0');
+			}
+		}
+
+/*
+		// #calcsubdig(bi) 3
 		std::cout
 			<< "subtotal after next digit was pushed back is " << dm.subtotal.get_number()
 			<< "\nand curIndexOfDigitOfDividend after increment is " << dm.curIndexOfDigitOfDividend
-			<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 2\n\n"
+			<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 3\n\n"
 			;
+*/
+		is_first_time_add_digits_to_subtotal = false;
+		is_first_time_add_digits_to_subtotal = true;
 		++iteration;
 	}
 
 	static bool addition_was_already_done = true;	
-	if (!dm.subtotal.is_zero() && dm.subtotal < dm.divisorInt)
+	if
+		(
+			!dm.subtotal.is_zero() &&
+			dm.subtotal < dm.divisorInt &&
+			dm.curIndexOfDigitOfDividend > dm.dividendInt.last_digit_position()
+		)
 	{
-		/**/
-		// #calcsubdig(bi) 3
-		std::cout
-			<< "subtotal before second phase is " << dm.subtotal.get_number()
-			<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 3\n\n"
-			;
-		if (addition_was_already_done)
-		{
-/**/
+		dm.quotientDotPos = dm.subtotal.quantity_of_digits();
+/*
 		// #calcsubdig(bi) 4
 		std::cout
+			<< "subtotal before second phase is " << dm.subtotal.get_number()
+			<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 4\n\n"
+			;
+*/
+		if (addition_was_already_done)
+		{
+/*
+		// #calcsubdig(bi) 5
+		std::cout
 			<< dm.subtotal.quantity_of_digits() << " zeros will pushed back to dm.quotientInt."
-			<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 4"
+			<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 5"
 			<< " @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n\n"
 			;
-
+*/
 			for (size_t i = 0; i < dm.subtotal.last_digit_position(); ++i)
 			{
 				dm.quotientInt.push_back_elem('0');
@@ -1941,17 +1970,26 @@ void BigFloat::calc_subtotal_and_add_digits_to_quotient(const BigInt & prevSubto
 			addition_was_already_done = false;
 		}
 
-/**/
-		// #calcsubdig(bi) 5
+/*
+		// #calcsubdig(bi) 6
 		std::cout
 			<< "dm.quotientInt after zeros has been pushed back: " << dm.quotientInt.get_number()
-			<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 5"
+			<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 6"
 			<< " @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n\n"
 			;
-
+*/
 		calc_subtotal_and_add_digits_to_quotient();
 	}
-}
+
+	is_first_time_calc_subtotal = false;
+	/**/
+	// #calcsubdig(bi) 7
+	std::cout
+		<< "calc_subtotal_and_add_digits_to_quotient(const BigInt & prevSubtotal) is done."
+		<< "\ndm.subtotal after that is " << dm.subtotal.get_number()
+		<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 7\n\n"
+		;
+} // endof calc_subtotal_and_add_digits_to_quotient(const BigInt & prevSubtotal) const
 
 void BigFloat::add_zeros_to_quotient() const
 {
@@ -2009,29 +2047,23 @@ BigFloat BigFloat::finalize_division() const
 		<< "\nAssertion occured in BigFloat.cpp, #findiv 2.\n\n"
 		;
 
+	add_dot();
+	/**/
+	// #findiv 3
+	std::cout
+		<< "quotientInt after add_dot():\n"
+		<< dm.quotientInt.get_number()
+		<< "\nAssertion occured in BigFloat.cpp, #findiv 3.\n\n"
+		;
+
+
 	quotient.push_back_elem(dm.quotientInt.get_number());
 	/**/
-	// #findiv 5
+	// #findiv 4
 	std::cout
 		<< "Local object BigFloat quotient after quotient.push_back_elem(quotientInt.get_number()):\n"
 		<< quotient.get_number()
-		<< "\nAssertion occured in BigFloat.cpp, #findiv 5.\n\n"
-		;
-
-	/**/
-	// #findiv 6
-	std::cout
-		<< "Dot will be inserted before position " << dm.quotientDotPos
-		<< "\nbecause dm.quotientDotPos is " << dm.quotientDotPos
-		<< "\nAssertion occured in BigFloat.cpp, #findiv 6.\n\n"
-		;
-	quotient.insert_elem('.', dm.quotientDotPos);
-	/**/
-	// #findiv 7
-	std::cout
-		<< "Local object BigFloat quotient after quotient.insert_elem('.', quotientDotPos):\n"
-		<< quotient.get_number()
-		<< "\nAssertion occured in BigFloat.cpp, #findiv 7.\n\n"
+		<< "\nAssertion occured in BigFloat.cpp, #findiv 4.\n\n"
 		;
 
 	return quotient;
@@ -2043,7 +2075,7 @@ bool BigFloat::division_is_finished() const
 		(dm.quotientInt.quantity_of_digits() >= PRECISION) ||
 		(dm.curIndexOfDigitOfDividend > dm.dividendInt.last_digit_position() && dm.subtotal.is_zero()) ||
 		(dm.subtotal.is_zero() && all_remaining_digits_of_dividend_are_zeros());
-	/**/
+/*
 	// #divisfin 1
 	std::cout
 		<< "division_is_finished() has been called."
@@ -2059,6 +2091,7 @@ bool BigFloat::division_is_finished() const
 		<< "\ndivision_is_finished() is " << std::boolalpha << result
 		<< "\nAssertion occured in BigFloat.cpp, #divisfin 1.\n\n"
 		;
+*/
 	return result;
 }
 
@@ -2074,7 +2107,6 @@ void BigFloat::divide_abs_greater_by_less() const
 	}
 	add_zeros_to_quotient();
 	dm.quotientInt.pop_front_extra_zeros();
-	dm.quotientDotPos = 1 + dm.divisorDigitsAfterDot;
 }
 
 void BigFloat::divide_abs_less_by_greater() const
@@ -2088,7 +2120,6 @@ void BigFloat::divide_abs_less_by_greater() const
 		dm.quotientInt.push_back_elem(nextDigitOfQuotient);
 		dm.subtotal = dm.subtotal - (dm.divisorInt * nextDigitOfQuotient);
 	}
-	dm.quotientDotPos = 1;
 }
 
 void BigFloat::align_divident_and_divisor(BigFloat & dividend, BigFloat & divisor) const
@@ -2148,6 +2179,26 @@ bool BigFloat::all_remaining_digits_of_dividend_are_zeros() const
 		;
 */
 	return result;
+}
+
+void BigFloat::add_dot() const
+{
+	if (dm.dividendInt < dm.divisorInt)
+	{
+		dm.quotientInt.insert_elem('.', 1);
+	}
+	else if (dm.dividendInt > dm.divisorInt)
+	{
+		if (dm.subtotal.is_zero())
+		{
+			dm.quotientInt.push_back_elem(".0");
+		}
+		else
+		{
+			dm.quotientInt.insert_elem('.', dm.quotientDotPos);
+		}
+	}
+
 }
 
 
@@ -3353,19 +3404,19 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 	BigFloat divisor(divider);
 
 	dm.divisorDigitsAfterDot = divisor.digits_after_dot();
-	/**/
+/*
 	// #op/(bf) 1
 	std::cout
 		<< "dm.dividendDigitsAfterDot is " << dm.divisorDigitsAfterDot
 		<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 1.\n\n"
 		;
-
+*/
 	prepare_divident_and_divisor(dividend, divisor);
 
 	if (dm.dividendInt < dm.divisorInt)
 	{
 		divide_abs_less_by_greater();
-		/**/
+/*
 		// #op/(bf) 24a
 		std::cout
 			<< "finalize_division(quotientInt, quotientDotPos) will be called."
@@ -3374,13 +3425,13 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 			<< "\nquotientDotPos: " << dm.quotientDotPos
 			<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 24a.\n\n"
 			;
-
+*/
 		quotient = finalize_division();
 	}
 	else if (dm.dividendInt > dm.divisorInt)
 	{
 		divide_abs_greater_by_less();
-		/**/
+/*
 		// #op/(bf) 24b
 		std::cout
 			<< "finalize_division(quotientInt, quotientDotPos) will be called."
@@ -3389,7 +3440,7 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 			<< "\nquotientDotPos: " << dm.quotientDotPos
 			<< "\nAssertion occured in BigFloat.cpp, #op/(bf) 24b.\n\n"
 			;
-
+*/
 		quotient = finalize_division();
 	}
 	else
@@ -3399,7 +3450,7 @@ BigFloat BigFloat::operator/(const BigFloat& divider) const // #op/(bf)
 
 	quotient.set_number(quotient.get_number());
 	define_quotient_sign(quotient, dividend, divisor);
-	/**/
+/**/
 	// #op/(bf) 33
 		std::cout
 			<< "\nquotient after all: " << quotient.get_number()

@@ -128,6 +128,8 @@ public:
 
 	bool all_remaining_digits_of_dividend_are_zeros() const;
 
+	void add_dot() const;
+
 	// comparison operators ========================================================
 	bool operator<(const BigFloat& bf) const;
 	bool operator<=(const BigFloat& bf) const;
