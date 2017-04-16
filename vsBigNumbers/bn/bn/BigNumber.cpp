@@ -44,8 +44,6 @@ BigNumber::BigNumber(const char num)
 		sign_ = define_sign();
 		discard_sign();
 	}
-
-
 /*
 	std::cout
 		<< "\nThe sign of the number after ctor finished his work: "
@@ -83,8 +81,6 @@ BigNumber::BigNumber(const std::string& num)
 		sign_ = define_sign();
 		discard_sign();
 	}
-	
-
 /*
 	std::cout
 		<< "\nThe sign of the number after ctor finished his work: "
