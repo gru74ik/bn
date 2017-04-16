@@ -1801,10 +1801,8 @@ char BigFloat::next_digit_of_quotient() const
 }
 
 // для деления меньшего числа на большее:
-void BigFloat::calc_subtotal_and_add_digits_to_quotient() const
+void BigFloat::calc_subtotal_and_add_digits_to_quotient(bool zeroWasPushedBackInSubtotalInPrevStep) const
 {
-	bool zeroWasPushedBackInSubtotalInPrevStep = false;
-
 	dm.subtotal.pop_front_extra_zeros();
 
 	size_t iteration = 1;
@@ -1870,6 +1868,7 @@ void BigFloat::calc_subtotal_and_add_digits_to_quotient() const
 		;
 
 	dm.curIndexOfDigitOfDividend = dm.divisorInt.quantity_of_digits() + 1;
+	zeroWasPushedBackInSubtotalInPrevStep = false;
 } // endof calc_subtotal_and_add_digits_to_quotient(args)
 
   // для деления большего числа на меньшее:
@@ -1944,6 +1943,8 @@ void BigFloat::calc_subtotal_and_add_digits_to_quotient(const BigInt & prevSubto
 		++iteration;
 	}
 
+	// вторая фаза (когда при делении закончились цифры в делимом и сносить уже нечего,
+	// осталось только вставлять в конец dm.subtotal добавочные нули:
 	static bool addition_was_already_done = true;	
 	if
 		(
@@ -1955,7 +1956,7 @@ void BigFloat::calc_subtotal_and_add_digits_to_quotient(const BigInt & prevSubto
 		static bool quotient_dot_pos_was_already_set = false;
 		if (!quotient_dot_pos_was_already_set)
 		{
-			dm.quotientDotPos = dm.subtotal.quantity_of_digits();
+			dm.quotientDotPos = dm.quotientInt.quantity_of_digits();
 			quotient_dot_pos_was_already_set = true;
 		}
 		
@@ -1963,45 +1964,28 @@ void BigFloat::calc_subtotal_and_add_digits_to_quotient(const BigInt & prevSubto
 		// #calcsubdig(bi) 5
 		std::cout
 		<< "dm.quotientDotPos is " << dm.quotientDotPos << " .................................."
-		<< "\nbecause dm.subtotal.quantity_of_digits() is " << dm.subtotal.quantity_of_digits()
-		<< "\nbecause dm.subtotal is " << dm.subtotal.get_number()
+		<< "\nbecause dm.quotientInt.quantity_of_digits() is " << dm.quotientInt.quantity_of_digits()
+		<< "\nbecause dm.quotientInt is " << dm.quotientInt.get_number()
 		<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 5\n\n"
 		;
 		
 
-/*
+/**/
 		// #calcsubdig(bi) 6
 		std::cout
-			<< "subtotal before second phase is " << dm.subtotal.get_number()
+			<< "subtotal before second phase has begun is " << dm.subtotal.get_number()
 			<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 6\n\n"
 			;
-*/
-		if (addition_was_already_done)
-		{
-/*
-		// #calcsubdig(bi) 7
-		std::cout
-			<< dm.subtotal.quantity_of_digits() << " zeros will pushed back to dm.quotientInt."
-			<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 7"
-			<< " @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n\n"
-			;
-*/
-			for (size_t i = 0; i < dm.subtotal.last_digit_position(); ++i)
-			{
-				dm.quotientInt.push_back_elem('0');
-			}
-			addition_was_already_done = false;
-		}
 
-/*
+/**/
 		// #calcsubdig(bi) 8
 		std::cout
 			<< "dm.quotientInt after zeros has been pushed back: " << dm.quotientInt.get_number()
 			<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 8"
-			<< " @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n\n"
+			<< " ************************************\n\n"
 			;
-*/
-		calc_subtotal_and_add_digits_to_quotient();
+
+		calc_subtotal_and_add_digits_to_quotient(!is_first_time_add_digits_to_subtotal);
 	}
 
 	is_first_time_calc_subtotal = false;
@@ -2136,10 +2120,10 @@ void BigFloat::divide_abs_greater_by_less() const
 void BigFloat::divide_abs_less_by_greater() const
 {
 	dm.subtotal = dm.dividendInt;
-	static bool zeroWasPushedBackInSubtotalInPrevStep = false;
+	bool zeroWasPushedBackInSubtotalInPrevStep = false;
 	while (!division_is_finished())
 	{
-		calc_subtotal_and_add_digits_to_quotient();
+		calc_subtotal_and_add_digits_to_quotient(zeroWasPushedBackInSubtotalInPrevStep);
 		char nextDigitOfQuotient = next_digit_of_quotient();
 		dm.quotientInt.push_back_elem(nextDigitOfQuotient);
 		dm.subtotal = dm.subtotal - (dm.divisorInt * nextDigitOfQuotient);

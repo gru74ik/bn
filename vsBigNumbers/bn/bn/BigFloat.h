@@ -100,7 +100,7 @@ public:
 
 	char next_digit_of_quotient() const;
 
-	void calc_subtotal_and_add_digits_to_quotient() const;
+	void calc_subtotal_and_add_digits_to_quotient(bool zeroWasPushedBackInSubtotalInPrevStep) const;
 
 	void calc_subtotal_and_add_digits_to_quotient(const BigInt & prevSubtotal) const;
 
