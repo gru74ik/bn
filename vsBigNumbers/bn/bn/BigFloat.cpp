@@ -1957,7 +1957,7 @@ void BigFloat::calc_subtotal_and_add_digits_to_quotient(const BigInt & prevSubto
 		static bool quotient_dot_pos_was_already_set = false;
 		if (!quotient_dot_pos_was_already_set)
 		{
-			dm.quotientDotPos = dm.quotientInt.quantity_of_digits();
+			dm.quotientDotPos = dm.quotientInt.quantity_of_digits() + 1;
 			quotient_dot_pos_was_already_set = true;
 		}
 		
