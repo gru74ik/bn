@@ -1953,6 +1953,7 @@ void BigFloat::calc_subtotal_and_add_digits_to_quotient(const BigInt & prevSubto
 			dm.curIndexOfDigitOfDividend > dm.dividendInt.last_digit_position()
 		)
 	{
+		dm.quotientInt.pop_front_extra_zeros();
 		static bool quotient_dot_pos_was_already_set = false;
 		if (!quotient_dot_pos_was_already_set)
 		{
