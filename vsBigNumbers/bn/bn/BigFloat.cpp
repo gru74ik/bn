@@ -1946,7 +1946,6 @@ void BigFloat::calc_subtotal_and_add_digits_to_quotient(const BigInt & prevSubto
 
 	// вторая фаза (когда при делении закончились цифры в делимом и сносить уже нечего,
 	// осталось только вставлять в конец dm.subtotal добавочные нули:
-	static bool addition_was_already_done = true;	
 	if
 		(
 			!dm.subtotal.is_zero() &&
@@ -1955,30 +1954,55 @@ void BigFloat::calc_subtotal_and_add_digits_to_quotient(const BigInt & prevSubto
 		)
 	{
 		dm.quotientInt.pop_front_extra_zeros();
+
 		static bool quotient_dot_pos_was_already_set = false;
 		if (!quotient_dot_pos_was_already_set)
 		{
-			dm.quotientDotPos = dm.quotientInt.quantity_of_digits() + 1;
-			quotient_dot_pos_was_already_set = true;
-		}
-		
+			if (dm.subtotal.last_digit_value())
+			{
 /*
-		// #calcsubdig(bi) 5
-		std::cout
-		<< "dm.quotientDotPos is " << dm.quotientDotPos << " .................................."
-		<< "\nbecause dm.quotientInt.quantity_of_digits() is " << dm.quotientInt.quantity_of_digits()
-		<< "\nbecause dm.quotientInt is " << dm.quotientInt.get_number()
-		<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 5\n\n"
-		;
-*/		
-
-/*
-		// #calcsubdig(bi) 6
-		std::cout
-			<< "subtotal before second phase has begun is " << dm.subtotal.get_number()
-			<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 6\n\n"
-			;
+				// #calcsubdig(bi) 5a
+				std::cout
+					<< "dm.subtotal.last_digit_value() is " << dm.subtotal.last_digit_value()
+					<< "\nbecause subtotal is " << dm.subtotal.get_number()
+					<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 5a\n\n"
+					;
 */
+				dm.quotientDotPos = dm.quotientInt.quantity_of_digits();
+			}
+			else
+			{
+/*
+				// #calcsubdig(bi) 5b
+				std::cout
+					<< "dm.subtotal.last_digit_value() is " << dm.subtotal.last_digit_value()
+					<< "\nbecause subtotal is " << dm.subtotal.get_number()
+					<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 5b\n\n"
+					;
+*/
+				dm.quotientDotPos = dm.quotientInt.quantity_of_digits() + 1;
+			}
+
+			quotient_dot_pos_was_already_set = true;
+/*
+			// #calcsubdig(bi) 6
+			std::cout
+				<< "dm.quotientDotPos is " << dm.quotientDotPos << " .................................."
+				<< "\nbecause dm.quotientInt.quantity_of_digits() is " << dm.quotientInt.quantity_of_digits()
+				<< "\nbecause dm.quotientInt is " << dm.quotientInt.get_number()
+				<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 6\n\n"
+				;
+*/
+/*
+			// #calcsubdig(bi) 7
+			std::cout
+				<< "subtotal before second phase has begun is " << dm.subtotal.get_number()
+				<< "\nAssertion occured in BigFloat.cpp, #calcsubdig(bi) 7\n\n"
+				;
+*/
+		} // endif (!quotient_dot_pos_was_already_set)
+		
+
 /*
 		// #calcsubdig(bi) 8
 		std::cout

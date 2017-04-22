@@ -230,7 +230,7 @@ size_t BigInt::last_digit_position() const
 
 size_t BigInt::last_digit_value() const
 {
-	return get_number()[last_digit_position()];
+	return elem_value_as_digit(last_digit_position());
 } // endof last_digit_value()
 
 
