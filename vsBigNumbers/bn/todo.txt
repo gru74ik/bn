@@ -1,5 +1,5 @@
 1. 	in file BigNumber.cpp in function member BigNumber::pop_front_extra_zeros()
-	DONE: для BigFloat заменить граничащее условие окончания цикла
+	DONE: Г¤Г«Гї BigFloat Г§Г Г¬ГҐГ­ГЁГІГј ГЈГ°Г Г­ГЁГ·Г Г№ГҐГҐ ГіГ±Г«Г®ГўГЁГҐ Г®ГЄГ®Г­Г·Г Г­ГЁГї Г¶ГЁГЄГ«Г 
 	
 2. 	in file BigInt.cpp in function member BigInt::is_greater_than_zero() const
 	DONE: check there are no leading zeros
@@ -35,13 +35,13 @@
 	DONE: find out why zeros discards not right (why some zeros left)
 
 13. in file BigFloat.cpp in function void BigFloat::convert_to(Notation notation)
-	DONE: сheck out how exactly pop_front_extra_zeros() removes leading zeros
+	DONE: check out how exactly pop_front_extra_zeros() removes leading zeros
 
 14. in file BigFloat.cpp in ctors and setters
-	DONE: сheck out if they works properly
+	DONE: check out if they works properly
 
 15. BigFloat total testing:
-	TODO:: сheck out if all functions calling by constructors works properly
+	TODO:: check out if all functions calling by constructors works properly
 
 16. BigFloat size_t BigFloat::extra_leading_zeros() const:
 	TODO:: check out implementation (bugs)
