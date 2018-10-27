@@ -1,4 +1,5 @@
 #include "stdafx.h"
+
 #include "BigNumber.h"
 #include "bn_functions.h"
 
@@ -9,30 +10,10 @@ BigNumber::BigNumber()
 		number_("0"),
 		sign_('+')
 {
-/*
-	std::cout
-		<< "Default ctor BigNumber::BigNumber() has been called."
-		;
-*/
-/*
-	std::cout
-		<< "\nThe sign of the number after ctor finished his work: "
-		<< sign_
-		<< "\nThe number after ctor finished his work: "
-		<< number_ << "\n\n"
-		;
-*/
 }
 
 BigNumber::BigNumber(const char num)
 {
-/*
-	// #bnctor(ch) 1
-	std::cout
-		<< "Ctor BigNumber::BigNumber(const char num) has been called."
-		<< "\nAssertion occured in BigNumber.cpp, #bnctor(ch) 1.\n\n"
-		;
-*/
 	if (num == '0')
 	{
 		reset();
@@ -44,88 +25,38 @@ BigNumber::BigNumber(const char num)
 		sign_ = define_sign();
 		discard_sign();
 	}
-/*
-	std::cout
-		<< "\nThe sign of the number after ctor finished his work: "
-		<< sign_
-		<< "\nThe number after ctor finished his work: "
-		<< number_ << "\n\n"
-		;
-*/
 }
 
 BigNumber::BigNumber(const std::string& num)
 {
-/*
-	// #bnctor(str) 1
-	std::cout
-		<< "Ctor BigNumber::BigNumber(const std::string& num) has been called."
-		<< "\nAssertion occured in BigNumber.cpp, #bnctor(str) 1.\n\n"
-		;
-*/
 	if (num.size() == 0)
 	{
 		reset();
 	}	
 	else
 	{
-/*
-		// #bnctor(str) 2
-		std::cout
-			<< "signAlreadyDefined is " << std::boolalpha
-			<< signAlreadyDefined << std::noboolalpha
-			<< "\nAssertion occured in BigNumber.cpp, #bnctor(str) 2.\n\n"
-			;
-*/
 		number_ = num;
 		sign_ = define_sign();
 		discard_sign();
 	}
-/*
-	std::cout
-		<< "\nThe sign of the number after ctor finished his work: "
-		<< sign_
-		<< "\nThe number after ctor finished his work: "
-		<< number_ << "\n\n"
-		;
-*/
 }
 
 BigNumber::BigNumber(const BigNumber &)
 {
-/*
-	std::cout << "Copy ctor BigNumber::BigNumber(const BigNumber &) has been called."
-		<< "\nThe sign of the number after ctor finished his work: "
-		<< sign_
-		<< "\nThe number after ctor finished his work: "
-		<< number_ << "\n\n"
-		;
-*/
 }
 
 
 
 // changers ====================================================================
 
-// отбросить знак
 void BigNumber::discard_sign()
 {
 	if (is_sign(number_[0]))
 	{
 		erase_elem(0);
 	}
-/*
-	// #dissn() 666
-	std::cout
-		<< "\nData members after discard_sign() finished his work:"
-		<< "\nsign_: " << get_sign()
-		<< "\nnumber_: " << get_number()
-		<< "\nAssertion occured in BigNumber.cpp, BigNumber::discard_sign(), ##dissn() 666.\n\n"
-		;
-*/
 }
 
-// затолкать вперёд добавочные нули
 void BigNumber::push_front_additional_zeros(const size_t quantity)
 {
 	for (size_t i = 0; i < quantity; ++i)
@@ -142,8 +73,7 @@ void BigNumber::push_back_additional_zeros(const size_t quantity)
 	}
 }
 
-// "перевернуть" число (поменять местами старшие разряды и младшие)
-void BigNumber::reverse_number()
+void BigNumber::reverse_number() // swaps left-hand digits with right-hand digits
 {
 	reverse(number_);
 }
@@ -216,8 +146,7 @@ void BigNumber::clear_number()
 
 // getters =====================================================================
 
-// найти количество лидирующих нулей
-size_t BigNumber::leading_zeros() const
+size_t BigNumber::leading_zeros() const // finds quantity of leading zeros
 {
 	size_t quantity_of_leading_zeros = 0;
 	for (size_t i = 0; i < number_.size(); ++i)
@@ -231,13 +160,6 @@ size_t BigNumber::leading_zeros() const
 			break;
 		}
 	}
-/**/
-	std::cout
-		<< "The quantity of leading zeros is: "
-		<< quantity_of_leading_zeros
-		<< ". Assertion occured in BigNumber.cpp, leading_zeros().\n\n"
-		;
-
 	return quantity_of_leading_zeros;
 }
 
@@ -251,7 +173,6 @@ char BigNumber::elem_value_as_char(size_t index) const
 	return number_[index];
 }
 
-// найти позицию первой цифры числа
 size_t BigNumber::first_digit_position() const
 {
 	size_t first_digit_pos = number_.size();
@@ -268,15 +189,12 @@ size_t BigNumber::first_digit_position() const
 	return first_digit_pos;
 }
 
-// найти значение первой цифры числа
 size_t BigNumber::first_digit_value() const
 {
 	return char_to_digit(number_[first_digit_position()]);
-	//return char_to_digit(number_[0]);
 }
 
-// найти позицию перед заданной позицией
-size_t BigNumber::position_before(size_t pos) const
+size_t BigNumber::position_before(size_t pos) const // finds position before given position pos
 {
 	size_t posBeforePos = number_.size();
 	if (pos > 0)
@@ -287,8 +205,7 @@ size_t BigNumber::position_before(size_t pos) const
 	return posBeforePos;
 }
 
-// найти позицию после заданной позицией
-size_t BigNumber::position_after(size_t pos) const
+size_t BigNumber::position_after(size_t pos) const // finds position after given position pos
 {
 	size_t numSize = number_.size();
 	size_t posAfterPos = numSize;
@@ -301,36 +218,18 @@ size_t BigNumber::position_after(size_t pos) const
 	return posAfterPos;
 }
 
-// определить знак числа
 char BigNumber::define_sign() const
 {
 	return number_[0] == '-' ? '-' : '+';
-	/**/
-	// #defsn() 444
-	std::cout
-		<< "\nData members after define_sign() finished his work:"
-		<< "\nsign_: " << get_sign()
-		<< "\nnumber_: " << get_number()
-		<< "\nAssertion occured in BigNumber.cpp, BigNumber::define_sign(), #defsn() 444.\n\n"
-		;
 }
 
-// получить знак числа
 char BigNumber::get_sign() const
 {
 	return sign_;
 }
 
-// достать (to get) содержимое поля number_
-std::string BigNumber::get_number() const
+std::string BigNumber::get_number() const // gets content of number_ data member
 {
-/*
-	std::cout
-		<< "get_number() function has been called. The number is: "
-		<< number_
-		<< "\nAssertion occured in BigNumber.cpp, get_number().\n\n"
-		;
-*/
 	return number_;
 }
 
@@ -338,25 +237,20 @@ std::string BigNumber::get_number() const
 
 // setters =====================================================================
 
-// сбросить значения полей в значения по умолчанию (обнулить)
 void BigNumber::reset()
 {
 	sign_ = '+';
 	number_ = "0";
 }
 
-// установить знак
 void BigNumber::set_sign(const char sign)
 {
 	sign_ = sign;
 }
 
-// установить значение полей в соответствии с переданным аргументом
 void BigNumber::set_number(const std::string & num)
 {
 	number_ = num;
 	sign_ = define_sign();
 	discard_sign();
 }
-
-

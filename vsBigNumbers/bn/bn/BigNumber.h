@@ -3,10 +3,12 @@
 
 #include "stdafx.h"
 
-// лютый временный костыль (см. определение следующих функций:
+// ugly temporary crutch
+// see follow function definitions:
 // BigNumber::discard_sign()
 // BigNumber::BigNumber(const std::string& num)
-// BigNumber::set_number(const std::string & num) 
+// BigNumber::set_number(const std::string & num)
+
 static bool signAlreadyDefined = false; 
 
 class BigNumber
@@ -16,14 +18,15 @@ private:
 	std::string number_;
 
 public:
-	static const size_t BASE = 10; // десятичная система счисления
-	static const size_t MAX_DIGIT = BASE - 1; // максимальная цифра в разряде 9
+	static const size_t BASE = 10; // decimal number system
+	static const size_t MAX_DIGIT = BASE - 1; // biggest digit is 9
 
 	// ctors =======================================================================
 	BigNumber();
 	BigNumber(const char num);
 	BigNumber(const std::string& num);
 	BigNumber(const BigNumber&);
+
 	// dtors =======================================================================
 	virtual ~BigNumber() {}
 
